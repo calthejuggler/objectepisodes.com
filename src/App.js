@@ -8,7 +8,9 @@ function App() {
 		<div className='App'>
 			<Header />
 			<div id='main'>
-				<Login />
+				<div className='container-fluid'>
+					<Login />
+				</div>
 			</div>
 			<Footer />
 		</div>
