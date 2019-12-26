@@ -1,12 +1,47 @@
 import React, { useState } from 'react';
 
-export const RegisterForm = () => {
+export const RegisterForm = props => {
 	const [name, setName] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
+
+	const [error, setError] = useState(null);
+
+	const [registered, setRegistered] = useState(false);
+
+	const handleRegisterSubmit = e => {
+		e.preventDefault();
+		if (
+			name === '' ||
+			email === '' ||
+			password === '' ||
+			confirmPassword === ''
+		) {
+			setError('All fields are required!');
+		} else if (password !== confirmPassword) {
+			setError('Passwords do not match!');
+		} else {
+			props.firebase
+				.doRegisterWithEmailAndPassword(email, password)
+				.then(res => {
+					setError(null);
+					setRegistered(true);
+				})
+				.catch(e => {
+					setError(e.message);
+				});
+		}
+	};
+
 	return (
-		<form className='text-left'>
+		<form className='text-left' onSubmit={handleRegisterSubmit}>
+			{error && <div className='alert alert-danger'>{error}</div>}
+			{registered && (
+				<div className='alert alert-success'>
+					You have successfully registered!
+				</div>
+			)}
 			<div className='form-group'>
 				<label htmlFor='name'>Name:</label>
 				<input

@@ -7,8 +7,10 @@ import Firebase, { FirebaseContext } from './components/Firebase';
 
 ReactDOM.render(
 	<HashRouter>
-		<FirebaseContext.Provider value={Firebase}>
-			<App />
+		<FirebaseContext.Provider value={new Firebase()}>
+			<FirebaseContext.Consumer>
+				{firebase => <App firebase={firebase} />}
+			</FirebaseContext.Consumer>
 		</FirebaseContext.Provider>
 	</HashRouter>,
 	document.getElementById('root')

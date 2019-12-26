@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import { Component } from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 
@@ -13,10 +13,14 @@ const config = {
 };
 
 class Firebase extends Component {
-	componentDidMount() {
+	constructor(props) {
+		super(props);
 		app.initializeApp(config);
 		this.auth = app.auth();
 	}
+	doRegisterWithEmailAndPassword = async (email, password) => {
+		await this.auth.createUserWithEmailAndPassword(email, password);
+	};
 }
 
-export default new Firebase();
+export default Firebase;
