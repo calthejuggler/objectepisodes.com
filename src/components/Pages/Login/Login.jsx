@@ -1,5 +1,6 @@
 import React from 'react';
-import { LoginForm } from './components/LoginForm';
+import LoginForm from './components/LoginForm';
+import { FirebaseContext } from '../../Firebase';
 
 export const Login = () => {
 	return (
@@ -8,7 +9,9 @@ export const Login = () => {
 				<div className='card'>
 					<div className='card-body text-center'>
 						<h3>Login</h3>
-						<LoginForm/>
+						<FirebaseContext.Consumer>
+							{firebase => <LoginForm firebase={firebase} />}
+						</FirebaseContext.Consumer>
 					</div>
 				</div>
 			</div>

@@ -1,13 +1,24 @@
 import React, { useState } from 'react';
+import { withRouter } from 'react-router-dom';
 
-export const LoginForm = () => {
+const LoginForm = props => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
+	const [error, setError] = useState(null);
 	const handleLoginSubmit = e => {
 		e.preventDefault();
+		props.firebase
+			.doLoginWithEmailAndPassword(email, password)
+			.then(user => {
+				props.history.push('/');
+			})
+			.catch(e => {
+				setError(e.message);
+			});
 	};
 	return (
 		<form className='text-left' onSubmit={handleLoginSubmit}>
+			{error && <div className='alert alert-danger'>{error}</div>}
 			<a href='/register' className='mx-auto d-block mt-3 text-center'>
 				Don't have an account? Register here.
 			</a>
@@ -29,7 +40,11 @@ export const LoginForm = () => {
 					onChange={e => setPassword(e.target.value)}
 				/>
 				<small className='ml-auto'>
-					<a href='/forgot'>Forgot your password?</a>
+					<button
+						className='btn btn-link btn-sm'
+						onClick={e => props.history.push('/forgot')}>
+						Forgot your password?
+					</button>
 				</small>
 			</div>
 			<input
@@ -40,3 +55,5 @@ export const LoginForm = () => {
 		</form>
 	);
 };
+
+export default withRouter(LoginForm);

@@ -23,7 +23,7 @@ export const RegisterForm = props => {
 			setError('Passwords do not match!');
 		} else {
 			props.firebase
-				.doRegisterWithEmailAndPassword(email, password)
+				.doRegisterWithEmailAndPassword(email, password, name)
 				.then(res => {
 					setError(null);
 					setRegistered(true);

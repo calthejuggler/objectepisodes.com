@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import routes from './routes.js';
-import { Header } from './components/Header/Header';
+import Header from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
+import { FirebaseContext } from './components/Firebase/index.jsx';
 
 function App(props) {
 	const [user, setUser] = useState(null);
@@ -16,7 +17,9 @@ function App(props) {
 	}, [props.firebase]);
 	return (
 		<div className='App'>
-			<Header />
+			<FirebaseContext.Consumer>
+				{firebase => <Header user={user} firebase={firebase} />}
+			</FirebaseContext.Consumer>
 			<div id='main'>
 				<div className='container-fluid'>
 					<Switch>
