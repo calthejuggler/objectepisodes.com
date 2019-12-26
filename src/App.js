@@ -1,7 +1,7 @@
 import React from 'react';
 import { Header } from './components/Header/Header';
-import { Login } from './components/Pages/Login/Login';
 import { Footer } from './components/Footer/Footer';
+import { Register } from './components/Pages/Register/Register';
 
 function App() {
 	return (
@@ -9,7 +9,7 @@ function App() {
 			<Header />
 			<div id='main'>
 				<div className='container-fluid'>
-					<Login />
+					<Register />
 				</div>
 			</div>
 			<Footer />
