@@ -1,6 +1,8 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { withFirebase } from '../../Firebase/context';
 import CategoryTable from './components/CategoryTable';
+import { TopicsTable } from './components/TopicsTable';
+import { Breadcrumbs } from './components/Breadcrumbs';
 
 const Forum = props => {
 	const [categories, setCategories] = useState([]);
@@ -35,22 +37,7 @@ const Forum = props => {
 				<div className='card'>
 					<div className='card-body'>
 						<h3 className='text-center'>Forum</h3>
-						<nav aria-label='breadcrumb'>
-							<ol className='breadcrumb'>
-								{location.map((loc, i) => (
-									<li
-										className={
-											i === location.length - 1
-												? 'breadcrumb-item active'
-												: 'breadcrumb-item'
-										}
-										aria-current='page'
-										key={loc}>
-										{loc[0].toUpperCase() + loc.slice(1)}
-									</li>
-								))}
-							</ol>
-						</nav>
+						<Breadcrumbs location={location} />
 						{!currentCategory ? (
 							<CategoryTable
 								categories={categories}
@@ -58,18 +45,7 @@ const Forum = props => {
 								setLocation={setLocation}
 							/>
 						) : (
-							<table className='table'>
-								<thead className='thead'>
-									<tr>
-										<th>#</th>
-										<th>Title</th>
-										<th>Posted By</th>
-										<th>Date</th>
-										<th>Last Posted On</th>
-									</tr>
-								</thead>
-								<tbody className='tbody'></tbody>
-							</table>
+							<TopicsTable currentCategory={currentCategory} />
 						)}
 					</div>
 				</div>
