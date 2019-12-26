@@ -1,6 +1,7 @@
 import { Login } from './components/Pages/Login/Login';
 import { Register } from './components/Pages/Register/Register';
 import Forgot from './components/Pages/Forgot/Forgot';
+import Forum from './components/Pages/Forum/Forum';
 
 const routes = [
 	{
@@ -17,6 +18,11 @@ const routes = [
 		name: 'Forgot',
 		path: '/forgot',
 		component: Forgot,
+	},
+	{
+		name: 'Forum',
+		path: '/forum',
+		component: Forum,
 	},
 ];
 
