@@ -23,10 +23,10 @@ const Header = props => {
 						Logged in as <b>{user.displayName}</b><br/><button className="btn btn-link btn-sm" onClick={()=>{props.firebase.doSignOut()}}>Sign Out?</button>
 					</div>
 				) : (
-					<>
-						<div className='btn btn-primary' onClick={()=>props.history.push('/login')}>Login</div>
-						<div className='btn btn-secondary' onClick={()=>props.history.push('/register')}>Register</div>
-					</>
+					<div className="d-flex justify-content-center">
+						<div className='btn btn-primary mr-3' onClick={()=>props.history.push('/login')}>Login</div>
+						<div className='btn btn-secondary ml-3' onClick={()=>props.history.push('/register')}>Register</div>
+					</div>
 				)}
 			</nav>
 		</>
