@@ -3,7 +3,6 @@ import { Switch, Route } from 'react-router-dom';
 import routes from './routes.js';
 import { Header } from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
-import { Register } from './components/Pages/Register/Register';
 
 function App() {
 	return (
