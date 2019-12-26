@@ -1,6 +1,6 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { withFirebase } from '../../Firebase/context';
-import { CategoryTable } from './components/CategoryTable';
+import CategoryTable from './components/CategoryTable';
 
 const Forum = props => {
 	const [categories, setCategories] = useState([]);
@@ -15,8 +15,20 @@ const Forum = props => {
 					setCategories(prev => [...prev, category.ref.id]);
 				})
 			);
-		return () => {};
-	}, [props.firebase]);
+		setLocation(props.history.location.pathname.slice(1).split('/'));
+		return () => {
+			setLocation(['forum']);
+			setCategories([]);
+		};
+	}, [props.firebase, props.history]);
+	useEffect(() => {
+		if (location[1]) {
+			setCurrentCategory(location[1]);
+		}
+		return () => {
+			setCurrentCategory(null);
+		};
+	}, [location]);
 	return (
 		<div className='row'>
 			<div className='col-12'>
@@ -56,9 +68,7 @@ const Forum = props => {
 										<th>Last Posted On</th>
 									</tr>
 								</thead>
-								<tbody className='tbody'>
-                                    
-                                </tbody>
+								<tbody className='tbody'></tbody>
 							</table>
 						)}
 					</div>

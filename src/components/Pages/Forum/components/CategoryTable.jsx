@@ -1,6 +1,7 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
-export const CategoryTable = props => {
+const CategoryTable = props => {
 	return (
 		<table className='table'>
 			<thead className='thead'>
@@ -17,6 +18,7 @@ export const CategoryTable = props => {
 								className='btn btn-link'
 								onClick={() => {
 									props.setCurrentCategory(category);
+									props.history.push('/forum/' + category);
 									props.setLocation(prev => [
 										...prev,
 										category,
@@ -32,3 +34,5 @@ export const CategoryTable = props => {
 		</table>
 	);
 };
+
+export default withRouter(CategoryTable);
