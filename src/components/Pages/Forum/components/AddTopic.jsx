@@ -5,6 +5,22 @@ import { withRouter } from 'react-router-dom';
 const AddTopic = props => {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
+
+	const handleAddTopicSubmit = e => {
+		e.preventDefault();
+		props.firebase.db
+			.collection('forum')
+			.doc(props.currentCategory)
+			.collection('topics')
+			.add({
+				content: content,
+				title: title,
+				posted: new Date(),
+				lastPost: new Date(),
+				user: props.firebase.auth.currentUser.uid,
+			}).then();
+	};
+
 	return (
 		<>
 			<button
@@ -16,7 +32,7 @@ const AddTopic = props => {
 				<div className='card mb-3'>
 					<div className='card-body'>
 						{props.firebase.auth.currentUser ? (
-							<form>
+							<form onSubmit={handleAddTopicSubmit}>
 								<div className='form-group'>
 									<label htmlFor='title'>Title:</label>
 									<input

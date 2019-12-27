@@ -18,7 +18,7 @@ const TopicsTable = props => {
 	}, [props.currentCategory, props.firebase.db]);
 	return (
 		<>
-			<AddTopic addTopic={addTopic} setAddTopic={setAddTopic} />
+			<AddTopic addTopic={addTopic} setAddTopic={setAddTopic} currentCategory={props.currentCategory} />
 			<table className='table'>
 				<thead className='thead'>
 					<tr>
