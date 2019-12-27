@@ -1,5 +1,6 @@
 import React from 'react';
 import { withFirebase } from '../../../Firebase/context';
+import { withRouter } from 'react-router-dom';
 
 const AddTopic = props => {
 	return (
@@ -12,30 +13,43 @@ const AddTopic = props => {
 			{props.addTopic && (
 				<div className='card mb-3'>
 					<div className='card-body'>
-						<form>
-							<div className='form-group'>
-								<label htmlFor='title'>Title:</label>
+						{props.firebase.auth.currentUser ? (
+							<form>
+								<div className='form-group'>
+									<label htmlFor='title'>Title:</label>
+									<input
+										name='title'
+										type='text'
+										className='form-control'
+									/>
+								</div>
+								<div className='form-group'>
+									<label htmlFor='content'>Content:</label>
+									<textarea
+										name='content'
+										id=''
+										cols='30'
+										rows='10'
+										className='form-control'></textarea>
+								</div>
 								<input
-									name='title'
-									type='text'
-									className='form-control'
+									type='submit'
+									value='Post Topic'
+									className='btn btn-primary d-block mx-auto'
 								/>
-							</div>
-							<div className='form-group'>
-								<label htmlFor='content'>Content:</label>
-								<textarea
-									name='content'
-									id=''
-									cols='30'
-									rows='10'
-									className='form-control'></textarea>
-							</div>
-							<input
-								type='submit'
-								value='Post Topic'
-								className='btn btn-primary d-block mx-auto'
-							/>
-						</form>
+							</form>
+						) : (
+							<p>
+								If you want to post to the forum, you need to{' '}
+								<button
+									className='btn btn-sm btn-link'
+									onClick={() =>
+										props.history.replace('/login')
+									}>
+									Sign In
+								</button>
+							</p>
+						)}
 					</div>
 				</div>
 			)}
@@ -43,4 +57,4 @@ const AddTopic = props => {
 	);
 };
 
-export default withFirebase(AddTopic)
+export default withRouter(withFirebase(AddTopic));
