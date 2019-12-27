@@ -1,6 +1,7 @@
 import React from 'react';
+import { withFirebase } from '../../../Firebase/context';
 
-export const AddTopic = props => {
+const AddTopic = props => {
 	return (
 		<>
 			<button
@@ -41,3 +42,5 @@ export const AddTopic = props => {
 		</>
 	);
 };
+
+export default withFirebase(AddTopic)

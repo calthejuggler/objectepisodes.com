@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
-import { AddTopic } from './AddTopic';
+import AddTopic from './AddTopic';
 
 const TopicsTable = props => {
 	const [topics, setTopics] = useState([]);
