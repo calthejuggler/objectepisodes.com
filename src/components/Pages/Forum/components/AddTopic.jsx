@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import { withRouter } from 'react-router-dom';
 
 const AddTopic = props => {
+	const [title, setTitle] = useState('');
+	const [content, setContent] = useState('');
 	return (
 		<>
 			<button
@@ -21,6 +23,8 @@ const AddTopic = props => {
 										name='title'
 										type='text'
 										className='form-control'
+										value={title}
+										onChange={e => setTitle(e.target.value)}
 									/>
 								</div>
 								<div className='form-group'>
@@ -30,7 +34,11 @@ const AddTopic = props => {
 										id=''
 										cols='30'
 										rows='10'
-										className='form-control'></textarea>
+										className='form-control'
+										value={content}
+										onChange={e =>
+											setContent(e.target.value)
+										}></textarea>
 								</div>
 								<input
 									type='submit'

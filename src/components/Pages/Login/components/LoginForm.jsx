@@ -10,7 +10,7 @@ const LoginForm = props => {
 		props.firebase
 			.doLoginWithEmailAndPassword(email, password)
 			.then(user => {
-				props.history.push('/');
+				props.history.goBack();
 			})
 			.catch(e => {
 				setError(e.message);
