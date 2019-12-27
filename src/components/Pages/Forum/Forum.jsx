@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { withFirebase } from '../../Firebase/context';
 import CategoryTable from './components/CategoryTable';
-import { TopicsTable } from './components/TopicsTable';
+import TopicsTable from './components/TopicsTable';
 import { Breadcrumbs } from './components/Breadcrumbs';
 
 const Forum = props => {
