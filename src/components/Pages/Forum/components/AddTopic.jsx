@@ -18,7 +18,13 @@ const AddTopic = props => {
 				posted: new Date(),
 				lastPost: new Date(),
 				user: props.firebase.auth.currentUser.uid,
-			}).then();
+			})
+			.then(res => {
+				setTitle('');
+				setContent('');
+				props.setAddTopic(false);
+			})
+			.catch(e => console.dir(e));
 	};
 
 	return (
