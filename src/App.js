@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import routes from './routes.js';
 import Header from './components/Header/Header';
-import { Footer } from './components/Footer/Footer';
+// import { Footer } from './components/Footer/Footer';
 import { FirebaseContext } from './components/Firebase/index.jsx';
 
 function App(props) {
@@ -33,7 +33,7 @@ function App(props) {
 					</Switch>
 				</div>
 			</div>
-			<Footer />
+			{/* <Footer /> */}
 		</div>
 	);
 }
