@@ -20,7 +20,7 @@ const TopicsTable = props => {
 						.then(docRef => {
 							setTopics(prev => [
 								...prev,
-								{ topic: doc, user: docRef },
+								{ thread: doc, user: docRef },
 							]);
 						});
 				});
@@ -46,17 +46,17 @@ const TopicsTable = props => {
 				<tbody className='tbody'>
 					{topics.map(topic => {
 						return (
-							<tr key={topic.topic.ref.id}>
-								<td>{topic.topic.data().title}</td>
+							<tr key={topic.thread.ref.id}>
+								<td>{topic.thread.data().title}</td>
 								<td>{topic.user.data().username}</td>
 								<td>
-									{topic.topic
+									{topic.thread
 										.data()
 										.posted.toDate()
 										.toDateString()}
 								</td>
 								<td>
-									{topic.topic
+									{topic.thread
 										.data()
 										.lastPost.toDate()
 										.toDateString()}
