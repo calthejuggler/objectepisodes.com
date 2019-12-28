@@ -12,13 +12,28 @@ const TopicsTable = props => {
 			.collection('topics')
 			.get()
 			.then(snap => {
-				snap.forEach(doc => setTopics(prev => [...prev, doc]));
+				snap.forEach(doc => {
+					props.firebase.db
+						.collection('users')
+						.doc(doc.data().user)
+						.get()
+						.then(docRef => {
+							setTopics(prev => [
+								...prev,
+								{ topic: doc, user: docRef },
+							]);
+						});
+				});
 			})
 			.catch(e => console.dir(e));
 	}, [props.currentCategory, props.firebase.db]);
 	return (
 		<>
-			<AddTopic addTopic={addTopic} setAddTopic={setAddTopic} currentCategory={props.currentCategory} />
+			<AddTopic
+				addTopic={addTopic}
+				setAddTopic={setAddTopic}
+				currentCategory={props.currentCategory}
+			/>
 			<table className='table'>
 				<thead className='thead'>
 					<tr>
@@ -29,25 +44,26 @@ const TopicsTable = props => {
 					</tr>
 				</thead>
 				<tbody className='tbody'>
-					{topics.map(topic => (
-						<tr key={topic.ref.id}>
-							<td>{topic.data().title}</td>
-							<td>{topic.data().user}</td>
-							<td>
-								{topic
-									.data()
-									.posted.toDate()
-									.toDateString()}
-							</td>
-							<td>
-								{topic
-									.data()
-									.lastPost.toDate()
-									.toDateString()}
-							</td>
-							{console.dir(topic.data().posted.toDate())}
-						</tr>
-					))}
+					{topics.map(topic => {
+						return (
+							<tr key={topic.topic.ref.id}>
+								<td>{topic.topic.data().title}</td>
+								<td>{topic.user.data().username}</td>
+								<td>
+									{topic.topic
+										.data()
+										.posted.toDate()
+										.toDateString()}
+								</td>
+								<td>
+									{topic.topic
+										.data()
+										.lastPost.toDate()
+										.toDateString()}
+								</td>
+							</tr>
+						);
+					})}
 				</tbody>
 			</table>
 		</>
