@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import AddTopic from './AddTopic';
+import { TopicRow } from './TopicRow';
 
 const TopicsTable = props => {
 	const [topics, setTopics] = useState([]);
@@ -45,23 +46,21 @@ const TopicsTable = props => {
 				</thead>
 				<tbody className='tbody'>
 					{topics.map(topic => {
+						console.dir(topic.thread.data().lastPost);
 						return (
-							<tr key={topic.thread.ref.id}>
-								<td>{topic.thread.data().title}</td>
-								<td>{topic.user.data().username}</td>
-								<td>
-									{topic.thread
-										.data()
-										.posted.toDate()
-										.toDateString()}
-								</td>
-								<td>
-									{topic.thread
-										.data()
-										.lastPost.toDate()
-										.toDateString()}
-								</td>
-							</tr>
+							<TopicRow
+								key={topic.thread.ref.id}
+								title={topic.thread.data().title}
+								username={topic.user.data().username}
+								posted={topic.thread
+									.data()
+									.posted.toDate()
+									.toDateString()}
+								lastPost={topic.thread
+									.data()
+									.lastPost.toDate()
+									.toDateString()}
+							/>
 						);
 					})}
 				</tbody>
