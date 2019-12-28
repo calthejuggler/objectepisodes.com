@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 
 export const RegisterForm = props => {
-	const [name, setName] = useState('');
+	const [firstname, setFirstname] = useState('');
+	const [lastname, setLastname] = useState('');
+	const [username, setUsername] = useState('');
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [confirmPassword, setConfirmPassword] = useState('');
@@ -13,7 +15,9 @@ export const RegisterForm = props => {
 	const handleRegisterSubmit = e => {
 		e.preventDefault();
 		if (
-			name === '' ||
+			firstname === '' ||
+			lastname === '' ||
+			username === '' ||
 			email === '' ||
 			password === '' ||
 			confirmPassword === ''
@@ -23,7 +27,7 @@ export const RegisterForm = props => {
 			setError('Passwords do not match!');
 		} else {
 			props.firebase
-				.doRegisterWithEmailAndPassword(email, password, name)
+				.doRegisterWithEmailAndPassword(email, password, firstname, lastname, username)
 				.then(res => {
 					setError(null);
 					setRegistered(true);
@@ -43,13 +47,33 @@ export const RegisterForm = props => {
 				</div>
 			)}
 			<div className='form-group'>
-				<label htmlFor='name'>Name:</label>
+				<label htmlFor='name'>Firstname:</label>
 				<input
 					type='text'
 					name='name'
 					className='form-control'
-					value={name}
-					onChange={e => setName(e.target.value)}
+					value={firstname}
+					onChange={e => setFirstname(e.target.value)}
+				/>
+			</div>
+			<div className='form-group'>
+				<label htmlFor='name'>Lastname:</label>
+				<input
+					type='text'
+					name='name'
+					className='form-control'
+					value={lastname}
+					onChange={e => setLastname(e.target.value)}
+				/>
+			</div>
+			<div className='form-group'>
+				<label htmlFor='name'>Username:</label>
+				<input
+					type='text'
+					name='name'
+					className='form-control'
+					value={username}
+					onChange={e => setUsername(e.target.value)}
 				/>
 			</div>
 			<div className='form-group'>

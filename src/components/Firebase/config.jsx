@@ -20,11 +20,28 @@ class Firebase extends Component {
 		this.auth = app.auth();
 		this.db = app.firestore();
 	}
-	doRegisterWithEmailAndPassword = async (email, password, name) => {
+	doRegisterWithEmailAndPassword = async (
+		email,
+		password,
+		firstname,
+		lastname,
+		username
+	) => {
 		await this.auth
 			.createUserWithEmailAndPassword(email, password)
 			.then(res => {
-				res.user.updateProfile({ displayName: name });
+				res.user.updateProfile({ displayName: username });
+				this.db
+					.collection('users')
+					.doc(res.user.uid)
+					.set({
+						firstname: firstname,
+						lastname: lastname,
+						username: username,
+						email: email,
+						admin: false,
+						created: new Date(),
+					});
 			});
 	};
 	doSignOut = () => {
