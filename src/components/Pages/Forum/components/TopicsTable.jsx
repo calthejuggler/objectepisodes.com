@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import AddTopic from './AddTopic';
 
 const TopicsTable = props => {
 	const [topics, setTopics] = useState([]);
 	const [addTopic, setAddTopic] = useState(false);
-	useEffect(() => {
+	useLayoutEffect(() => {
 		props.firebase.db
 			.collection('forum')
 			.doc(props.currentCategory)
