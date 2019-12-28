@@ -45,24 +45,21 @@ const TopicsTable = props => {
 					</tr>
 				</thead>
 				<tbody className='tbody'>
-					{topics.map(topic => {
-						console.dir(topic.thread.data().lastPost);
-						return (
-							<TopicRow
-								key={topic.thread.ref.id}
-								title={topic.thread.data().title}
-								username={topic.user.data().username}
-								posted={topic.thread
-									.data()
-									.posted.toDate()
-									.toDateString()}
-								lastPost={topic.thread
-									.data()
-									.lastPost.toDate()
-									.toDateString()}
-							/>
-						);
-					})}
+					{topics.map(topic => (
+						<TopicRow
+							key={topic.thread.ref.id}
+							title={topic.thread.data().title}
+							username={topic.user.data().username}
+							posted={topic.thread
+								.data()
+								.posted.toDate()
+								.toDateString()}
+							lastPost={topic.thread
+								.data()
+								.lastPost.toDate()
+								.toDateString()}
+						/>
+					))}
 				</tbody>
 			</table>
 		</>
