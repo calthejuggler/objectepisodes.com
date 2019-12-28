@@ -21,15 +21,10 @@ const AddTopic = props => {
 				lastPost: new Date(),
 				user: props.firebase.auth.currentUser.uid,
 			})
-			.then(res => {
-				res.update({
-					posted: props.firebase.firestore.FieldValue.serverTimestamp(),
-					lastPost: props.firebase.db.FieldValue.serverTimestamp(),
-				}).then(() => {
-					setTitle('');
-					setContent('');
-					props.setAddTopic(false);
-				});
+			.then(() => {
+				setTitle('');
+				setContent('');
+				props.setAddTopic(false);
 			})
 			.catch(e => setError(e.message));
 	};
