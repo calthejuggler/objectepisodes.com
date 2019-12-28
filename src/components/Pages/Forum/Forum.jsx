@@ -3,10 +3,12 @@ import { withFirebase } from '../../Firebase/context';
 import CategoryTable from './components/CategoryTable';
 import TopicsTable from './components/TopicsTable';
 import { Breadcrumbs } from './components/Breadcrumbs';
+import Topic from './components/Topic';
 
 const Forum = props => {
 	const [categories, setCategories] = useState([]);
 	const [currentCategory, setCurrentCategory] = useState(null);
+	const [currentTopic, setCurrentTopic] = useState(null);
 	const [location, setLocation] = useState(['forum']);
 	useLayoutEffect(() => {
 		props.firebase.db
@@ -44,8 +46,13 @@ const Forum = props => {
 								setCurrentCategory={setCurrentCategory}
 								setLocation={setLocation}
 							/>
+						) : !currentTopic ? (
+							<TopicsTable
+								currentCategory={currentCategory}
+								setCurrentTopic={setCurrentTopic}
+							/>
 						) : (
-							<TopicsTable currentCategory={currentCategory} />
+							<Topic currentTopic={currentTopic} currentCategory={currentCategory} />
 						)}
 					</div>
 				</div>
