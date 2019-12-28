@@ -6,6 +6,8 @@ const AddTopic = props => {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 
+	const [error, setError] = useState(null);
+
 	const handleAddTopicSubmit = e => {
 		e.preventDefault();
 		props.firebase.db
@@ -20,11 +22,16 @@ const AddTopic = props => {
 				user: props.firebase.auth.currentUser.uid,
 			})
 			.then(res => {
-				setTitle('');
-				setContent('');
-				props.setAddTopic(false);
+				res.update({
+					posted: props.firebase.firestore.FieldValue.serverTimestamp(),
+					lastPost: props.firebase.db.FieldValue.serverTimestamp(),
+				}).then(() => {
+					setTitle('');
+					setContent('');
+					props.setAddTopic(false);
+				});
 			})
-			.catch(e => console.dir(e));
+			.catch(e => setError(e.message));
 	};
 
 	return (
@@ -37,6 +44,9 @@ const AddTopic = props => {
 			{props.addTopic && (
 				<div className='card mb-3'>
 					<div className='card-body'>
+						{error && (
+							<div className='alert alert-danger'>{error}</div>
+						)}
 						{props.firebase.auth.currentUser ? (
 							<form onSubmit={handleAddTopicSubmit}>
 								<div className='form-group'>
