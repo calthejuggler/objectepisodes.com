@@ -5,7 +5,12 @@ import AddComment from './AddComment';
 const Topic = props => {
 	const { currentTopic, currentCategory } = props;
 
-	const [post, setPost] = useState({ data: '', user: '' });
+	const [post, setPost] = useState({
+		data: {},
+		user: {},
+	});
+
+	const [comments, setComments] = useState([]);
 
 	useLayoutEffect(() => {
 		props.firebase.db
@@ -26,6 +31,27 @@ const Topic = props => {
 						});
 					});
 			});
+		props.firebase.db
+			.collection('forum')
+			.doc(currentCategory)
+			.collection('topics')
+			.doc(currentTopic)
+			.collection('comments')
+			.get()
+			.then(snap => {
+				snap.forEach(comment => {
+					props.firebase.db
+						.collection('users')
+						.doc(comment.data().user)
+						.get()
+						.then(userDoc => {
+							setComments(prev => [
+								...prev,
+								{ data: comment.data(), user: userDoc.data() },
+							]);
+						});
+				});
+			});
 	}, [currentCategory, currentTopic, props.firebase.db]);
 
 	return (
@@ -41,6 +67,23 @@ const Topic = props => {
 					</div>
 				</div>
 			</div>
+			{comments.map((comment, i) => (
+				<div className='row' key={i}>
+					<div className='col-12'>
+						<div className='card mt-1'>
+							<div className='card-body'>
+								<p>{comment.user.username}</p>
+								<p>
+									{comment.data.timestamp
+										.toDate()
+										.toDateString()}
+								</p>
+								<p>{comment.data.comment}</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			))}
 			<div className='row'>
 				<div className='col-12'>
 					<AddComment
