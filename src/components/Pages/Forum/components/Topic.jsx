@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
-import { AddComment } from './AddComment';
+import AddComment from './AddComment';
 
 const Topic = props => {
 	const { currentTopic, currentCategory } = props;
@@ -43,7 +43,10 @@ const Topic = props => {
 			</div>
 			<div className='row'>
 				<div className='col-12'>
-					<AddComment />
+					<AddComment
+						currentCategory={currentCategory}
+						currentTopic={currentTopic}
+					/>
 				</div>
 			</div>
 		</>

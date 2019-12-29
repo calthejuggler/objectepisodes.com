@@ -1,10 +1,44 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { withFirebase } from '../../../Firebase/context';
 
-export const AddComment = () => {
-    return (
-        <form className="mt-1">
-            <textarea className="form-control" placeholder="Add a comment..." name="comment" id="comment"></textarea>
-            <div className="btn btn-primary d-block ml-auto">Submit</div>
-        </form>
-    )
-}
+const AddComment = props => {
+	const { currentCategory, currentTopic, firebase } = props;
+	const [comment, setComment] = useState('');
+	const [error, setError] = useState(null);
+	const handleCommentSubmit = e => {
+		e.preventDefault();
+		firebase.db
+			.collection('forum')
+			.doc(currentCategory)
+			.collection('topics')
+			.doc(currentTopic)
+			.collection('comments')
+			.add({
+				comment: comment,
+				user: firebase.auth.currentUser.uid,
+				timestamp: new Date(),
+			})
+			.then(() => {
+				setComment('');
+				console.dir('Comment Posted');
+			})
+			.catch(e => setError(e.message));
+	};
+	return (
+		<form className='mt-1' onSubmit={handleCommentSubmit}>
+			{error && <div className='alert alert-danger'>{error}</div>}
+			<textarea
+				className='form-control'
+				placeholder='Add a comment...'
+				name='comment'
+				id='comment'
+				value={comment}
+				onChange={e => {
+					setComment(e.target.value);
+				}}></textarea>
+			<button type="submit" className='btn btn-primary d-block ml-auto'>Submit</button>
+		</form>
+	);
+};
+
+export default withFirebase(AddComment);
