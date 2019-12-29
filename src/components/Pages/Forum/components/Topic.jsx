@@ -31,8 +31,11 @@ const Topic = props => {
 		<div className='row'>
 			<div className='col-12'>
 				<div className='card'>
-					<div className='card-header'>{post.user.username}</div>
-					<div className='card-body'>{post.data.content}</div>
+					<div className='card-body'>
+						<h4 className='card-title'>{post.data.title}</h4>
+						<p>{post.user.username}</p>
+						<p>{post.data.content}</p>
+					</div>
 				</div>
 			</div>
 		</div>
