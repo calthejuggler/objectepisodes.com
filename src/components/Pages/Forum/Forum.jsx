@@ -26,9 +26,8 @@ const Forum = props => {
 		};
 	}, [props.firebase, props.history]);
 	useEffect(() => {
-		if (location[1]) {
-			setCurrentCategory(location[1]);
-		}
+		if (location[1]) setCurrentCategory(location[1]);
+		if (location[2]) setCurrentTopic(location[2]);
 		return () => {
 			setCurrentCategory(null);
 		};
@@ -48,11 +47,15 @@ const Forum = props => {
 							/>
 						) : !currentTopic ? (
 							<TopicsTable
+								setLocation={setLocation}
 								currentCategory={currentCategory}
 								setCurrentTopic={setCurrentTopic}
 							/>
 						) : (
-							<Topic currentTopic={currentTopic} currentCategory={currentCategory} />
+							<Topic
+								currentTopic={currentTopic}
+								currentCategory={currentCategory}
+							/>
 						)}
 					</div>
 				</div>

@@ -61,6 +61,7 @@ const TopicsTable = props => {
 								.toDateString()}
 							currentCategory={props.currentCategory}
 							setCurrentTopic={props.setCurrentTopic}
+							setLocation={props.setLocation}
 						/>
 					))}
 				</tbody>
