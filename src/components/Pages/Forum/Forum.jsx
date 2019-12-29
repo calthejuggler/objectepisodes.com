@@ -2,7 +2,7 @@ import React, { useLayoutEffect, useState, useEffect } from 'react';
 import { withFirebase } from '../../Firebase/context';
 import CategoryTable from './components/CategoryTable';
 import TopicsTable from './components/TopicsTable';
-import { Breadcrumbs } from './components/Breadcrumbs';
+import Breadcrumbs from './components/Breadcrumbs';
 import Topic from './components/Topic';
 
 const Forum = props => {
@@ -12,14 +12,14 @@ const Forum = props => {
 	const [location, setLocation] = useState(['forum']);
 	useLayoutEffect(() => {
 		props.firebase.db
-			.collection('forum')
-			.get()
-			.then(snap =>
-				snap.forEach(category => {
-					setCategories(prev => [...prev, category.ref.id]);
-				})
+		.collection('forum')
+		.get()
+		.then(snap =>
+			snap.forEach(category => {
+				setCategories(prev => [...prev, category.ref.id]);
+			})
 			);
-		setLocation(props.history.location.pathname.slice(1).split('/'));
+			setLocation(props.history.location.pathname.slice(1).split('/'));
 		return () => {
 			setLocation(['forum']);
 			setCategories([]);
@@ -38,7 +38,7 @@ const Forum = props => {
 				<div className='card'>
 					<div className='card-body'>
 						<h3 className='text-center'>Forum</h3>
-						<Breadcrumbs location={location} />
+						<Breadcrumbs locationArray={location} setCurrentCategory={setCurrentCategory} setCurrentTopic={setCurrentTopic} currentCategory={currentCategory} />
 						{!currentCategory ? (
 							<CategoryTable
 								categories={categories}
