@@ -36,7 +36,7 @@ const AddComment = props => {
 				onChange={e => {
 					setComment(e.target.value);
 				}}></textarea>
-			<button type="submit" className='btn btn-primary d-block ml-auto'>Submit</button>
+			<button type="submit" className='btn btn-primary w-100'>Submit</button>
 		</form>
 	);
 };
