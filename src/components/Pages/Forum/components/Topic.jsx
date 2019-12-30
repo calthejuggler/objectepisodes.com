@@ -112,7 +112,10 @@ const Topic = props => {
 					))
 				)}
 			</div>
-				<AddComment/>
+			<AddComment
+				currentCategory={currentCategory}
+				currentTopic={currentTopic}
+			/>
 		</>
 	);
 };
