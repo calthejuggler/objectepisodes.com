@@ -18,14 +18,11 @@ const TopicRow = props => {
 				<button
 					className='btn btn-link'
 					onClick={() => {
-						props.history.push(
+						setCurrentTopic(id);
+						props.history.replace(
 							'/forum/' + currentCategory + '/' + id
 						);
-						setLocation(prev => [
-							...prev,
-							title + ' (' + username + ')',
-						]);
-						setCurrentTopic(id);
+						setLocation(prev => [...prev, id]);
 					}}>
 					{title}
 				</button>

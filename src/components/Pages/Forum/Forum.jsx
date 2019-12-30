@@ -40,9 +40,11 @@ const Forum = props => {
 						<h3 className='text-center'>Forum</h3>
 						<Breadcrumbs
 							locationArray={location}
+							setLocation={setLocation}
 							setCurrentCategory={setCurrentCategory}
 							setCurrentTopic={setCurrentTopic}
 							currentCategory={currentCategory}
+							currentTopic={currentTopic}
 						/>
 						{!currentCategory ? (
 							<CategoryTable
