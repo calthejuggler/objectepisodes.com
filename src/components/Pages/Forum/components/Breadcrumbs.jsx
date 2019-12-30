@@ -15,7 +15,11 @@ const Breadcrumbs = props => {
 						aria-current='page'
 						key={loc}>
 						<button
-							className='btn btn-link'
+							className={
+								i === 2
+									? 'btn btn-link disabled'
+									: 'btn btn-link'
+							}
 							onClick={() => {
 								if (i === 0) {
 									props.history.replace('/forum');
