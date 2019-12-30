@@ -32,8 +32,9 @@ const Topic = props => {
 							.collection('topics')
 							.doc(currentTopic.trim())
 							.collection('comments')
-							.get()
-							.then(commentsSnap => {
+							.orderBy('timestamp')
+							.onSnapshot(commentsSnap => {
+								setComments([]);
 								commentsSnap.forEach(commentSnap =>
 									props.firebase.db
 										.collection('users')
@@ -67,11 +68,7 @@ const Topic = props => {
 								<>
 									<h2>{post.data.title}</h2>
 									<p>{post.user.username}</p>
-									<p>
-										{post.data.posted
-											.toDate()
-											.toDateString()}
-									</p>
+									<p>{post.data.posted.toDate().toUTCString()}</p>
 									<p>{post.data.content}</p>
 								</>
 							)}
@@ -103,7 +100,7 @@ const Topic = props => {
 									<p>
 										{comment.data.timestamp
 											.toDate()
-											.toDateString()}
+											.toUTCString()}
 									</p>
 									<p>{comment.data.comment}</p>
 								</div>
