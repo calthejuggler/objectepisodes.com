@@ -12,16 +12,16 @@ const TopicsTable = props => {
 			.doc(props.currentCategory)
 			.collection('topics')
 			.get()
-			.then(snap => {
-				snap.forEach(doc => {
+			.then(topicsSnap => {
+				topicsSnap.forEach(topicDoc => {
 					props.firebase.db
 						.collection('users')
-						.doc(doc.data().user)
+						.doc(topicDoc.data().user)
 						.get()
-						.then(docRef => {
+						.then(userDoc => {
 							setTopics(prev => [
 								...prev,
-								{ thread: doc, user: docRef },
+								{ thread: topicDoc, user: userDoc },
 							]);
 						});
 				});
@@ -45,25 +45,36 @@ const TopicsTable = props => {
 					</tr>
 				</thead>
 				<tbody className='tbody'>
-					{topics.map(topic => (
-						<TopicRow
-							key={topic.thread.ref.id}
-							id={topic.thread.ref.id}
-							title={topic.thread.data().title}
-							username={topic.user.data().username}
-							posted={topic.thread
-								.data()
-								.posted.toDate()
-								.toDateString()}
-							lastPost={topic.thread
-								.data()
-								.lastPost.toDate()
-								.toDateString()}
-							currentCategory={props.currentCategory}
-							setCurrentTopic={props.setCurrentTopic}
-							setLocation={props.setLocation}
-						/>
-					))}
+					{topics.length !== 0 ? (
+						topics.map(topic => (
+							<TopicRow
+								key={topic.thread.ref.id}
+								id={topic.thread.ref.id}
+								title={topic.thread.data().title}
+								username={topic.user.data().username}
+								posted={topic.thread
+									.data()
+									.posted.toDate()
+									.toDateString()}
+								lastPost={topic.thread
+									.data()
+									.lastPost.toDate()
+									.toDateString()}
+								currentCategory={props.currentCategory}
+								setCurrentTopic={props.setCurrentTopic}
+								setLocation={props.setLocation}
+							/>
+						))
+					) : (
+						<tr>
+							<td colSpan="4">
+								<p>
+									Either the topics are still loading or there are no topics here yet! Will you be
+									the first to post one?
+								</p>
+							</td>
+						</tr>
+					)}
 				</tbody>
 			</table>
 		</>
