@@ -5,10 +5,7 @@ import AddComment from './AddComment';
 const Topic = props => {
 	const { currentTopic, currentCategory } = props;
 
-	const [post, setPost] = useState({
-		data: {},
-		user: {},
-	});
+	const [post, setPost] = useState(null);
 
 	const [comments, setComments] = useState([]);
 
@@ -17,41 +14,45 @@ const Topic = props => {
 			.collection('forum')
 			.doc(currentCategory)
 			.collection('topics')
-			.doc(currentTopic)
+			.doc(currentTopic.trim())
 			.get()
-			.then(doc => {
+			.then(topicSnap => {
 				props.firebase.db
 					.collection('users')
-					.doc(doc.data().user)
+					.doc(topicSnap.data().user.trim())
 					.get()
-					.then(userDoc => {
+					.then(topicUserSnap => {
 						setPost({
-							data: doc.data(),
-							user: userDoc.data(),
+							data: topicSnap.data(),
+							user: topicUserSnap.data(),
 						});
+						props.firebase.db
+							.collection('forum')
+							.doc(currentCategory)
+							.collection('topics')
+							.doc(currentTopic.trim())
+							.collection('comments')
+							.get()
+							.then(commentsSnap => {
+								commentsSnap.forEach(commentSnap =>
+									props.firebase.db
+										.collection('users')
+										.doc(commentSnap.data().user.trim())
+										.get()
+										.then(commentUserSnap => {
+											setComments(prev => [
+												...prev,
+												{
+													data: commentSnap.data(),
+													user: commentUserSnap.data(),
+												},
+											]);
+										})
+								);
+							});
 					});
 			});
-		props.firebase.db
-			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
-			.doc(currentTopic)
-			.collection('comments')
-			.get()
-			.then(snap => {
-				snap.forEach(comment => {
-					props.firebase.db
-						.collection('users')
-						.doc(comment.data().user)
-						.get()
-						.then(userDoc => {
-							setComments(prev => [
-								...prev,
-								{ data: comment.data(), user: userDoc.data() },
-							]);
-						});
-				});
-			});
+		return () => {};
 	}, [currentCategory, currentTopic, props.firebase.db]);
 
 	return (
@@ -60,38 +61,58 @@ const Topic = props => {
 				<div className='col-12'>
 					<div className='card'>
 						<div className='card-body'>
-							<h4 className='card-title'>{post.data.title}</h4>
-							<p>{post.user.username}</p>
-							<p>{post.data.content}</p>
+							{!post ? (
+								<p>Loading...</p>
+							) : (
+								<>
+									<h2>{post.data.title}</h2>
+									<p>{post.user.username}</p>
+									<p>
+										{post.data.posted
+											.toDate()
+											.toDateString()}
+									</p>
+									<p>{post.data.content}</p>
+								</>
+							)}
 						</div>
 					</div>
 				</div>
-			</div>
-			{comments.map((comment, i) => (
-				<div className='row' key={i}>
+				{!comments[0] ? (
 					<div className='col-12'>
-						<div className='card mt-1'>
+						<div className='card'>
 							<div className='card-body'>
-								<p>{comment.user.username}</p>
 								<p>
-									{comment.data.timestamp
-										.toDate()
-										.toDateString()}
+									There are no comments. Be the first to add
+									one!
 								</p>
-								<p>{comment.data.comment}</p>
 							</div>
 						</div>
 					</div>
-				</div>
-			))}
-			<div className='row'>
-				<div className='col-12'>
-					<AddComment
-						currentCategory={currentCategory}
-						currentTopic={currentTopic}
-					/>
-				</div>
+				) : (
+					comments.map(comment => (
+						<div
+							className='col-12 mt-1'
+							key={
+								comment.data.comment +
+								comment.data.timestamp.toDate().toDateString()
+							}>
+							<div className='card'>
+								<div className='card-body'>
+									<p>{comment.user.username}</p>
+									<p>
+										{comment.data.timestamp
+											.toDate()
+											.toDateString()}
+									</p>
+									<p>{comment.data.comment}</p>
+								</div>
+							</div>
+						</div>
+					))
+				)}
 			</div>
+				<AddComment/>
 		</>
 	);
 };
