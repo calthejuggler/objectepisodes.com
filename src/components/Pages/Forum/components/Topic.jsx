@@ -53,7 +53,10 @@ const Topic = props => {
 							});
 					});
 			});
-		return () => {};
+		return () => {
+			setPost(null);
+			setComments([]);
+		};
 	}, [currentCategory, currentTopic, props.firebase.db]);
 
 	return (
@@ -68,7 +71,11 @@ const Topic = props => {
 								<>
 									<h2>{post.data.title}</h2>
 									<p>{post.user.username}</p>
-									<p>{post.data.posted.toDate().toUTCString()}</p>
+									<p>
+										{post.data.posted
+											.toDate()
+											.toUTCString()}
+									</p>
 									<p>{post.data.content}</p>
 								</>
 							)}
