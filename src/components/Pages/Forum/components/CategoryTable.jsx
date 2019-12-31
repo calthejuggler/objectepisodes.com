@@ -1,5 +1,6 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
+import { withFirebase } from '../../../Firebase/context';
 
 const CategoryTable = props => {
 	return (
@@ -35,4 +36,4 @@ const CategoryTable = props => {
 	);
 };
 
-export default withRouter(CategoryTable);
+export default withFirebase(withRouter(CategoryTable));

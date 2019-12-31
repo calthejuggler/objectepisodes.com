@@ -20,7 +20,20 @@ const AddComment = props => {
 			})
 			.then(() => {
 				setComment('');
-				console.dir('Comment Posted');
+				firebase.db
+					.collection('forum')
+					.doc(currentCategory)
+					.collection('topics')
+					.doc(currentTopic.trim())
+					.update({
+						lastPost: new Date(),
+					})
+					.then(() => {
+						firebase.db
+							.collection('forum')
+							.doc(currentCategory)
+							.update({ lastPost: new Date() });
+					});
 			})
 			.catch(e => setError(e.message));
 	};
@@ -36,7 +49,9 @@ const AddComment = props => {
 				onChange={e => {
 					setComment(e.target.value);
 				}}></textarea>
-			<button type="submit" className='btn btn-primary w-100'>Submit</button>
+			<button type='submit' className='btn btn-primary w-100'>
+				Submit
+			</button>
 		</form>
 	);
 };
