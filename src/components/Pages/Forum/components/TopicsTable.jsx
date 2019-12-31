@@ -6,6 +6,8 @@ import TopicRow from './TopicRow';
 const TopicsTable = props => {
 	const [topics, setTopics] = useState([]);
 	const [addTopic, setAddTopic] = useState(false);
+	const [topicLoading, setTopicLoading] = useState(true);
+
 	useLayoutEffect(() => {
 		props.firebase
 			.getForumTopicsFromCategory(props.currentCategory)
@@ -20,6 +22,7 @@ const TopicsTable = props => {
 								...prev,
 								{ thread: topicDoc, user: userDoc },
 							]);
+							setTopicLoading(false)
 						});
 				});
 			})
@@ -42,7 +45,7 @@ const TopicsTable = props => {
 					</tr>
 				</thead>
 				<tbody className='tbody'>
-					{topics.length !== 0 ? (
+					{!topicLoading ? topics.length !== 0 ? (
 						topics.map(topic => (
 							<TopicRow
 								key={topic.thread.ref.id}
@@ -74,6 +77,13 @@ const TopicsTable = props => {
 								</div>
 							</td>
 						</tr>
+					):(
+						<tr>
+							<td colSpan='4'>
+								<p>There are no topics here yet! Will you be the first to post one?</p>
+							</td>
+						</tr>
+
 					)}
 				</tbody>
 			</table>
