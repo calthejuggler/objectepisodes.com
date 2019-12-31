@@ -30,6 +30,7 @@ const Topic = props => {
 							.orderBy('timestamp')
 							.onSnapshot(commentsSnap => {
 								setComments([]);
+								setCommentsLoading(true);
 								commentsSnap.forEach(commentSnap =>
 									props.firebase
 										.getUserDataFromUID(
@@ -43,10 +44,10 @@ const Topic = props => {
 													user: commentUserSnap.data(),
 												},
 											]);
+											setCommentsLoading(false);
 										})
 								);
 							});
-						setCommentsLoading(false);
 					});
 			});
 		return () => {

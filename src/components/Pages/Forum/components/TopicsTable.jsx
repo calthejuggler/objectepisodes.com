@@ -22,9 +22,9 @@ const TopicsTable = props => {
 								...prev,
 								{ thread: topicDoc, user: userDoc },
 							]);
-							setTopicLoading(false)
 						});
 				});
+				setTopicLoading(false);
 			})
 			.catch(e => console.dir(e));
 	}, [props.currentCategory, props.firebase]);
@@ -45,26 +45,37 @@ const TopicsTable = props => {
 					</tr>
 				</thead>
 				<tbody className='tbody'>
-					{!topicLoading ? topics.length !== 0 ? (
-						topics.map(topic => (
-							<TopicRow
-								key={topic.thread.ref.id}
-								id={topic.thread.ref.id}
-								title={topic.thread.data().title}
-								username={topic.user.data().username}
-								posted={topic.thread
-									.data()
-									.posted.toDate()
-									.toDateString()}
-								lastPost={topic.thread
-									.data()
-									.lastPost.toDate()
-									.toDateString()}
-								currentCategory={props.currentCategory}
-								setCurrentTopic={props.setCurrentTopic}
-								setLocation={props.setLocation}
-							/>
-						))
+					{!topicLoading ? (
+						topics.length !== 0 ? (
+							topics.map(topic => (
+								<TopicRow
+									key={topic.thread.ref.id}
+									id={topic.thread.ref.id}
+									title={topic.thread.data().title}
+									username={topic.user.data().username}
+									posted={topic.thread
+										.data()
+										.posted.toDate()
+										.toDateString()}
+									lastPost={topic.thread
+										.data()
+										.lastPost.toDate()
+										.toDateString()}
+									currentCategory={props.currentCategory}
+									setCurrentTopic={props.setCurrentTopic}
+									setLocation={props.setLocation}
+								/>
+							))
+						) : (
+							<tr>
+								<td colSpan='4'>
+									<p>
+										There are no topics here yet! Will you
+										be the first to post one?
+									</p>
+								</td>
+							</tr>
+						)
 					) : (
 						<tr>
 							<td colSpan='4'>
@@ -72,18 +83,13 @@ const TopicsTable = props => {
 									<div
 										className='spinner-border mx-auto'
 										role='status'>
-										<span className='sr-only'>Loading...</span>
+										<span className='sr-only'>
+											Loading...
+										</span>
 									</div>
 								</div>
 							</td>
 						</tr>
-					):(
-						<tr>
-							<td colSpan='4'>
-								<p>There are no topics here yet! Will you be the first to post one?</p>
-							</td>
-						</tr>
-
 					)}
 				</tbody>
 			</table>

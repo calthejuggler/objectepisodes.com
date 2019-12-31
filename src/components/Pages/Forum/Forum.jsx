@@ -39,7 +39,7 @@ const Forum = props => {
 							currentCategory={currentCategory}
 							currentTopic={currentTopic}
 						/>
-						{categories.length === 0 && !currentCategory ? (
+						{categories.length === 0 && !currentCategory && !currentTopic ? (
 							<div className='d-flex justify-content-center'>
 								<div
 									className='spinner-border mx-auto'
