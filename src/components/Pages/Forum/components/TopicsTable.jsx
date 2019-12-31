@@ -7,7 +7,8 @@ const TopicsTable = props => {
 	const [topics, setTopics] = useState([]);
 	const [addTopic, setAddTopic] = useState(false);
 	useLayoutEffect(() => {
-		props.firebase.getForumTopicsFromCategory(props.currentCategory)
+		props.firebase
+			.getForumTopicsFromCategory(props.currentCategory)
 			.then(topicsSnap => {
 				topicsSnap.forEach(topicDoc => {
 					props.firebase.db
@@ -63,11 +64,14 @@ const TopicsTable = props => {
 						))
 					) : (
 						<tr>
-							<td colSpan="4">
-								<p>
-									Either the topics are still loading or there are no topics here yet! Will you be
-									the first to post one?
-								</p>
+							<td colSpan='4'>
+								<div className='d-flex justify-content-center'>
+									<div
+										className='spinner-border mx-auto'
+										role='status'>
+										<span className='sr-only'>Loading...</span>
+									</div>
+								</div>
 							</td>
 						</tr>
 					)}

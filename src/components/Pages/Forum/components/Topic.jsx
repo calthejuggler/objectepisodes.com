@@ -60,7 +60,13 @@ const Topic = props => {
 					<div className='card'>
 						<div className='card-body'>
 							{!post ? (
-								<p>Loading...</p>
+								<div className='d-flex justify-content-center'>
+									<div
+										className='spinner-border mx-auto'
+										role='status'>
+										<span className='sr-only'>Loading...</span>
+									</div>
+								</div>
 							) : (
 								<>
 									<h2>{post.data.title}</h2>
