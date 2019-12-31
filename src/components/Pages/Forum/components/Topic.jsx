@@ -8,6 +8,7 @@ const Topic = props => {
 	const [post, setPost] = useState(null);
 
 	const [comments, setComments] = useState([]);
+	const [commentsLoading, setCommentsLoading] = useState(true);
 
 	useLayoutEffect(() => {
 		props.firebase
@@ -45,6 +46,7 @@ const Topic = props => {
 										})
 								);
 							});
+						setCommentsLoading(false);
 					});
 			});
 		return () => {
@@ -64,7 +66,9 @@ const Topic = props => {
 									<div
 										className='spinner-border mx-auto'
 										role='status'>
-										<span className='sr-only'>Loading...</span>
+										<span className='sr-only'>
+											Loading...
+										</span>
 									</div>
 								</div>
 							) : (
@@ -82,8 +86,20 @@ const Topic = props => {
 						</div>
 					</div>
 				</div>
-				{!comments[0] ? (
-					<div className='col-12'>
+				{commentsLoading ? (
+					<div className='col-12 mt-1'>
+						<div className='card'>
+							<div className='d-flex justify-content-center'>
+								<div
+									className='spinner-border mx-auto'
+									role='status'>
+									<span className='sr-only'>Loading...</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				) : comments.length === 0 ? (
+					<div className='col-12 mt-1'>
 						<div className='card'>
 							<div className='card-body'>
 								<p>
