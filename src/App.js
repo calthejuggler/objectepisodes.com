@@ -23,13 +23,26 @@ function App(props) {
 			<div id='main'>
 				<div className='container-fluid'>
 					<Switch>
-						{routes.map(route => (
-							<Route
-								key={route.name}
-								path={route.path}
-								component={route.component}
-							/>
-						))}
+						{routes.map(route => {
+							if (route.name === 'Dashboard') {
+								return (
+									<Route
+										exact
+										key={route.name}
+										path={route.path}
+										component={route.component}
+									/>
+								);
+							} else {
+								return (
+									<Route
+										key={route.name}
+										path={route.path}
+										component={route.component}
+									/>
+								);
+							}
+						})}
 					</Switch>
 				</div>
 			</div>
