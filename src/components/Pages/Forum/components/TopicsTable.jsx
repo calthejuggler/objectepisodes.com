@@ -7,11 +7,7 @@ const TopicsTable = props => {
 	const [topics, setTopics] = useState([]);
 	const [addTopic, setAddTopic] = useState(false);
 	useLayoutEffect(() => {
-		props.firebase.db
-			.collection('forum')
-			.doc(props.currentCategory)
-			.collection('topics')
-			.get()
+		props.firebase.getForumTopicsFromCategory(props.currentCategory)
 			.then(topicsSnap => {
 				topicsSnap.forEach(topicDoc => {
 					props.firebase.db
@@ -27,7 +23,7 @@ const TopicsTable = props => {
 				});
 			})
 			.catch(e => console.dir(e));
-	}, [props.currentCategory, props.firebase.db]);
+	}, [props.currentCategory, props.firebase]);
 	return (
 		<>
 			<AddTopic

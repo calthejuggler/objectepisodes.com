@@ -10,17 +10,11 @@ const Topic = props => {
 	const [comments, setComments] = useState([]);
 
 	useLayoutEffect(() => {
-		props.firebase.db
-			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
-			.doc(currentTopic.trim())
-			.get()
+		props.firebase
+			.getForumPostFromTopic(currentCategory, currentTopic)
 			.then(topicSnap => {
-				props.firebase.db
-					.collection('users')
-					.doc(topicSnap.data().user.trim())
-					.get()
+				props.firebase
+					.getUserDataFromUID(topicSnap.data().user.trim())
 					.then(topicUserSnap => {
 						setPost({
 							data: topicSnap.data(),
@@ -36,10 +30,10 @@ const Topic = props => {
 							.onSnapshot(commentsSnap => {
 								setComments([]);
 								commentsSnap.forEach(commentSnap =>
-									props.firebase.db
-										.collection('users')
-										.doc(commentSnap.data().user.trim())
-										.get()
+									props.firebase
+										.getUserDataFromUID(
+											commentSnap.data().user.trim()
+										)
 										.then(commentUserSnap => {
 											setComments(prev => [
 												...prev,
@@ -57,7 +51,7 @@ const Topic = props => {
 			setPost(null);
 			setComments([]);
 		};
-	}, [currentCategory, currentTopic, props.firebase.db]);
+	}, [currentCategory, currentTopic, props.firebase]);
 
 	return (
 		<>

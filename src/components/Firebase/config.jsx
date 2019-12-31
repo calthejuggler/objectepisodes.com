@@ -20,6 +20,8 @@ class Firebase extends Component {
 		this.auth = app.auth();
 		this.db = app.firestore();
 	}
+
+	// Auth functions
 	doRegisterWithEmailAndPassword = async (
 		email,
 		password,
@@ -52,6 +54,32 @@ class Firebase extends Component {
 	};
 	doSendForgotPasswordEmail = async email => {
 		await this.auth.sendPasswordResetEmail(email);
+	};
+
+	// Firestore functions
+	getForumPostFromTopic = async (currentCategory, currentTopic) => {
+		let topicSnap = await this.db
+			.collection('forum')
+			.doc(currentCategory)
+			.collection('topics')
+			.doc(currentTopic.trim())
+			.get();
+		return topicSnap;
+	};
+	getForumTopicsFromCategory = async currentCategory => {
+		let categorySnap = await this.db
+			.collection('forum')
+			.doc(currentCategory)
+			.collection('topics')
+			.get();
+		return categorySnap;
+	};
+	getUserDataFromUID = async userID => {
+		let userSnap = await this.db
+			.collection('users')
+			.doc(userID)
+			.get();
+		return userSnap;
 	};
 }
 
