@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, useEffect } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../Firebase/context';
 import CategoryTable from './components/CategoryTable';
 import TopicsTable from './components/TopicsTable';
@@ -23,11 +23,6 @@ const Forum = props => {
 			})
 		}
 		setLocation(locationArray);
-
-		
-		// return () => {
-		// 	cleanup
-		// };
 	}, [props.firebase, props.history]);
 
 	return (
