@@ -12,7 +12,7 @@ Things to be completed in the code of objectepisodes.com
 - [x] Add categories and shit...
 
 ## Home
-- [ ] Add forum homepage component with links
+- [x] Add forum homepage component with links
 
 ## Pages
 - [ ] Profile page
