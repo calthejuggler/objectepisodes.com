@@ -10,28 +10,26 @@ const Forum = props => {
 	const [currentCategory, setCurrentCategory] = useState(null);
 	const [currentTopic, setCurrentTopic] = useState(null);
 	const [location, setLocation] = useState(['forum']);
+
 	useLayoutEffect(() => {
-		props.firebase.db
-			.collection('forum')
-			.get()
-			.then(snap =>
-				snap.forEach(category => {
-					setCategories(prev => [...prev, category.ref.id]);
-				})
-			);
-		setLocation(props.history.location.pathname.slice(1).split('/'));
-		return () => {
-			setLocation(['forum']);
-			setCategories([]);
-		};
+		let locationArray = props.history.location.pathname.slice(1).split('/');
+		if (locationArray.length === 3) {
+			setCurrentCategory(locationArray[1])
+			setCurrentTopic(locationArray[2])
+		} else if (locationArray.length === 2) setCurrentCategory(locationArray[1])
+		if (locationArray.length === 1) {
+			props.firebase.db.collection("forum").get().then(categoriesSnap => {
+				categoriesSnap.forEach(categorySnap => setCategories(prev => [...prev,categorySnap.id]))
+			})
+		}
+		setLocation(locationArray);
+
+		
+		// return () => {
+		// 	cleanup
+		// };
 	}, [props.firebase, props.history]);
-	useEffect(() => {
-		if (location[1]) setCurrentCategory(location[1]);
-		if (location[2]) setCurrentTopic(location[2]);
-		return () => {
-			setCurrentCategory(null);
-		};
-	}, [location]);
+
 	return (
 		<div className='row'>
 			<div className='col-12'>
@@ -46,7 +44,15 @@ const Forum = props => {
 							currentCategory={currentCategory}
 							currentTopic={currentTopic}
 						/>
-						{!currentCategory ? (
+						{categories.length === 0 && !currentCategory ? (
+							<div className='d-flex justify-content-center'>
+								<div
+									className='spinner-border mx-auto'
+									role='status'>
+									<span className='sr-only'>Loading...</span>
+								</div>
+							</div>
+						) : !currentCategory ? (
 							<CategoryTable
 								categories={categories}
 								setCurrentCategory={setCurrentCategory}
