@@ -27,6 +27,7 @@ const AddTopic = props => {
 				setTitle('');
 				setContent('');
 				setAddTopic(false);
+				firebase.incrementForumPosts(firebase.auth.currentUser.uid);
 			})
 			.catch(e => setError(e.message));
 	};
