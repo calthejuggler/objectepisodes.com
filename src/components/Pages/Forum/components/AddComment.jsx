@@ -29,7 +29,12 @@ const AddComment = props => {
 						firebase.db
 							.collection('forum')
 							.doc(currentCategory)
-							.update({ lastPost: new Date() });
+							.update({ lastPost: new Date() })
+							.then(() => {
+								firebase.incrementForumPosts(
+									firebase.auth.currentUser.uid
+								);
+							});
 					});
 			})
 			.catch(e => setError(e.message));

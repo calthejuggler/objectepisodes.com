@@ -24,10 +24,10 @@ const AddTopic = props => {
 				user: firebase.auth.currentUser.uid,
 			})
 			.then(() => {
+				firebase.incrementForumPosts(firebase.auth.currentUser.uid);
 				setTitle('');
 				setContent('');
 				setAddTopic(false);
-				firebase.incrementForumPosts(firebase.auth.currentUser.uid);
 			})
 			.catch(e => setError(e.message));
 	};
@@ -72,7 +72,7 @@ const AddTopic = props => {
 								</div>
 								<input
 									type='submit'
-									value='Post Topic'
+									value='Post'
 									className='btn btn-primary d-block mx-auto'
 								/>
 							</form>

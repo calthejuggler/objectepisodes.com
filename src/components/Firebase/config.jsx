@@ -97,7 +97,7 @@ class Firebase extends Component {
 			.collection('users')
 			.doc(uid)
 			.update({
-				forumPosts: this.db.FieldValue.increment(1),
+				forumPosts: app.firestore.FieldValue.increment(1),
 			});
 	};
 }
