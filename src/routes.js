@@ -3,12 +3,18 @@ import { Register } from './components/Pages/Register/Register';
 import Forgot from './components/Pages/Forgot/Forgot';
 import Forum from './components/Pages/Forum/Forum';
 import Dashboard from './components/Pages/Dashboard/Dashboard';
+import User from './components/Pages/User/User';
 
 const routes = [
 	{
 		name: 'Dashboard',
 		path: '/',
 		component: Dashboard,
+	},
+	{
+		name: 'User',
+		path: '/user',
+		component: User,
 	},
 	{
 		name: 'Login',

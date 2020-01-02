@@ -85,6 +85,12 @@ class Firebase extends Component {
 			.doc(userID)
 			.get();
 	};
+	getUserDataFromUsername = async username => {
+		return await this.db
+			.collection('users')
+			.where("username","==",username)
+			.get();
+	};
 }
 
 export default Firebase;
