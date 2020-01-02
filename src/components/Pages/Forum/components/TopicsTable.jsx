@@ -11,12 +11,16 @@ const TopicsTable = props => {
 	const [topicLoading, setTopicLoading] = useState(true);
 
 	useLayoutEffect(() => {
-		firebase
-			.getForumTopicsFromCategory(currentCategory)
-			.then(topicsSnap => {
+		firebase.db
+			.collection('forum')
+			.doc(currentCategory)
+			.collection('topics')
+			.orderBy('posted',"desc")
+			.onSnapshot(topicsSnap => {
 				if (topicsSnap.empty) {
 					setTopicLoading(false);
 				} else {
+					setTopics([])
 					topicsSnap.forEach(topicDoc => {
 						firebase
 							.getUserDataFromUID(topicDoc.data().user)
@@ -29,8 +33,7 @@ const TopicsTable = props => {
 							});
 					});
 				}
-			})
-			.catch(e => console.dir(e));
+			});
 	}, [currentCategory, firebase]);
 	return (
 		<>
@@ -57,9 +60,7 @@ const TopicsTable = props => {
 									id={topic.thread.ref.id}
 									title={topic.thread.data().title}
 									username={topic.user.data().username}
-									posted={topic.thread
-										.data()
-										.posted.toDate()}
+									posted={topic.thread.data().posted.toDate()}
 									lastPost={topic.thread
 										.data()
 										.lastPost.toDate()}
