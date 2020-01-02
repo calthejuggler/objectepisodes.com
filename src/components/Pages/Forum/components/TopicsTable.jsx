@@ -14,17 +14,21 @@ const TopicsTable = props => {
 		firebase
 			.getForumTopicsFromCategory(currentCategory)
 			.then(topicsSnap => {
-				topicsSnap.forEach(topicDoc => {
-					firebase
-						.getUserDataFromUID(topicDoc.data().user)
-						.then(userDoc => {
-							setTopics(prev => [
-								...prev,
-								{ thread: topicDoc, user: userDoc },
-							]);
-							setTopicLoading(false);
-						});
-				});
+				if (topicsSnap.empty) {
+					setTopicLoading(false);
+				} else {
+					topicsSnap.forEach(topicDoc => {
+						firebase
+							.getUserDataFromUID(topicDoc.data().user)
+							.then(userDoc => {
+								setTopics(prev => [
+									...prev,
+									{ thread: topicDoc, user: userDoc },
+								]);
+								setTopicLoading(false);
+							});
+					});
+				}
 			})
 			.catch(e => console.dir(e));
 	}, [currentCategory, firebase]);
