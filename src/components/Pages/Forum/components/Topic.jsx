@@ -3,7 +3,7 @@ import { withFirebase } from '../../../Firebase/context';
 import AddComment from './AddComment';
 
 const Topic = props => {
-	const { currentTopic, currentCategory } = props;
+	const { firebase, currentTopic, currentCategory } = props;
 
 	const [post, setPost] = useState(null);
 
@@ -11,24 +11,24 @@ const Topic = props => {
 	const [commentsLoading, setCommentsLoading] = useState(true);
 
 	useLayoutEffect(() => {
-		props.firebase
+		firebase
 			.getForumPostFromTopic(currentCategory, currentTopic)
 			.then(topicSnap => {
-				props.firebase
+				firebase
 					.getUserDataFromUID(topicSnap.data().user.trim())
 					.then(topicUserSnap => {
 						setPost({
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
 						});
-						props.firebase
+						firebase
 							.getForumRepliesFromTopic(currentTopic)
 							.then(replySnap => {
 								if (replySnap.empty) {
 									setCommentsLoading(false);
 								} else {
 									replySnap.forEach(reply => {
-										props.firebase
+										firebase
 											.getUserDataFromUID(
 												reply.data().user
 											)
@@ -52,7 +52,7 @@ const Topic = props => {
 			setPost(null);
 			setComments([]);
 		};
-	}, [currentCategory, currentTopic, props.firebase]);
+	}, [currentCategory, currentTopic, firebase]);
 
 	return (
 		<>
