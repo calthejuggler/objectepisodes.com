@@ -8,14 +8,11 @@ const AddComment = props => {
 	const handleCommentSubmit = e => {
 		e.preventDefault();
 		firebase.db
-			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
-			.doc(currentTopic)
-			.collection('comments')
+			.collection('forum-replies')
 			.add({
 				comment: comment,
 				user: firebase.auth.currentUser.uid,
+				topicID: currentTopic,
 				timestamp: new Date(),
 			})
 			.then(() => {
