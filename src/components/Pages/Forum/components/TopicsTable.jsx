@@ -4,11 +4,11 @@ import AddTopic from './AddTopic';
 import TopicRow from './TopicRow';
 
 const TopicsTable = props => {
+	const { firebase, currentCategory, setCurrentTopic, setLocation } = props;
+
 	const [topics, setTopics] = useState([]);
 	const [addTopic, setAddTopic] = useState(false);
 	const [topicLoading, setTopicLoading] = useState(true);
-
-	const {firebase, currentCategory, setCurrentTopic, setLocation} = props;
 
 	useLayoutEffect(() => {
 		firebase
@@ -24,9 +24,9 @@ const TopicsTable = props => {
 								...prev,
 								{ thread: topicDoc, user: userDoc },
 							]);
+							setTopicLoading(false);
 						});
 				});
-				setTopicLoading(false);
 			})
 			.catch(e => console.dir(e));
 	}, [currentCategory, firebase]);
