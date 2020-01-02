@@ -6,6 +6,8 @@ import Breadcrumbs from './components/Breadcrumbs';
 import Topic from './components/Topic';
 
 const Forum = props => {
+	const {firebase} = props
+
 	const [categories, setCategories] = useState([]);
 	const [currentCategory, setCurrentCategory] = useState(null);
 	const [currentTopic, setCurrentTopic] = useState(null);
@@ -23,7 +25,7 @@ const Forum = props => {
 			})
 		}
 		setLocation(locationArray);
-	}, [props.firebase, props.history]);
+	}, [firebase, props.history]);
 
 	return (
 		<div className='row'>
