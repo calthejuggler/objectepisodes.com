@@ -3,6 +3,8 @@ import { withFirebase } from '../../../Firebase/context';
 import { withRouter } from 'react-router-dom';
 
 const AddTopic = props => {
+	const { firebase, currentCategory, setAddTopic, addTopic, history } = props;
+
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
 
@@ -10,21 +12,21 @@ const AddTopic = props => {
 
 	const handleAddTopicSubmit = e => {
 		e.preventDefault();
-		props.firebase.db
+		firebase.db
 			.collection('forum')
-			.doc(props.currentCategory)
+			.doc(currentCategory)
 			.collection('topics')
 			.add({
 				content: content,
 				title: title,
 				posted: new Date(),
 				lastPost: new Date(),
-				user: props.firebase.auth.currentUser.uid,
+				user: firebase.auth.currentUser.uid,
 			})
 			.then(() => {
 				setTitle('');
 				setContent('');
-				props.setAddTopic(false);
+				setAddTopic(false);
 			})
 			.catch(e => setError(e.message));
 	};
@@ -33,16 +35,16 @@ const AddTopic = props => {
 		<>
 			<button
 				className='btn btn-primary mb-3 d-block mx-auto'
-				onClick={() => props.setAddTopic(true)}>
+				onClick={() => setAddTopic(true)}>
 				+ Add Topic
 			</button>
-			{props.addTopic && (
+			{addTopic && (
 				<div className='card mb-3'>
 					<div className='card-body'>
 						{error && (
 							<div className='alert alert-danger'>{error}</div>
 						)}
-						{props.firebase.auth.currentUser ? (
+						{firebase.auth.currentUser ? (
 							<form onSubmit={handleAddTopicSubmit}>
 								<div className='form-group'>
 									<label htmlFor='title'>Title:</label>
@@ -78,9 +80,7 @@ const AddTopic = props => {
 								If you want to post to the forum, you need to{' '}
 								<button
 									className='btn btn-sm btn-link'
-									onClick={() =>
-										props.history.replace('/login')
-									}>
+									onClick={() => history.replace('/login')}>
 									Sign In
 								</button>
 							</p>
