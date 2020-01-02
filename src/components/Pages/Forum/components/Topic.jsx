@@ -21,12 +21,15 @@ const Topic = props => {
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
 						});
-						firebase
-							.getForumRepliesFromTopic(currentTopic)
-							.then(replySnap => {
+						firebase.db
+							.collection('forum-replies')
+							.where('topicID', '==', currentTopic)
+							.orderBy('timestamp')
+							.onSnapshot(replySnap => {
 								if (replySnap.empty) {
 									setCommentsLoading(false);
 								} else {
+									setComments([])
 									replySnap.forEach(reply => {
 										firebase
 											.getUserDataFromUID(
@@ -44,9 +47,9 @@ const Topic = props => {
 											});
 									});
 								}
-							})
-							.catch(e => console.dir(e.message));
-					});
+							});
+					})
+					.catch(e => console.dir(e.message));
 			});
 		return () => {
 			setPost(null);
