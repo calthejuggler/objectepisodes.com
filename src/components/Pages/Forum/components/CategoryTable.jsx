@@ -14,22 +14,22 @@ const CategoryTable = props => {
 			</thead>
 			<tbody className='tbody'>
 				{categories.map(category => (
-					<tr key={category}>
+					<tr key={category.id}>
 						<td>
 							<button
 								className='btn btn-link'
 								onClick={() => {
-									setCurrentCategory(category);
-									props.history.push('/forum/' + category);
+									setCurrentCategory(category.id);
+									props.history.push('/forum/' + category.id);
 									setLocation(prev => [
 										...prev,
-										category,
+										category.id,
 									]);
 								}}>
-								{category}
+								{category.id}
 							</button>
 						</td>
-						<td></td>
+						<td>{category.data().lastPost.toDate().toUTCString()}</td>
 					</tr>
 				))}
 			</tbody>
