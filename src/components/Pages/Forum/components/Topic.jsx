@@ -21,33 +21,31 @@ const Topic = props => {
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
 						});
-						props.firebase.db
-							.collection('forum')
-							.doc(currentCategory)
-							.collection('topics')
-							.doc(currentTopic.trim())
-							.collection('comments')
-							.orderBy('timestamp')
-							.onSnapshot(commentsSnap => {
-								setComments([]);
-								setCommentsLoading(true);
-								commentsSnap.forEach(commentSnap =>
-									props.firebase
-										.getUserDataFromUID(
-											commentSnap.data().user.trim()
-										)
-										.then(commentUserSnap => {
-											setComments(prev => [
-												...prev,
-												{
-													data: commentSnap.data(),
-													user: commentUserSnap.data(),
-												},
-											]);
-											setCommentsLoading(false);
-										})
-								);
-							});
+						props.firebase
+							.getForumRepliesFromTopic(currentTopic)
+							.then(replySnap => {
+								if (replySnap.empty) {
+									setCommentsLoading(false);
+								} else {
+									replySnap.forEach(reply => {
+										props.firebase
+											.getUserDataFromUID(
+												reply.data().user
+											)
+											.then(user => {
+												setComments(prev => [
+													...prev,
+													{
+														user: user.data(),
+														data: reply.data(),
+													},
+												]);
+												setCommentsLoading(false);
+											});
+									});
+								}
+							})
+							.catch(e => console.dir(e.message));
 					});
 			});
 		return () => {
