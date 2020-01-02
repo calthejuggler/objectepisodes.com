@@ -20,12 +20,11 @@ const Breadcrumbs = props => {
 			<ol className='breadcrumb'>
 				{locationArray.map((loc, i) => {
 					if (i === 2) {
-						firebase.db
-							.collection('forum')
-							.doc(currentCategory)
-							.collection('topics')
-							.doc(currentTopic.trim())
-							.get()
+						firebase
+							.getForumPostFromTopic(
+								currentCategory,
+								currentTopic
+							)
 							.then(topicSnap => {
 								setTopicTitle(topicSnap.data().title);
 							});
@@ -60,9 +59,11 @@ const Breadcrumbs = props => {
 										setCurrentTopic(null);
 									}
 								}}>
-								{i === 2 && topicTitle !== null
-									? topicTitle[0].toUpperCase() +
-									  topicTitle.slice(1)
+								{i === 2
+									? topicTitle
+										? topicTitle[0].toUpperCase() +
+										  topicTitle.slice(1)
+										: 'Loading topic title...'
 									: loc[0].toUpperCase() + loc.slice(1)}
 							</button>
 						</li>
