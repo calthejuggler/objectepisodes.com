@@ -42,6 +42,7 @@ class Firebase extends Component {
 						username: username,
 						email: email,
 						admin: false,
+						forumPosts: 0,
 						created: new Date(),
 					});
 			});
@@ -88,8 +89,16 @@ class Firebase extends Component {
 	getUserDataFromUsername = async username => {
 		return await this.db
 			.collection('users')
-			.where("username","==",username)
+			.where('username', '==', username)
 			.get();
+	};
+	incrementForumPosts = uid => {
+		this.db
+			.collection('users')
+			.doc(uid)
+			.update({
+				forumPosts: this.db.FieldValue.increment(1),
+			});
 	};
 }
 
