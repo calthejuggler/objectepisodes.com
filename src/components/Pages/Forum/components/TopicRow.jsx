@@ -28,8 +28,8 @@ const TopicRow = props => {
 				</button>
 			</td>
 			<td>{username}</td>
-			<td>{posted}</td>
-			<td>{lastPost}</td>
+			<td>{posted.toDateString() === new Date().toDateString() ? "Today - "+posted.toTimeString():posted.toUTCString()}</td>
+			<td>{lastPost.toDateString() === new Date().toDateString() ? "Today - "+lastPost.toTimeString():lastPost.toUTCString()}</td>
 		</tr>
 	);
 };
