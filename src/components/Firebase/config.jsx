@@ -58,36 +58,32 @@ class Firebase extends Component {
 
 	// Firestore functions
 	getForumRepliesFromTopic = async currentTopic => {
-		let replySnap = await this.db
+		return await this.db
 			.collection('forum-replies')
 			.where('topicID', '==', currentTopic)
 			.orderBy('timestamp')
 			.get();
-		return replySnap;
 	};
 	getForumPostFromTopic = async (currentCategory, currentTopic) => {
-		let topicSnap = await this.db
+		return await this.db
 			.collection('forum')
 			.doc(currentCategory)
 			.collection('topics')
 			.doc(currentTopic.trim())
 			.get();
-		return topicSnap;
 	};
 	getForumTopicsFromCategory = async currentCategory => {
-		let categorySnap = await this.db
+		return await this.db
 			.collection('forum')
 			.doc(currentCategory)
 			.collection('topics')
 			.get();
-		return categorySnap;
 	};
 	getUserDataFromUID = async userID => {
-		let userSnap = await this.db
+		return await this.db
 			.collection('users')
 			.doc(userID)
 			.get();
-		return userSnap;
 	};
 }
 
