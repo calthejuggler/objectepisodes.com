@@ -8,12 +8,14 @@ const TopicsTable = props => {
 	const [addTopic, setAddTopic] = useState(false);
 	const [topicLoading, setTopicLoading] = useState(true);
 
+	const {firebase, currentCategory, setCurrentTopic, setLocation} = props;
+
 	useLayoutEffect(() => {
-		props.firebase
-			.getForumTopicsFromCategory(props.currentCategory)
+		firebase
+			.getForumTopicsFromCategory(currentCategory)
 			.then(topicsSnap => {
 				topicsSnap.forEach(topicDoc => {
-					props.firebase.db
+					firebase.db
 						.collection('users')
 						.doc(topicDoc.data().user)
 						.get()
@@ -27,13 +29,13 @@ const TopicsTable = props => {
 				setTopicLoading(false);
 			})
 			.catch(e => console.dir(e));
-	}, [props.currentCategory, props.firebase]);
+	}, [currentCategory, firebase]);
 	return (
 		<>
 			<AddTopic
 				addTopic={addTopic}
 				setAddTopic={setAddTopic}
-				currentCategory={props.currentCategory}
+				currentCategory={currentCategory}
 			/>
 			<table className='table'>
 				<thead className='thead'>
@@ -61,9 +63,9 @@ const TopicsTable = props => {
 										.data()
 										.lastPost.toDate()
 										.toDateString()}
-									currentCategory={props.currentCategory}
-									setCurrentTopic={props.setCurrentTopic}
-									setLocation={props.setLocation}
+									currentCategory={currentCategory}
+									setCurrentTopic={setCurrentTopic}
+									setLocation={setLocation}
 								/>
 							))
 						) : (
