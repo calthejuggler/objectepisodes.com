@@ -20,7 +20,7 @@ const Forum = props => {
 			setCurrentTopic(locationArray[2])
 		} else if (locationArray.length === 2) setCurrentCategory(locationArray[1])
 		if (locationArray.length === 1) {
-			props.firebase.db.collection("forum").get().then(categoriesSnap => {
+			firebase.db.collection("forum").get().then(categoriesSnap => {
 				categoriesSnap.forEach(categorySnap => setCategories(prev => [...prev,categorySnap.id]))
 			})
 		}
