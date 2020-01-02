@@ -60,11 +60,11 @@ const TopicsTable = props => {
 									posted={topic.thread
 										.data()
 										.posted.toDate()
-										.toDateString()}
+										.toUTCString()}
 									lastPost={topic.thread
 										.data()
 										.lastPost.toDate()
-										.toDateString()}
+										.toUTCString()}
 									currentCategory={currentCategory}
 									setCurrentTopic={setCurrentTopic}
 									setLocation={setLocation}
