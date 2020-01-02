@@ -6,7 +6,7 @@ import Breadcrumbs from './components/Breadcrumbs';
 import Topic from './components/Topic';
 
 const Forum = props => {
-	const {firebase} = props
+	const { firebase } = props;
 
 	const [categories, setCategories] = useState([]);
 	const [currentCategory, setCurrentCategory] = useState(null);
@@ -16,14 +16,18 @@ const Forum = props => {
 	useLayoutEffect(() => {
 		let locationArray = props.history.location.pathname.slice(1).split('/');
 		if (locationArray.length === 3) {
-			setCurrentCategory(locationArray[1])
-			setCurrentTopic(locationArray[2])
-		} else if (locationArray.length === 2) setCurrentCategory(locationArray[1])
-		if (locationArray.length === 1) {
-			firebase.db.collection("forum").get().then(categoriesSnap => {
-				categoriesSnap.forEach(categorySnap => setCategories(prev => [...prev,categorySnap]))
-			})
-		}
+			setCurrentCategory(locationArray[1]);
+			setCurrentTopic(locationArray[2]);
+		} else if (locationArray.length === 2)
+			setCurrentCategory(locationArray[1]);
+		firebase.db
+			.collection('forum')
+			.get()
+			.then(categoriesSnap => {
+				categoriesSnap.forEach(categorySnap =>
+					setCategories(prev => [...prev, categorySnap])
+				);
+			});
 		setLocation(locationArray);
 	}, [firebase, props.history]);
 
@@ -41,7 +45,9 @@ const Forum = props => {
 							currentCategory={currentCategory}
 							currentTopic={currentTopic}
 						/>
-						{categories.length === 0 && !currentCategory && !currentTopic ? (
+						{categories.length === 0 &&
+						!currentCategory &&
+						!currentTopic ? (
 							<div className='d-flex justify-content-center'>
 								<div
 									className='spinner-border mx-auto'
