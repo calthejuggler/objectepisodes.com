@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/context';
 
 const CategoryTable = props => {
+	const {categories, setCurrentCategory, setLocation} = props;
 	return (
 		<table className='table'>
 			<thead className='thead'>
@@ -12,15 +13,15 @@ const CategoryTable = props => {
 				</tr>
 			</thead>
 			<tbody className='tbody'>
-				{props.categories.map(category => (
+				{categories.map(category => (
 					<tr key={category}>
 						<td>
 							<button
 								className='btn btn-link'
 								onClick={() => {
-									props.setCurrentCategory(category);
+									setCurrentCategory(category);
 									props.history.push('/forum/' + category);
-									props.setLocation(prev => [
+									setLocation(prev => [
 										...prev,
 										category,
 									]);
