@@ -6,10 +6,10 @@ const UserDetails = props => {
 		<div className='card'>
 			<div className='card-body'>
 				<ul className="list-unstyled">
-					<li>Name: <b>{userData.firstname + ' ' + userData.lastname}</b></li>
-					<li>Username: <b>{userData.username}</b></li>
-					<li>Account Created: <b>{userData.created.toDate().toDateString()}</b></li>
-					<li>Forum Posts: <b>{userData.forumPosts}</b></li>
+					<li>Name: <b>{userData.data().firstname + ' ' + userData.data().lastname}</b></li>
+					<li>Username: <b>{userData.data().username}</b></li>
+					<li>Account Created: <b>{userData.data().created.toDate().toDateString()}</b></li>
+					<li>Forum Posts: <b>{userData.data().forumPosts}</b></li>
 				</ul>
 			</div>
 		</div>

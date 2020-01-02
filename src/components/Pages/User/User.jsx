@@ -8,6 +8,7 @@ const User = props => {
 	const URLUser = history.location.pathname.slice(1).split('/')[1];
 
 	const [userData, setUserData] = useState('Loading');
+	const [ownProfile, setOwnProfile] = useState(false);
 
 	useEffect(() => {
 		firebase.getUserDataFromUsername(URLUser).then(userDocs => {
@@ -17,18 +18,27 @@ const User = props => {
 						setUserData(null);
 					} else {
 						UIDUserDocs.forEach(UIDUserDoc => {
-							setUserData(UIDUserDoc.data());
+							setUserData(UIDUserDoc);
 						});
 					}
 				});
 			} else {
 				userDocs.forEach(userDoc => {
-					setUserData(userDoc.data());
+					setUserData(userDoc);
 				});
 			}
 		});
 	}, [URLUser, firebase]);
-	console.dir(userData);
+	useEffect(() => {
+		if (firebase.auth.currentUser) {
+			if (userData.id === firebase.auth.currentUser.uid) {
+				setOwnProfile(true);
+			}
+		}
+		return () => {
+			setOwnProfile(false);
+		};
+	}, [firebase.auth.currentUser, userData.id]);
 	return (
 		<div className='row'>
 			<div className='col-12'>
@@ -39,7 +49,10 @@ const User = props => {
 						</div>
 					</div>
 				) : (
-					<UserDetails userData={userData} />
+					<>
+						{ownProfile ? 'yes' : 'no'}
+						<UserDetails userData={userData} />
+					</>
 				)}
 			</div>
 		</div>
