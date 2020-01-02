@@ -3,17 +3,28 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/context';
 
 const Breadcrumbs = props => {
+	const {
+		locationArray,
+		firebase,
+		currentCategory,
+		currentTopic,
+		location,
+		setLocation,
+		setCurrentTopic,
+		setCurrentCategory,
+	} = props;
+
 	const [topicTitle, setTopicTitle] = useState(null);
 	return (
 		<nav aria-label='breadcrumb'>
 			<ol className='breadcrumb'>
-				{props.locationArray.map((loc, i) => {
+				{locationArray.map((loc, i) => {
 					if (i === 2) {
-						props.firebase.db
+						firebase.db
 							.collection('forum')
-							.doc(props.currentCategory)
+							.doc(currentCategory)
 							.collection('topics')
-							.doc(props.currentTopic.trim())
+							.doc(currentTopic.trim())
 							.get()
 							.then(topicSnap => {
 								setTopicTitle(topicSnap.data().title);
@@ -22,7 +33,7 @@ const Breadcrumbs = props => {
 					return (
 						<li
 							className={
-								i === props.location.length - 1
+								i === location.length - 1
 									? 'breadcrumb-item active'
 									: 'breadcrumb-item'
 							}
@@ -37,19 +48,16 @@ const Breadcrumbs = props => {
 								onClick={() => {
 									if (i === 0) {
 										props.history.replace('/forum');
-										props.setLocation(['forum']);
-										props.setCurrentCategory(null);
-										props.setCurrentTopic(null);
+										setLocation(['forum']);
+										setCurrentCategory(null);
+										setCurrentTopic(null);
 									}
 									if (i === 1) {
 										props.history.replace(
-											'/forum/' + props.currentCategory
+											'/forum/' + currentCategory
 										);
-										props.setLocation([
-											'forum',
-											props.currentCategory,
-										]);
-										props.setCurrentTopic(null);
+										setLocation(['forum', currentCategory]);
+										setCurrentTopic(null);
 									}
 								}}>
 								{i === 2 && topicTitle !== null
