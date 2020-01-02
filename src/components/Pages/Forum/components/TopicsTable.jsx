@@ -15,10 +15,8 @@ const TopicsTable = props => {
 			.getForumTopicsFromCategory(currentCategory)
 			.then(topicsSnap => {
 				topicsSnap.forEach(topicDoc => {
-					firebase.db
-						.collection('users')
-						.doc(topicDoc.data().user)
-						.get()
+					firebase
+						.getUserDataFromUID(topicDoc.data().user)
 						.then(userDoc => {
 							setTopics(prev => [
 								...prev,
