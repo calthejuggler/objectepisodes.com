@@ -9,6 +9,7 @@ const UserDetails = props => {
 					<li>Name: <b>{userData.firstname + ' ' + userData.lastname}</b></li>
 					<li>Username: <b>{userData.username}</b></li>
 					<li>Account Created: <b>{userData.created.toDate().toDateString()}</b></li>
+					<li>Forum Posts: <b>{userData.forumPosts}</b></li>
 				</ul>
 			</div>
 		</div>
