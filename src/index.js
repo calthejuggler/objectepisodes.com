@@ -5,6 +5,8 @@ import App from './App';
 import { HashRouter } from 'react-router-dom';
 import Firebase, { FirebaseContext } from './components/Firebase';
 
+import '../node_modules/bootstrap/dist/js/bootstrap.js';
+
 ReactDOM.render(
 	<HashRouter>
 		<FirebaseContext.Provider value={new Firebase()}>
