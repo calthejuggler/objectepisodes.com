@@ -19,6 +19,7 @@ const PersonalForumPosts = props => {
 							.doc(category.id)
 							.collection('topics')
 							.where('user', '==', userData.id)
+							.orderBy('posted', 'desc')
 							.get()
 							.then(topicsSnap => {
 								topicsSnap.forEach(topic => {
@@ -38,7 +39,7 @@ const PersonalForumPosts = props => {
 		};
 	}, [firebase.db, userData.id]);
 	return (
-		<div className='card'>
+		<div className='card mt-3 mt-md-0'>
 			<div className='card-body'>
 				<h2 className='card-title text-center'>Forum Posts</h2>
 
@@ -59,7 +60,7 @@ const PersonalForumPosts = props => {
 						</li>
 						{topics.map(topic => (
 							<PersonalForumPostsRow
-								key={topic.id}
+								key={topic.topic.id}
 								topicData={topic.topic}
 								category={topic.category}
 							/>
