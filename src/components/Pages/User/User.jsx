@@ -3,6 +3,7 @@ import UserDetails from './components/UserDetails';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../Firebase/context';
 import PersonalRecords from './components/PersonalRecords';
+import PersonalForumPosts from './components/PersonalForumPosts';
 
 const User = props => {
 	const { history, firebase } = props;
@@ -57,6 +58,17 @@ const User = props => {
 						userData={userData}
 						ownProfile={ownProfile}
 					/>
+				)}
+			</div>
+			<div className='col-12 col-md-8'>
+				{userData === 'Loading' ? (
+					<div className='d-flex justify-content-center'>
+						<div className='spinner-border mx-auto' role='status'>
+							<span className='sr-only'>Loading...</span>
+						</div>
+					</div>
+				) : (
+					<PersonalForumPosts userData={userData} />
 				)}
 			</div>
 		</div>
