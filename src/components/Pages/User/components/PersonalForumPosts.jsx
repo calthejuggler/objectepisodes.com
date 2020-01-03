@@ -21,7 +21,10 @@ const PersonalForumPosts = props => {
 						.get()
 						.then(topicsSnap => {
 							topicsSnap.forEach(topic => {
-								setTopics(prev => [...prev, topic]);
+								setTopics(prev => [
+									...prev,
+									{ category: category.id, topic: topic },
+								]);
 							});
 							setTopicsLoading(false);
 						});
@@ -51,7 +54,8 @@ const PersonalForumPosts = props => {
 					topics.map(topic => (
 						<PersonalForumPostsRow
 							key={topic.id}
-							topicData={topic.data()}
+							topicData={topic.topic}
+                            category={topic.category}
 						/>
 					))
 				) : (
