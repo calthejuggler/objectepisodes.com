@@ -25,11 +25,13 @@ const TopicRow = props => {
 							);
 							setLocation(prev => [...prev, id]);
 						}}>
-						<a href={"#/forum/"+currentCategory+"/"+id}>{title}</a>
+						<a href={'#/forum/' + currentCategory + '/' + id}>
+							{title}
+						</a>
 					</button>
 				</div>
 				<div className='col-6 col-sm-3'>
-					<p>{username}</p>
+					<a href={'#/user/' + username}>{username}</a>
 				</div>
 				<div className='col-3 d-none d-sm-block'>
 					<p>

@@ -29,7 +29,7 @@ const Topic = props => {
 								if (replySnap.empty) {
 									setCommentsLoading(false);
 								} else {
-									setComments([])
+									setComments([]);
 									replySnap.forEach(reply => {
 										firebase
 											.getUserDataFromUID(
@@ -76,7 +76,9 @@ const Topic = props => {
 							) : (
 								<>
 									<h2>{post.data.title}</h2>
-									<p>{post.user.username}</p>
+									<a href={'#/user/' + post.user.username}>
+										{post.user.username}
+									</a>
 									<p>
 										{post.data.posted
 											.toDate()
@@ -121,7 +123,9 @@ const Topic = props => {
 							}>
 							<div className='card'>
 								<div className='card-body'>
-									<p>{comment.user.username}</p>
+									<a href={'#/user/' + comment.user.username}>
+										{comment.user.username}
+									</a>
 									<p>
 										{comment.data.timestamp
 											.toDate()
