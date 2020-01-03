@@ -41,25 +41,30 @@ const PersonalForumPosts = props => {
 		<div className='card'>
 			<div className='card-body'>
 				<h2 className='card-title text-center'>Forum Posts</h2>
-				<div className='row'>
-					<div className='col-4'>
-						<b>Title</b>
-					</div>
-					<div className='col-4'>
-						<b>Date</b>
-					</div>
-					<div className='col-4'>
-						<b>Last Post</b>
-					</div>
-				</div>
+
 				{!topicsLoading ? (
-					topics.map(topic => (
-						<PersonalForumPostsRow
-							key={topic.id}
-							topicData={topic.topic}
-							category={topic.category}
-						/>
-					))
+					<ul className='list-group list-group-flush'>
+						<li className='list-group-item'>
+							<div className='row'>
+								<div className='col-4'>
+									<b>Title</b>
+								</div>
+								<div className='col-4'>
+									<b>Date</b>
+								</div>
+								<div className='col-4'>
+									<b>Last Post</b>
+								</div>
+							</div>
+						</li>
+						{topics.map(topic => (
+							<PersonalForumPostsRow
+								key={topic.id}
+								topicData={topic.topic}
+								category={topic.category}
+							/>
+						))}
+					</ul>
 				) : (
 					<div className='d-flex justify-content-center'>
 						<div className='spinner-border mx-auto' role='status'>
