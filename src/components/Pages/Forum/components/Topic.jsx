@@ -18,47 +18,48 @@ const Topic = props => {
 			.collection('topics')
 			.doc(currentTopic)
 			.onSnapshot(topicSnap => {
+				setPost(null);
 				firebase
 					.getUserDataFromUID(topicSnap.data().user.trim())
 					.then(topicUserSnap => {
-						setPost(null);
 						setPost({
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
 							id: topicSnap.id,
 						});
-						firebase.db
-							.collection('forum-replies')
-							.where('topicID', '==', currentTopic)
-							.orderBy('timestamp')
-							.onSnapshot(replySnap => {
-								if (replySnap.empty) {
-									setCommentsLoading(false);
-								} else {
-									setComments([]);
-									replySnap.forEach(reply => {
-										firebase
-											.getUserDataFromUID(
-												reply.data().user
-											)
-											.then(user => {
-												setComments(prev => [
-													...prev,
-													{
-														user: user.data(),
-														data: reply.data(),
-														id: reply.id,
-													},
-												]);
-												setCommentsLoading(false);
-											});
-									});
-								}
-							});
 					})
 					.catch(e => console.dir(e.message));
 			});
 	}, [currentCategory, currentTopic, firebase]);
+
+	useLayoutEffect(() => {
+		return firebase.db
+			.collection('forum-replies')
+			.where('topicID', '==', currentTopic)
+			.orderBy('timestamp')
+			.onSnapshot(replySnap => {
+				setComments([]);
+				if (replySnap.empty) {
+					setCommentsLoading(false);
+				} else {
+					replySnap.forEach(reply => {
+						firebase
+							.getUserDataFromUID(reply.data().user)
+							.then(user => {
+								setComments(prev => [
+									...prev,
+									{
+										user: user.data(),
+										data: reply.data(),
+										id: reply.id,
+									},
+								]);
+								setCommentsLoading(false);
+							});
+					});
+				}
+			});
+	}, [currentTopic, firebase]);
 
 	return (
 		<>
@@ -135,12 +136,7 @@ const Topic = props => {
 					</div>
 				) : (
 					comments.map(comment => (
-						<div
-							className='col-12 mt-1'
-							key={
-								comment.data.comment +
-								comment.data.timestamp.toDate().toDateString()
-							}>
+						<div className='col-12 mt-1' key={comment.id}>
 							<div className='card'>
 								<div className='card-body'>
 									<div className='row align-items-center'>
