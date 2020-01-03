@@ -18,7 +18,7 @@ const CategoryTable = props => {
 			</li>
 			{categories.map(category => (
 				<li className='list-group-item' key={category.id}>
-					<div className='row'>
+					<div className='row align-items-center'>
 						<div className='col-6'>
 							<button
 								className='btn btn-link'

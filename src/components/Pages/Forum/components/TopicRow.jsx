@@ -14,7 +14,7 @@ const TopicRow = props => {
 	} = props;
 	return (
 		<li className='list-group-item'>
-			<div className='row'>
+			<div className='row align-items-center'>
 				<div className='col-6 col-sm-3'>
 					<button
 						className='btn btn-link'
