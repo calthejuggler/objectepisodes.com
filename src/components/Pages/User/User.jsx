@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import UserDetails from './components/UserDetails';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../Firebase/context';
+import PersonalRecords from './components/PersonalRecords';
 
 const User = props => {
 	const { history, firebase } = props;
@@ -49,10 +50,15 @@ const User = props => {
 						</div>
 					</div>
 				) : (
-					<>
-						{ownProfile ? 'yes' : 'no'}
-						<UserDetails userData={userData} />
-					</>
+					<UserDetails userData={userData} />
+				)}
+			</div>
+			<div className='col-12'>
+				{userData !== 'Loading' && (
+					<PersonalRecords
+						userData={userData}
+						ownProfile={ownProfile}
+					/>
 				)}
 			</div>
 		</div>
