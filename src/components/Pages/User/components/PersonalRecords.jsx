@@ -27,9 +27,9 @@ const PersonalRecords = props => {
 			<div className='card-body text-center'>
 				<h2 className='card-title'>Personal Records</h2>
 				<div className="row align-items-center">
-					<div className="col"><b>Record</b></div>
-					<div className="col"><b>Evidence</b></div>
-					<div className="col"><b>Date Recorded</b></div>
+					<div className="col-4"><b>Record</b></div>
+					<div className="col-4"><b>Evidence</b></div>
+					<div className="col-4"><b>Date Recorded</b></div>
 				</div>
 				{personalBests.length === 0 ? (
 					ownProfile ? (

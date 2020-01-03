@@ -12,7 +12,7 @@ const PersonalRecordRow = props => {
 	} = props;
 	return (
 		<div className='row align-items-center'>
-			<div className='col'>
+			<div className='col-4'>
 				{recordType === 'catches' ? (
 					<p>
 						{noOfProps} {propType} {pattern} for{' '}
@@ -25,14 +25,14 @@ const PersonalRecordRow = props => {
 					</p>
 				)}
 			</div>
-			<div className='col'>
+			<div className='col-4'>
 				{videoURL === '' ? (
 					<p>No Video</p>
 				) : (
 					<a target="_blank" rel="noopener noreferrer" href={videoURL}>Video</a>
 				)}
 			</div>
-			<div className='col'>
+			<div className='col-4'>
 				<p>{recorded.toDate().toDateString()}</p>
 			</div>
 		</div>
