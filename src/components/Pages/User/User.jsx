@@ -42,7 +42,7 @@ const User = props => {
 	}, [firebase.auth.currentUser, userData.id]);
 	return (
 		<div className='row'>
-			<div className='col-12'>
+			<div className='col-12 col-md-4'>
 				{userData === 'Loading' ? (
 					<div className='d-flex justify-content-center'>
 						<div className='spinner-border mx-auto' role='status'>
@@ -52,8 +52,6 @@ const User = props => {
 				) : (
 					<UserDetails userData={userData} />
 				)}
-			</div>
-			<div className='col-12'>
 				{userData !== 'Loading' && (
 					<PersonalRecords
 						userData={userData}

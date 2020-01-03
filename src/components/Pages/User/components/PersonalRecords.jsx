@@ -23,7 +23,7 @@ const PersonalRecords = props => {
 		};
 	}, [firebase.db, userData]);
 	return (
-		<div className='card'>
+		<div className='card mt-3'>
 			<div className='card-body text-center'>
 				<h2 className='card-title'>Personal Records</h2>
 				<div className="row align-items-center">
