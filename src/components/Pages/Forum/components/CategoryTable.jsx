@@ -3,37 +3,43 @@ import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/context';
 
 const CategoryTable = props => {
-	const {categories, setCurrentCategory, setLocation} = props;
+	const { categories, setCurrentCategory, setLocation } = props;
 	return (
-		<table className='table'>
-			<thead className='thead'>
-				<tr>
-					<th scope='col'>Category</th>
-					<th scope='col'>Last Post</th>
-				</tr>
-			</thead>
-			<tbody className='tbody'>
-				{categories.map(category => (
-					<tr key={category.id}>
-						<td>
+		<ul className='list-group list-group-flush'>
+			<li className='list-group-item'>
+				<div className='row'>
+					<div className='col-6'>
+						<b>Category</b>
+					</div>
+					<div className='col-6'>
+						<b>Last Post</b>
+					</div>
+				</div>
+			</li>
+			{categories.map(category => (
+				<li className='list-group-item' key={category.id}>
+					<div className='row'>
+						<div className='col-6'>
 							<button
 								className='btn btn-link'
 								onClick={() => {
 									setCurrentCategory(category.id);
 									props.history.push('/forum/' + category.id);
-									setLocation(prev => [
-										...prev,
-										category.id,
-									]);
+									setLocation(prev => [...prev, category.id]);
 								}}>
 								{category.id}
 							</button>
-						</td>
-						<td>{category.data().lastPost.toDate().toUTCString()}</td>
-					</tr>
-				))}
-			</tbody>
-		</table>
+						</div>
+						<div className='col-6'>
+							{category
+								.data()
+								.lastPost.toDate()
+								.toUTCString()}
+						</div>
+					</div>
+				</li>
+			))}
+		</ul>
 	);
 };
 

@@ -15,12 +15,12 @@ const TopicsTable = props => {
 			.collection('forum')
 			.doc(currentCategory)
 			.collection('topics')
-			.orderBy('posted',"desc")
+			.orderBy('posted', 'desc')
 			.onSnapshot(topicsSnap => {
 				if (topicsSnap.empty) {
 					setTopicLoading(false);
 				} else {
-					setTopics([])
+					setTopics([]);
 					topicsSnap.forEach(topicDoc => {
 						firebase
 							.getUserDataFromUID(topicDoc.data().user)
@@ -42,60 +42,64 @@ const TopicsTable = props => {
 				setAddTopic={setAddTopic}
 				currentCategory={currentCategory}
 			/>
-			<table className='table'>
-				<thead className='thead'>
-					<tr>
-						<th>Title</th>
-						<th>By</th>
-						<th>Date</th>
-						<th>Last Post</th>
-					</tr>
-				</thead>
-				<tbody className='tbody'>
-					{!topicLoading ? (
-						topics.length !== 0 ? (
-							topics.map(topic => (
-								<TopicRow
-									key={topic.thread.ref.id}
-									id={topic.thread.ref.id}
-									title={topic.thread.data().title}
-									username={topic.user.data().username}
-									posted={topic.thread.data().posted.toDate()}
-									lastPost={topic.thread
-										.data()
-										.lastPost.toDate()}
-									currentCategory={currentCategory}
-									setCurrentTopic={setCurrentTopic}
-									setLocation={setLocation}
-								/>
-							))
-						) : (
-							<tr>
-								<td colSpan='4'>
+			<ul className='list-group list-group-flush'>
+				<li className='list-group-item'>
+					<div className='row align-items-center'>
+						<div className='col-6 col-sm-3'>
+							<b>Title</b>
+						</div>
+						<div className='col-6 col-sm-3'>
+							<b>By</b>
+						</div>
+						<div className='col-3 d-none d-sm-block'>
+							<b>Date</b>
+						</div>
+						<div className='col-3 d-none d-sm-block'>
+							<b>Last Post</b>
+						</div>
+					</div>
+				</li>
+				{!topicLoading ? (
+					topics.length !== 0 ? (
+						topics.map(topic => (
+							<TopicRow
+								key={topic.thread.ref.id}
+								id={topic.thread.ref.id}
+								title={topic.thread.data().title}
+								username={topic.user.data().username}
+								posted={topic.thread.data().posted.toDate()}
+								lastPost={topic.thread.data().lastPost.toDate()}
+								currentCategory={currentCategory}
+								setCurrentTopic={setCurrentTopic}
+								setLocation={setLocation}
+							/>
+						))
+					) : (
+						<li className='list-group-item'>
+							<div className='row'>
+								<div className='col-12'>
 									<p>
 										There are no topics here yet! Will you
 										be the first to post one?
 									</p>
-								</td>
-							</tr>
-						)
-					) : (
-						<tr>
-							<td colSpan='4'>
-								<div className='d-flex justify-content-center'>
-									<div
-										className='spinner-border mx-auto'
-										role='status'>
-										<span className='sr-only'>
-											Loading...
-										</span>
-									</div>
 								</div>
-							</td>
-						</tr>
-					)}
-				</tbody>
-			</table>
+							</div>
+						</li>
+					)
+				) : (
+					<li className="list-group-item">
+						<div className="row">
+							<div className='col-1 mx-auto'>
+								<div
+									className='spinner-border'
+									role='status'>
+									<span className='sr-only'>Loading...</span>
+								</div>
+							</div>
+						</div>
+					</li>
+				)}
+			</ul>
 		</>
 	);
 };
