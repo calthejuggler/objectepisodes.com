@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 const DashForum = props => {
 	return (
 		<div className='row'>
-			<div className='col-4'>
+			<div className='col-12 col-md-4'>
 				<div className='card'>
 					<div className='card-body text-center'>
 						<button

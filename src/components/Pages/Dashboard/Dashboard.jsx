@@ -1,12 +1,12 @@
-import React from 'react'
-import DashForum from './components/DashForum'
+import React from 'react';
+import DashForum from './components/DashForum';
 
 const Dashboard = () => {
-    return (
-        <div>
-            <DashForum/>
-        </div>
-    )
-}
+	return (
+		<>
+			<DashForum />
+		</>
+	);
+};
 
-export default Dashboard
+export default Dashboard;
