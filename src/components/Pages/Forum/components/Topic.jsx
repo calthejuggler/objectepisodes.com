@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import AddComment from './AddComment';
+import LikeButton from './LikeButton';
 
 const Topic = props => {
 	const { firebase, currentTopic, currentCategory } = props;
@@ -11,15 +12,21 @@ const Topic = props => {
 	const [commentsLoading, setCommentsLoading] = useState(true);
 
 	useLayoutEffect(() => {
-		firebase
-			.getForumPostFromTopic(currentCategory, currentTopic)
-			.then(topicSnap => {
+		firebase.db
+			.collection('forum')
+			.doc(currentCategory)
+			.collection('topics')
+			.doc(currentTopic)
+			.onSnapshot(topicSnap => {
+				console.dir('snapping');
 				firebase
 					.getUserDataFromUID(topicSnap.data().user.trim())
 					.then(topicUserSnap => {
+						setPost(null);
 						setPost({
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
+							id: topicSnap.id,
 						});
 						firebase.db
 							.collection('forum-replies')
@@ -41,6 +48,7 @@ const Topic = props => {
 													{
 														user: user.data(),
 														data: reply.data(),
+														id: reply.id,
 													},
 												]);
 												setCommentsLoading(false);
@@ -54,6 +62,7 @@ const Topic = props => {
 		return () => {
 			setPost(null);
 			setComments([]);
+			setCommentsLoading(true);
 		};
 	}, [currentCategory, currentTopic, firebase]);
 
@@ -74,18 +83,35 @@ const Topic = props => {
 									</div>
 								</div>
 							) : (
-								<>
-									<h2>{post.data.title}</h2>
-									<a href={'#/user/' + post.user.username}>
-										{post.user.username}
-									</a>
-									<p>
-										{post.data.posted
-											.toDate()
-											.toUTCString()}
-									</p>
-									<p>{post.data.content}</p>
-								</>
+								<div className='row align-items-center'>
+									<div className='col-12'>
+										<h5>{post.data.title}</h5>
+									</div>
+									<div className='col-10'>
+										<a
+											href={
+												'#/user/' + post.user.username
+											}>
+											{post.user.username}
+										</a>
+										<p>
+											{post.data.posted
+												.toDate()
+												.toUTCString()}
+										</p>
+									</div>
+									<div className='col-2'>
+										<LikeButton
+											postID={post.id}
+											likes={post.data.likes}
+											type='post'
+											currentCategory={currentCategory}
+										/>
+									</div>
+									<div className='col-12'>
+										<p>{post.data.content}</p>
+									</div>
+								</div>
 							)}
 						</div>
 					</div>
@@ -123,15 +149,32 @@ const Topic = props => {
 							}>
 							<div className='card'>
 								<div className='card-body'>
-									<a href={'#/user/' + comment.user.username}>
-										{comment.user.username}
-									</a>
-									<p>
-										{comment.data.timestamp
-											.toDate()
-											.toUTCString()}
-									</p>
-									<p>{comment.data.comment}</p>
+									<div className='row align-items-center'>
+										<div className='col-10'>
+											<a
+												href={
+													'#/user/' +
+													comment.user.username
+												}>
+												{comment.user.username}
+											</a>
+											<p>
+												{comment.data.timestamp
+													.toDate()
+													.toUTCString()}
+											</p>
+										</div>
+										<div className='col-2'>
+											<LikeButton
+												postID={comment.id}
+												likes={comment.data.likes}
+												type='comment'
+											/>
+										</div>
+										<div className='col-12'>
+											<p>{comment.data.comment}</p>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
