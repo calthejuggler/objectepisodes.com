@@ -12,13 +12,12 @@ const Topic = props => {
 	const [commentsLoading, setCommentsLoading] = useState(true);
 
 	useLayoutEffect(() => {
-		firebase.db
+		return firebase.db
 			.collection('forum')
 			.doc(currentCategory)
 			.collection('topics')
 			.doc(currentTopic)
 			.onSnapshot(topicSnap => {
-				console.dir('snapping');
 				firebase
 					.getUserDataFromUID(topicSnap.data().user.trim())
 					.then(topicUserSnap => {
@@ -59,11 +58,6 @@ const Topic = props => {
 					})
 					.catch(e => console.dir(e.message));
 			});
-		return () => {
-			setPost(null);
-			setComments([]);
-			setCommentsLoading(true);
-		};
 	}, [currentCategory, currentTopic, firebase]);
 
 	return (

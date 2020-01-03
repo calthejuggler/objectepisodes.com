@@ -11,7 +11,7 @@ const TopicsTable = props => {
 	const [topicLoading, setTopicLoading] = useState(true);
 
 	useLayoutEffect(() => {
-		firebase.db
+		return firebase.db
 			.collection('forum')
 			.doc(currentCategory)
 			.collection('topics')
@@ -63,8 +63,8 @@ const TopicsTable = props => {
 					topics.length !== 0 ? (
 						topics.map(topic => (
 							<TopicRow
-								key={topic.thread.ref.id}
-								id={topic.thread.ref.id}
+								key={topic.thread.id}
+								id={topic.thread.id}
 								title={topic.thread.data().title}
 								username={topic.user.data().username}
 								posted={topic.thread.data().posted.toDate()}
@@ -87,12 +87,10 @@ const TopicsTable = props => {
 						</li>
 					)
 				) : (
-					<li className="list-group-item">
-						<div className="row">
+					<li className='list-group-item'>
+						<div className='row'>
 							<div className='col-1 mx-auto'>
-								<div
-									className='spinner-border'
-									role='status'>
+								<div className='spinner-border' role='status'>
 									<span className='sr-only'>Loading...</span>
 								</div>
 							</div>
