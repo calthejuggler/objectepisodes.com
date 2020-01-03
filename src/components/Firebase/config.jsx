@@ -19,6 +19,7 @@ class Firebase extends Component {
 		app.initializeApp(config);
 		this.auth = app.auth();
 		this.db = app.firestore();
+		this.dbFunc = app.firestore
 	}
 
 	// Auth functions
@@ -97,7 +98,7 @@ class Firebase extends Component {
 			.collection('users')
 			.doc(uid)
 			.update({
-				forumPosts: app.firestore.FieldValue.increment(1),
+				forumPosts: this.dbFunc.FieldValue.increment(1),
 			});
 	};
 }
