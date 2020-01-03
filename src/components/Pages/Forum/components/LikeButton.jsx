@@ -18,6 +18,7 @@ const LikeButton = props => {
 							likes: firebase.dbFunc.FieldValue.arrayRemove(
 								firebase.auth.currentUser.uid
 							),
+							likeCount: firebase.dbFunc.FieldValue.increment(-1),
 						});
 				} else {
 					firebase.db
@@ -27,6 +28,7 @@ const LikeButton = props => {
 							likes: firebase.dbFunc.FieldValue.arrayRemove(
 								firebase.auth.currentUser.uid
 							),
+							likeCount: firebase.dbFunc.FieldValue.increment(-1),
 						});
 				}
 				firebase.db
@@ -46,6 +48,7 @@ const LikeButton = props => {
 							likes: firebase.dbFunc.FieldValue.arrayUnion(
 								firebase.auth.currentUser.uid
 							),
+							likeCount: firebase.dbFunc.FieldValue.increment(1),
 						});
 				} else {
 					firebase.db
@@ -55,6 +58,7 @@ const LikeButton = props => {
 							likes: firebase.dbFunc.FieldValue.arrayUnion(
 								firebase.auth.currentUser.uid
 							),
+							likeCount: firebase.dbFunc.FieldValue.increment(1),
 						});
 				}
 				firebase.db
@@ -73,6 +77,7 @@ const LikeButton = props => {
 					.doc(postID)
 					.update({
 						likes: [firebase.auth.currentUser.uid],
+						likeCount: firebase.dbFunc.FieldValue.increment(1),
 					});
 			} else {
 				firebase.db
@@ -80,6 +85,7 @@ const LikeButton = props => {
 					.doc(postID)
 					.update({
 						likes: [firebase.auth.currentUser.uid],
+						likeCount: firebase.dbFunc.FieldValue.increment(1),
 					});
 			}
 			firebase.db
