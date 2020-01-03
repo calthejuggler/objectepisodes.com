@@ -5,31 +5,40 @@ const UserDetails = props => {
 	return (
 		<div className='card'>
 			<div className='card-body'>
-				<ul className='list-unstyled'>
-					<li>
-						Name:{' '}
-						<b>
-							{userData.data().firstname +
-								' ' +
-								userData.data().lastname}
-						</b>
-					</li>
-					<li>
-						Username: <b>{userData.data().username}</b>
-					</li>
-					<li>
-						Account Created:{' '}
-						<b>
-							{userData
-								.data()
-								.created.toDate()
-								.toDateString()}
-						</b>
-					</li>
-					<li>
-						Forum Posts: <b>{userData.data().forumPosts}</b>
-					</li>
-				</ul>
+				<h2 className="card-title text-center">User Details</h2>
+				{userData === 'Loading' ? (
+					<div className='d-flex justify-content-center'>
+						<div className='spinner-border mx-auto' role='status'>
+							<span className='sr-only'>Loading...</span>
+						</div>
+					</div>
+				) : (
+					<ul className='list-unstyled'>
+						<li>
+							Name:{' '}
+							<b>
+								{userData.data().firstname +
+									' ' +
+									userData.data().lastname}
+							</b>
+						</li>
+						<li>
+							Username: <b>{userData.data().username}</b>
+						</li>
+						<li>
+							Account Created:{' '}
+							<b>
+								{userData
+									.data()
+									.created.toDate()
+									.toDateString()}
+							</b>
+						</li>
+						<li>
+							Forum Posts: <b>{userData.data().forumPosts}</b>
+						</li>
+					</ul>
+				)}
 			</div>
 		</div>
 	);

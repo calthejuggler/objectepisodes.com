@@ -7,7 +7,7 @@ const PersonalRecords = props => {
 	const { userData, firebase, ownProfile } = props;
 	const [personalBests, setPersonalBests] = useState([]);
 	useEffect(() => {
-		if (userData) {
+		if (userData.id) {
 			firebase.db
 				.collection('records')
 				.where('userID', '==', userData.id)
@@ -26,12 +26,25 @@ const PersonalRecords = props => {
 		<div className='card mt-3'>
 			<div className='card-body text-center'>
 				<h2 className='card-title'>Personal Records</h2>
-				<div className="row align-items-center">
-					<div className="col-4"><b>Record</b></div>
-					<div className="col-4"><b>Evidence</b></div>
-					<div className="col-4"><b>Date Recorded</b></div>
+				<div className='row align-items-center'>
+					<div className='col-4'>
+						<b>Record</b>
+					</div>
+					<div className='col-4'>
+						<b>Evidence</b>
+					</div>
+					<div className='col-4'>
+						<b>Date Recorded</b>
+					</div>
 				</div>
-				{personalBests.length === 0 ? (
+
+				{userData === 'Loading' ? (
+					<div className='d-flex justify-content-center'>
+						<div className='spinner-border mx-auto' role='status'>
+							<span className='sr-only'>Loading...</span>
+						</div>
+					</div>
+				) : personalBests.length === 0 ? (
 					ownProfile ? (
 						<p className='card-text'>
 							You have no personal records.
@@ -41,18 +54,20 @@ const PersonalRecords = props => {
 							This user has no personal records.
 						</p>
 					)
-				) : personalBests.map(record => (
-					<PersonalRecordRow
-						key={record.id}
-						noOfProps={record.data().noOfProps}
-						propType={record.data().propType}
-						pattern={record.data().pattern}
-						recordType={record.data().recordType}
-						recorded={record.data().recorded}
-						videoURL={record.data().videoURL}
-						recordData={record.data()}
-					/>
-				))}
+				) : (
+					personalBests.map(record => (
+						<PersonalRecordRow
+							key={record.id}
+							noOfProps={record.data().noOfProps}
+							propType={record.data().propType}
+							pattern={record.data().pattern}
+							recordType={record.data().recordType}
+							recorded={record.data().recorded}
+							videoURL={record.data().videoURL}
+							recordData={record.data()}
+						/>
+					))
+				)}
 				{ownProfile ? (
 					<button
 						type='button'

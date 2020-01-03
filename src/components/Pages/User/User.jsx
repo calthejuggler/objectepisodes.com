@@ -44,32 +44,11 @@ const User = props => {
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>
-				{userData === 'Loading' ? (
-					<div className='d-flex justify-content-center'>
-						<div className='spinner-border mx-auto' role='status'>
-							<span className='sr-only'>Loading...</span>
-						</div>
-					</div>
-				) : (
-					<UserDetails userData={userData} />
-				)}
-				{userData !== 'Loading' && (
-					<PersonalRecords
-						userData={userData}
-						ownProfile={ownProfile}
-					/>
-				)}
+				<UserDetails userData={userData} />
+				<PersonalRecords userData={userData} ownProfile={ownProfile} />
 			</div>
 			<div className='col-12 col-md-8'>
-				{userData === 'Loading' ? (
-					<div className='d-flex justify-content-center'>
-						<div className='spinner-border mx-auto' role='status'>
-							<span className='sr-only'>Loading...</span>
-						</div>
-					</div>
-				) : (
-					<PersonalForumPosts userData={userData} />
-				)}
+				<PersonalForumPosts userData={userData} />
 			</div>
 		</div>
 	);

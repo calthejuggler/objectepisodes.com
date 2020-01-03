@@ -8,28 +8,30 @@ const PersonalForumPosts = props => {
 	const [topicsLoading, setTopicsLoading] = useState(true);
 
 	useEffect(() => {
-		firebase.db
-			.collection('forum')
-			.get()
-			.then(catSnap => {
-				catSnap.forEach(category => {
-					firebase.db
-						.collection('forum')
-						.doc(category.id)
-						.collection('topics')
-						.where('user', '==', userData.id)
-						.get()
-						.then(topicsSnap => {
-							topicsSnap.forEach(topic => {
-								setTopics(prev => [
-									...prev,
-									{ category: category.id, topic: topic },
-								]);
+		if (userData.id) {
+			firebase.db
+				.collection('forum')
+				.get()
+				.then(catSnap => {
+					catSnap.forEach(category => {
+						firebase.db
+							.collection('forum')
+							.doc(category.id)
+							.collection('topics')
+							.where('user', '==', userData.id)
+							.get()
+							.then(topicsSnap => {
+								topicsSnap.forEach(topic => {
+									setTopics(prev => [
+										...prev,
+										{ category: category.id, topic: topic },
+									]);
+								});
+								setTopicsLoading(false);
 							});
-							setTopicsLoading(false);
-						});
+					});
 				});
-			});
+		}
 		return () => {
 			setTopicsLoading(true);
 			setTopics([]);
@@ -38,7 +40,7 @@ const PersonalForumPosts = props => {
 	return (
 		<div className='card'>
 			<div className='card-body'>
-				<h2 className='card-title'>Forum Posts</h2>
+				<h2 className='card-title text-center'>Forum Posts</h2>
 				<div className='row'>
 					<div className='col-4'>
 						<b>Title</b>
@@ -55,7 +57,7 @@ const PersonalForumPosts = props => {
 						<PersonalForumPostsRow
 							key={topic.id}
 							topicData={topic.topic}
-                            category={topic.category}
+							category={topic.category}
 						/>
 					))
 				) : (
