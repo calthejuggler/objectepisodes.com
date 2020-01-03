@@ -6,25 +6,95 @@ const LikeButton = props => {
 
 	const handleLikeClick = e => {
 		e.preventDefault();
-		if (type === 'post') {
-			firebase.db
-				.collection('forum')
-				.doc(currentCategory)
-				.collection('topics')
-				.doc(postID)
-				.update({ likes: firebase.dbFunc.FieldValue.increment(1) });
+		if (likes !== undefined) {
+			if (likes.includes(firebase.auth.currentUser.uid)) {
+				if (type === 'post') {
+					firebase.db
+						.collection('forum')
+						.doc(currentCategory)
+						.collection('topics')
+						.doc(postID)
+						.update({
+							likes: firebase.dbFunc.FieldValue.arrayRemove(
+								firebase.auth.currentUser.uid
+							),
+						});
+				} else {
+					firebase.db
+						.collection('forum-replies')
+						.doc(postID)
+						.update({
+							likes: firebase.dbFunc.FieldValue.arrayRemove(
+								firebase.auth.currentUser.uid
+							),
+						});
+				}
+				firebase.db
+					.collection('users')
+					.doc(firebase.auth.currentUser.uid)
+					.update({
+						likes: firebase.dbFunc.FieldValue.arrayRemove(postID),
+					});
+			} else {
+				if (type === 'post') {
+					firebase.db
+						.collection('forum')
+						.doc(currentCategory)
+						.collection('topics')
+						.doc(postID)
+						.update({
+							likes: firebase.dbFunc.FieldValue.arrayUnion(
+								firebase.auth.currentUser.uid
+							),
+						});
+				} else {
+					firebase.db
+						.collection('forum-replies')
+						.doc(postID)
+						.update({
+							likes: firebase.dbFunc.FieldValue.arrayUnion(
+								firebase.auth.currentUser.uid
+							),
+						});
+				}
+				firebase.db
+					.collection('users')
+					.doc(firebase.auth.currentUser.uid)
+					.update({
+						likes: firebase.dbFunc.FieldValue.arrayUnion(postID),
+					});
+			}
 		} else {
+			if (type === 'post') {
+				firebase.db
+					.collection('forum')
+					.doc(currentCategory)
+					.collection('topics')
+					.doc(postID)
+					.update({
+						likes: [firebase.auth.currentUser.uid],
+					});
+			} else {
+				firebase.db
+					.collection('forum-replies')
+					.doc(postID)
+					.update({
+						likes: [firebase.auth.currentUser.uid],
+					});
+			}
 			firebase.db
-				.collection('forum-replies')
-				.doc(postID)
-				.update({ likes: firebase.dbFunc.FieldValue.increment(1) });
+				.collection('users')
+				.doc(firebase.auth.currentUser.uid)
+				.update({
+					likes: firebase.dbFunc.FieldValue.arrayUnion(postID),
+				});
 		}
 	};
 
 	return (
 		<button onClick={handleLikeClick}>
 			^<br />
-			{!likes ? '0' : likes}
+			{!likes ? 0 : likes.length}
 		</button>
 	);
 };
