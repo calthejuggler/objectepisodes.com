@@ -1,11 +1,12 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/context';
 
 const DashForum = props => {
-	const { history, firebase } = props;
+	const { firebase } = props;
 	const [topLikedTopics, setTopLikedTopics] = useState([]);
+	const [postsLoading, setPostsLoading] = useState(true);
 	useLayoutEffect(() => {
+		setPostsLoading(true);
 		firebase.db
 			.collection('forum')
 			.get()
@@ -38,8 +39,23 @@ const DashForum = props => {
 							});
 						});
 				});
+				setPostsLoading(false);
 			});
 	}, [firebase]);
+	const compare = (a, b) => {
+		const topicA = a.topicData.likeCount;
+		const topicB = b.topicData.likeCount;
+
+		let comparison = 0;
+		if (topicA > topicB) {
+			comparison = 1;
+		} else if (topicA < topicB) {
+			comparison = -1;
+		}
+
+		return comparison;
+	};
+
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>
@@ -60,35 +76,52 @@ const DashForum = props => {
 									</div>
 								</div>
 							</li>
-							{topLikedTopics.map(topic => (
-								<li className='list-group-item' key={topic.id}>
-									<div className='row align-items-center'>
-										<div className='col-4'>
-											<a
-												href={
-													'#/forum/' +
-													topic.category +
-													'/' +
-													topic.id
-												}>
-												{topic.topicData.title}
-											</a>
-										</div>
-										<div className='col-4'>
-											<a
-												href={
-													'#/user/' +
-													topic.user.username
-												}>
-												{topic.user.username}
-											</a>
-										</div>
-										<div className='col-4'>
-											{topic.topicData.likeCount}
-										</div>
+							{postsLoading ? (
+								<div className='d-flex justify-content-center'>
+									<div
+										className='spinner-border mx-auto'
+										role='status'>
+										<span className='sr-only'>
+											Loading...
+										</span>
 									</div>
-								</li>
-							))}
+								</div>
+							) : (
+								topLikedTopics
+									.sort(compare)
+									.slice(-3)
+									.map(topic => (
+										<li
+											className='list-group-item'
+											key={topic.id}>
+											<div className='row align-items-center'>
+												<div className='col-4'>
+													<a
+														href={
+															'#/forum/' +
+															topic.category +
+															'/' +
+															topic.id
+														}>
+														{topic.topicData.title}
+													</a>
+												</div>
+												<div className='col-4'>
+													<a
+														href={
+															'#/user/' +
+															topic.user.username
+														}>
+														{topic.user.username}
+													</a>
+												</div>
+												<div className='col-4'>
+													{topic.topicData.likeCount}
+												</div>
+											</div>
+										</li>
+									))
+							)}
 						</ul>
 					</div>
 				</div>
@@ -97,4 +130,4 @@ const DashForum = props => {
 	);
 };
 
-export default withFirebase(withRouter(DashForum));
+export default withFirebase(DashForum);
