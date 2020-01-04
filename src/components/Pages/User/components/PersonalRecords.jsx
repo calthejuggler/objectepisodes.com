@@ -11,6 +11,7 @@ const PersonalRecords = props => {
 			firebase.db
 				.collection('records')
 				.where('userID', '==', userData.id)
+				.orderBy('recorded', 'desc')
 				.onSnapshot(personalBestsSnap => {
 					setPersonalBests([]);
 					personalBestsSnap.forEach(personalBest =>
