@@ -19,7 +19,7 @@ const Header = props => {
 		return () => {};
 	}, [firebase.db, user]);
 	return (
-		<nav className='navbar navbar-light d-block'>
+		<nav className='navbar navbar-light d-block' id="header">
 			<div className='row align-items-center'>
 				<div className='col-12 col-md-4 offset-md-4'>
 					<a href='/' className='navbar-brand d-block'>

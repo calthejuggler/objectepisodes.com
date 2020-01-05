@@ -58,7 +58,7 @@ const DashRecords = props => {
 	return (
 		<div className='card mt-3'>
 			<div className='card-body text-center'>
-				<h3 className='card-title'>Top Records</h3>
+				<h4 className='card-title'>Top Records</h4>
 				<ul className='list-group list-group-flush text-left'>
 					<li className='list-group-item'>
 						<div className='row align-items-center'>
