@@ -19,7 +19,7 @@ const PersonalForumPosts = props => {
 							.doc(category.id)
 							.collection('topics')
 							.where('user', '==', userData.id)
-							.orderBy('posted', 'desc')
+							.orderBy('posted', 'desc').limit(4)
 							.get()
 							.then(topicsSnap => {
 								topicsSnap.forEach(topic => {
