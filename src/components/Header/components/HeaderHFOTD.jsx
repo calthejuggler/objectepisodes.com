@@ -2,9 +2,9 @@ import React from 'react';
 
 const HeaderHFOTD = () => {
 	return (
-		<div className='card h-100'>
+		<div className='card h-100 text-center'>
 			<div className='card-body'>
-				<h4 className='text-center card-title'>
+				<h4 className='card-title'>
 					Historical Fact of the Day
 				</h4>
 				<p className='card-text'>
