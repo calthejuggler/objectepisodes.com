@@ -15,6 +15,12 @@ const DashNavigation = () => {
 					<li className='list-group-item'>
 						<a href='/'>Home</a>
 					</li>
+					<li className='list-group-item'>
+						<a href='/'>Home</a>
+					</li>
+					<li className='list-group-item'>
+						<a href='/'>Home</a>
+					</li>
 				</ul>
 			</div>
 		</div>
