@@ -12,10 +12,10 @@ const Dashboard = () => {
 				<div className='col-12 col-md-4'>
 					<DashForum />
 				</div>
-				<div className='col-12 col-md-6'>
+				<div className='col-12 col-md-5'>
 					<DashPOTD />
 				</div>
-				<div className='col-12 col-md-2'>
+				<div className='col-12 col-md-3'>
 					<DashHFOTD />
 				</div>
 			</div>
