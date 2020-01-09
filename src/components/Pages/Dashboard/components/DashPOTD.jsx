@@ -5,7 +5,7 @@ const DashPOTD = () => {
         <div className="card h-100">
             <div className="card-body">
                 <h4 className="card-title text-center">Photo of the Day</h4>
-                <img src="https://via.placeholder.com/800x350" alt="Placeholder" className="img-fluid"/>
+                <img src="https://via.placeholder.com/800x400" alt="Placeholder" className="img-fluid"/>
             </div>
         </div>
     )

@@ -7,7 +7,7 @@ const DashNavigation = () => {
 				<h4 className='card-title'>Site Navigation</h4>
 				<ul className='list-group'>
 					<li className='list-group-item'>
-						<a href='/'>Home</a>
+						<a href='/'>Juggling Clubs (Coming Soon)</a>
 					</li>
 					<li className='list-group-item'>
 						<a href='/'>Home</a>
