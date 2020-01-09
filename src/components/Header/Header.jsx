@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import logo from '../../images/objectepisodes_logo.jpg';
 import { withRouter } from 'react-router-dom';
+import HeaderHFOTD from './components/HeaderHFOTD';
 
 const Header = props => {
 	const { user, firebase } = props;
@@ -21,7 +22,7 @@ const Header = props => {
 	return (
 		<nav className='navbar navbar-light d-block'>
 			<div className='row align-items-center'>
-				<div className='col-12 col-md-4 offset-md-4'>
+				<div className='col-12 col-md-4 order-1 order-md-2'>
 					<a href='/' className='navbar-brand d-block'>
 						<img
 							src={logo}
@@ -31,7 +32,7 @@ const Header = props => {
 						/>
 					</a>
 				</div>
-				<div className='col-12 col-md-4'>
+				<div className='col-12 col-md-4 order-2 order-md-1'>
 					{userData ? (
 						<div className='text-center'>
 							Logged in as{' '}
@@ -61,6 +62,9 @@ const Header = props => {
 							</div>
 						</div>
 					)}
+				</div>
+				<div className='col-12 col-md-4 order-3 order-md-3'>
+					<HeaderHFOTD />
 				</div>
 			</div>
 		</nav>

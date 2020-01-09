@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DashHFOTD = () => {
+const HeaderHFOTD = () => {
 	return (
 		<div className='card h-100'>
 			<div className='card-body'>
@@ -17,4 +17,4 @@ const DashHFOTD = () => {
 	);
 };
 
-export default DashHFOTD;
+export default HeaderHFOTD;
