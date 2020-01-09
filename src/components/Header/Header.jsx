@@ -20,7 +20,7 @@ const Header = props => {
 		return () => {};
 	}, [firebase.db, user]);
 	return (
-		<nav className='navbar navbar-light d-block'>
+		<nav className='navbar navbar-light d-block mt-1'>
 			<div className='row align-items-center'>
 				<div className='col-12 col-md-4 order-1 order-md-2'>
 					<a href='/' className='navbar-brand d-block'>
@@ -35,18 +35,25 @@ const Header = props => {
 				<div className='col-12 col-md-4 order-2 order-md-1'>
 					{userData ? (
 						<div className='text-center'>
-							Logged in as{' '}
-							<a href={'#/user/' + userData.username}>
-								{user.displayName}
-							</a>
-							<br />
-							<button
-								className='btn btn-link btn-sm'
-								onClick={() => {
-									props.firebase.doSignOut();
-								}}>
-								Sign Out?
-							</button>
+							<img
+								src='https://via.placeholder.com/50x50'
+								alt='profile pic'
+								className='rounded-circle'
+							/>
+							<p>
+								Logged in as{' '}
+								<a href={'#/user/' + userData.username}>
+									{user.displayName}
+								</a>
+								<br />
+								<button
+									className='btn btn-link btn-sm'
+									onClick={() => {
+										props.firebase.doSignOut();
+									}}>
+									Sign Out?
+								</button>
+							</p>
 						</div>
 					) : (
 						<div className='d-flex justify-content-center'>
