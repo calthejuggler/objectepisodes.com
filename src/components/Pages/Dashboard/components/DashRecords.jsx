@@ -56,7 +56,7 @@ const DashRecords = props => {
 			});
 	}, [firebase]);
 	return (
-		<div className='card mt-3 h-100'>
+		<div className='card h-100'>
 			<div className='card-body text-center'>
 				<h3 className='card-title'>Top Records</h3>
 				<ul className='list-group list-group-flush text-left'>

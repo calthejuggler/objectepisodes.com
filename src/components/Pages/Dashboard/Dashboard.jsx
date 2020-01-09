@@ -8,7 +8,7 @@ import DashEvent from './components/DashEvent';
 const Dashboard = () => {
 	return (
 		<>
-			<div className='row'>
+			<div className='row my-3'>
 				<div className='col-12 col-md-4'>
 					<DashPOTD />
 				</div>
@@ -16,7 +16,7 @@ const Dashboard = () => {
 					<DashForum />
 				</div>
 			</div>
-			<div className='row'>
+			<div className='row my-3'>
 				<div className='col-12 col-md-4'>
 					<DashRecords />
 				</div>
