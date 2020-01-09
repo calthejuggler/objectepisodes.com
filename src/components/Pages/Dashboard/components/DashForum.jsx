@@ -57,7 +57,7 @@ const DashForum = props => {
 	};
 
 	return (
-		<div className='card'>
+		<div className='card h-100'>
 			<div className='card-body text-center'>
 				<h4 className='card-title'>Top Forum Posts</h4>
 				<ul className='list-group list-group-flush'>
