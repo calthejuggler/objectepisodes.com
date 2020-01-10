@@ -110,9 +110,24 @@ const EditProfilePersonalForm = props => {
 									});
 							}}
 						/>
-						{usernameTaken && (
+
+						{usernameTaken ? (
 							<div className='alert alert-danger'>
 								This username is taken.
+								{usernameLoading && (
+									<div class='spinner-border' role='status'>
+										<span class='sr-only'>Loading...</span>
+									</div>
+								)}
+							</div>
+						) : (
+							<div className='alert alert-success'>
+								This username is available.
+								{usernameLoading && (
+									<div class='spinner-border' role='status'>
+										<span class='sr-only'>Loading...</span>
+									</div>
+								)}
 							</div>
 						)}
 					</div>
