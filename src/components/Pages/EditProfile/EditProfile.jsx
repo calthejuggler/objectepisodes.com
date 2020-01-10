@@ -12,10 +12,14 @@ const EditProfile = props => {
 							Edit Navigation
 						</h4>
 						<ul className='list-group'>
-							<li className='list-group-item'>
+							<li
+								className='list-group-item'
+								onClick={() => setCurrentSetting('personal')}>
 								Personal Information
 							</li>
-							<li className='list-group-item'>
+							<li
+								className='list-group-item'
+								onClick={() => setCurrentSetting('security')}>
 								Password & Security
 							</li>
 						</ul>
