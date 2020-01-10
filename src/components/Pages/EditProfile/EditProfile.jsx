@@ -5,14 +5,18 @@ import { withFirebase } from '../../Firebase/context';
 import EditProfileNav from './components/EditProfileNav';
 import EditProfilePersonalForm from './components/EditProfilePersonalForm';
 import { withAuth } from '../../Session/withAuth';
+import EditProfileForm from './components/EditProfileForm';
 
 const EditProfile = props => {
 	const { firebase, user } = props;
-	const [currentSetting, setCurrentSetting] = useState('personal');
+	const [currentSetting, setCurrentSetting] = useState(
+		'Personal Information'
+	);
 
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
 	const [email, setEmail] = useState('');
+	const [username, setUsername] = useState('');
 
 	const [error, setError] = useState(null);
 
@@ -26,6 +30,7 @@ const EditProfile = props => {
 					firstname: firstname,
 					lastname: lastname,
 					email: email,
+					username: username,
 				});
 		}
 	};
@@ -47,6 +52,7 @@ const EditProfile = props => {
 						setEmail(userSnap.data().email);
 						setFirstname(userSnap.data().firstname);
 						setLastname(userSnap.data().lastname);
+						setUsername(userSnap.data().username);
 					});
 			}
 		},
@@ -74,15 +80,18 @@ const EditProfile = props => {
 					/>
 				</div>
 				<div className='col-12 mt-2 mt-md-0 col-md-8'>
-					<EditProfilePersonalForm
+					<EditProfileForm
 						firstname={firstname}
 						lastname={lastname}
 						email={email}
+						username={username}
 						setFirstname={setFirstname}
 						setLastname={setLastname}
 						setEmail={setEmail}
+						setUsername={setUsername}
 						saveChanges={saveChanges}
 						loadUserInfo={loadUserInfo}
+						currentSetting={currentSetting}
 					/>
 				</div>
 			</div>

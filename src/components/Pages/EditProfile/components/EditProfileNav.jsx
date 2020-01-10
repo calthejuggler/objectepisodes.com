@@ -9,12 +9,16 @@ const EditProfileNav = props => {
 				<ul className='list-group'>
 					<li
 						className='list-group-item'
-						onClick={() => setCurrentSetting('personal')}>
+						onClick={() =>
+							setCurrentSetting('Personal Information')
+						}>
 						Personal Information
 					</li>
 					<li
 						className='list-group-item'
-						onClick={() => setCurrentSetting('security')}>
+						onClick={() =>
+							setCurrentSetting('Password & Security')
+						}>
 						Password & Security
 					</li>
 				</ul>
