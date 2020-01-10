@@ -1,11 +1,25 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 
 const UserDetails = props => {
-	const { userData } = props;
+	const { userData, ownProfile, history } = props;
 	return (
 		<div className='card'>
 			<div className='card-body'>
-				<h2 className="card-title text-center">User Details</h2>
+				<img
+					src='https://via.placeholder.com/150x150'
+					alt='Profile pic placeholder'
+					className='rounded-circle d-block mx-auto'
+				/>
+				{ownProfile && (
+					<button
+						className='btn btn-primary d-block mt-2 mx-auto'
+						onClick={() => history.push('/editprofile')}>
+						Edit Profile
+					</button>
+				)}
+				<hr />
+				<h2 className='card-title text-center'>User Details</h2>
 				{userData === 'Loading' ? (
 					<div className='d-flex justify-content-center'>
 						<div className='spinner-border mx-auto' role='status'>
@@ -44,4 +58,4 @@ const UserDetails = props => {
 	);
 };
 
-export default UserDetails;
+export default withRouter(UserDetails);

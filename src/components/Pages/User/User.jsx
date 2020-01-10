@@ -44,7 +44,7 @@ const User = props => {
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>
-				<UserDetails userData={userData} />
+				<UserDetails userData={userData} ownProfile={ownProfile} />
 				<PersonalRecords userData={userData} ownProfile={ownProfile} />
 			</div>
 			<div className='col-12 col-md-8'>

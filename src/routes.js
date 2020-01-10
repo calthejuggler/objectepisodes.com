@@ -4,6 +4,7 @@ import Forgot from './components/Pages/Forgot/Forgot';
 import Forum from './components/Pages/Forum/Forum';
 import Dashboard from './components/Pages/Dashboard/Dashboard';
 import User from './components/Pages/User/User';
+import EditProfile from './components/Pages/EditProfile/EditProfile';
 
 const routes = [
 	{
@@ -35,6 +36,11 @@ const routes = [
 		name: 'Forum',
 		path: '/forum',
 		component: Forum,
+	},
+	{
+		name: 'Edit Profile',
+		path: '/editprofile',
+		component: EditProfile,
 	},
 ];
 
