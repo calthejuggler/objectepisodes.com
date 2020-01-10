@@ -8,6 +8,8 @@ const EditProfilePersonalForm = props => {
 		setFirstname,
 		setLastname,
 		setEmail,
+		saveChanges,
+		loadUserInfo,
 	} = props;
 	return (
 		<div className='card'>
@@ -73,6 +75,24 @@ const EditProfilePersonalForm = props => {
 								onChange={e => setEmail(e.target.value)}
 							/>
 						</div>
+					</div>
+				</div>
+				<div className='row'>
+					<div className='col-6'>
+						<button
+							type='submit'
+							className='btn btn-secondary'
+							onClick={loadUserInfo}>
+							Cancel
+						</button>
+					</div>
+					<div className='col-6'>
+						<button
+							type='submit'
+							className='btn btn-primary'
+							onClick={saveChanges}>
+							Save Changes
+						</button>
 					</div>
 				</div>
 			</div>
