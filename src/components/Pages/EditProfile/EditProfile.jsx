@@ -14,16 +14,27 @@ const EditProfile = props => {
 	const [lastname, setLastname] = useState('');
 	const [email, setEmail] = useState('');
 
+	const [error, setError] = useState(null);
+
 	const saveChanges = e => {
 		e.preventDefault();
-		firebase.db
-			.collection('users')
-			.doc(user.uid)
-			.update({
-				firstname: firstname,
-				lastname: lastname,
-				email: email,
-			});
+		if (validateForm()) {
+			firebase.db
+				.collection('users')
+				.doc(user.uid)
+				.update({
+					firstname: firstname,
+					lastname: lastname,
+					email: email,
+				});
+		}
+	};
+
+	const validateForm = () => {
+		if (firstname === '' || lastname === '') {
+			setError('You must have both a firstname and a lastname.');
+			return false;
+		}
 	};
 
 	const loadUserInfo = useCallback(
@@ -47,26 +58,35 @@ const EditProfile = props => {
 	}, [loadUserInfo]);
 
 	return (
-		<div className='row'>
-			<div className='col-12 col-md-4'>
-				<EditProfileNav
-					setCurrentSetting={setCurrentSetting}
-					currentSetting={currentSetting}
-				/>
+		<>
+			{error && (
+				<div className='row'>
+					<div className='col-12'>
+						<div className='alert alert-danger'>{error}</div>
+					</div>
+				</div>
+			)}
+			<div className='row'>
+				<div className='col-12 col-md-4'>
+					<EditProfileNav
+						setCurrentSetting={setCurrentSetting}
+						currentSetting={currentSetting}
+					/>
+				</div>
+				<div className='col-12 mt-2 mt-md-0 col-md-8'>
+					<EditProfilePersonalForm
+						firstname={firstname}
+						lastname={lastname}
+						email={email}
+						setFirstname={setFirstname}
+						setLastname={setLastname}
+						setEmail={setEmail}
+						saveChanges={saveChanges}
+						loadUserInfo={loadUserInfo}
+					/>
+				</div>
 			</div>
-			<div className='col-12 mt-2 mt-md-0 col-md-8'>
-				<EditProfilePersonalForm
-					firstname={firstname}
-					lastname={lastname}
-					email={email}
-					setFirstname={setFirstname}
-					setLastname={setLastname}
-					setEmail={setEmail}
-					saveChanges={saveChanges}
-					loadUserInfo={loadUserInfo}
-				/>
-			</div>
-		</div>
+		</>
 	);
 };
 
