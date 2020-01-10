@@ -5,9 +5,9 @@ const EditProfileForm = props => {
 	const {
 		firstname,
 		lastname,
-        email,
-        username,
-        setUsername,
+		email,
+		username,
+		setUsername,
 		setFirstname,
 		setLastname,
 		setEmail,
@@ -19,16 +19,18 @@ const EditProfileForm = props => {
 		<div className='card'>
 			<div className='card-body'>
 				<h4 className='card-title text-center'>{currentSetting}</h4>
-				<EditProfilePersonalForm
-					firstname={firstname}
-					lastname={lastname}
-					email={email}
-					setFirstname={setFirstname}
-					setLastname={setLastname}
-					setEmail={setEmail}
-                    username={username}
-                    setUsername={setUsername}
-				/>
+				{currentSetting === 'Personal Information' && (
+					<EditProfilePersonalForm
+						firstname={firstname}
+						lastname={lastname}
+						email={email}
+						setFirstname={setFirstname}
+						setLastname={setLastname}
+						setEmail={setEmail}
+						username={username}
+						setUsername={setUsername}
+					/>
+				)}
 				<div className='row'>
 					<div className='col-6'>
 						<button
