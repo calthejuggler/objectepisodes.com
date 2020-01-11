@@ -115,8 +115,12 @@ const EditProfilePersonalForm = props => {
 							<div className='alert alert-danger'>
 								This username is taken.
 								{usernameLoading && (
-									<div class='spinner-border' role='status'>
-										<span class='sr-only'>Loading...</span>
+									<div
+										className='spinner-border'
+										role='status'>
+										<span className='sr-only'>
+											Loading...
+										</span>
 									</div>
 								)}
 							</div>
@@ -124,8 +128,12 @@ const EditProfilePersonalForm = props => {
 							<div className='alert alert-success'>
 								This username is available.
 								{usernameLoading && (
-									<div class='spinner-border' role='status'>
-										<span class='sr-only'>Loading...</span>
+									<div
+										className='spinner-border'
+										role='status'>
+										<span className='sr-only'>
+											Loading...
+										</span>
 									</div>
 								)}
 							</div>
