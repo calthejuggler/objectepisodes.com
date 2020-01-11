@@ -69,21 +69,6 @@ const EditProfilePersonalForm = props => {
 			<div className='row'>
 				<div className='col-12'>
 					<div className='form-group'>
-						<label htmlFor='email'>Email Address:</label>
-						<input
-							type='email'
-							name='email'
-							id='email'
-							className='form-control'
-							value={email}
-							onChange={e => setEmail(e.target.value)}
-						/>
-					</div>
-				</div>
-			</div>
-			<div className='row'>
-				<div className='col-12'>
-					<div className='form-group'>
 						<label htmlFor='username'>Username:</label>
 						<input
 							type='text'
@@ -138,6 +123,21 @@ const EditProfilePersonalForm = props => {
 								)}
 							</div>
 						)}
+					</div>
+				</div>
+			</div>
+			<div className='row'>
+				<div className='col-12'>
+					<div className='form-group'>
+						<label htmlFor='email'>Email Address:</label>
+						<input
+							type='email'
+							name='email'
+							id='email'
+							className='form-control'
+							value={email}
+							onChange={e => setEmail(e.target.value)}
+						/>
 					</div>
 				</div>
 			</div>
