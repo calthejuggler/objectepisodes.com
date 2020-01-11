@@ -8,10 +8,6 @@ const EditProfileForm = props => {
 		lastname,
 		email,
 		username,
-		password,
-		confirmPassword,
-		setConfirmPassword,
-		setPassword,
 		setUsername,
 		setFirstname,
 		setLastname,
@@ -37,12 +33,7 @@ const EditProfileForm = props => {
 					/>
 				)}
 				{currentSetting === 'Password & Security' && (
-					<EditProfilePasswordForm
-						confirmPassword={confirmPassword}
-						setConfirmPassword={setConfirmPassword}
-						password={password}
-						setPassword={setPassword}
-					/>
+					<EditProfilePasswordForm />
 				)}
 				<div className='row'>
 					<div className='col-6'>

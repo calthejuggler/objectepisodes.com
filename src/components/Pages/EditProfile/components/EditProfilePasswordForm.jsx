@@ -1,37 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { withAuth } from '../../../Session/withAuth';
+import { withFirebase } from '../../../Firebase/context';
 
 const EditProfilePasswordForm = props => {
-	const { password, setPassword, confirmPassword, setConfirmPassword } = props;
+	const { firebase, user } = props;
+	const [emailSent, setEmailSent] = useState(false);
+	const [error, setError] = useState(null);
 	return (
 		<>
 			<hr />
 			<h5 className='text-center'>Account Details</h5>
-			<div className='row'>
+			<div className='row align-items-center'>
 				<div className='col'>
-					<div className='form-group'>
-						<label htmlFor='firstname'>Password:</label>
-						<input
-							type='password'
-							value={password}
-							onChange={e => setPassword(e.target.value)}
-							className='form-control'
-						/>
-					</div>
+					<p>Wish to change your password?</p>
 				</div>
 				<div className='col'>
-					<div className='form-group'>
-						<label htmlFor='firstname'>Confirm Password:</label>
-						<input
-							type='password'
-							value={confirmPassword}
-							onChange={e => setConfirmPassword(e.target.value)}
-							className='form-control'
-						/>
-					</div>
+					<button
+						className='btn btn-primary'
+						onClick={() =>
+							firebase.auth
+								.sendPasswordResetEmail(user.email)
+								.then(() => setEmailSent(true))
+								.catch(e => setError(e.message))
+						}>
+						Click Here
+					</button>
 				</div>
 			</div>
+			{emailSent && (
+				<div className='alert alert-success'>
+					You have been sent a password reset email to {user.email}
+				</div>
+			)}
+			{error && (
+				<div className='alert alert-danger'>
+					There was an error while sending your password reset email
+				</div>
+			)}
 		</>
 	);
 };
 
-export default EditProfilePasswordForm;
+export default withAuth(withFirebase(EditProfilePasswordForm));

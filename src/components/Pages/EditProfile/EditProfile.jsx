@@ -16,8 +16,6 @@ const EditProfile = props => {
 	const [lastname, setLastname] = useState('');
 	const [email, setEmail] = useState('');
 	const [username, setUsername] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
 
 	const [error, setError] = useState(null);
 
@@ -37,9 +35,37 @@ const EditProfile = props => {
 	};
 
 	const validateForm = () => {
+		let currentUID = user.uid;
+		let newUsernameUID = '';
+		let usernameTaken = false;
+		firebase.db
+			.collection('users')
+			.where('username', '==', username)
+			.get()
+			.then(docsRef => {
+				newUsernameUID = docsRef.docs[0].id;
+				if (docsRef.empty) {
+					usernameTaken = false;
+				} else if (newUsernameUID === currentUID) {
+					usernameTaken = false;
+				} else {
+					usernameTaken = true;
+				}
+			});
 		if (firstname === '' || lastname === '') {
 			setError('You must have both a firstname and a lastname.');
 			return false;
+		} else if (
+			/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) === false
+		) {
+			setError('The email address you provided is invalid.');
+			return false;
+		} else if (usernameTaken === true) {
+			setError('Please choose a different username.');
+			return false;
+		} else {
+			setError(null);
+			return true;
 		}
 	};
 
@@ -86,10 +112,6 @@ const EditProfile = props => {
 						lastname={lastname}
 						email={email}
 						username={username}
-						password={password}
-						confirmPassword={confirmPassword}
-						setConfirmPassword={setConfirmPassword}
-						setPassword={setPassword}
 						setFirstname={setFirstname}
 						setLastname={setLastname}
 						setEmail={setEmail}
