@@ -1,6 +1,7 @@
 import React from 'react';
 import EditProfilePersonalForm from './EditProfilePersonalForm';
 import EditProfilePasswordForm from './EditProfilePasswordForm';
+import EditProfileButtons from './EditProfileButtons';
 
 const EditProfileForm = props => {
 	const {
@@ -35,24 +36,12 @@ const EditProfileForm = props => {
 				{currentSetting === 'Password & Security' && (
 					<EditProfilePasswordForm />
 				)}
-				<div className='row'>
-					<div className='col-6'>
-						<button
-							type='submit'
-							className='btn btn-secondary d-block ml-auto'
-							onClick={loadUserInfo}>
-							Cancel
-						</button>
-					</div>
-					<div className='col-6'>
-						<button
-							type='submit'
-							className='btn btn-primary d-block mr-auto'
-							onClick={saveChanges}>
-							Save Changes
-						</button>
-					</div>
-				</div>
+				{currentSetting !== 'Password & Security' && (
+					<EditProfileButtons
+						loadUserInfo={loadUserInfo}
+						saveChanges={saveChanges}
+					/>
+				)}
 			</div>
 		</div>
 	);
