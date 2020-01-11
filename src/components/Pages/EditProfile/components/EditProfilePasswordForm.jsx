@@ -9,14 +9,15 @@ const EditProfilePasswordForm = props => {
 	return (
 		<>
 			<hr />
-			<h5 className='text-center'>Account Details</h5>
 			<div className='row align-items-center'>
-				<div className='col'>
-					<p>Wish to change your password?</p>
+				<div className='col h-100'>
+					<p className='d-block m-auto'>
+						Wish to change your password?
+					</p>
 				</div>
-				<div className='col'>
+				<div className='col h-100'>
 					<button
-						className='btn btn-primary'
+						className='btn btn-primary d-block m-auto'
 						onClick={() =>
 							firebase.auth
 								.sendPasswordResetEmail(user.email)
@@ -28,12 +29,12 @@ const EditProfilePasswordForm = props => {
 				</div>
 			</div>
 			{emailSent && (
-				<div className='alert alert-success'>
+				<div className='alert alert-success mt-2'>
 					You have been sent a password reset email to {user.email}
 				</div>
 			)}
 			{error && (
-				<div className='alert alert-danger'>
+				<div className='alert alert-danger mt-2'>
 					There was an error while sending your password reset email
 				</div>
 			)}
