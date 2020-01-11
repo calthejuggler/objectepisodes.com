@@ -1,7 +1,7 @@
 import React from 'react';
 
 const EditProfileNav = props => {
-	const { setCurrentSetting, currentSetting } = props;
+	const { setCurrentSetting } = props;
 	return (
 		<div className='card'>
 			<div className='card-body'>
