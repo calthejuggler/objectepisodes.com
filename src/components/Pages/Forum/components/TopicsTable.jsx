@@ -11,10 +11,10 @@ const TopicsTable = props => {
 	const [topicLoading, setTopicLoading] = useState(true);
 
 	useLayoutEffect(() => {
+		console.dir(currentCategory);
 		return firebase.db
 			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
+			.where('category', '==', currentCategory)
 			.orderBy('posted', 'desc')
 			.onSnapshot(topicsSnap => {
 				if (topicsSnap.empty) {

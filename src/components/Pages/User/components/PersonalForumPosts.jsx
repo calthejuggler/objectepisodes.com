@@ -11,26 +11,15 @@ const PersonalForumPosts = props => {
 		if (userData.id) {
 			firebase.db
 				.collection('forum')
+				.where('user', '==', userData.id)
+				.orderBy('posted', 'desc')
+				.limit(12)
 				.get()
-				.then(catSnap => {
-					catSnap.forEach(category => {
-						firebase.db
-							.collection('forum')
-							.doc(category.id)
-							.collection('topics')
-							.where('user', '==', userData.id)
-							.orderBy('posted', 'desc').limit(4)
-							.get()
-							.then(topicsSnap => {
-								topicsSnap.forEach(topic => {
-									setTopics(prev => [
-										...prev,
-										{ category: category.id, topic: topic },
-									]);
-								});
-								setTopicsLoading(false);
-							});
+				.then(topicsSnap => {
+					topicsSnap.forEach(topic => {
+						setTopics(prev => [...prev, topic]);
 					});
+					setTopicsLoading(false);
 				});
 		}
 		return () => {
@@ -60,9 +49,9 @@ const PersonalForumPosts = props => {
 						</li>
 						{topics.map(topic => (
 							<PersonalForumPostsRow
-								key={topic.topic.id}
-								topicData={topic.topic}
-								category={topic.category}
+								key={topic.id}
+								topicData={topic}
+								category={topic.data().category}
 							/>
 						))}
 					</ul>

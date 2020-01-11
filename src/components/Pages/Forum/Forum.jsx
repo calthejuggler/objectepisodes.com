@@ -21,7 +21,7 @@ const Forum = props => {
 		} else if (locationArray.length === 2)
 			setCurrentCategory(locationArray[1]);
 		firebase.db
-			.collection('forum')
+			.collection('forum-categories')
 			.get()
 			.then(categoriesSnap => {
 				categoriesSnap.forEach(categorySnap =>

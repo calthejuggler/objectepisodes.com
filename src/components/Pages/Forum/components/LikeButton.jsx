@@ -2,7 +2,7 @@ import React from 'react';
 import { withFirebase } from '../../../Firebase/context';
 
 const LikeButton = props => {
-	const { firebase, postID, likes, type, currentCategory } = props;
+	const { firebase, postID, likes, type } = props;
 
 	const handleLikeClick = e => {
 		e.preventDefault();
@@ -11,8 +11,6 @@ const LikeButton = props => {
 				if (type === 'post') {
 					firebase.db
 						.collection('forum')
-						.doc(currentCategory)
-						.collection('topics')
 						.doc(postID)
 						.update({
 							likes: firebase.dbFunc.FieldValue.arrayRemove(
@@ -41,8 +39,6 @@ const LikeButton = props => {
 				if (type === 'post') {
 					firebase.db
 						.collection('forum')
-						.doc(currentCategory)
-						.collection('topics')
 						.doc(postID)
 						.update({
 							likes: firebase.dbFunc.FieldValue.arrayUnion(
@@ -72,8 +68,6 @@ const LikeButton = props => {
 			if (type === 'post') {
 				firebase.db
 					.collection('forum')
-					.doc(currentCategory)
-					.collection('topics')
 					.doc(postID)
 					.update({
 						likes: [firebase.auth.currentUser.uid],

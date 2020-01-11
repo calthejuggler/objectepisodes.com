@@ -14,8 +14,6 @@ const Topic = props => {
 	useLayoutEffect(() => {
 		return firebase.db
 			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
 			.doc(currentTopic)
 			.onSnapshot(topicSnap => {
 				setPost(null);
@@ -100,7 +98,6 @@ const Topic = props => {
 											postID={post.id}
 											likes={post.data.likes}
 											type='post'
-											currentCategory={currentCategory}
 										/>
 									</div>
 									<div className='col-12'>

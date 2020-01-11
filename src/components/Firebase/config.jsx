@@ -19,7 +19,7 @@ class Firebase extends Component {
 		app.initializeApp(config);
 		this.auth = app.auth();
 		this.db = app.firestore();
-		this.dbFunc = app.firestore
+		this.dbFunc = app.firestore;
 	}
 
 	// Auth functions
@@ -69,16 +69,13 @@ class Firebase extends Component {
 	getForumPostFromTopic = async (currentCategory, currentTopic) => {
 		return await this.db
 			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
 			.doc(currentTopic.trim())
 			.get();
 	};
 	getForumTopicsFromCategory = async currentCategory => {
 		return await this.db
 			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
+			.where('category', '==', currentCategory)
 			.get();
 	};
 	getUserDataFromUID = async userID => {

@@ -14,10 +14,9 @@ const AddTopic = props => {
 		e.preventDefault();
 		firebase.db
 			.collection('forum')
-			.doc(currentCategory)
-			.collection('topics')
 			.add({
 				content: content,
+				category: currentCategory,
 				title: title,
 				posted: new Date(),
 				lastPost: new Date(),

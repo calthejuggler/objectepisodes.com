@@ -19,15 +19,13 @@ const AddComment = props => {
 				setComment('');
 				firebase.db
 					.collection('forum')
-					.doc(currentCategory)
-					.collection('topics')
 					.doc(currentTopic.trim())
 					.update({
 						lastPost: new Date(),
 					})
 					.then(() => {
 						firebase.db
-							.collection('forum')
+							.collection('forum-categories')
 							.doc(currentCategory)
 							.update({ lastPost: new Date() })
 							.then(() => {
