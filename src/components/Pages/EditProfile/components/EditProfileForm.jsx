@@ -1,5 +1,6 @@
 import React from 'react';
 import EditProfilePersonalForm from './EditProfilePersonalForm';
+import EditProfilePasswordForm from './EditProfilePasswordForm';
 
 const EditProfileForm = props => {
 	const {
@@ -7,6 +8,10 @@ const EditProfileForm = props => {
 		lastname,
 		email,
 		username,
+		password,
+		confirmPassword,
+		setConfirmPassword,
+		setPassword,
 		setUsername,
 		setFirstname,
 		setLastname,
@@ -29,6 +34,14 @@ const EditProfileForm = props => {
 						setEmail={setEmail}
 						username={username}
 						setUsername={setUsername}
+					/>
+				)}
+				{currentSetting === 'Password & Security' && (
+					<EditProfilePasswordForm
+						confirmPassword={confirmPassword}
+						setConfirmPassword={setConfirmPassword}
+						password={password}
+						setPassword={setPassword}
 					/>
 				)}
 				<div className='row'>
