@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
+import UploadProfilePicture from './UploadProfilePicture';
 
 const EditProfilePersonalForm = props => {
 	const {
@@ -16,30 +17,12 @@ const EditProfilePersonalForm = props => {
 
 	const [usernameTaken, setUsernameTaken] = useState(false);
 	const [usernameLoading, setUsernameLoading] = useState(false);
+
 	return (
 		<>
 			<hr />
 			<h5 className='text-center'>Profile Picture</h5>
-			<div className='row align-items-center'>
-				<div className='col-12 col-md-4'>
-					<img
-						src='https://via.placeholder.com/75x75'
-						alt='Profile pic placeholder'
-						className='rounded-circle d-block mx-auto'
-					/>
-				</div>
-				<div className='col-12 col-md-8'>
-					<div className='form-group'>
-						<label htmlFor='profilepic'>Upload Image</label>
-						<input
-							type='file'
-							name='profilepic'
-							id='profilePic'
-							className='form-control-file'
-						/>
-					</div>
-				</div>
-			</div>
+			<UploadProfilePicture />
 			<hr />
 			<h5 className='text-center'>Account Details</h5>
 			<div className='row'>
