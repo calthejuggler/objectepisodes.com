@@ -9,52 +9,29 @@ const DashForum = props => {
 		setPostsLoading(true);
 		firebase.db
 			.collection('forum')
+			.orderBy('likeCount')
+			.limit(6)
 			.get()
-			.then(catSnap => {
-				catSnap.forEach(category => {
-					firebase.db
-						.collection('forum')
-						.doc(category.id)
-						.collection('topics')
-						.orderBy('likeCount')
-						.limit(3)
-						.get()
-						.then(likedTopicsSnap => {
-							likedTopicsSnap.forEach(likedTopicSnap => {
-								firebase
-									.getUserDataFromUID(
-										likedTopicSnap.data().user
-									)
-									.then(userData => {
-										setTopLikedTopics(prev => [
-											...prev,
-											{
-												topicData: likedTopicSnap.data(),
-												user: userData.data(),
-												category: category.id,
-												id: likedTopicSnap.id,
-											},
-										]);
-									});
-							});
+			.then(likedTopicsSnap => {
+				likedTopicsSnap.forEach(likedTopicSnap => {
+					console.dir(likedTopicSnap.data());
+					firebase
+						.getUserDataFromUID(likedTopicSnap.data().user)
+						.then(userData => {
+							setTopLikedTopics(prev => [
+								...prev,
+								{
+									topicData: likedTopicSnap.data(),
+									user: userData.data(),
+									category: likedTopicSnap.data().category,
+									id: likedTopicSnap.id,
+								},
+							]);
 						});
 				});
 				setPostsLoading(false);
 			});
 	}, [firebase]);
-	const compare = (a, b) => {
-		const topicA = a.topicData.likeCount;
-		const topicB = b.topicData.likeCount;
-
-		let comparison = 0;
-		if (topicA > topicB) {
-			comparison = 1;
-		} else if (topicA < topicB) {
-			comparison = -1;
-		}
-
-		return comparison;
-	};
 
 	return (
 		<div className='card h-100'>
@@ -83,38 +60,34 @@ const DashForum = props => {
 							</div>
 						</div>
 					) : (
-						topLikedTopics
-							.sort(compare)
-							.slice(-3)
-							.map(topic => (
-								<li className='list-group-item' key={topic.id}>
-									<div className='row align-items-center'>
-										<div className='col-4'>
-											<a
-												href={
-													'#/forum/' +
-													topic.category +
-													'/' +
-													topic.id
-												}>
-												{topic.topicData.title}
-											</a>
-										</div>
-										<div className='col-4'>
-											<a
-												href={
-													'#/user/' +
-													topic.user.username
-												}>
-												{topic.user.username}
-											</a>
-										</div>
-										<div className='col-4'>
-											{topic.topicData.likeCount}
-										</div>
+						topLikedTopics.map(topic => (
+							<li className='list-group-item' key={topic.id}>
+								<div className='row align-items-center'>
+									<div className='col-4'>
+										<a
+											href={
+												'#/forum/' +
+												topic.category +
+												'/' +
+												topic.id
+											}>
+											{topic.topicData.title}
+										</a>
 									</div>
-								</li>
-							))
+									<div className='col-4'>
+										<a
+											href={
+												'#/user/' + topic.user.username
+											}>
+											{topic.user.username}
+										</a>
+									</div>
+									<div className='col-4'>
+										{topic.topicData.likeCount}
+									</div>
+								</div>
+							</li>
+						))
 					)}
 				</ul>
 			</div>
