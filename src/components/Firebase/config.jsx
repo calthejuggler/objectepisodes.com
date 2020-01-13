@@ -2,6 +2,7 @@ import { Component } from 'react';
 import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/storage';
 
 const config = {
 	apiKey: 'AIzaSyAOAI6o15PF2I53beQ6izEzN-l6wR34ypM',
@@ -20,6 +21,7 @@ class Firebase extends Component {
 		this.auth = app.auth();
 		this.db = app.firestore();
 		this.dbFunc = app.firestore;
+		this.storage = app.storage();
 	}
 
 	// Auth functions
