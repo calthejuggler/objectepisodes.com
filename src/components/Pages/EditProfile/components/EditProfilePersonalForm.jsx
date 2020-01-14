@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import UploadProfilePicture from './UploadProfilePicture';
+import { withAuth } from '../../../Session/withAuth';
 
 const EditProfilePersonalForm = props => {
 	const {
@@ -13,7 +14,29 @@ const EditProfilePersonalForm = props => {
 		setEmail,
 		setUsername,
 		firebase,
+		user,
 	} = props;
+
+	const [storageRef, setStorageRef] = useState('');
+
+	const [img, setImg] = useState(null);
+
+	const handleFileUpload = e => {
+		let uid = user.uid;
+		let file = e.target.files[0];
+
+		setImg(file);
+
+		const firebaseQuery = firebase.storage.ref(
+			'profile-pictures/' + uid.trim()
+		);
+		firebaseQuery.put(file).then(snap => {
+			snap.ref
+				.getDownloadURL()
+				.then(url => setStorageRef(url))
+				.catch(e => console.error(e));
+		});
+	};
 
 	const [usernameTaken, setUsernameTaken] = useState(false);
 	const [usernameLoading, setUsernameLoading] = useState(false);
@@ -22,7 +45,12 @@ const EditProfilePersonalForm = props => {
 		<>
 			<hr />
 			<h5 className='text-center'>Profile Picture</h5>
-			<UploadProfilePicture />
+			<UploadProfilePicture
+				handleFileUpload={handleFileUpload}
+				storageRef={storageRef}
+				img={img}
+				setImg={setImg}
+			/>
 			<hr />
 			<h5 className='text-center'>Account Details</h5>
 			<div className='row'>
@@ -128,4 +156,4 @@ const EditProfilePersonalForm = props => {
 	);
 };
 
-export default withFirebase(EditProfilePersonalForm);
+export default withAuth(withFirebase(EditProfilePersonalForm));

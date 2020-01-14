@@ -1,17 +1,55 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { withFirebase } from '../../../Firebase/context';
+import { withAuth } from '../../../Session/withAuth';
+
+import ReactCrop from 'react-image-crop';
+
+import 'react-image-crop/lib/ReactCrop.scss';
 
 const UploadProfilePicture = props => {
-	const { firebase } = props;
-	const [storageRef, setStorageRef] = useState('');
+	const {
+		firebase,
+		user,
+		handleFileUpload,
+		storageRef,
+		setStorageRef,
+		img,
+		setImg,
+	} = props;
+
+	const [context, setContext] = useState(null);
+	const [canvas, setCanvas] = useState(<canvas></canvas>);
+	const [crop, setCrop] = useState({
+		aspect: 1 / 1,
+		unit: '%',
+		width: 50,
+		height: 50,
+		x: 25,
+		y: 25,
+	});
+
+	const handleCrop = crop => {
+		setCrop(crop);
+	};
+
 	return (
 		<div className='row align-items-center'>
 			<div className='col-12 col-md-4'>
-				<img
-					src={storageRef[0]}
-					alt='Profile pic placeholder'
-					className='rounded-circle d-block mx-auto'
-				/>
+				{img && (
+					<>
+						<ReactCrop
+							src={storageRef}
+							onChange={crop => {
+								handleCrop(crop);
+							}}
+							crop={crop}
+							keepSelection={true}
+							ruleOfThirds={true}
+							circularCrop={true}
+						/>
+						<canvas ref={canvas => setCanvas(canvas)} />
+					</>
+				)}
 			</div>
 			<div className='col-12 col-md-8'>
 				<div className='form-group'>
@@ -21,7 +59,7 @@ const UploadProfilePicture = props => {
 						name='profilepic'
 						id='profilePic'
 						className='form-control-file'
-						onChange={e => setStorageRef(e.target.files)}
+						onChange={handleFileUpload}
 					/>
 				</div>
 			</div>
@@ -29,4 +67,4 @@ const UploadProfilePicture = props => {
 	);
 };
 
-export default withFirebase(UploadProfilePicture);
+export default withAuth(withFirebase(UploadProfilePicture));
