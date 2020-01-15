@@ -10,13 +10,22 @@ const TopicsTable = props => {
 	const [addTopic, setAddTopic] = useState(false);
 	const [topicLoading, setTopicLoading] = useState(true);
 
+	const [page, setPage] = useState(0);
+
+	const [topicsPerPage, setTopicsPerPage] = useState(5);
+	const [lastTopicVisible, setLastTopicVisible] = useState(null);
+
 	useLayoutEffect(() => {
 		console.dir(currentCategory);
 		return firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
 			.orderBy('posted', 'desc')
+			.limit(topicsPerPage)
 			.onSnapshot(topicsSnap => {
+				setLastTopicVisible(
+					topicsSnap.docs[topicsSnap.docs.length - 1]
+				);
 				if (topicsSnap.empty) {
 					setTopicLoading(false);
 				} else {
@@ -34,7 +43,7 @@ const TopicsTable = props => {
 					});
 				}
 			});
-	}, [currentCategory, firebase]);
+	}, [currentCategory, firebase, topicsPerPage]);
 	return (
 		<>
 			<AddTopic
@@ -97,6 +106,65 @@ const TopicsTable = props => {
 						</div>
 					</li>
 				)}
+				<nav
+					aria-label='Page navigation example'
+					className='mx-auto my-3'>
+					<ul className='pagination'>
+						<li className='page-item'>
+							<button className='btn page-link'>Previous</button>
+						</li>
+						<li className='page-item'>
+							<button
+								onClick={e => {
+									e.preventDefault();
+									firebase.db
+										.collection('forum')
+										.where(
+											'category',
+											'==',
+											currentCategory
+										)
+										.orderBy('posted', 'desc')
+										.startAfter(lastTopicVisible)
+										.limit(topicsPerPage)
+										.onSnapshot(topicsSnap => {
+											setTopics([]);
+											setLastTopicVisible(
+												topicsSnap.docs[
+													topicsSnap.docs.length - 1
+												]
+											);
+											if (topicsSnap.empty) {
+												setTopicLoading(false);
+											} else {
+												setTopics([]);
+												topicsSnap.forEach(topicDoc => {
+													firebase
+														.getUserDataFromUID(
+															topicDoc.data().user
+														)
+														.then(userDoc => {
+															setTopics(prev => [
+																...prev,
+																{
+																	thread: topicDoc,
+																	user: userDoc,
+																},
+															]);
+															setTopicLoading(
+																false
+															);
+														});
+												});
+											}
+										});
+								}}
+								className='btn page-link'>
+								Next
+							</button>
+						</li>
+					</ul>
+				</nav>
 			</ul>
 		</>
 	);
