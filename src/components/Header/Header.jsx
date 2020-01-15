@@ -35,11 +35,24 @@ const Header = props => {
 				<div className='col-12 col-md-4 order-2 order-md-1'>
 					{userData ? (
 						<div className='text-center'>
-							<img
-								src='https://via.placeholder.com/50x50'
-								alt='profile pic'
-								className='rounded-circle'
-							/>
+							{!user.photoURL ? (
+								<img
+									src='https://via.placeholder.com/50x50'
+									alt='profile pic'
+									className='rounded-circle'
+								/>
+							) : (
+								<img
+									src={user.photoURL}
+									alt='profile pic'
+									style={{
+										height: '50px',
+										width: '50px',
+										objectFit: 'cover',
+									}}
+									className='img-fluid rounded-circle'
+								/>
+							)}
 							<p>
 								Logged in as{' '}
 								<a href={'#/user/' + userData.username}>
