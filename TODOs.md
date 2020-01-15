@@ -20,7 +20,7 @@ Things to be completed in the code of objectepisodes.com
 - [ ] Add Activity
 
 ## Edit Profile
-- [ ] Change profile picture
+- [x] Change profile picture
 
 ## Pages
 - [x] Profile page
