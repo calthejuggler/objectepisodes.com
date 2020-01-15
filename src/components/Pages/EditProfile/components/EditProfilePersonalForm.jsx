@@ -22,33 +22,41 @@ const EditProfilePersonalForm = props => {
 	const [img, setImg] = useState(null);
 	const [imageLoading, setImageLoading] = useState(true);
 
+	const [error, setError] = useState(null);
+
 	const handleFileUpload = e => {
 		setImageLoading(true);
 		let uid = user.uid;
 		let file = e.target.files[0];
 
-		setImg(file);
-
-		const firebaseQuery = firebase.storage.ref(
-			'profile-pictures/' + uid.trim()
-		);
-		firebaseQuery.put(file).then(snap => {
-			snap.ref
-				.getDownloadURL()
-				.then(url => {
-					setStorageRef(url);
-					user.updateProfile({ photoURL: url }).then(() => {
-						firebase.db
-							.collection('users')
-							.doc(user.uid)
-							.update({ photoURL: url })
-							.then(() => {
-								setImageLoading(false);
-							});
-					});
-				})
-				.catch(e => console.error(e));
-		});
+		if (file.size > 2000000) {
+			setError('Your image must be under 2MB');
+		} else if (file.type !== 'image/jpeg' && file.type !== 'image/png') {
+			setError('Your image must have a .jpg or a .png extension.');
+		} else {
+			setError(null);
+			setImg(file);
+			const firebaseQuery = firebase.storage.ref(
+				'profile-pictures/' + uid.trim()
+			);
+			firebaseQuery.put(file).then(snap => {
+				snap.ref
+					.getDownloadURL()
+					.then(url => {
+						setStorageRef(url);
+						user.updateProfile({ photoURL: url }).then(() => {
+							firebase.db
+								.collection('users')
+								.doc(user.uid)
+								.update({ photoURL: url })
+								.then(() => {
+									setImageLoading(false);
+								});
+						});
+					})
+					.catch(e => console.error(e));
+			});
+		}
 	};
 
 	const [usernameTaken, setUsernameTaken] = useState(false);
@@ -67,6 +75,7 @@ const EditProfilePersonalForm = props => {
 				imageLoading={imageLoading}
 				setImageLoading={setImageLoading}
 			/>
+			{error && <div className='alert alert-danger'>{error}</div>}
 			<hr />
 			<h5 className='text-center'>Account Details</h5>
 			<div className='row'>
