@@ -1,54 +1,41 @@
-import React, { useState, useEffect } from 'react';
-import { withFirebase } from '../../../Firebase/context';
+import React, { useEffect } from 'react';
 import { withAuth } from '../../../Session/withAuth';
-
-import ReactCrop from 'react-image-crop';
-
-import 'react-image-crop/lib/ReactCrop.scss';
 
 const UploadProfilePicture = props => {
 	const {
-		firebase,
 		user,
 		handleFileUpload,
 		storageRef,
 		setStorageRef,
-		img,
-		setImg,
+		imageLoading,
+		setImageLoading,
 	} = props;
 
-	const [context, setContext] = useState(null);
-	const [canvas, setCanvas] = useState(<canvas></canvas>);
-	const [crop, setCrop] = useState({
-		aspect: 1 / 1,
-		unit: '%',
-		width: 50,
-		height: 50,
-		x: 25,
-		y: 25,
-	});
-
-	const handleCrop = crop => {
-		setCrop(crop);
-	};
+	useEffect(() => {
+		if (user) setStorageRef(user.photoURL);
+		setImageLoading(false);
+	}, [user, setStorageRef, setImageLoading]);
 
 	return (
 		<div className='row align-items-center'>
 			<div className='col-12 col-md-4'>
-				{img && (
-					<>
-						<ReactCrop
-							src={storageRef}
-							onChange={crop => {
-								handleCrop(crop);
-							}}
-							crop={crop}
-							keepSelection={true}
-							ruleOfThirds={true}
-							circularCrop={true}
-						/>
-						<canvas ref={canvas => setCanvas(canvas)} />
-					</>
+				{!imageLoading ? (
+					<img
+						className='img-fluid rounded-circle d-block mx-auto'
+						style={{
+							width: '150px',
+							height: '150px',
+							objectFit: 'cover',
+						}}
+						src={storageRef}
+						alt='Profile Preview'
+					/>
+				) : (
+					<div
+						className='spinner-border mx-auto d-block'
+						role='status'>
+						<span className='sr-only'>Loading...</span>
+					</div>
 				)}
 			</div>
 			<div className='col-12 col-md-8'>
@@ -67,4 +54,4 @@ const UploadProfilePicture = props => {
 	);
 };
 
-export default withAuth(withFirebase(UploadProfilePicture));
+export default withAuth(UploadProfilePicture);

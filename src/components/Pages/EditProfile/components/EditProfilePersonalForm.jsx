@@ -20,8 +20,10 @@ const EditProfilePersonalForm = props => {
 	const [storageRef, setStorageRef] = useState('');
 
 	const [img, setImg] = useState(null);
+	const [imageLoading, setImageLoading] = useState(true);
 
 	const handleFileUpload = e => {
+		setImageLoading(true);
 		let uid = user.uid;
 		let file = e.target.files[0];
 
@@ -33,7 +35,18 @@ const EditProfilePersonalForm = props => {
 		firebaseQuery.put(file).then(snap => {
 			snap.ref
 				.getDownloadURL()
-				.then(url => setStorageRef(url))
+				.then(url => {
+					setStorageRef(url);
+					user.updateProfile({ photoURL: url }).then(() => {
+						firebase.db
+							.collection('users')
+							.doc(user.uid)
+							.update({ photoURL: url })
+							.then(() => {
+								setImageLoading(false);
+							});
+					});
+				})
 				.catch(e => console.error(e));
 		});
 	};
@@ -48,8 +61,11 @@ const EditProfilePersonalForm = props => {
 			<UploadProfilePicture
 				handleFileUpload={handleFileUpload}
 				storageRef={storageRef}
+				setStorageRef={setStorageRef}
 				img={img}
 				setImg={setImg}
+				imageLoading={imageLoading}
+				setImageLoading={setImageLoading}
 			/>
 			<hr />
 			<h5 className='text-center'>Account Details</h5>
