@@ -34,9 +34,9 @@ const TopicRow = props => {
 				<div className='col-6 col-sm-3'>
 					<a
 						href={'#/user/' + username}
-						className='row align-items-center justify-content-center'>
+						className='row align-items-center justify-content-left'>
 						<img
-							className='rounded-circle'
+							className='rounded-circle d-block mr-lg-3'
 							style={{
 								objectFit: 'cover',
 								width: '40px',
