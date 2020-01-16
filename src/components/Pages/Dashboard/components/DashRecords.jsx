@@ -7,7 +7,7 @@ const DashRecords = props => {
 	const [mostBalls, setMostBalls] = useState(null);
 	const [mostClubs, setMostClubs] = useState(null);
 	const [mostRings, setMostRings] = useState(null);
-    
+
 	useLayoutEffect(() => {
 		firebase.db
 			.collection('records')
@@ -75,6 +75,19 @@ const DashRecords = props => {
 												'#/user/' +
 												mostBalls.user.data().username
 											}>
+											<img
+												src={
+													mostBalls.user.data()
+														.photoURL
+												}
+												alt='record User profile'
+												style={{
+													width: '30px',
+													height: '30px',
+													objectFit: 'cover',
+												}}
+												className='rounded-circle d-block mx-auto'
+											/>
 											{mostBalls.user.data().username}
 										</a>
 										<p>
@@ -109,6 +122,19 @@ const DashRecords = props => {
 												'#/user/' +
 												mostClubs.user.data().username
 											}>
+											<img
+												src={
+													mostClubs.user.data()
+														.photoURL
+												}
+												alt='record User profile'
+												style={{
+													width: '30px',
+													height: '30px',
+													objectFit: 'cover',
+												}}
+												className='rounded-circle d-block mx-auto'
+											/>
 											{mostClubs.user.data().username}
 										</a>
 										<p>
@@ -143,6 +169,19 @@ const DashRecords = props => {
 												'#/user/' +
 												mostRings.user.data().username
 											}>
+											<img
+												src={
+													mostRings.user.data()
+														.photoURL
+												}
+												alt='record User profile'
+												style={{
+													width: '30px',
+													height: '30px',
+													objectFit: 'cover',
+												}}
+												className='rounded-circle d-block mx-auto'
+											/>
 											{mostRings.user.data().username}
 										</a>
 										<p>
