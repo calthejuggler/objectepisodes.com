@@ -81,6 +81,7 @@ const TopicsTable = props => {
 								currentCategory={currentCategory}
 								setCurrentTopic={setCurrentTopic}
 								setLocation={setLocation}
+								photoURL={topic.user.data().photoURL}
 							/>
 						))
 					) : (

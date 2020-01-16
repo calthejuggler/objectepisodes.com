@@ -11,6 +11,7 @@ const TopicRow = props => {
 		currentCategory,
 		setCurrentTopic,
 		setLocation,
+		photoURL,
 	} = props;
 	return (
 		<li className='list-group-item'>
@@ -31,7 +32,22 @@ const TopicRow = props => {
 					</button>
 				</div>
 				<div className='col-6 col-sm-3'>
-					<a href={'#/user/' + username}>{username}</a>
+					<a
+						href={'#/user/' + username}
+						className='row align-items-center justify-content-center'>
+						<img
+							className='rounded-circle'
+							style={{
+								objectFit: 'cover',
+								width: '40px',
+								height: '40px',
+								margin: '0.15rem'
+							}}
+							src={photoURL}
+							alt='Topic poster profile'
+						/>
+						{username}
+					</a>
 				</div>
 				<div className='col-3 d-none d-sm-block'>
 					<p>
