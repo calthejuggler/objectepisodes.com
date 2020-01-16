@@ -14,7 +14,6 @@ const DashForum = props => {
 			.get()
 			.then(likedTopicsSnap => {
 				likedTopicsSnap.forEach(likedTopicSnap => {
-					console.dir(likedTopicSnap.data());
 					firebase
 						.getUserDataFromUID(likedTopicSnap.data().user)
 						.then(userData => {
@@ -32,7 +31,6 @@ const DashForum = props => {
 				setPostsLoading(false);
 			});
 	}, [firebase]);
-
 	return (
 		<div className='card h-100'>
 			<div className='card-body text-center'>
@@ -79,6 +77,16 @@ const DashForum = props => {
 											href={
 												'#/user/' + topic.user.username
 											}>
+											<img
+												src={topic.user.photoURL}
+												alt='Topic User Profile'
+												className='rounded-circle d-block m-auto'
+												style={{
+													width: '50px',
+													height: '50px',
+													objectFit: 'cover',
+												}}
+											/>
 											{topic.user.username}
 										</a>
 									</div>
