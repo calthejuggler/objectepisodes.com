@@ -14,9 +14,9 @@ const TopicsTable = props => {
 
 	const [topicsPerPage, setTopicsPerPage] = useState(5);
 	const [lastTopicVisible, setLastTopicVisible] = useState(null);
+	const [firstTopicVisible, setFirstTopicVisible] = useState(null);
 
 	useLayoutEffect(() => {
-		console.dir(currentCategory);
 		return firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
@@ -26,6 +26,7 @@ const TopicsTable = props => {
 				setLastTopicVisible(
 					topicsSnap.docs[topicsSnap.docs.length - 1]
 				);
+				setFirstTopicVisible(topicsSnap.docs[0]);
 				if (topicsSnap.empty) {
 					setTopicLoading(false);
 				} else {
@@ -112,7 +113,57 @@ const TopicsTable = props => {
 					className='mx-auto my-3'>
 					<ul className='pagination'>
 						<li className='page-item'>
-							<button className='btn page-link'>Previous</button>
+							<button
+								onClick={e => {
+									e.preventDefault();
+									firebase.db
+										.collection('forum')
+										.where(
+											'category',
+											'==',
+											currentCategory
+										)
+										.orderBy('posted', 'desc')
+										.endBefore(firstTopicVisible)
+										.limit(topicsPerPage)
+										.onSnapshot(topicsSnap => {
+											setTopics([]);
+											setLastTopicVisible(
+												topicsSnap.docs[
+													topicsSnap.docs.length - 1
+												]
+											);
+											setFirstTopicVisible(
+												topicsSnap.docs[0]
+											);
+											if (topicsSnap.empty) {
+												setTopicLoading(false);
+											} else {
+												setTopics([]);
+												topicsSnap.forEach(topicDoc => {
+													firebase
+														.getUserDataFromUID(
+															topicDoc.data().user
+														)
+														.then(userDoc => {
+															setTopics(prev => [
+																...prev,
+																{
+																	thread: topicDoc,
+																	user: userDoc,
+																},
+															]);
+															setTopicLoading(
+																false
+															);
+														});
+												});
+											}
+										});
+								}}
+								className='btn page-link'>
+								Previous
+							</button>
 						</li>
 						<li className='page-item'>
 							<button
@@ -134,6 +185,9 @@ const TopicsTable = props => {
 												topicsSnap.docs[
 													topicsSnap.docs.length - 1
 												]
+											);
+											setFirstTopicVisible(
+												topicsSnap.docs[0]
 											);
 											if (topicsSnap.empty) {
 												setTopicLoading(false);
