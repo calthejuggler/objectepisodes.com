@@ -78,7 +78,6 @@ const DashForum = props => {
 												'#/user/' + topic.user.username
 											}
 											className='row align-items-center justify-content-center'>
-
 											<img
 												src={topic.user.photoURL}
 												alt='Topic User Profile'
