@@ -6,11 +6,24 @@ const UserDetails = props => {
 	return (
 		<div className='card'>
 			<div className='card-body'>
-				<img
-					src='https://via.placeholder.com/150x150'
-					alt='Profile pic placeholder'
-					className='rounded-circle d-block mx-auto'
-				/>
+				{userData !== 'Loading' ? (
+					<img
+						src={userData.data().photoURL}
+						alt="User's profile"
+						className='rounded-circle d-block m-auto'
+						style={{
+							width: '150px',
+							height: '150px',
+							objectFit: 'cover',
+						}}
+					/>
+				) : (
+					<img
+						src='https://via.placeholder.com/150x150'
+						alt='Profile pic placeholder'
+						className='rounded-circle d-block mx-auto'
+					/>
+				)}
 				{ownProfile && (
 					<button
 						className='btn btn-primary d-block mt-2 mx-auto'
