@@ -41,7 +41,7 @@ const TopicRow = props => {
 								objectFit: 'cover',
 								width: '40px',
 								height: '40px',
-								margin: '0.15rem'
+								margin: '0.15rem',
 							}}
 							src={photoURL}
 							alt='Topic poster profile'
