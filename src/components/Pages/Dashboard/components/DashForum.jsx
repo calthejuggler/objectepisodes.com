@@ -76,14 +76,16 @@ const DashForum = props => {
 										<a
 											href={
 												'#/user/' + topic.user.username
-											}>
+											}
+											className='row align-items-center justify-content-center'>
+
 											<img
 												src={topic.user.photoURL}
 												alt='Topic User Profile'
-												className='rounded-circle d-block m-auto'
+												className='rounded-circle mr-lg-3'
 												style={{
-													width: '50px',
-													height: '50px',
+													width: '30px',
+													height: '30px',
 													objectFit: 'cover',
 												}}
 											/>
