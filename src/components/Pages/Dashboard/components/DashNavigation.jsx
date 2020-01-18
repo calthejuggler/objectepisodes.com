@@ -10,16 +10,13 @@ const DashNavigation = () => {
 						<a href='/'>Juggling Clubs (Coming Soon)</a>
 					</li>
 					<li className='list-group-item'>
-						<a href='/'>Home</a>
+						<a href='/'>Juggling Podcasts (Coming Soon)</a>
 					</li>
 					<li className='list-group-item'>
-						<a href='/'>Home</a>
+						<a href='/'>About This Website (Coming Soon)</a>
 					</li>
 					<li className='list-group-item'>
-						<a href='/'>Home</a>
-					</li>
-					<li className='list-group-item'>
-						<a href='/'>Home</a>
+						<a href='/'>Juggling Events (Coming Soon)</a>
 					</li>
 				</ul>
 			</div>
