@@ -1,6 +1,6 @@
 import React from 'react';
 import DashForum from './components/DashForum';
-import DashRecords from './components/DashRecords';
+import DashRecords from './components/DashRecords/DashRecords';
 import DashPOTD from './components/DashPOTD';
 import DashNavigation from './components/DashNavigation';
 import DashEvent from './components/DashEvent';
