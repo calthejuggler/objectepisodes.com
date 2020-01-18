@@ -1,6 +1,8 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
+import LikeButton from './LikeButton';
+
 const TopicRow = props => {
 	const {
 		id,
@@ -12,11 +14,12 @@ const TopicRow = props => {
 		setCurrentTopic,
 		setLocation,
 		photoURL,
+		likes,
 	} = props;
 	return (
 		<li className='list-group-item'>
 			<div className='row align-items-center'>
-				<div className='col-6 col-sm-3'>
+				<div className='col-4 col-sm-3'>
 					<button
 						className='btn btn-link'
 						onClick={() => {
@@ -31,7 +34,7 @@ const TopicRow = props => {
 						</a>
 					</button>
 				</div>
-				<div className='col-6 col-sm-3'>
+				<div className='col-4 col-sm-2'>
 					<a
 						href={'#/user/' + username}
 						className='row align-items-center justify-content-left'>
@@ -62,6 +65,9 @@ const TopicRow = props => {
 							? 'Today - ' + lastPost.toTimeString()
 							: lastPost.toUTCString()}
 					</p>
+				</div>
+				<div className='col-4 col-sm-1'>
+					<LikeButton postId={id} likes={likes} type='post' />
 				</div>
 			</div>
 		</li>

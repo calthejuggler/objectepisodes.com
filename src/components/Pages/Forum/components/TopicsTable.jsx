@@ -132,10 +132,10 @@ const TopicsTable = props => {
 			<ul className='list-group list-group-flush'>
 				<li className='list-group-item'>
 					<div className='row align-items-center'>
-						<div className='col-6 col-sm-3'>
+						<div className='col-4 col-sm-3'>
 							<b>Title</b>
 						</div>
-						<div className='col-6 col-sm-3'>
+						<div className='col-4 col-sm-2'>
 							<b>By</b>
 						</div>
 						<div className='col-3 d-none d-sm-block'>
@@ -143,6 +143,9 @@ const TopicsTable = props => {
 						</div>
 						<div className='col-3 d-none d-sm-block'>
 							<b>Last Post</b>
+						</div>
+						<div className='col-4 col-sm-1'>
+							<b>Likes</b>
 						</div>
 					</div>
 				</li>
@@ -160,6 +163,7 @@ const TopicsTable = props => {
 								setCurrentTopic={setCurrentTopic}
 								setLocation={setLocation}
 								photoURL={topic.user.data().photoURL}
+								likes={topic.thread.data().likes}
 							/>
 						))
 					) : (
