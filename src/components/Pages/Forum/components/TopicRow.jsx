@@ -67,7 +67,7 @@ const TopicRow = props => {
 					</p>
 				</div>
 				<div className='col-4 col-sm-1'>
-					<LikeButton postId={id} likes={likes} type='post' />
+					<LikeButton postID={id} likes={likes} type='post' />
 				</div>
 			</div>
 		</li>
