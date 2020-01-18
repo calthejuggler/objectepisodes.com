@@ -10,11 +10,23 @@ const TopicsTable = props => {
 	const [addTopic, setAddTopic] = useState(false);
 	const [topicLoading, setTopicLoading] = useState(true);
 
+	const [page, setPage] = useState(0);
+	const [lastPage, setLastPage] = useState(0);
 	const [topicsPerPage, setTopicsPerPage] = useState(5);
 	const [lastTopicVisible, setLastTopicVisible] = useState(null);
 	const [firstTopicVisible, setFirstTopicVisible] = useState(null);
 
 	useLayoutEffect(() => {
+		firebase.db
+			.collection('forum')
+			.where('category', '==', currentCategory)
+			.get()
+			.then(topicCountSnap => {
+				const pages = Math.floor(
+					topicCountSnap.docs.length / topicsPerPage
+				);
+				setLastPage(pages);
+			});
 		return firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
@@ -46,6 +58,7 @@ const TopicsTable = props => {
 
 	const loadNextTopics = () => {
 		setTopicLoading(true);
+		setPage(prev => prev + 1);
 		return firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
@@ -77,6 +90,7 @@ const TopicsTable = props => {
 	};
 	const loadPrevTopics = () => {
 		setTopicLoading(true);
+		setPage(prev => prev - 1);
 		return firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
@@ -114,12 +128,14 @@ const TopicsTable = props => {
 				setAddTopic={setAddTopic}
 				currentCategory={currentCategory}
 			/>
+			<p>Topics/page</p>
 			<select
 				name='topicsPerPage'
 				id='topicsPerPage'
 				className='dropdown'
 				value={topicsPerPage}
 				onChange={e => {
+					setTopicLoading(1);
 					setTopicsPerPage(parseInt(e.target.value, 10));
 				}}>
 				<option value={5}>5</option>
@@ -193,20 +209,24 @@ const TopicsTable = props => {
 					aria-label='Page navigation example'
 					className='mx-auto my-3'>
 					<ul className='pagination'>
-						<li className='page-item'>
-							<button
-								className={'btn page-link'}
-								onClick={loadPrevTopics}>
-								Prev
-							</button>
-						</li>
-						<li className='page-item'>
-							<button
-								className={'btn page-link'}
-								onClick={loadNextTopics}>
-								Next
-							</button>
-						</li>
+						{page !== 0 && (
+							<li className='page-item'>
+								<button
+									className={'btn page-link'}
+									onClick={loadPrevTopics}>
+									Prev
+								</button>
+							</li>
+						)}
+						{lastPage !== page && (
+							<li className='page-item'>
+								<button
+									className={'btn page-link'}
+									onClick={loadNextTopics}>
+									Next
+								</button>
+							</li>
+						)}
 					</ul>
 				</nav>
 			</ul>
