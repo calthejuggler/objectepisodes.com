@@ -10,8 +10,6 @@ const TopicsTable = props => {
 	const [addTopic, setAddTopic] = useState(false);
 	const [topicLoading, setTopicLoading] = useState(true);
 
-	const [page, setPage] = useState(0);
-
 	const [topicsPerPage, setTopicsPerPage] = useState(5);
 	const [lastTopicVisible, setLastTopicVisible] = useState(null);
 	const [firstTopicVisible, setFirstTopicVisible] = useState(null);
@@ -45,6 +43,70 @@ const TopicsTable = props => {
 				}
 			});
 	}, [currentCategory, firebase, topicsPerPage]);
+
+	const loadNextTopics = () => {
+		setTopicLoading(true);
+		return firebase.db
+			.collection('forum')
+			.where('category', '==', currentCategory)
+			.orderBy('posted', 'desc')
+			.startAfter(lastTopicVisible)
+			.limit(topicsPerPage)
+			.onSnapshot(topicsSnap => {
+				setLastTopicVisible(
+					topicsSnap.docs[topicsSnap.docs.length - 1]
+				);
+				setFirstTopicVisible(topicsSnap.docs[0]);
+				if (topicsSnap.empty) {
+					setTopicLoading(false);
+				} else {
+					setTopics([]);
+					topicsSnap.forEach(topicDoc => {
+						firebase
+							.getUserDataFromUID(topicDoc.data().user)
+							.then(userDoc => {
+								setTopics(prev => [
+									...prev,
+									{ thread: topicDoc, user: userDoc },
+								]);
+								setTopicLoading(false);
+							});
+					});
+				}
+			});
+	};
+	const loadPrevTopics = () => {
+		setTopicLoading(true);
+		return firebase.db
+			.collection('forum')
+			.where('category', '==', currentCategory)
+			.orderBy('posted', 'desc')
+			.endBefore(firstTopicVisible)
+			.limit(topicsPerPage)
+			.onSnapshot(topicsSnap => {
+				setLastTopicVisible(
+					topicsSnap.docs[topicsSnap.docs.length - 1]
+				);
+				setFirstTopicVisible(topicsSnap.docs[0]);
+				if (topicsSnap.empty) {
+					setTopicLoading(false);
+				} else {
+					setTopics([]);
+					topicsSnap.forEach(topicDoc => {
+						firebase
+							.getUserDataFromUID(topicDoc.data().user)
+							.then(userDoc => {
+								setTopics(prev => [
+									...prev,
+									{ thread: topicDoc, user: userDoc },
+								]);
+								setTopicLoading(false);
+							});
+					});
+				}
+			});
+	};
+
 	return (
 		<>
 			<AddTopic
@@ -52,6 +114,21 @@ const TopicsTable = props => {
 				setAddTopic={setAddTopic}
 				currentCategory={currentCategory}
 			/>
+			<select
+				name='topicsPerPage'
+				id='topicsPerPage'
+				className='dropdown'
+				value={topicsPerPage}
+				onChange={e => {
+					setTopicsPerPage(parseInt(e.target.value, 10));
+				}}>
+				<option value={5}>5</option>
+				<option value={10}>10</option>
+				<option value={20}>20</option>
+				<option value={40}>40</option>
+				<option value={80}>80</option>
+				<option value={100}>100</option>
+			</select>
 			<ul className='list-group list-group-flush'>
 				<li className='list-group-item'>
 					<div className='row align-items-center'>
@@ -114,107 +191,15 @@ const TopicsTable = props => {
 					<ul className='pagination'>
 						<li className='page-item'>
 							<button
-								onClick={e => {
-									e.preventDefault();
-									firebase.db
-										.collection('forum')
-										.where(
-											'category',
-											'==',
-											currentCategory
-										)
-										.orderBy('posted', 'desc')
-										.endBefore(firstTopicVisible)
-										.limit(topicsPerPage)
-										.onSnapshot(topicsSnap => {
-											setTopics([]);
-											setLastTopicVisible(
-												topicsSnap.docs[
-													topicsSnap.docs.length - 1
-												]
-											);
-											setFirstTopicVisible(
-												topicsSnap.docs[0]
-											);
-											if (topicsSnap.empty) {
-												setTopicLoading(false);
-											} else {
-												setTopics([]);
-												topicsSnap.forEach(topicDoc => {
-													firebase
-														.getUserDataFromUID(
-															topicDoc.data().user
-														)
-														.then(userDoc => {
-															setTopics(prev => [
-																...prev,
-																{
-																	thread: topicDoc,
-																	user: userDoc,
-																},
-															]);
-															setTopicLoading(
-																false
-															);
-														});
-												});
-											}
-										});
-								}}
-								className='btn page-link'>
-								Previous
+								className={'btn page-link'}
+								onClick={loadPrevTopics}>
+								Prev
 							</button>
 						</li>
 						<li className='page-item'>
 							<button
-								onClick={e => {
-									e.preventDefault();
-									firebase.db
-										.collection('forum')
-										.where(
-											'category',
-											'==',
-											currentCategory
-										)
-										.orderBy('posted', 'desc')
-										.startAfter(lastTopicVisible)
-										.limit(topicsPerPage)
-										.onSnapshot(topicsSnap => {
-											setTopics([]);
-											setLastTopicVisible(
-												topicsSnap.docs[
-													topicsSnap.docs.length - 1
-												]
-											);
-											setFirstTopicVisible(
-												topicsSnap.docs[0]
-											);
-											if (topicsSnap.empty) {
-												setTopicLoading(false);
-											} else {
-												setTopics([]);
-												topicsSnap.forEach(topicDoc => {
-													firebase
-														.getUserDataFromUID(
-															topicDoc.data().user
-														)
-														.then(userDoc => {
-															setTopics(prev => [
-																...prev,
-																{
-																	thread: topicDoc,
-																	user: userDoc,
-																},
-															]);
-															setTopicLoading(
-																false
-															);
-														});
-												});
-											}
-										});
-								}}
-								className='btn page-link'>
+								className={'btn page-link'}
+								onClick={loadNextTopics}>
 								Next
 							</button>
 						</li>
