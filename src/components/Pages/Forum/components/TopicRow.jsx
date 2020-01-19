@@ -20,19 +20,14 @@ const TopicRow = props => {
 		<li className='list-group-item'>
 			<div className='row align-items-center'>
 				<div className='col-4 col-sm-3'>
-					<button
-						className='btn btn-link'
+					<a
+						href={'#/forum/' + currentCategory + '/' + id}
 						onClick={() => {
 							setCurrentTopic(id);
-							props.history.replace(
-								'/forum/' + currentCategory + '/' + id
-							);
-							setLocation(prev => [...prev, id]);
+							setLocation(['forum', currentCategory, id]);
 						}}>
-						<a href={'#/forum/' + currentCategory + '/' + id}>
-							{title}
-						</a>
-					</button>
+						{title}
+					</a>
 				</div>
 				<div className='col-4 col-sm-2'>
 					<a
