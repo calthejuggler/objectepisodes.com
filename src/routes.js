@@ -5,6 +5,7 @@ import Forum from './components/Pages/Forum/Forum';
 import Dashboard from './components/Pages/Dashboard/Dashboard';
 import User from './components/Pages/User/User';
 import EditProfile from './components/Pages/EditProfile/EditProfile';
+import Admin from './components/Pages/Admin/Admin';
 
 const routes = [
 	{
@@ -41,6 +42,11 @@ const routes = [
 		name: 'Edit Profile',
 		path: '/editprofile',
 		component: EditProfile,
+	},
+	{
+		name: 'Admin',
+		path: '/admin',
+		component: Admin,
 	},
 ];
 
