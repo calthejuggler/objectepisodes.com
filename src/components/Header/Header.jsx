@@ -33,7 +33,7 @@ const Header = props => {
 					</a>
 				</div>
 				<div className='col-12 col-md-4 order-2 order-md-1'>
-					{userData ? (
+					{user && userData ? (
 						<div className='text-center'>
 							{!user.photoURL ? (
 								<img
