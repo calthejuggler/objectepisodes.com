@@ -7,13 +7,13 @@ const ListHFOTD = props => {
 	useLayoutEffect(() => {
 		return firebase.db
 			.collection('hfotd')
-			.orderBy('timestamp', 'asc')
+			.orderBy('timestamp', 'desc')
 			.onSnapshot(hfotdsSnap => {
 				setFacts([]);
 				hfotdsSnap.forEach(hfotd => {
 					firebase.db
 						.collection('users')
-						.doc(hfotd.data().user.trim())
+						.doc(hfotd.data().user)
 						.get()
 						.then(userDoc => {
 							setFacts(prev => [
@@ -31,41 +31,33 @@ const ListHFOTD = props => {
 					<div className='col-5'>
 						<b>Historical Fact</b>
 					</div>
-					<div className='col-3'>
+					<div className='col-4'>
 						<b>Posted By</b>
 					</div>
-					<div className='col-2'>
-						<b>Date</b>
-					</div>
-					<div className='col-2'>
+					<div className='col-3'>
 						<b>Shown?</b>
 					</div>
 				</div>
 			</li>
-			{facts.length > 0 &&
-				facts.map(fact => (
-					<li className='list-group-item' key={fact.factData.id}>
-						<div className='row text-center'>
-							<div className='col-5'>
-								{fact.factData.data().fact}
+			{facts.length > 0
+				? facts.map(fact => (
+						<li className='list-group-item' key={fact.factData.id}>
+							<div className='row text-center'>
+								<div className='col-5'>
+									{fact.factData.data().fact}
+								</div>
+								<div className='col-4'>
+									<a href={'#/users/' + fact.user.id}>
+										{fact.user.data().username}
+									</a>
+								</div>
+								<div className='col-3'>
+									{fact.factData.data().shown ? 'Yes' : 'No'}
+								</div>
 							</div>
-							<div className='col-3'>
-								<a href={'#/users/' + fact.user.id}>
-									{fact.user.data().username}
-								</a>
-							</div>
-							<div className='col-2'>
-								{fact.factData
-									.data()
-									.timestamp.toDate()
-									.toUTCString()}
-							</div>
-							<div className='col-2'>
-								{fact.factData.data().shown ? 'Yes' : 'No'}
-							</div>
-						</div>
-					</li>
-				))}
+						</li>
+				  ))
+				: null}
 		</ul>
 	);
 };
