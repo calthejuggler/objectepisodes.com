@@ -1,5 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
+import LikeButton from '../../Forum/components/LikeButton';
 
 const DashForum = props => {
 	const { firebase } = props;
@@ -9,10 +10,11 @@ const DashForum = props => {
 		setPostsLoading(true);
 		firebase.db
 			.collection('forum')
-			.orderBy('likeCount')
+			.orderBy('likeCount', 'desc')
 			.limit(6)
-			.get()
-			.then(likedTopicsSnap => {
+			.onSnapshot(likedTopicsSnap => {
+				setPostsLoading(true);
+				setTopLikedTopics([]);
 				likedTopicsSnap.forEach(likedTopicSnap => {
 					firebase
 						.getUserDataFromUID(likedTopicSnap.data().user)
@@ -92,7 +94,11 @@ const DashForum = props => {
 										</a>
 									</div>
 									<div className='col-4'>
-										{topic.topicData.likeCount}
+										<LikeButton
+											postID={topic.id}
+											likes={topic.topicData.likes}
+											type='post'
+										/>
 									</div>
 								</div>
 							</li>
