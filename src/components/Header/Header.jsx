@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import logo from '../../images/objectepisodes_logo.jpg';
 import { withRouter } from 'react-router-dom';
 import HeaderHFOTD from './components/HeaderHFOTD';
+import AdminHeader from '../Admin/components/AdminHeader';
 
 const Header = props => {
 	const { user, firebase } = props;
@@ -94,13 +95,7 @@ const Header = props => {
 				</div>
 			</nav>
 			{userData && userData.admin && (
-				<nav className='navbar navbar-light bg-danger mb-3'>
-					<div className="row">
-						<div className="col-12 text-white">
-							You are an Admin
-						</div>
-					</div>
-				</nav>
+				<AdminHeader/>
 			)}
 		</>
 	);
