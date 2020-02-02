@@ -20,7 +20,14 @@ const HeaderHFOTD = props => {
 			.limit(1)
 			.get()
 			.then(docsSnap => {
-				setHfotd(docsSnap.docs[0].data());
+				if (docsSnap.empty) {
+					setError(
+						'There was an issue retrieving a HFOTD for today!'
+					);
+					setHfotd("ERROR:")
+				} else {
+					setHfotd(docsSnap.docs[0].data());
+				}
 			})
 			.catch(e => {
 				setError(e.message);
