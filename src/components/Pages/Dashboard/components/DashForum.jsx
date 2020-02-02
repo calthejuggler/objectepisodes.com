@@ -78,19 +78,28 @@ const DashForum = props => {
 										<a
 											href={
 												'#/user/' + topic.user.username
-											}
-											className='row align-items-center justify-content-center'>
-											<img
-												src={topic.user.photoURL}
-												alt='Topic User Profile'
-												className='rounded-circle mr-lg-3'
+											}>
+											<span
 												style={{
-													width: '30px',
-													height: '30px',
-													objectFit: 'cover',
-												}}
-											/>
-											{topic.user.username}
+													display: 'flex',
+													justifyContent: 'center',
+													alignItems: 'center',
+												}}>
+												<img
+													src={topic.user.photoURL}
+													alt='Topic User Profile'
+													className='rounded-circle mr-lg-2'
+													style={{
+														width: '2.5rem',
+														height: '2.5rem',
+														objectFit: 'cover',
+														textAlign: 'center',
+													}}
+												/>
+												<p className='card-text'>
+													{topic.user.username}
+												</p>
+											</span>
 										</a>
 									</div>
 									<div className='col-4'>
