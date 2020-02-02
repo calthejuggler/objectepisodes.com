@@ -1,19 +1,37 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { withFirebase } from '../../Firebase/context';
 
-const HeaderHFOTD = () => {
+const HeaderHFOTD = props => {
+	const { firebase } = props;
+
+	const [hfotd, setHfotd] = useState(null);
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
+		firebase.db
+			.collection('hfotd')
+			.where('shown', '==', false)
+			.orderBy('timestamp', 'asc')
+			.limit(1)
+			.get()
+			.then(docsSnap => {
+				setHfotd(docsSnap.docs[0].data());
+			})
+			.catch(e => {
+				setError(e.message);
+			});
+	}, [firebase.db]);
 	return (
 		<div className='card h-100 text-center'>
 			<div className='card-body'>
 				<h4 className='card-title'>Historical Fact of the Day</h4>
+				{error && <p className='text-danger'>{error}</p>}
 				<p className='card-text'>
-					<b className='d-block m-auto'>*COMING SOON*</b>
-					{/* In 2018, Cal Courtney was incentivised by Jay Gilligan and
-					Emil Dahl to make the Object Episodes website. It wasn't
-					until 2020 that it came to fruition. */}
+					{!hfotd ? 'Loading...' : hfotd.fact}
 				</p>
 			</div>
 		</div>
 	);
 };
 
-export default HeaderHFOTD;
+export default withFirebase(HeaderHFOTD);
