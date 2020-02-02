@@ -11,24 +11,36 @@ const Dashboard = () => {
 		<>
 			<div className='row my-3'>
 				<div className='col-12 col-md-4'>
-					<DashPanel title='Photo of the Day'>
+					<DashPanel
+						title='Photo of the Day'
+						btnTitle='See past POTDs'
+						url='potd'>
 						<DashPOTD />
 					</DashPanel>
 				</div>
 				<div className='col-12 col-md-8'>
-					<DashPanel title='Forum Posts'>
+					<DashPanel
+						title='Forum Posts'
+						btnTitle='Go to Forum'
+						url='forum'>
 						<DashForum />
 					</DashPanel>
 				</div>
 			</div>
 			<div className='row my-3'>
 				<div className='col-12 col-md-4'>
-					<DashPanel title='Top Records'>
+					<DashPanel
+						title='Top Records'
+						btnTitle='See all Records'
+						url='records'>
 						<DashRecords />
 					</DashPanel>
 				</div>
 				<div className='col-12 col-md-4'>
-					<DashPanel title='Upcoming Event'>
+					<DashPanel
+						title='Upcoming Event'
+						btnTitle='See all Events'
+						url='events'>
 						<DashEvent />
 					</DashPanel>
 				</div>
