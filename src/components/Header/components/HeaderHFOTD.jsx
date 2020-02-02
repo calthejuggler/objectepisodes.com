@@ -10,8 +10,13 @@ const HeaderHFOTD = props => {
 	useEffect(() => {
 		firebase.db
 			.collection('hfotd')
-			.where('shown', '==', false)
-			.orderBy('timestamp', 'asc')
+			.where('toBeShown', '>=', new Date().setTime(0).valueOf())
+			.where(
+				'toBeShown',
+				'<=',
+				new Date().setDate(new Date().getDate() + 1).valueOf()
+			)
+			.orderBy('toBeShown', 'asc')
 			.limit(1)
 			.get()
 			.then(docsSnap => {

@@ -52,7 +52,10 @@ const ListHFOTD = props => {
 									</a>
 								</div>
 								<div className='col-3'>
-									{fact.factData.data().shown ? 'Yes' : 'No'}
+									{fact.factData.data().toBeShown <=
+									new Date().valueOf()
+										? 'Yes'
+										: 'No'}
 								</div>
 							</div>
 						</li>
