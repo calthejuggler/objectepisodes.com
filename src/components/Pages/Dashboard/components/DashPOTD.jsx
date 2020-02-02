@@ -43,7 +43,7 @@ const DashPOTD = props => {
 							src={potd.potd.photoUrl}
 							alt='Placeholder'
 							className='img-fluid'
-							style={{ maxHeight: '20rem' }}
+							style={{ maxHeight: '18rem' }}
 						/>
 					</>
 				)}
