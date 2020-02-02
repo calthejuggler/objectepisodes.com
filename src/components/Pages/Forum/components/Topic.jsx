@@ -98,6 +98,7 @@ const Topic = props => {
 											postID={post.id}
 											likes={post.data.likes}
 											type='post'
+											size={3}
 										/>
 									</div>
 									<div className='col-12'>
@@ -156,6 +157,7 @@ const Topic = props => {
 												postID={comment.id}
 												likes={comment.data.likes}
 												type='comment'
+												size={3}
 											/>
 										</div>
 										<div className='col-12'>

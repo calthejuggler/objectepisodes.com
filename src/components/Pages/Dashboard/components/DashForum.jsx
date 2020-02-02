@@ -11,7 +11,7 @@ const DashForum = props => {
 		firebase.db
 			.collection('forum')
 			.orderBy('likeCount', 'desc')
-			.limit(4)
+			.limit(3)
 			.onSnapshot(likedTopicsSnap => {
 				setPostsLoading(true);
 				setTopLikedTopics([]);
@@ -98,6 +98,7 @@ const DashForum = props => {
 											postID={topic.id}
 											likes={topic.topicData.likes}
 											type='post'
+											size={2}
 										/>
 									</div>
 								</div>
