@@ -20,7 +20,7 @@ const Dashboard = () => {
 				</div>
 				<div className='col-12 col-md-8'>
 					<DashPanel
-						title='Forum Posts'
+						title='Top Forum Posts'
 						btnTitle='Go to Forum'
 						url='forum'>
 						<DashForum />
