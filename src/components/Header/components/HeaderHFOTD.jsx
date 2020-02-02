@@ -32,7 +32,13 @@ const HeaderHFOTD = props => {
 				<h4 className='card-title'>Historical Fact of the Day</h4>
 				{error && <p className='text-danger'>{error}</p>}
 				<p className='card-text'>
-					{!hfotd ? 'Loading...' : hfotd.fact}
+					{!hfotd ? (
+						<div class='spinner-border' role='status'>
+							<span class='sr-only'>Loading...</span>
+						</div>
+					) : (
+						hfotd.fact
+					)}
 				</p>
 			</div>
 		</div>
