@@ -7,7 +7,7 @@ const Admin = () => {
 	const [navChoice, setNavChoice] = useState('hfotd');
 	return (
 		<>
-			<div className='row'>
+			<div className='row mt-3'>
 				<div className='col-12 col-md-3'>
 					<div className='card'>
 						<div className='card-body'>
