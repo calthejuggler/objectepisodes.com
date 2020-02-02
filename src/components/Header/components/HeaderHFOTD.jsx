@@ -43,7 +43,7 @@ const HeaderHFOTD = props => {
 						<span className='sr-only'>Loading...</span>
 					</div>
 				) : (
-					<p className='card-text'>hfotd.fact</p>
+					<p className='card-text'>{hfotd.fact}</p>
 				)}
 			</div>
 		</div>
