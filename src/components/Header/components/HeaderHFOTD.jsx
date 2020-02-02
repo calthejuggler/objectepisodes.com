@@ -24,7 +24,7 @@ const HeaderHFOTD = props => {
 					setError(
 						'There was an issue retrieving a HFOTD for today!'
 					);
-					setHfotd("ERROR:")
+					setHfotd('ERROR:');
 				} else {
 					setHfotd(docsSnap.docs[0].data());
 				}
@@ -38,15 +38,13 @@ const HeaderHFOTD = props => {
 			<div className='card-body'>
 				<h4 className='card-title'>Historical Fact of the Day</h4>
 				{error && <p className='text-danger'>{error}</p>}
-				<p className='card-text'>
-					{!hfotd ? (
-						<div class='spinner-border' role='status'>
-							<span class='sr-only'>Loading...</span>
-						</div>
-					) : (
-						hfotd.fact
-					)}
-				</p>
+				{!hfotd ? (
+					<div className='spinner-border' role='status'>
+						<span className='sr-only'>Loading...</span>
+					</div>
+				) : (
+					<p className='card-text'>hfotd.fact</p>
+				)}
 			</div>
 		</div>
 	);
