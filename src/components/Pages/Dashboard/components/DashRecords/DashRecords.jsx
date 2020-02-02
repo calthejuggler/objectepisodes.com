@@ -57,43 +57,38 @@ const DashRecords = props => {
 			});
 	}, [firebase]);
 	return (
-		<div className='card h-100'>
-			<div className='card-body text-center'>
-				<h3 className='card-title'>Top Records</h3>
-				<ul className='list-group list-group-flush text-left'>
-					<li className='list-group-item'>
-						<div className='row align-items-center'>
-							{mostBalls && (
-								<MostRecord
-									title='Most Balls:'
-									recordProp={mostBalls}
-								/>
-							)}
-						</div>
-					</li>
-					<li className='list-group-item'>
-						<div className='row align-items-center'>
-							{mostClubs && (
-								<MostRecord
-									title='Most Clubs:'
-									recordProp={mostClubs}
-								/>
-							)}
-						</div>
-					</li>
-					<li className='list-group-item'>
-						<div className='row align-items-center'>
-							{mostRings && (
-								<MostRecord
-									title='Most Rings:'
-									recordProp={mostRings}
-								/>
-							)}
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
+		<ul className='list-group list-group-flush text-left'>
+			<li className='list-group-item'>
+				<div className='row align-items-center'>
+					{mostBalls && (
+						<MostRecord
+							title='Most Balls:'
+							recordProp={mostBalls}
+						/>
+					)}
+				</div>
+			</li>
+			<li className='list-group-item'>
+				<div className='row align-items-center'>
+					{mostClubs && (
+						<MostRecord
+							title='Most Clubs:'
+							recordProp={mostClubs}
+						/>
+					)}
+				</div>
+			</li>
+			<li className='list-group-item'>
+				<div className='row align-items-center'>
+					{mostRings && (
+						<MostRecord
+							title='Most Rings:'
+							recordProp={mostRings}
+						/>
+					)}
+				</div>
+			</li>
+		</ul>
 	);
 };
 

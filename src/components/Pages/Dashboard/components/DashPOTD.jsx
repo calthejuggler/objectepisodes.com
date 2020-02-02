@@ -28,27 +28,22 @@ const DashPOTD = props => {
 			});
 	}, [firebase]);
 	return (
-		<div className='card h-100'>
-			<div className='card-body text-center h-100'>
-				<h4 className='card-title text-center'>Photo of the Day</h4>
-				{potd && (
-					<>
-						<p className='text-center small'>
-							Uploaded By:{' '}
-							<a href={'#/user/' + potd.user.username}>
-								{potd.user.username}
-							</a>
-						</p>
-						<img
-							src={potd.potd.photoUrl}
-							alt='Placeholder'
-							className='img-fluid'
-							style={{ maxHeight: '18rem' }}
-						/>
-					</>
-				)}
-			</div>
-		</div>
+		potd && (
+			<>
+				<p className='text-center small'>
+					Uploaded By:{' '}
+					<a href={'#/user/' + potd.user.username}>
+						{potd.user.username}
+					</a>
+				</p>
+				<img
+					src={potd.potd.photoUrl}
+					alt='Placeholder'
+					className='img-fluid'
+					style={{ maxHeight: '18rem' }}
+				/>
+			</>
+		)
 	);
 };
 
