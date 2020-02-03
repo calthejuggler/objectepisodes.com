@@ -70,22 +70,23 @@ const ListHFOTD = props => {
 									<div className='col-2'>
 										<button
 											className='btn btn-danger'
-											onClick={e => {
-												e.preventDefault();
-												setMessage(null);
-												firebase.db
-													.collection('hfotd')
-													.doc(fact.factData.id)
-													.delete()
-													.then(res => {
-														setMessage(
-															'HFOTD successfully deleted!'
-														);
-													})
-													.catch(e =>
-														setError(e.message)
-													);
-											}}>
+											// onClick={e => {
+											// 	e.preventDefault();
+											// 	setMessage(null);
+											// 	firebase.db
+											// 		.collection('hfotd')
+											// 		.doc(fact.factData.id)
+											// 		.delete()
+											// 		.then(res => {
+											// 			setMessage(
+											// 				'HFOTD successfully deleted!'
+											// 			);
+											// 		})
+											// 		.catch(e =>
+											// 			setError(e.message)
+											// 		);
+											// }}
+										>
 											Delete
 										</button>
 									</div>
