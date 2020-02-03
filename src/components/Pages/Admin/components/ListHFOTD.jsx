@@ -4,7 +4,6 @@ import { withFirebase } from '../../../Firebase/context';
 const ListHFOTD = props => {
 	const { firebase } = props;
 	const [facts, setFacts] = useState([]);
-	const [message, setMessage] = useState(null);
 	const [error, setError] = useState(null);
 	useLayoutEffect(() => {
 		return firebase.db
@@ -22,14 +21,14 @@ const ListHFOTD = props => {
 								...prev,
 								{ factData: hfotd, user: userDoc },
 							]);
-						});
+						})
+						.catch(e => setError(e.message));
 				});
 			});
 	}, [firebase.db]);
 	return (
 		<>
 			{error && <div className='alert alert-danger'>{error}</div>}
-			{message && <div className='alert alert-success'>{message}</div>}
 			<ul className='list-group list-group-flush'>
 				<li className='list-group-item'>
 					<div className='row text-center'>
