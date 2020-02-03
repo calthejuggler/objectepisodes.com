@@ -4,9 +4,10 @@ import ListHFOTD from './components/ListHFOTD';
 import AdminNav from './components/AdminNav';
 import AddPOTD from './components/AddPOTD';
 import ListPOTD from './components/ListPOTD';
+import AdminUsers from './components/AdminUsers';
 
 const Admin = () => {
-	const [navChoice, setNavChoice] = useState('potd');
+	const [navChoice, setNavChoice] = useState('users');
 	return (
 		<>
 			<div className='row mt-3'>
@@ -51,6 +52,11 @@ const Admin = () => {
 								</div>
 							</div>
 						</div>
+					</>
+				)}
+				{navChoice === 'users' && (
+					<>
+						<AdminUsers />
 					</>
 				)}
 			</div>
