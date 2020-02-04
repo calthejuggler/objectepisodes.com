@@ -5,6 +5,7 @@ import Header from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { FirebaseContext } from './components/Firebase/index.jsx';
 import { AuthUserContext } from './components/Session/index.js';
+import LandingPage from './components/Pages/LandingPage/index.jsx';
 
 function App(props) {
 	const { firebase } = props;
@@ -16,37 +17,47 @@ function App(props) {
 	}, [firebase]);
 	return (
 		<AuthUserContext.Provider value={user}>
-			<div className='App'>
-				<FirebaseContext.Consumer>
-					{firebase => <Header user={user} firebase={firebase} />}
-				</FirebaseContext.Consumer>
-				<div id='main'>
-					<div className='container-fluid'>
-						<Switch>
-							{routes.map(route => {
-								if (route.name === 'Dashboard') {
-									return (
-										<Route
-											exact
-											key={route.name}
-											path={route.path}
-											component={route.component}
-										/>
-									);
-								} else {
-									return (
-										<Route
-											key={route.name}
-											path={route.path}
-											component={route.component}
-										/>
-									);
-								}
-							})}
-						</Switch>
+			<div className='App h-100 w-100'>
+				{user ? (
+					<>
+						<FirebaseContext.Consumer>
+							{firebase => (
+								<Header user={user} firebase={firebase} />
+							)}
+						</FirebaseContext.Consumer>
+						<div id='main'>
+							<div className='container-fluid'>
+								<Switch>
+									{routes.map(route => {
+										if (route.name === 'Dashboard') {
+											return (
+												<Route
+													exact
+													key={route.name}
+													path={route.path}
+													component={route.component}
+												/>
+											);
+										} else {
+											return (
+												<Route
+													key={route.name}
+													path={route.path}
+													component={route.component}
+												/>
+											);
+										}
+									})}
+								</Switch>
+							</div>
+						</div>
+						<Footer />
+					</>
+				) : (
+					<div className='container h-100 w-100'>
+						<LandingPage />
 					</div>
-				</div>
-				<Footer />
+				)}
 			</div>
 		</AuthUserContext.Provider>
 	);
