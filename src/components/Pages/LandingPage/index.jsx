@@ -70,15 +70,15 @@ const LandingPage = props => {
 						alt='ObjectEpisodes.com'
 						className='img-fluid d-block m-auto'
 					/>
-					<h1 className='display-4 text-center'>Is returning...</h1>
+					<h1 className='display-4 text-center'>is returning...</h1>
 				</div>
 			</div>
 			<div className='row'>
 				<div className='col-12 col-md-6 mx-auto text-center'>
 					<hr />
 					<p>
-						Subscribe to our mailing list to be the first to know
-						about updates!
+						<b>Subscribe to the mailing list</b> to be the first to
+						know when it is online!
 					</p>
 					<form onSubmit={handleSubmit}>
 						{error && (
@@ -108,7 +108,7 @@ const LandingPage = props => {
 						<input
 							type='submit'
 							className='btn btn-primary mt-2'
-							value={betaTester ? 'Login' : 'Subscribe!'}
+							value={betaTester ? 'Login' : 'Subscribe'}
 						/>
 					</form>
 				</div>
