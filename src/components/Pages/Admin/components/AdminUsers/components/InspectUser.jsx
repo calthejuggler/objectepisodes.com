@@ -12,7 +12,7 @@ const InspectUser = props => {
 	useEffect(() => {
 		if (firebase.auth.currentUser) {
 			firebase
-				.getUserDataFromUID(firebase.auth.currentUser.id)
+				.getUserDataFromUID(firebase.auth.currentUser.uid)
 				.then(user => {
 					if (user.data().admin) setUserIsAdmin(true);
 				});
