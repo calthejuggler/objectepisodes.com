@@ -9,23 +9,76 @@ const DashPOTD = props => {
 	useEffect(() => {
 		firebase.db
 			.collection('potd')
-			.where('toBeShown', '>=', new Date().setTime(0).valueOf())
-			.where(
-				'toBeShown',
-				'<=',
-				new Date().setDate(new Date().getDate() + 1).valueOf()
-			)
-			.limit(1)
+			.orderBy('timestamp', 'asc')
+			.limit(2)
 			.get()
 			.then(snapArray => {
-				firebase
-					.getUserDataFromUID(snapArray.docs[0].data().uploadedBy)
-					.then(user => {
-						setPotd({
-							potd: snapArray.docs[0].data(),
-							user: user.data(),
+				if (snapArray.empty) {
+					setError('ERROR: There were no POTDs in the Database :(');
+				} else if (!snapArray.docs[0].data().shown) {
+					firebase.db
+						.collection('potd')
+						.doc(snapArray.docs[0].id)
+						.update({
+							shown: firebase.dbFunc.FieldValue.serverTimestamp(),
+						})
+						.then(res => {
+							firebase
+								.getUserDataFromUID(
+									snapArray.docs[0].data().uploadedBy
+								)
+								.then(user => {
+									setPotd({
+										potd: snapArray.docs[0].data(),
+										user: user.data(),
+									});
+								});
+						})
+						.catch(e => setError(e.message));
+				} else if (
+					snapArray.docs[0]
+						.data()
+						.shown.toDate()
+						.getDate() < new Date().getDate() ||
+					(snapArray.docs[0]
+						.data()
+						.shown.toDate()
+						.getDate() !== 0 &&
+						new Date().getDate() === 0)
+				) {
+					firebase.db
+						.collection('potd-archive')
+						.doc(snapArray.docs[0].id)
+						.set(snapArray.docs[0].data())
+						.then(res => {
+							firebase.db
+								.collection('potd')
+								.doc(snapArray.docs[0].id)
+								.delete()
+								.then(() => {
+									firebase
+										.getUserDataFromUID(
+											snapArray.docs[1].data().uploadedBy
+										)
+										.then(user => {
+											setPotd({
+												potd: snapArray.docs[1].data(),
+												user: user.data(),
+											});
+										});
+								});
+						})
+						.catch(e => setError(e.message));
+				} else {
+					firebase
+						.getUserDataFromUID(snapArray.docs[1].data().uploadedBy)
+						.then(user => {
+							setPotd({
+								potd: snapArray.docs[1].data(),
+								user: user.data(),
+							});
 						});
-					});
+				}
 			})
 			.catch(e => setError(e.message));
 	}, [firebase]);
