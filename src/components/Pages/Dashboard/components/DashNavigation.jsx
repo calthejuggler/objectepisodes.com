@@ -4,6 +4,9 @@ const DashNavigation = () => {
 	return (
 		<ul className='list-group'>
 			<li className='list-group-item'>
+				<a href='/'>Juggling Tools (Coming Soon)</a>
+			</li>
+			<li className='list-group-item'>
 				<a href='/'>Juggling Clubs (Coming Soon)</a>
 			</li>
 			<li className='list-group-item'>
