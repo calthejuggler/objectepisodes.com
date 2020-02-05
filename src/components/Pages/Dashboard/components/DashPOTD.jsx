@@ -33,8 +33,7 @@ const DashPOTD = props => {
 										user: user.data(),
 									});
 								});
-						})
-						.catch(e => setError(e.message));
+						});
 				} else if (
 					snapArray.docs[0]
 						.data()
@@ -67,8 +66,7 @@ const DashPOTD = props => {
 											});
 										});
 								});
-						})
-						.catch(e => setError(e.message));
+						});
 				} else {
 					firebase
 						.getUserDataFromUID(snapArray.docs[1].data().uploadedBy)
@@ -83,23 +81,25 @@ const DashPOTD = props => {
 			.catch(e => setError(e.message));
 	}, [firebase]);
 	return (
-		potd && (
-			<>
-				<p className='text-center small'>
-					Uploaded By:{' '}
-					<a href={'#/user/' + potd.user.username}>
-						{potd.user.username}
-					</a>
-				</p>
-				<img
-					src={potd.potd.photoUrl}
-					alt='Placeholder'
-					className='img-fluid'
-					style={{ maxHeight: '18rem' }}
-				/>
-				{error && <div className='alert alert-danger'>{error}</div>}
-			</>
-		)
+		<>
+			{potd && (
+				<>
+					<p className='text-center small'>
+						Uploaded By:{' '}
+						<a href={'#/user/' + potd.user.username}>
+							{potd.user.username}
+						</a>
+					</p>
+					<img
+						src={potd.potd.photoUrl}
+						alt='Placeholder'
+						className='img-fluid'
+						style={{ maxHeight: '18rem' }}
+					/>
+				</>
+			)}
+			{error && <div className='alert alert-danger'>{error}</div>}
+		</>
 	);
 };
 

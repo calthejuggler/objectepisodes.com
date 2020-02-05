@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { withFirebase } from '../../../../Firebase/context';
 import MostRecord from './components/MostRecord';
 
@@ -9,7 +9,9 @@ const DashRecords = props => {
 	const [mostClubs, setMostClubs] = useState(null);
 	const [mostRings, setMostRings] = useState(null);
 
-	useLayoutEffect(() => {
+	const [error, setError] = useState(null);
+
+	useEffect(() => {
 		firebase.db
 			.collection('records')
 			.where('propType', '==', 'ball')
@@ -25,7 +27,7 @@ const DashRecords = props => {
 						});
 				});
 			})
-			.catch(e => console.dir(e.message));
+			.catch(e => setError(e.message));
 		firebase.db
 			.collection('records')
 			.where('propType', '==', 'club')
@@ -41,7 +43,7 @@ const DashRecords = props => {
 						});
 				});
 			})
-			.catch(e => console.dir(e.message));
+			.catch(e => setError(e.message));
 		firebase.db
 			.collection('records')
 			.where('propType', '==', 'ring')
@@ -57,41 +59,47 @@ const DashRecords = props => {
 						});
 				});
 			})
-			.catch(e => console.dir(e.message));
+			.catch(e => setError(e.message));
 	}, [firebase]);
 	return (
-		<ul className='list-group list-group-flush text-left'>
-			<li className='list-group-item'>
-				<div className='row align-items-center'>
-					{mostBalls && (
-						<MostRecord
-							title='Most Balls:'
-							recordProp={mostBalls}
-						/>
-					)}
-				</div>
-			</li>
-			<li className='list-group-item'>
-				<div className='row align-items-center'>
-					{mostClubs && (
-						<MostRecord
-							title='Most Clubs:'
-							recordProp={mostClubs}
-						/>
-					)}
-				</div>
-			</li>
-			<li className='list-group-item'>
-				<div className='row align-items-center'>
-					{mostRings && (
-						<MostRecord
-							title='Most Rings:'
-							recordProp={mostRings}
-						/>
-					)}
-				</div>
-			</li>
-		</ul>
+		<>
+			{error ? (
+				<div className='alert alert-danger'>{error}</div>
+			) : (
+				<ul className='list-group list-group-flush text-left'>
+					<li className='list-group-item'>
+						<div className='row align-items-center'>
+							{mostBalls && (
+								<MostRecord
+									title='Most Balls:'
+									recordProp={mostBalls}
+								/>
+							)}
+						</div>
+					</li>
+					<li className='list-group-item'>
+						<div className='row align-items-center'>
+							{mostClubs && (
+								<MostRecord
+									title='Most Clubs:'
+									recordProp={mostClubs}
+								/>
+							)}
+						</div>
+					</li>
+					<li className='list-group-item'>
+						<div className='row align-items-center'>
+							{mostRings && (
+								<MostRecord
+									title='Most Rings:'
+									recordProp={mostRings}
+								/>
+							)}
+						</div>
+					</li>
+				</ul>
+			)}
+		</>
 	);
 };
 
