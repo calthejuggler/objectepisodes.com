@@ -26,6 +26,9 @@ const UsersList = props => {
 			<li className='list-group-item'>
 				<div className='row text-center'>
 					<div className='col-2'>
+						<b>Pic</b>
+					</div>
+					<div className='col-2'>
 						<b>Username</b>
 					</div>
 					<div className='col-2'>
@@ -33,9 +36,6 @@ const UsersList = props => {
 					</div>
 					<div className='col-3'>
 						<b>Email</b>
-					</div>
-					<div className='col-2'>
-						<b>Pic</b>
 					</div>
 					<div className='col-2'>
 						<b>Created</b>

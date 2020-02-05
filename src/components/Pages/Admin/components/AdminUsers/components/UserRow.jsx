@@ -9,11 +9,6 @@ const UserRow = props => {
 				setSelectedUser(user);
 			}}>
 			<div className='row text-center align-items-center'>
-				<div className='col-2'>{user.data().username}</div>
-				<div className='col-2'>
-					{user.data().firstname + ' ' + user.data().lastname}
-				</div>
-				<div className='col-3'>{user.data().email}</div>
 				<div className='col-2'>
 					<img
 						src={user.data().photoURL}
@@ -26,6 +21,15 @@ const UserRow = props => {
 						alt={user.data().username + "'s Profile"}
 					/>
 				</div>
+				<div className='col-2'>
+					<a href={'#/user/' + user.data().username}>
+						{user.data().username}
+					</a>
+				</div>
+				<div className='col-2'>
+					{user.data().firstname + ' ' + user.data().lastname}
+				</div>
+				<div className='col-3'>{user.data().email}</div>
 				<div className='col-2'>
 					{user
 						.data()
