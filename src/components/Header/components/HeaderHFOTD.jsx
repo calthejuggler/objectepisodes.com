@@ -10,29 +10,57 @@ const HeaderHFOTD = props => {
 	useEffect(() => {
 		firebase.db
 			.collection('hfotd')
-			.where('toBeShown', '>=', new Date().setTime(0).valueOf())
-			.where(
-				'toBeShown',
-				'<=',
-				new Date().setDate(new Date().getDate() + 1).valueOf()
-			)
-			.orderBy('toBeShown', 'asc')
-			.limit(1)
+			.orderBy('timestamp', 'asc')
+			.limit(2)
 			.get()
 			.then(docsSnap => {
 				if (docsSnap.empty) {
-					setError(
-						'There was an issue retrieving a HFOTD for today!'
-					);
+					setError("There were no HFOTD in the database :'(");
 					setHfotd('ERROR:');
 				} else {
-					setHfotd(docsSnap.docs[0].data());
+					if (!docsSnap.docs[0].data().shown) {
+						firebase.db
+							.collection('hfotd')
+							.doc(docsSnap.docs[0].id)
+							.update({
+								shown: firebase.dbFunc.FieldValue.serverTimestamp(),
+							})
+							.then(res => setHfotd(docsSnap.docs[0].data()))
+							.catch(e => setError(e.message));
+					} else if (
+						docsSnap.docs[0]
+							.data()
+							.shown.toDate()
+							.getDate() < new Date().getDate() ||
+						(docsSnap.docs[0]
+							.data()
+							.shown.toDate()
+							.getDate() !== 0 &&
+							new Date().getDate() === 0)
+					) {
+						firebase.db
+							.collection('hfotd-archive')
+							.doc(docsSnap.docs[0].id)
+							.set(docsSnap.docs[0].data())
+							.then(res => {
+								firebase.db
+									.collection('hfotd')
+									.doc(docsSnap.docs[0].id)
+									.delete()
+									.then(() => {
+										setHfotd(docsSnap.docs[1].data());
+									});
+							})
+							.catch(e => setError(e.message));
+					} else {
+						setHfotd(docsSnap.docs[0].data());
+					}
 				}
 			})
 			.catch(e => {
 				setError(e.message);
 			});
-	}, [firebase.db]);
+	}, [firebase.db, firebase.dbFunc.FieldValue]);
 	return (
 		<div className='card h-100 text-center'>
 			<div className='card-body'>

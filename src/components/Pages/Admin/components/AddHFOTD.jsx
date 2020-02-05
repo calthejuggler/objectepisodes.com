@@ -19,7 +19,6 @@ const AddHFOTD = props => {
 						fact: hfotd,
 						user: user.uid,
 						timestamp: firebase.dbFunc.FieldValue.serverTimestamp(),
-						toBeShown: new Date('02/02/2020').setDate(new Date('02/02/2020').getDate()+docsSnap.docs.length),
 					})
 					.then(res => {
 						setHfotd('');
