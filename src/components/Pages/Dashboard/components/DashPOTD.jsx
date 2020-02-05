@@ -5,6 +5,7 @@ import { withFirebase } from '../../../Firebase/context';
 const DashPOTD = props => {
 	const { firebase } = props;
 	const [potd, setPotd] = useState(null);
+	const [error, setError] = useState(null);
 	useEffect(() => {
 		firebase.db
 			.collection('potd')
@@ -25,7 +26,8 @@ const DashPOTD = props => {
 							user: user.data(),
 						});
 					});
-			});
+			})
+			.catch(e => setError(e.message));
 	}, [firebase]);
 	return (
 		potd && (
@@ -42,6 +44,7 @@ const DashPOTD = props => {
 					className='img-fluid'
 					style={{ maxHeight: '18rem' }}
 				/>
+				{error && <div className='alert alert-danger'>{error}</div>}
 			</>
 		)
 	);
