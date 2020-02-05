@@ -8,7 +8,7 @@ const ListHFOTD = props => {
 	useLayoutEffect(() => {
 		return firebase.db
 			.collection('hfotd')
-			.orderBy('timestamp', 'desc')
+			.orderBy('timestamp', 'asc')
 			.onSnapshot(hfotdsSnap => {
 				setFacts([]);
 				hfotdsSnap.forEach(hfotd => {
@@ -61,8 +61,7 @@ const ListHFOTD = props => {
 										</a>
 									</div>
 									<div className='col-2'>
-										{fact.factData.data().toBeShown <=
-										new Date().valueOf()
+										{fact.factData.data().shown
 											? 'Yes'
 											: 'No'}
 									</div>
