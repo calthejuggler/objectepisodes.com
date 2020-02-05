@@ -16,7 +16,8 @@ const Header = props => {
 				.get()
 				.then(userSnap => {
 					setUserData(userSnap.data());
-				});
+				})
+				.catch(e => console.dir(e.message));
 		}
 		return () => {};
 	}, [firebase.db, user]);

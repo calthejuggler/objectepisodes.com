@@ -8,7 +8,7 @@ const DashForum = props => {
 	const [postsLoading, setPostsLoading] = useState(true);
 	useLayoutEffect(() => {
 		setPostsLoading(true);
-		firebase.db
+		return firebase.db
 			.collection('forum')
 			.orderBy('likeCount', 'desc')
 			.limit(3)

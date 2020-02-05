@@ -24,7 +24,8 @@ const DashRecords = props => {
 							setMostBalls({ record: doc, user: userDoc });
 						});
 				});
-			});
+			})
+			.catch(e => console.dir(e.message));
 		firebase.db
 			.collection('records')
 			.where('propType', '==', 'club')
@@ -39,7 +40,8 @@ const DashRecords = props => {
 							setMostClubs({ record: doc, user: userDoc });
 						});
 				});
-			});
+			})
+			.catch(e => console.dir(e.message));
 		firebase.db
 			.collection('records')
 			.where('propType', '==', 'ring')
@@ -54,7 +56,8 @@ const DashRecords = props => {
 							setMostRings({ record: doc, user: userDoc });
 						});
 				});
-			});
+			})
+			.catch(e => console.dir(e.message));
 	}, [firebase]);
 	return (
 		<ul className='list-group list-group-flush text-left'>
