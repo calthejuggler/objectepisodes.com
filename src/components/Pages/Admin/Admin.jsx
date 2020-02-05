@@ -12,11 +12,10 @@ const Admin = () => {
 		<>
 			<div className='row mt-3'>
 				<div className='col-12 col-md-3'>
-					<div className='card'>
-						<div className='card-body'>
-							<AdminNav setNavChoice={setNavChoice} />
-						</div>
-					</div>
+					<AdminNav
+						setNavChoice={setNavChoice}
+						navChoice={navChoice}
+					/>
 				</div>
 				{navChoice === 'hfotd' && (
 					<>
