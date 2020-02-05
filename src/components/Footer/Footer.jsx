@@ -54,12 +54,9 @@ export const Footer = () => {
 				<div className='col-4'>
 					<ul className='navbar-nav'>
 						<li>
-							<button
-								className='btn btn-link'
-								type='button'
-								disabled>
+							<a href='#/about' className='text-white'>
 								About this Site
-							</button>
+							</a>
 						</li>
 						<li>
 							<button
