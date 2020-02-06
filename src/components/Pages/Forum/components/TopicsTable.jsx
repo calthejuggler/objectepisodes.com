@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import AddTopic from './AddTopic';
 import TopicRow from './TopicRow';
+import ItemsPerPage from './ItemsPerPage';
 
 const TopicsTable = props => {
 	const {
@@ -61,7 +62,7 @@ const TopicsTable = props => {
 					});
 				}
 			});
-	}, [currentCategory, firebase, topicsPerPage]);
+	}, [currentCategory, firebase, topicsPerPage, setTitle]);
 
 	const loadNextTopics = () => {
 		setTopicLoading(true);
@@ -130,28 +131,22 @@ const TopicsTable = props => {
 
 	return (
 		<>
-			<AddTopic
-				addTopic={addTopic}
-				setAddTopic={setAddTopic}
-				currentCategory={currentCategory}
-			/>
-			<p>Topics/page</p>
-			<select
-				name='topicsPerPage'
-				id='topicsPerPage'
-				className='dropdown'
-				value={topicsPerPage}
-				onChange={e => {
-					setTopicLoading(1);
-					setTopicsPerPage(parseInt(e.target.value, 10));
-				}}>
-				<option value={5}>5</option>
-				<option value={10}>10</option>
-				<option value={20}>20</option>
-				<option value={40}>40</option>
-				<option value={80}>80</option>
-				<option value={100}>100</option>
-			</select>
+			<div className='row justify-content-between align-items-center'>
+				<div className='col-6'>
+					<AddTopic
+						addTopic={addTopic}
+						setAddTopic={setAddTopic}
+						currentCategory={currentCategory}
+					/>
+				</div>
+				<div className='col-6 text-center'>
+					<ItemsPerPage
+						currentItemsPerPage={topicsPerPage}
+						setLoadingState={setTopicLoading}
+						setItemsPerPage={setTopicsPerPage}
+					/>
+				</div>
+			</div>
 			<ul className='list-group list-group-flush'>
 				<li className='list-group-item'>
 					<div className='row align-items-center'>
