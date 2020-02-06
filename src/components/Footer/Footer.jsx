@@ -1,9 +1,10 @@
 import React from 'react';
+import DonateButton from './components/DonateButton';
 
 export const Footer = () => {
 	return (
 		<footer className='bg-dark text-white text-center'>
-			<div className='row align-items-center justify-content-center py-3'>
+			<div className='row align-items-center justify-content-center py-3 order-1'>
 				<div className='col-4'>
 					<ul className='navbar-nav'>
 						<li>
@@ -32,8 +33,8 @@ export const Footer = () => {
 						</li>
 					</ul>
 				</div>
-				<div className='col-4'>
-					<ul className='navbar-nav text-muted'>
+				<div className='col-12 col-md-2 order-3 order-md-2'>
+					<ul className='navbar-nav text-white'>
 						<li>
 							Consider donating to support objectepisodes.com!
 						</li>
@@ -45,13 +46,11 @@ export const Footer = () => {
 							</small>
 						</li>
 						<li>
-							<button disabled className='btn btn-disabled mt-2'>
-								Donate
-							</button>
+							<DonateButton />
 						</li>
 					</ul>
 				</div>
-				<div className='col-4'>
+				<div className='col-4 order-2 order-md-3'>
 					<ul className='navbar-nav'>
 						<li>
 							<a href='#/about' className='text-white'>
