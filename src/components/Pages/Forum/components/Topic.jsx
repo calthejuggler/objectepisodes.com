@@ -2,6 +2,7 @@ import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import AddComment from './AddComment';
 import LikeButton from './LikeButton';
+import ProfilePicture from '../../../elements/ProfilePicture';
 
 const Topic = props => {
 	const { firebase, currentTopic, currentCategory, setTitle } = props;
@@ -64,6 +65,9 @@ const Topic = props => {
 		<>
 			<div className='row'>
 				<div className='col-12'>
+					<h3 className='m-2'>Original Post</h3>
+				</div>
+				<div className='col-12'>
 					<div className='card'>
 						<div className='card-body'>
 							{!post ? (
@@ -78,23 +82,41 @@ const Topic = props => {
 								</div>
 							) : (
 								<div className='row align-items-center'>
-									<div className='col-12'>
-										<h5>{post.data.title}</h5>
+									<div className='col-12 col-md-3 text-center'>
+										<div className='row align-items-center justify-content-center'>
+											<div className='col-5 col-md-12'>
+												<ProfilePicture
+													userID={post.data.user}
+													size={['50%', '50%']}
+												/>
+												<br />
+												<a
+													href={
+														'#/user/' +
+														post.user.username
+													}>
+													{post.user.username}
+												</a>
+											</div>
+											<div className='col-7 col-md-12'>
+												<p>
+													{post.data.posted
+														.toDate()
+														.toUTCString()}
+												</p>
+											</div>
+										</div>
 									</div>
-									<div className='col-10'>
-										<a
-											href={
-												'#/user/' + post.user.username
-											}>
-											{post.user.username}
-										</a>
-										<p>
-											{post.data.posted
-												.toDate()
-												.toUTCString()}
-										</p>
+									<div className='col-12 col-md-7'>
+										{post.data.content ? (
+											<p>{post.data.content}</p>
+										) : (
+											<p className='text-warning mt-3'>
+												This post has no text...
+											</p>
+										)}
 									</div>
-									<div className='col-2'>
+									<div className='col-12 col-md-2'>
 										<LikeButton
 											postID={post.id}
 											likes={post.data.likes}
@@ -102,13 +124,15 @@ const Topic = props => {
 											size={3}
 										/>
 									</div>
-									<div className='col-12'>
-										<p>{post.data.content}</p>
-									</div>
 								</div>
 							)}
 						</div>
 					</div>
+				</div>
+				<div className='col-12'>
+					<h3 className='m-2'>
+						Recent Comments <small>(Date - desc.)</small>
+					</h3>
 				</div>
 				{commentsLoading ? (
 					<div className='col-12 mt-1'>
@@ -139,30 +163,51 @@ const Topic = props => {
 							<div className='card'>
 								<div className='card-body'>
 									<div className='row align-items-center'>
-										<div className='col-10'>
-											<a
-												href={
-													'#/user/' +
-													comment.user.username
-												}>
-												{comment.user.username}
-											</a>
-											<p>
-												{comment.data.timestamp
-													.toDate()
-													.toUTCString()}
-											</p>
+										<div className='col-12 col-md-3 text-center'>
+											<div className='row align-items-center justify-content-center'>
+												<div className='col-5 col-md-12'>
+													<ProfilePicture
+														userID={
+															comment.data.user
+														}
+														size={['50%', '50%']}
+														centered
+													/>
+													<br />
+													<a
+														href={
+															'#/user/' +
+															comment.user
+																.username
+														}>
+														{comment.user.username}
+													</a>
+												</div>
+												<div className='col-7 col-md-12'>
+													<p>
+														{comment.data.timestamp
+															.toDate()
+															.toUTCString()}
+													</p>
+												</div>
+											</div>
 										</div>
-										<div className='col-2'>
+										<div className='col-12 col-md-7'>
+											{comment.data.comment ? (
+												<p>{comment.data.comment}</p>
+											) : (
+												<p className='text-warning mt-3'>
+													This post has no text...
+												</p>
+											)}
+										</div>
+										<div className='col-12 col-md-2'>
 											<LikeButton
 												postID={comment.id}
 												likes={comment.data.likes}
-												type='comment'
-												size={3}
+												type='post'
+												size={5}
 											/>
-										</div>
-										<div className='col-12'>
-											<p>{comment.data.comment}</p>
 										</div>
 									</div>
 								</div>
