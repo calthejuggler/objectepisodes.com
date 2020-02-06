@@ -34,7 +34,7 @@ const Forum = props => {
 	}, [firebase, props.history]);
 
 	return (
-		<div className='row'>
+		<div className='row mb-3'>
 			<div className='col-12'>
 				<Breadcrumbs
 					locationArray={location}

@@ -14,7 +14,6 @@ const TopicsTable = props => {
 	} = props;
 
 	const [topics, setTopics] = useState([]);
-	const [addTopic, setAddTopic] = useState(false);
 	const [topicLoading, setTopicLoading] = useState(true);
 
 	const [page, setPage] = useState(0);
@@ -134,12 +133,10 @@ const TopicsTable = props => {
 			<div className='row justify-content-between align-items-center'>
 				<div className='col-6'>
 					<AddTopic
-						addTopic={addTopic}
-						setAddTopic={setAddTopic}
 						currentCategory={currentCategory}
 					/>
 				</div>
-				<div className='col-6 text-center'>
+				<div className='col-6 text-right'>
 					<ItemsPerPage
 						currentItemsPerPage={topicsPerPage}
 						setLoadingState={setTopicLoading}

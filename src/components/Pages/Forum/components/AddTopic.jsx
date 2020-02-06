@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import { withRouter } from 'react-router-dom';
 
+import $ from 'jquery';
+
 const AddTopic = props => {
-	const { firebase, currentCategory, setAddTopic, addTopic, history } = props;
+	const { firebase, currentCategory, history } = props;
 
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState('');
@@ -26,7 +28,7 @@ const AddTopic = props => {
 				firebase.incrementForumPosts(firebase.auth.currentUser.uid);
 				setTitle('');
 				setContent('');
-				setAddTopic(false);
+				$('#addTopicModal').modal('hide')
 			})
 			.catch(e => setError(e.message));
 	};
@@ -35,7 +37,7 @@ const AddTopic = props => {
 		<>
 			<button
 				type='button'
-				className='btn btn-primary mb-3 d-block mx-auto'
+				className='btn btn-primary mb-3'
 				data-toggle='modal'
 				data-target='#addTopicModal'>
 				+ Topic
