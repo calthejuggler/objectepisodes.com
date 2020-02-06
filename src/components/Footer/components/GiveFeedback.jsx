@@ -121,7 +121,7 @@ const GiveFeedback = props => {
 								type='button'
 								className='btn btn-primary'
 								onClick={handleFeedbackSubmit}>
-								Save changes
+								Send Feedback
 							</button>
 						</div>
 					</div>
