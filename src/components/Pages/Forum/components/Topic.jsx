@@ -89,7 +89,7 @@ const Topic = props => {
 											<div className='col-6 col-md-12'>
 												<ProfilePicture
 													userID={post.data.user}
-													size={['5rem', '5rem']}
+													size={['3rem', '3rem']}
 												/>
 												<br />
 												<a
@@ -174,7 +174,7 @@ const Topic = props => {
 														userID={
 															comment.data.user
 														}
-														size={['5rem', '5rem']}
+														size={['3rem', '3rem']}
 													/>
 													<br />
 													<a
