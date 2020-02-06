@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/context';
 
 const CategoryTable = props => {
-	const { categories, setCurrentCategory, setLocation } = props;
+	const { categories, setCurrentCategory, setLocation, setTitle } = props;
+	useEffect(() => {
+		setTitle('Forum');
+	}, [setTitle]);
 	return (
 		<ul className='list-group list-group-flush'>
 			<li className='list-group-item'>
@@ -26,6 +29,7 @@ const CategoryTable = props => {
 									setCurrentCategory(category.id);
 									props.history.push('/forum/' + category.id);
 									setLocation(prev => [...prev, category.id]);
+									setTitle(category.id)
 								}}>
 								{category.id}
 							</button>

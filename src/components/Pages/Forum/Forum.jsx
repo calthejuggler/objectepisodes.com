@@ -13,6 +13,8 @@ const Forum = props => {
 	const [currentTopic, setCurrentTopic] = useState(null);
 	const [location, setLocation] = useState(['forum']);
 
+	const [title, setTitle] = useState(['Loading Forum...']);
+
 	useLayoutEffect(() => {
 		let locationArray = props.history.location.pathname.slice(1).split('/');
 		if (locationArray.length === 3) {
@@ -36,7 +38,6 @@ const Forum = props => {
 			<div className='col-12'>
 				<div className='card'>
 					<div className='card-body'>
-						<h3 className='text-center'>Forum</h3>
 						<Breadcrumbs
 							locationArray={location}
 							setLocation={setLocation}
@@ -44,7 +45,10 @@ const Forum = props => {
 							setCurrentTopic={setCurrentTopic}
 							currentCategory={currentCategory}
 							currentTopic={currentTopic}
+							title={title}
+							setTitle={setTitle}
 						/>
+						<h3 className='text-center'>{title}</h3>
 						{categories.length === 0 &&
 						!currentCategory &&
 						!currentTopic ? (
@@ -60,6 +64,7 @@ const Forum = props => {
 								categories={categories}
 								setCurrentCategory={setCurrentCategory}
 								setLocation={setLocation}
+								setTitle={setTitle}
 							/>
 						) : !currentTopic ? (
 							<TopicsTable

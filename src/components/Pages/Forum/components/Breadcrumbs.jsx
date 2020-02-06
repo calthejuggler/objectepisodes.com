@@ -12,6 +12,8 @@ const Breadcrumbs = props => {
 		setLocation,
 		setCurrentTopic,
 		setCurrentCategory,
+		title,
+		setTitle,
 	} = props;
 
 	const [topicTitle, setTopicTitle] = useState(null);
@@ -27,6 +29,7 @@ const Breadcrumbs = props => {
 							)
 							.then(topicSnap => {
 								setTopicTitle(topicSnap.data().title);
+								setTitle(topicSnap.data().title)
 							});
 					}
 					return (

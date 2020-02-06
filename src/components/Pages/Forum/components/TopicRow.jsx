@@ -62,7 +62,12 @@ const TopicRow = props => {
 					</p>
 				</div>
 				<div className='col-4 col-sm-1'>
-					<LikeButton postID={id} likes={likes} type='post' size={3} />
+					<LikeButton
+						postID={id}
+						likes={likes}
+						type='post'
+						size={3}
+					/>
 				</div>
 			</div>
 		</li>
