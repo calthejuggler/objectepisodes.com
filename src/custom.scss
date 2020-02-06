@@ -1,23 +1,10 @@
 @import './node_modules/bootstrap/scss/bootstrap.scss';
 
-html,body,#root,.App {
+html,
+body,
+#root,
+.App {
 	height: 100%;
 	width: 100%;
+	overflow-x: hidden;
 }
-
-.App {
-	display: flex;
-	flex-direction: column;
-	#header {
-		width: 100vw;
-		height: 10vh;
-		#header-logo {
-			height: 10vh;
-		}
-	}
-	#main {
-		height: 85vh;
-		flex: 1;
-	}
-}
-
