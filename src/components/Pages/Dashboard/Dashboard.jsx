@@ -32,7 +32,7 @@ const Dashboard = () => {
 					<DashPanel
 						title='Top Records'
 						btnTitle='See all Records'
-						url='records'>
+						url='record'>
 						<DashRecords />
 					</DashPanel>
 				</div>
