@@ -10,7 +10,7 @@ import { useState } from 'react';
 const GiveFeedback = props => {
 	const { firebase, user } = props;
 
-	const [rating, setRating] = useState(3);
+	const [rating, setRating] = useState([1, 1, 1, 0, 0]);
 	const [ratingCanChange, setRatingCanChange] = useState(true);
 
 	const [message, setMessage] = useState('');
