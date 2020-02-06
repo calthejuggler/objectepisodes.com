@@ -4,6 +4,7 @@ import logo from '../../images/objectepisodes_logo.jpg';
 import { withRouter } from 'react-router-dom';
 import HeaderHFOTD from './components/HeaderHFOTD';
 import AdminHeader from './components/AdminHeader';
+import ProfilePicture from '../elements/ProfilePicture';
 
 const Header = props => {
 	const { user, firebase } = props;
@@ -38,24 +39,10 @@ const Header = props => {
 					<div className='col-12 col-md-4 order-2 order-md-1'>
 						{user && userData ? (
 							<div className='text-center'>
-								{!user.photoURL ? (
-									<img
-										src='https://via.placeholder.com/50x50'
-										alt='profile pic'
-										className='rounded-circle'
-									/>
-								) : (
-									<img
-										src={user.photoURL}
-										alt='profile pic'
-										style={{
-											height: '50px',
-											width: '50px',
-											objectFit: 'cover',
-										}}
-										className='img-fluid rounded-circle'
-									/>
-								)}
+								<ProfilePicture
+									userID={user.uid}
+									size={['5rem', '5rem']}
+								/>
 								<p>
 									Logged in as{' '}
 									<a href={'#/user/' + userData.username}>
