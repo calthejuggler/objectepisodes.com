@@ -34,60 +34,101 @@ const AddTopic = props => {
 	return (
 		<>
 			<button
+				type='button'
 				className='btn btn-primary mb-3 d-block mx-auto'
-				onClick={() => setAddTopic(true)}>
-				+ Add Topic
+				data-toggle='modal'
+				data-target='#addTopicModal'>
+				+ Topic
 			</button>
-			{addTopic && (
-				<div className='card mb-3'>
-					<div className='card-body'>
-						{error && (
-							<div className='alert alert-danger'>{error}</div>
-						)}
-						{firebase.auth.currentUser ? (
-							<form onSubmit={handleAddTopicSubmit}>
-								<div className='form-group'>
-									<label htmlFor='title'>Title:</label>
-									<input
-										name='title'
-										type='text'
-										className='form-control'
-										value={title}
-										onChange={e => setTitle(e.target.value)}
-									/>
+
+			<div
+				className='modal fade'
+				id='addTopicModal'
+				tabIndex='-1'
+				role='dialog'
+				aria-labelledby='addTopicModalLabel'
+				aria-hidden='true'>
+				<div className='modal-dialog' role='document'>
+					<div className='modal-content'>
+						<div className='modal-header'>
+							<h5 className='modal-title' id='addTopicModalLabel'>
+								Add Topic
+							</h5>
+							<button
+								type='button'
+								className='close'
+								data-dismiss='modal'
+								aria-label='Close'>
+								<span aria-hidden='true'>&times;</span>
+							</button>
+						</div>
+						<div className='modal-body'>
+							{error && (
+								<div className='alert alert-danger'>
+									{error}
 								</div>
-								<div className='form-group'>
-									<label htmlFor='content'>Content:</label>
-									<textarea
-										name='content'
-										id=''
-										cols='30'
-										rows='10'
-										className='form-control'
-										value={content}
-										onChange={e =>
-											setContent(e.target.value)
-										}></textarea>
-								</div>
-								<input
-									type='submit'
-									value='Post'
-									className='btn btn-primary d-block mx-auto'
-								/>
-							</form>
-						) : (
-							<p>
-								If you want to post to the forum, you need to{' '}
-								<button
-									className='btn btn-sm btn-link'
-									onClick={() => history.replace('/login')}>
-									Sign In
-								</button>
-							</p>
-						)}
+							)}
+							{firebase.auth.currentUser ? (
+								<form>
+									<div className='form-group'>
+										<label htmlFor='title'>Title:</label>
+										<input
+											name='title'
+											type='text'
+											className='form-control'
+											value={title}
+											onChange={e =>
+												setTitle(e.target.value)
+											}
+										/>
+									</div>
+									<div className='form-group'>
+										<label htmlFor='content'>
+											Content:
+										</label>
+										<textarea
+											name='content'
+											id=''
+											cols='30'
+											rows='10'
+											className='form-control'
+											value={content}
+											onChange={e =>
+												setContent(e.target.value)
+											}></textarea>
+									</div>
+								</form>
+							) : (
+								<p>
+									If you want to post to the forum, you need
+									to{' '}
+									<button
+										className='btn btn-sm btn-link'
+										onClick={() =>
+											history.replace('/login')
+										}>
+										Sign In
+									</button>
+								</p>
+							)}
+						</div>
+						<div className='modal-footer'>
+							<button
+								type='button'
+								className='btn btn-secondary'
+								data-dismiss='modal'>
+								Cancel
+							</button>
+							<button
+								type='button'
+								className='btn btn-primary'
+								onClick={handleAddTopicSubmit}>
+								Post
+							</button>
+						</div>
 					</div>
 				</div>
-			)}
+			</div>
 		</>
 	);
 };
