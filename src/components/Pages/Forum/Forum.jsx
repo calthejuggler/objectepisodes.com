@@ -36,52 +36,46 @@ const Forum = props => {
 	return (
 		<div className='row'>
 			<div className='col-12'>
-				<div className='card'>
-					<div className='card-body'>
-						<Breadcrumbs
-							locationArray={location}
-							setLocation={setLocation}
-							setCurrentCategory={setCurrentCategory}
-							setCurrentTopic={setCurrentTopic}
-							currentCategory={currentCategory}
-							currentTopic={currentTopic}
-							title={title}
-							setTitle={setTitle}
-						/>
-						<h3 className='text-center'>{title}</h3>
-						{categories.length === 0 &&
-						!currentCategory &&
-						!currentTopic ? (
-							<div className='d-flex justify-content-center'>
-								<div
-									className='spinner-border mx-auto'
-									role='status'>
-									<span className='sr-only'>Loading...</span>
-								</div>
-							</div>
-						) : !currentCategory ? (
-							<CategoryTable
-								categories={categories}
-								setCurrentCategory={setCurrentCategory}
-								setLocation={setLocation}
-								setTitle={setTitle}
-							/>
-						) : !currentTopic ? (
-							<TopicsTable
-								setTitle={setTitle}
-								setLocation={setLocation}
-								currentCategory={currentCategory}
-								setCurrentTopic={setCurrentTopic}
-							/>
-						) : (
-							<Topic
-								setTitle={setTitle}
-								currentTopic={currentTopic}
-								currentCategory={currentCategory}
-							/>
-						)}
+				<Breadcrumbs
+					locationArray={location}
+					setLocation={setLocation}
+					setCurrentCategory={setCurrentCategory}
+					setCurrentTopic={setCurrentTopic}
+					currentCategory={currentCategory}
+					currentTopic={currentTopic}
+					title={title}
+					setTitle={setTitle}
+				/>
+				<h1 className='text-center'>{title}</h1>
+				{categories.length === 0 &&
+				!currentCategory &&
+				!currentTopic ? (
+					<div className='d-flex justify-content-center'>
+						<div className='spinner-border mx-auto' role='status'>
+							<span className='sr-only'>Loading...</span>
+						</div>
 					</div>
-				</div>
+				) : !currentCategory ? (
+					<CategoryTable
+						categories={categories}
+						setCurrentCategory={setCurrentCategory}
+						setLocation={setLocation}
+						setTitle={setTitle}
+					/>
+				) : !currentTopic ? (
+					<TopicsTable
+						setTitle={setTitle}
+						setLocation={setLocation}
+						currentCategory={currentCategory}
+						setCurrentTopic={setCurrentTopic}
+					/>
+				) : (
+					<Topic
+						setTitle={setTitle}
+						currentTopic={currentTopic}
+						currentCategory={currentCategory}
+					/>
+				)}
 			</div>
 		</div>
 	);
