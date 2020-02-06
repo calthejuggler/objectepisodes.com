@@ -4,7 +4,13 @@ import AddTopic from './AddTopic';
 import TopicRow from './TopicRow';
 
 const TopicsTable = props => {
-	const { firebase, currentCategory, setCurrentTopic, setLocation } = props;
+	const {
+		firebase,
+		currentCategory,
+		setCurrentTopic,
+		setLocation,
+		setTitle,
+	} = props;
 
 	const [topics, setTopics] = useState([]);
 	const [addTopic, setAddTopic] = useState(false);
@@ -17,6 +23,7 @@ const TopicsTable = props => {
 	const [firstTopicVisible, setFirstTopicVisible] = useState(null);
 
 	useLayoutEffect(() => {
+		setTitle(currentCategory);
 		firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)

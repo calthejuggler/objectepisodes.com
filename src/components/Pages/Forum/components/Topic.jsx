@@ -4,7 +4,7 @@ import AddComment from './AddComment';
 import LikeButton from './LikeButton';
 
 const Topic = props => {
-	const { firebase, currentTopic, currentCategory } = props;
+	const { firebase, currentTopic, currentCategory, setTitle } = props;
 
 	const [post, setPost] = useState(null);
 
@@ -20,6 +20,7 @@ const Topic = props => {
 				firebase
 					.getUserDataFromUID(topicSnap.data().user.trim())
 					.then(topicUserSnap => {
+						setTitle(topicSnap.data().title);
 						setPost({
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
@@ -28,7 +29,7 @@ const Topic = props => {
 					})
 					.catch(e => console.dir(e.message));
 			});
-	}, [currentCategory, currentTopic, firebase]);
+	}, [currentCategory, currentTopic, firebase, setTitle]);
 
 	useLayoutEffect(() => {
 		return firebase.db

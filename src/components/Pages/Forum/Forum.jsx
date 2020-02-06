@@ -68,12 +68,14 @@ const Forum = props => {
 							/>
 						) : !currentTopic ? (
 							<TopicsTable
+								setTitle={setTitle}
 								setLocation={setLocation}
 								currentCategory={currentCategory}
 								setCurrentTopic={setCurrentTopic}
 							/>
 						) : (
 							<Topic
+								setTitle={setTitle}
 								currentTopic={currentTopic}
 								currentCategory={currentCategory}
 							/>
