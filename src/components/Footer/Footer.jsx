@@ -1,5 +1,6 @@
 import React from 'react';
 import DonateButton from './components/DonateButton';
+import GiveFeedback from './components/GiveFeedback';
 
 export const Footer = () => {
 	return (
@@ -58,12 +59,7 @@ export const Footer = () => {
 							</a>
 						</li>
 						<li>
-							<button
-								className='btn btn-link'
-								type='button'
-								disabled>
-								Give Feedback
-							</button>
+							<GiveFeedback />
 						</li>
 						<li>
 							<button
