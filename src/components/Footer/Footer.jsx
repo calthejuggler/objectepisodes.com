@@ -1,6 +1,7 @@
 import React from 'react';
 import DonateButton from './components/DonateButton';
 import GiveFeedback from './components/GiveFeedback';
+import PrivacyPolicy from './components/PrivacyPolicy';
 
 export const Footer = () => {
 	return (
@@ -9,12 +10,7 @@ export const Footer = () => {
 				<div className='col-4'>
 					<ul className='navbar-nav'>
 						<li>
-							<button
-								className='btn btn-link'
-								type='button'
-								disabled>
-								Privacy Policy
-							</button>
+							<PrivacyPolicy />
 						</li>
 						<li>
 							<button
