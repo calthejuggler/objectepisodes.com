@@ -20,6 +20,9 @@ const Breadcrumbs = props => {
 	return (
 		<nav aria-label='breadcrumb'>
 			<ol className='breadcrumb'>
+				<li className='mr-3 mr-lg-5'>
+					<button className='btn btn-secondary'>Go Back</button>
+				</li>
 				{locationArray.map((loc, i) => {
 					if (i === 2) {
 						firebase
@@ -29,7 +32,7 @@ const Breadcrumbs = props => {
 							)
 							.then(topicSnap => {
 								setTopicTitle(topicSnap.data().title);
-								setTitle(topicSnap.data().title)
+								setTitle(topicSnap.data().title);
 							});
 					}
 					return (
@@ -53,6 +56,7 @@ const Breadcrumbs = props => {
 										setLocation(['forum']);
 										setCurrentCategory(null);
 										setCurrentTopic(null);
+										setTitle("Loading...")
 									}
 									if (i === 1) {
 										props.history.replace(
