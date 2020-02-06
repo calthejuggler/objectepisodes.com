@@ -36,7 +36,7 @@ const Topic = props => {
 		return firebase.db
 			.collection('forum-replies')
 			.where('topicID', '==', currentTopic)
-			.orderBy('timestamp')
+			.orderBy('timestamp','desc')
 			.onSnapshot(replySnap => {
 				setComments([]);
 				if (replySnap.empty) {
