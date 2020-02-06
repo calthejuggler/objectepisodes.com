@@ -65,7 +65,9 @@ const Topic = props => {
 		<>
 			<div className='row'>
 				<div className='col-12'>
-					<h3 className='m-2'>Original Post</h3>
+					<h3 className='m-2 text-center text-md-left'>
+						Original Post
+					</h3>
 				</div>
 				<div className='col-12'>
 					<div className='card'>
@@ -84,10 +86,10 @@ const Topic = props => {
 								<div className='row align-items-center'>
 									<div className='col-12 col-md-3 text-center'>
 										<div className='row align-items-center justify-content-center'>
-											<div className='col-5 col-md-12'>
+											<div className='col-6 col-md-12'>
 												<ProfilePicture
 													userID={post.data.user}
-													size={['50%', '50%']}
+													size={['5rem', '5rem']}
 												/>
 												<br />
 												<a
@@ -98,7 +100,7 @@ const Topic = props => {
 													{post.user.username}
 												</a>
 											</div>
-											<div className='col-7 col-md-12'>
+											<div className='col-6 col-md-12'>
 												<p>
 													{post.data.posted
 														.toDate()
@@ -109,7 +111,9 @@ const Topic = props => {
 									</div>
 									<div className='col-12 col-md-7'>
 										{post.data.content ? (
-											<p>{post.data.content}</p>
+											<p className='text-center text-md-left'>
+												{post.data.content}
+											</p>
 										) : (
 											<p className='text-warning mt-3'>
 												This post has no text...
@@ -130,7 +134,7 @@ const Topic = props => {
 					</div>
 				</div>
 				<div className='col-12'>
-					<h3 className='m-2'>
+					<h3 className='m-2 text-center text-md-left'>
 						Recent Comments <small>(Date - desc.)</small>
 					</h3>
 				</div>
@@ -165,13 +169,12 @@ const Topic = props => {
 									<div className='row align-items-center'>
 										<div className='col-12 col-md-3 text-center'>
 											<div className='row align-items-center justify-content-center'>
-												<div className='col-5 col-md-12'>
+												<div className='col-6 col-md-12'>
 													<ProfilePicture
 														userID={
 															comment.data.user
 														}
-														size={['50%', '50%']}
-														centered
+														size={['5rem', '5rem']}
 													/>
 													<br />
 													<a
@@ -183,7 +186,7 @@ const Topic = props => {
 														{comment.user.username}
 													</a>
 												</div>
-												<div className='col-7 col-md-12'>
+												<div className='col-6 col-md-12'>
 													<p>
 														{comment.data.timestamp
 															.toDate()
@@ -194,7 +197,9 @@ const Topic = props => {
 										</div>
 										<div className='col-12 col-md-7'>
 											{comment.data.comment ? (
-												<p>{comment.data.comment}</p>
+												<p className='text-center text-md-left'>
+													{comment.data.comment}
+												</p>
 											) : (
 												<p className='text-warning mt-3'>
 													This post has no text...
