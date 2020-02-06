@@ -47,6 +47,7 @@ const Forum = props => {
 					setTitle={setTitle}
 				/>
 				<h1 className='text-center'>{title}</h1>
+				<hr />
 				{categories.length === 0 &&
 				!currentCategory &&
 				!currentTopic ? (
