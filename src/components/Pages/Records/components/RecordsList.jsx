@@ -38,22 +38,22 @@ const RecordsList = props => {
 	return (
 		<>
 			{error && <div className='alert alert-danger'>{error}</div>}
-			<ul className='list-group-flush text-center'>
+			<ul className='list-group list-group-flush text-center'>
 				<li className='list-group-item'>
 					<div className='row'>
-						<div className='col-3'>
+						<div className='col-4 col-md-3'>
 							<b>Pattern</b>
 						</div>
-						<div className='col-3'>
+						<div className='col-4 col-md-3'>
 							<b>Record</b>
 						</div>
-						<div className='col-2'>
+						<div className='col-4 col-md-2'>
 							<b>User</b>
 						</div>
-						<div className='col-2'>
+						<div className='d-none d-md-block col-md-2'>
 							<b>Date</b>
 						</div>
-						<div className='col-2'>
+						<div className='d-none d-md-block col-md-2'>
 							<b>Video</b>
 						</div>
 					</div>
@@ -68,30 +68,30 @@ const RecordsList = props => {
 						key={record.record.id}
 						onClick={() => setSelectedRecord(record)}>
 						<div className='row'>
-							<div className='col-3'>
+							<div className='col-4 col-md-3'>
 								{record.record.data().noOfProps +
 									' ' +
 									record.record.data().propType +
 									' ' +
 									record.record.data().pattern}
 							</div>
-							<div className='col-3'>
+							<div className='col-4 col-md-3'>
 								{record.record.data().recordType === 'catches'
 									? record.record.data().catches + ' catches'
 									: 'For ' + record.record.data().time}
 							</div>
-							<div className='col-2'>
+							<div className='col-4 col-md-2'>
 								<a href={'#/users/' + record.user.username}>
 									{record.user.username}
 								</a>
 							</div>
-							<div className='col-2'>
+							<div className='d-none d-md-block col-md-2'>
 								{record.record
 									.data()
 									.recorded.toDate()
 									.toDateString()}
 							</div>
-							<div className='col-2'>
+							<div className='d-none d-md-block col-md-2'>
 								{record.record.data().videoURL === '' ? (
 									'None'
 								) : (
