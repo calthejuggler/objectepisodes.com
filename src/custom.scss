@@ -8,3 +8,11 @@ body,
 	width: 100%;
 	overflow-x: hidden;
 }
+
+.App {
+	display: flex;
+	flex-direction: column;
+	#main {
+		flex: 1;
+	}
+}
