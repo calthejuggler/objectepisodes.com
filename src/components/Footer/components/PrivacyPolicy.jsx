@@ -20,7 +20,9 @@ const PrivacyPolicy = () => {
 				role='dialog'
 				aria-labelledby='privacyPolicyLabel'
 				aria-hidden='true'>
-				<div className='modal-dialog' role='document'>
+				<div
+					className='modal-dialog modal-dialog-scrollable modal-lg'
+					role='document'>
 					<div className='modal-content'>
 						<div className='modal-header d-block'>
 							<button
@@ -35,9 +37,6 @@ const PrivacyPolicy = () => {
 								alt='Object Episodes logo'
 								className='img-fluid'
 							/>
-							<h5 className='modal-title' id='privacyPolicyLabel'>
-								Privacy Policy
-							</h5>
 						</div>
 						<div className='modal-body'>
 							<h1>Privacy Policy for ObjectEpisodes.com</h1>
