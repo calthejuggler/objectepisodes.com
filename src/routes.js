@@ -9,6 +9,7 @@ import Admin from './components/Pages/Admin/Admin';
 import Records from './components/Pages/Records';
 import About from './components/Pages/About';
 import POTD from './components/Pages/POTD';
+import JugglingTools from './components/Pages/JugglingTools/JugglingTools';
 
 const routes = [
 	{
@@ -55,6 +56,11 @@ const routes = [
 		name: 'Records',
 		path: '/record',
 		component: Records,
+	},
+	{
+		name: 'Juggling Tools',
+		path: '/jugglingtools',
+		component: JugglingTools,
 	},
 	{
 		name: 'Edit Profile',
