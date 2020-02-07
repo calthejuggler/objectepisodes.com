@@ -5,13 +5,13 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 const config = {
-	apiKey: 'AIzaSyAOAI6o15PF2I53beQ6izEzN-l6wR34ypM',
-	authDomain: 'objectepisodes.firebaseapp.com',
-	databaseURL: 'https://objectepisodes.firebaseio.com',
-	projectId: 'objectepisodes',
-	storageBucket: 'objectepisodes.appspot.com',
-	messagingSenderId: '818116314626',
-	appId: '1:818116314626:web:a170d35ee7732ea6',
+	apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
+	authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
+	databaseURL: process.env.REACT_APP_FIREBASE_DATABASEURL,
+	projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
+	storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
+	messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
+	appId: process.env.REACT_APP_FIREBASE_APPID,
 };
 
 class Firebase extends Component {
