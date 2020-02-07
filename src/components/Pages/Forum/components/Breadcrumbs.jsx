@@ -12,7 +12,6 @@ const Breadcrumbs = props => {
 		setLocation,
 		setCurrentTopic,
 		setCurrentCategory,
-		title,
 		setTitle,
 	} = props;
 

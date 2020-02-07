@@ -43,7 +43,6 @@ const Forum = props => {
 					setCurrentTopic={setCurrentTopic}
 					currentCategory={currentCategory}
 					currentTopic={currentTopic}
-					title={title}
 					setTitle={setTitle}
 				/>
 				<h1 className='text-center'>{title}</h1>
