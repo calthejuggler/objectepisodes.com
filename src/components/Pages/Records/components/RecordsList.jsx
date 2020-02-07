@@ -38,13 +38,13 @@ const RecordsList = props => {
 	return (
 		<>
 			{error && <div className='alert alert-danger'>{error}</div>}
-			<ul className='list-group-flush'>
+			<ul className='list-group-flush text-center'>
 				<li className='list-group-item'>
 					<div className='row'>
-						<div className='col-4'>
+						<div className='col-3'>
 							<b>Pattern</b>
 						</div>
-						<div className='col-2'>
+						<div className='col-3'>
 							<b>Record</b>
 						</div>
 						<div className='col-2'>
@@ -59,16 +59,23 @@ const RecordsList = props => {
 					</div>
 				</li>
 				{records.map(record => (
-					<li className='list-group-item' key={record.record.id}>
+					<li
+						className={
+							'list-group-item ' +
+							(selectedRecord === record &&
+								'bg-secondary text-light')
+						}
+						key={record.record.id}
+						onClick={() => setSelectedRecord(record)}>
 						<div className='row'>
-							<div className='col-4'>
+							<div className='col-3'>
 								{record.record.data().noOfProps +
 									' ' +
 									record.record.data().propType +
 									' ' +
 									record.record.data().pattern}
 							</div>
-							<div className='col-2'>
+							<div className='col-3'>
 								{record.record.data().recordType === 'catches'
 									? record.record.data().catches + ' catches'
 									: 'For ' + record.record.data().time}
