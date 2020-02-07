@@ -53,7 +53,7 @@ const routes = [
 	},
 	{
 		name: 'Records',
-		path: '/records',
+		path: '/record',
 		component: Records,
 	},
 	{
