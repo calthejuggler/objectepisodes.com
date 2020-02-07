@@ -31,6 +31,7 @@ const SearchTools = props => {
 					</label>
 				</div>
 			</div> */}
+			<h5 className='text-center'>Sort & Filter</h5>
 			<div className='input-group'>
 				<div className='input-group-prepend'>
 					<button

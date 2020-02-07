@@ -37,6 +37,7 @@ const RecordsList = props => {
 	}, [sortBy, sortDirection, firebase]);
 	return (
 		<>
+			<h3 className='text-center'>Records List</h3>
 			{error && <div className='alert alert-danger'>{error}</div>}
 			<ul className='list-group list-group-flush text-center'>
 				<li className='list-group-item'>
