@@ -2,6 +2,7 @@ import React from 'react';
 import DonateButton from './components/DonateButton';
 import GiveFeedback from './components/GiveFeedback';
 import PrivacyPolicy from './components/PrivacyPolicy';
+import TermsOfService from './components/TermsOfService';
 
 export const Footer = () => {
 	return (
@@ -13,12 +14,7 @@ export const Footer = () => {
 							<PrivacyPolicy />
 						</li>
 						<li>
-							<button
-								className='btn btn-link'
-								type='button'
-								disabled>
-								Terms of Service
-							</button>
+							<TermsOfService />
 						</li>
 						<li>
 							<button
