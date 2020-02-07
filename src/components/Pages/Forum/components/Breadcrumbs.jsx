@@ -21,7 +21,29 @@ const Breadcrumbs = props => {
 		<nav aria-label='breadcrumb'>
 			<ol className='breadcrumb'>
 				<li className='mr-3 mr-lg-5'>
-					<button className='btn btn-secondary'>Go Back</button>
+					<button
+						className='btn btn-secondary'
+						onClick={() => {
+							props.history.goBack();
+							const prevPage = props.history.location.pathname.split(
+								'/'
+							);
+							const prevPageArray = prevPage.filter(
+								value => value !== '' && value
+							);
+							prevPageArray.pop();
+							setLocation(prevPageArray);
+							if (prevPageArray.length === 1) {
+								setCurrentCategory(null);
+								setCurrentTopic(null);
+								setTitle('Loading categories...');
+							} else {
+								setCurrentTopic(null);
+								setTitle('Loading topics...');
+							}
+						}}>
+						Go Back
+					</button>
 				</li>
 				{locationArray.map((loc, i) => {
 					if (i === 2) {
@@ -56,7 +78,7 @@ const Breadcrumbs = props => {
 										setLocation(['forum']);
 										setCurrentCategory(null);
 										setCurrentTopic(null);
-										setTitle("Loading...")
+										setTitle('Loading...');
 									}
 									if (i === 1) {
 										props.history.replace(
