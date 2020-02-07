@@ -14,8 +14,8 @@ const Records = () => {
 
 	return (
 		<>
-			<div className='row'>
-				<div className='col-12'>
+			<div className='row align-items-center'>
+				<div className='col-12 col-md-3'>
 					<div className='card'>
 						<div className='card-body'>
 							<SearchTools
@@ -29,18 +29,14 @@ const Records = () => {
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className='row my-3'>
-				<div className='col-12'>
+				<div className='col-12 col-md-9'>
 					<div className='card'>
 						<div className='card-body'>
 							<Inspector selectedRecord={selectedRecord} />
 						</div>
 					</div>
 				</div>
-			</div>
-			<div className='row mb-3'>
-				<div className='col-12'>
+				<div className='col-12 my-3'>
 					<div className='card'>
 						<div className='card-body'>
 							<RecordsList

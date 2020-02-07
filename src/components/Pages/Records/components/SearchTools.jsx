@@ -4,7 +4,7 @@ const SearchTools = props => {
 	const { sortBy, setSortBy, sortDirection, setSortDirection } = props;
 	return (
 		<>
-			<div className='form-group'>
+			{/* <div className='form-group'>
 				<label htmlFor='recordTypeRadios'>Record Type:</label>
 				<div className='custom-control custom-radio'>
 					<input
@@ -30,7 +30,7 @@ const SearchTools = props => {
 						Catches
 					</label>
 				</div>
-			</div>
+			</div> */}
 			<div className='input-group'>
 				<div className='input-group-prepend'>
 					<button
