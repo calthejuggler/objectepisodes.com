@@ -20,7 +20,10 @@ const DashPanel = props => {
 				{children}
 				{btnTitle && (
 					<button
-						className='btn btn-primary mt-3 d-block mx-auto'
+						className={
+							'btn mt-3 d-block mx-auto ' +
+							(disabled ? 'btn-disabled' : 'btn-primary')
+						}
 						disabled={disabled}
 						onClick={() => {
 							history.push(url);
