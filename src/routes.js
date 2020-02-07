@@ -8,6 +8,7 @@ import EditProfile from './components/Pages/EditProfile/EditProfile';
 import Admin from './components/Pages/Admin/Admin';
 import Records from './components/Pages/Records';
 import About from './components/Pages/About';
+import POTD from './components/Pages/POTD';
 
 const routes = [
 	{
@@ -44,6 +45,11 @@ const routes = [
 		name: 'Forum',
 		path: '/forum',
 		component: Forum,
+	},
+	{
+		name: 'POTD',
+		path: '/potd',
+		component: POTD,
 	},
 	{
 		name: 'Records',

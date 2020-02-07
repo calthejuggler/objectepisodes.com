@@ -34,6 +34,7 @@ const Header = props => {
 								className='img-fluid d-block mx-auto'
 								id='header-logo'
 							/>
+							<p className="text-center lead">The #1 homepage for jugglers.</p>
 						</a>
 					</div>
 					<div className='col-12 col-md-4 order-2 order-md-1'>
