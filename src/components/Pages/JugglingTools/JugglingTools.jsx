@@ -4,7 +4,9 @@ import JugglingSimulator from './tools/JugglingSimulator/JugglingSimulator';
 const JugglingTools = () => {
 	return (
 		<div className='row align-items-center'>
-			<JugglingSimulator />
+			<div className='col-12 col-md-4'>
+				<JugglingSimulator />
+			</div>
 		</div>
 	);
 };

@@ -19,11 +19,9 @@ const JugglingSimulator = () => {
 	const [siteswap, setSiteswap] = useState([3]);
 
 	return (
-		<div className='col-12 col-md-6'>
-			<div className='card'>
-				<div className='card-body'>
-					<SimulatorCanvas balls={balls} setBalls={setBalls} />
-				</div>
+		<div className='card'>
+			<div className='card-body'>
+				<SimulatorCanvas balls={balls} setBalls={setBalls} />
 			</div>
 		</div>
 	);
