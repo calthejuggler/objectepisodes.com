@@ -20,22 +20,26 @@ const AddTopic = props => {
 
 	const handleAddTopicSubmit = e => {
 		e.preventDefault();
-		firebase.db
-			.collection('forum')
-			.add({
-				content: content,
-				category: currentCategory,
-				title: title,
-				posted: new Date(),
-				lastPost: new Date(),
-				user: firebase.auth.currentUser.uid,
-			})
-			.then(() => {
-				firebase.incrementForumPosts(firebase.auth.currentUser.uid);
-				setTitle('');
-				$('#addTopicModal').modal('hide');
-			})
-			.catch(e => setError(e.message));
+		title.trim() === ''
+			? setError('You must add a title.')
+			: firebase.db
+					.collection('forum')
+					.add({
+						content: content,
+						category: currentCategory,
+						title: title,
+						posted: new Date(),
+						lastPost: new Date(),
+						user: firebase.auth.currentUser.uid,
+					})
+					.then(() => {
+						firebase.incrementForumPosts(
+							firebase.auth.currentUser.uid
+						);
+						setTitle('');
+						$('#addTopicModal').modal('hide');
+					})
+					.catch(e => setError(e.message));
 	};
 
 	return (
