@@ -37,12 +37,7 @@ const AddComment = props => {
 								firebase.incrementForumPosts(
 									firebase.auth.currentUser.uid
 								);
-								setComment([
-									{
-										type: 'paragraph',
-										children: [{ text: '' }],
-									},
-								]);
+								
 							});
 					});
 			})
