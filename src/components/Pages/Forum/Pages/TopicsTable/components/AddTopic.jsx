@@ -12,7 +12,7 @@ const AddTopic = props => {
 	const [content, setContent] = useState([
 		{
 			type: 'paragraph',
-			children: [{ text: 'Write your content here...' }],
+			children: [{ text: '' }],
 		},
 	]);
 
@@ -36,7 +36,7 @@ const AddTopic = props => {
 				setContent([
 					{
 						type: 'paragraph',
-						children: [{ text: 'Write your content here...' }],
+						children: [{ text: '' }],
 					},
 				]);
 				$('#addTopicModal').modal('hide');
@@ -84,11 +84,11 @@ const AddTopic = props => {
 							{firebase.auth.currentUser ? (
 								<form>
 									<div className='form-group'>
-										<label htmlFor='title'>Title:</label>
 										<input
 											name='title'
 											type='text'
 											className='form-control'
+											placeholder='Write your post title here...'
 											value={title}
 											onChange={e =>
 												setTitle(e.target.value)
@@ -97,7 +97,7 @@ const AddTopic = props => {
 									</div>
 									<div className='form-group'>
 										<TextAreaInput
-											title='Content:'
+											placeholder='Write your post content here...'
 											setState={setContent}
 											state={content}
 										/>

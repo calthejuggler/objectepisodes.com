@@ -1,12 +1,7 @@
-import React, { useLayoutEffect, useState, useMemo } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../../Firebase/context';
-import { withReact } from 'slate-react';
-import { createEditor } from 'slate';
 
 import AddComment from './components/AddComment';
-import LikeButton from '../../../../elements/LikeButton';
-import ProfilePicture from '../../../../elements/ProfilePicture';
-import RichTextView from '../../../../elements/RichTextView';
 import PostView from './components/PostView';
 
 const Topic = props => {

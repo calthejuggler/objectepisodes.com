@@ -155,6 +155,8 @@ const TextAreaInput = ({ state, setState, placeholder }) => {
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}
 				placeholder={placeholder}
+				style={{ minHeight: '10rem' }}
+				className='bg-dark text-white p-2'
 				autoFocus
 				spellCheck
 				onKeyDown={event => {

@@ -22,12 +22,6 @@ const AddComment = props => {
 				timestamp: new Date(),
 			})
 			.then(() => {
-				setComment([
-					{
-						type: 'paragraph',
-						children: [{ text: '' }],
-					},
-				]);
 				firebase.db
 					.collection('forum')
 					.doc(currentTopic.trim())
@@ -43,6 +37,12 @@ const AddComment = props => {
 								firebase.incrementForumPosts(
 									firebase.auth.currentUser.uid
 								);
+								setComment([
+									{
+										type: 'paragraph',
+										children: [{ text: '' }],
+									},
+								]);
 							});
 					});
 			})
