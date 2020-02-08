@@ -22,7 +22,12 @@ const AddComment = props => {
 				timestamp: new Date(),
 			})
 			.then(() => {
-				setComment('');
+				setComment([
+					{
+						type: 'paragraph',
+						children: [{ text: '' }],
+					},
+				]);
 				firebase.db
 					.collection('forum')
 					.doc(currentTopic.trim())

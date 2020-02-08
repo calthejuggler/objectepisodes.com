@@ -7,6 +7,7 @@ import AddComment from './components/AddComment';
 import LikeButton from '../../../../elements/LikeButton';
 import ProfilePicture from '../../../../elements/ProfilePicture';
 import RichTextView from '../../../../elements/RichTextView';
+import PostView from './components/PostView';
 
 const Topic = props => {
 	const { firebase, currentTopic, currentCategory, setTitle } = props;
@@ -65,8 +66,6 @@ const Topic = props => {
 			});
 	}, [currentTopic, firebase]);
 
-	const editor = useMemo(() => withReact(createEditor()), []);
-
 	return (
 		<>
 			<div className='row'>
@@ -75,73 +74,15 @@ const Topic = props => {
 						Original Post
 					</h3>
 				</div>
-				<div className='col-12'>
-					<div className='card'>
-						<div className='card-body'>
-							{!post ? (
-								<div className='d-flex justify-content-center'>
-									<div
-										className='spinner-border mx-auto'
-										role='status'>
-										<span className='sr-only'>
-											Loading...
-										</span>
-									</div>
-								</div>
-							) : (
-								<div className='row align-items-center'>
-									<div className='col-12 col-md-3 text-center'>
-										<div className='row align-items-center justify-content-center'>
-											<div className='col-6 col-md-12'>
-												<ProfilePicture
-													userID={post.data.user}
-													size={['3rem', '3rem']}
-												/>
-												<br />
-												<a
-													href={
-														'#/user/' +
-														post.user.username
-													}>
-													{post.user.username}
-												</a>
-											</div>
-											<div className='col-6 col-md-12'>
-												<p>
-													{post.data.posted
-														.toDate()
-														.toUTCString()}
-												</p>
-											</div>
-										</div>
-									</div>
-									<div className='col-12 col-md-7'>
-										<h1>{post.data.title}</h1>
-										{Array.isArray(post.data.content) ? (
-											<RichTextView
-												content={post.data.content}
-											/>
-										) : (
-											post.data.content
-										)}
-									</div>
-									<div className='col-12 col-md-2'>
-										<LikeButton
-											postID={post.id}
-											likes={post.data.likes}
-											type='post'
-											size={3}
-										/>
-									</div>
-								</div>
-							)}
-						</div>
-					</div>
-				</div>
+				<PostView post={post} />
 				<div className='col-12'>
 					<h3 className='m-2 text-center text-md-left'>
 						Recent Comments <small>(Date - desc.)</small>
 					</h3>
+					<AddComment
+						currentCategory={currentCategory}
+						currentTopic={currentTopic}
+					/>
 				</div>
 				{commentsLoading ? (
 					<div className='col-12 mt-1'>
@@ -168,68 +109,10 @@ const Topic = props => {
 					</div>
 				) : (
 					comments.map(comment => (
-						<div className='col-12 mt-1' key={comment.id}>
-							<div className='card'>
-								<div className='card-body'>
-									<div className='row align-items-center'>
-										<div className='col-12 col-md-3 text-center'>
-											<div className='row align-items-center justify-content-center'>
-												<div className='col-6 col-md-12'>
-													<ProfilePicture
-														userID={
-															comment.data.user
-														}
-														size={['3rem', '3rem']}
-													/>
-													<br />
-													<a
-														href={
-															'#/user/' +
-															comment.user
-																.username
-														}>
-														{comment.user.username}
-													</a>
-												</div>
-												<div className='col-6 col-md-12'>
-													<p>
-														{comment.data.timestamp
-															.toDate()
-															.toUTCString()}
-													</p>
-												</div>
-											</div>
-										</div>
-										<div className='col-12 col-md-7'>
-											{comment.data.comment ? (
-												<p className='text-center text-md-left'>
-													{comment.data.comment}
-												</p>
-											) : (
-												<p className='text-warning mt-3'>
-													This post has no text...
-												</p>
-											)}
-										</div>
-										<div className='col-12 col-md-2'>
-											<LikeButton
-												postID={comment.id}
-												likes={comment.data.likes}
-												type='post'
-												size={5}
-											/>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+						<PostView post={comment} key={comment.id} />
 					))
 				)}
 			</div>
-			<AddComment
-				currentCategory={currentCategory}
-				currentTopic={currentTopic}
-			/>
 		</>
 	);
 };
