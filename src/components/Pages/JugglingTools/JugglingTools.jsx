@@ -1,12 +1,12 @@
-import React from 'react'
-import JugglingSimulator from './tools/JugglingSimulator/JugglingSimulator'
+import React from 'react';
+import JugglingSimulator from './tools/JugglingSimulator/JugglingSimulator';
 
 const JugglingTools = () => {
-    return (
-        <div>
-            <JugglingSimulator />
-        </div>
-    )
-}
+	return (
+		<div className='row align-items-center'>
+			<JugglingSimulator />
+		</div>
+	);
+};
 
-export default JugglingTools
+export default JugglingTools;
