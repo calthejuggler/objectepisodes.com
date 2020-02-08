@@ -3,12 +3,18 @@ import { withFirebase } from '../../../Firebase/context';
 import { withRouter } from 'react-router-dom';
 
 import $ from 'jquery';
+import TextAreaInput from '../../../elements/TextAreaInput';
 
 const AddTopic = props => {
 	const { firebase, currentCategory, history } = props;
 
 	const [title, setTitle] = useState('');
-	const [content, setContent] = useState('');
+	const [content, setContent] = useState([
+		{
+			type: 'paragraph',
+			children: [{ text: 'Write your content here...' }],
+		},
+	]);
 
 	const [error, setError] = useState(null);
 
@@ -28,7 +34,7 @@ const AddTopic = props => {
 				firebase.incrementForumPosts(firebase.auth.currentUser.uid);
 				setTitle('');
 				setContent('');
-				$('#addTopicModal').modal('hide')
+				$('#addTopicModal').modal('hide');
 			})
 			.catch(e => setError(e.message));
 	};
@@ -85,19 +91,11 @@ const AddTopic = props => {
 										/>
 									</div>
 									<div className='form-group'>
-										<label htmlFor='content'>
-											Content:
-										</label>
-										<textarea
-											name='content'
-											id=''
-											cols='30'
-											rows='10'
-											className='form-control'
-											value={content}
-											onChange={e =>
-												setContent(e.target.value)
-											}></textarea>
+										<TextAreaInput
+											title='Content:'
+											setState={setContent}
+											state={content}
+										/>
 									</div>
 								</form>
 							) : (
