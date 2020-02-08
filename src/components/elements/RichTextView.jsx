@@ -1,6 +1,6 @@
 import React, { useMemo, useCallback } from 'react';
 import { Slate, Editable, withReact } from 'slate-react';
-import { createEditor, Element } from 'slate';
+import { createEditor } from 'slate';
 
 const RichTextView = ({ content }) => {
 	const renderElement = useCallback(props => <Element {...props} />, []);

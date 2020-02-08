@@ -64,7 +64,7 @@ const Topic = props => {
 			});
 	}, [currentTopic, firebase]);
 
-	const editor = useMemo(()=> withReact(createEditor()),[])
+	const editor = useMemo(() => withReact(createEditor()), []);
 
 	return (
 		<>
@@ -115,17 +115,13 @@ const Topic = props => {
 										</div>
 									</div>
 									<div className='col-12 col-md-7'>
-										<RichTextView content={post.data.content} />
-										{console.dir(post.data.content)}
-										{/* {post.data.content ? (
-											<p className='text-center text-md-left'>
-												{post.data.content}
-											</p>
+										{Array.isArray(post.data.content) ? (
+											<RichTextView
+												content={post.data.content}
+											/>
 										) : (
-											<p className='text-warning mt-3'>
-												This post has no text...
-											</p>
-										)} */}
+											post.data.content
+										)}
 									</div>
 									<div className='col-12 col-md-2'>
 										<LikeButton
