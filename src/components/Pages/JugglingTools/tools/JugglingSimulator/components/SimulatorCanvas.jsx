@@ -10,30 +10,41 @@ const SimulatorCanvas = props => {
 
 	useEffect(() => {
 		// Fill canvas black
-		const canvas = canvasRef.current;
-		const ctx = canvas.getContext('2d');
-		ctx.fillStyle = 'black';
-		ctx.fillRect(0, 0, simWidth, simHeight);
-		ctx.fillStyle = 'red';
-		for (let i = 0; i < balls.length; i++) {
+		let requestId,
+			i = 0;
+		const render = () => {
+			const canvas = canvasRef.current;
+			const ctx = canvas.getContext('2d');
+			ctx.fillStyle = 'black';
+			ctx.fillRect(0, 0, simWidth, simHeight);
+
+			ctx.fillStyle = 'red';
 			ctx.beginPath();
-			ctx.arc(balls[i].x, balls[i].y, balls[i].s, 0, 2 * Math.PI, false);
+			ctx.arc(
+				simWidth / 2,
+				simHeight / 2,
+				(simWidth / 2) * Math.abs(Math.cos(i)),
+				0,
+				2 * Math.PI
+			);
 			ctx.fill();
-		}
-		// update();
+			i += 0.05;
+			requestId = requestAnimationFrame(render);
+		};
+
+		render();
+
+		return () => {
+			cancelAnimationFrame(requestId);
+		};
 	}, [simHeight, simWidth, balls]);
 
-	const update = () => {
-		setBalls(prev => {
-			return {
-				x: prev.x++,
-				y: prev.y,
-			};
-		});
-	};
-
 	return (
-		<canvas ref={canvasRef} width={simWidth} height={simHeight}></canvas>
+		<canvas
+			ref={canvasRef}
+			width={simWidth}
+			height={simHeight}
+			className='d-block m-auto'></canvas>
 	);
 };
 
