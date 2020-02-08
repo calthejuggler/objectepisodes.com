@@ -126,61 +126,48 @@ const MarkButton = ({ format, icon }) => {
 	);
 };
 
-const initialValue = [
-	{
-		type: 'paragraph',
-		children: [{ text: '' }],
-	},
-];
-const TextAreaInput = ({ title, setTitle }) => {
-	const [value, setValue] = useState(initialValue);
+const TextAreaInput = ({ state, setState }) => {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
 
 	return (
-		<>
-			<Slate
-				editor={editor}
-				value={value}
-				onChange={value => setValue(value)}>
-				<Toolbar>
-					<MarkButton format='bold' icon='fas fa-bold' />
-					<MarkButton format='italic' icon='fas fa-italic' />
-					<MarkButton format='underline' icon='fas fa-underline' />
-					<MarkButton format='code' icon='fas fa-code' />
-					<BlockButton
-						format='heading-two'
-						icon='fas fa-heading'
-						iconSize='small'
-					/>
-					<BlockButton format='heading-one' icon='fas fa-heading' />
-					<BlockButton
-						format='block-quote'
-						icon='fas fa-quote-right'
-					/>
-					<BlockButton format='numbered-list' icon='fas fa-list-ol' />
-					<BlockButton format='bulleted-list' icon='fas fa-list-ul' />
-				</Toolbar>
-				<Editable
-					renderElement={renderElement}
-					renderLeaf={renderLeaf}
-					placeholder='Enter some rich text…'
-					autoFocus
-					autoCapitalize
-					spellCheck
-					onKeyDown={event => {
-						for (const hotkey in HOTKEYS) {
-							if (isHotkey(hotkey, event)) {
-								event.preventDefault();
-								const mark = HOTKEYS[hotkey];
-								toggleMark(editor, mark);
-							}
-						}
-					}}
+		<Slate
+			editor={editor}
+			value={state}
+			onChange={value => setState(value)}>
+			<Toolbar>
+				<MarkButton format='bold' icon='fas fa-bold' />
+				<MarkButton format='italic' icon='fas fa-italic' />
+				<MarkButton format='underline' icon='fas fa-underline' />
+				<MarkButton format='code' icon='fas fa-code' />
+				<BlockButton
+					format='heading-two'
+					icon='fas fa-heading'
+					iconSize='small'
 				/>
-			</Slate>
-		</>
+				<BlockButton format='heading-one' icon='fas fa-heading' />
+				<BlockButton format='block-quote' icon='fas fa-quote-right' />
+				<BlockButton format='numbered-list' icon='fas fa-list-ol' />
+				<BlockButton format='bulleted-list' icon='fas fa-list-ul' />
+			</Toolbar>
+			<Editable
+				renderElement={renderElement}
+				renderLeaf={renderLeaf}
+				placeholder='Enter some rich text…'
+				autoFocus
+				spellCheck
+				onKeyDown={event => {
+					for (const hotkey in HOTKEYS) {
+						if (isHotkey(hotkey, event)) {
+							event.preventDefault();
+							const mark = HOTKEYS[hotkey];
+							toggleMark(editor, mark);
+						}
+					}
+				}}
+			/>
+		</Slate>
 	);
 };
 

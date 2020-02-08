@@ -33,7 +33,12 @@ const AddTopic = props => {
 			.then(() => {
 				firebase.incrementForumPosts(firebase.auth.currentUser.uid);
 				setTitle('');
-				setContent('');
+				setContent([
+					{
+						type: 'paragraph',
+						children: [{ text: 'Write your content here...' }],
+					},
+				]);
 				$('#addTopicModal').modal('hide');
 			})
 			.catch(e => setError(e.message));
