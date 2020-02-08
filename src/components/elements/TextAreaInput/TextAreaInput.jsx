@@ -126,7 +126,7 @@ const MarkButton = ({ format, icon }) => {
 	);
 };
 
-const TextAreaInput = ({ state, setState }) => {
+const TextAreaInput = ({ state, setState, placeholder }) => {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
@@ -154,7 +154,7 @@ const TextAreaInput = ({ state, setState }) => {
 			<Editable
 				renderElement={renderElement}
 				renderLeaf={renderLeaf}
-				placeholder='Enter some rich text…'
+				placeholder={placeholder}
 				autoFocus
 				spellCheck
 				onKeyDown={event => {
