@@ -5,7 +5,7 @@ import { withFirebase } from '../../../Firebase/context';
 const CategoryTable = props => {
 	const { categories, setCurrentCategory, setLocation, setTitle } = props;
 	useEffect(() => {
-		setTitle('Forum');
+		setTitle('Categories');
 	}, [setTitle]);
 	return (
 		<ul className='list-group list-group-flush'>

@@ -13,7 +13,7 @@ const Forum = props => {
 	const [currentTopic, setCurrentTopic] = useState(null);
 	const [location, setLocation] = useState(['forum']);
 
-	const [title, setTitle] = useState(['Loading Forum...']);
+	const [title, setTitle] = useState(['Loading...']);
 
 	useLayoutEffect(() => {
 		let locationArray = props.history.location.pathname.slice(1).split('/');

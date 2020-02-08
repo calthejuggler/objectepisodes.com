@@ -3,7 +3,7 @@ import { withFirebase } from '../../../Firebase/context';
 import AddComment from './AddComment';
 import LikeButton from './LikeButton';
 import ProfilePicture from '../../../elements/ProfilePicture';
-import { Slate, withReact, Editable } from 'slate-react';
+import { withReact } from 'slate-react';
 import { createEditor } from 'slate';
 import RichTextView from '../../../elements/RichTextView';
 
@@ -24,7 +24,7 @@ const Topic = props => {
 				firebase
 					.getUserDataFromUID(topicSnap.data().user.trim())
 					.then(topicUserSnap => {
-						setTitle(topicSnap.data().title);
+						setTitle('Loading Topic');
 						setPost({
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
@@ -115,6 +115,7 @@ const Topic = props => {
 										</div>
 									</div>
 									<div className='col-12 col-md-7'>
+										<h1>{post.data.title}</h1>
 										{Array.isArray(post.data.content) ? (
 											<RichTextView
 												content={post.data.content}

@@ -53,7 +53,7 @@ const Breadcrumbs = props => {
 							)
 							.then(topicSnap => {
 								setTopicTitle(topicSnap.data().title);
-								setTitle(topicSnap.data().title);
+								setTitle('Topic');
 							});
 					}
 					return (
