@@ -6,6 +6,7 @@ const Button = ({ active, children, onMouseDown }) => {
 			className={
 				active ? 'btn btn-sm btn-primary' : 'btn btn-sm btn-secondary'
 			}
+			onClick={e => e.preventDefault()}
 			onMouseDown={onMouseDown}>
 			{children}
 		</button>
