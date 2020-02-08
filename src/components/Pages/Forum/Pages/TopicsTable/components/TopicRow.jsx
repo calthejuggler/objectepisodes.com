@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter } from 'react-router-dom';
 
-import LikeButton from './LikeButton';
+import LikeButton from '../../../../../elements/LikeButton';
 
 const TopicRow = props => {
 	const {

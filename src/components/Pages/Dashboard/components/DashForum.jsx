@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import { withFirebase } from '../../../Firebase/context';
-import LikeButton from '../../Forum/components/LikeButton';
+import LikeButton from '../../../elements/LikeButton';
 
 const DashForum = props => {
 	const { firebase } = props;

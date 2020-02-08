@@ -1,5 +1,5 @@
 import React from 'react';
-import { withFirebase } from '../../../Firebase/context';
+import { withFirebase } from '../Firebase/context';
 import { useState } from 'react';
 import { useEffect } from 'react';
 

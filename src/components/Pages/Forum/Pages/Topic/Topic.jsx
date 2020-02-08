@@ -1,11 +1,12 @@
 import React, { useLayoutEffect, useState, useMemo } from 'react';
-import { withFirebase } from '../../../Firebase/context';
-import AddComment from './AddComment';
-import LikeButton from './LikeButton';
-import ProfilePicture from '../../../elements/ProfilePicture';
+import { withFirebase } from '../../../../Firebase/context';
 import { withReact } from 'slate-react';
 import { createEditor } from 'slate';
-import RichTextView from '../../../elements/RichTextView';
+
+import AddComment from './components/AddComment';
+import LikeButton from '../../../../elements/LikeButton';
+import ProfilePicture from '../../../../elements/ProfilePicture';
+import RichTextView from '../../../../elements/RichTextView';
 
 const Topic = props => {
 	const { firebase, currentTopic, currentCategory, setTitle } = props;

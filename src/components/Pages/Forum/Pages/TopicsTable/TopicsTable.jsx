@@ -1,8 +1,8 @@
 import React, { useLayoutEffect, useState } from 'react';
-import { withFirebase } from '../../../Firebase/context';
-import AddTopic from './AddTopic';
-import TopicRow from './TopicRow';
-import ItemsPerPage from './ItemsPerPage';
+import { withFirebase } from '../../../../Firebase/context';
+import AddTopic from './components/AddTopic';
+import TopicRow from './components/TopicRow';
+import ItemsPerPage from '../../components/ItemsPerPage';
 
 const TopicsTable = props => {
 	const {

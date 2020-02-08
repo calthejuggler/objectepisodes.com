@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { withFirebase } from '../../../Firebase/context';
+import { withFirebase } from '../../../../../Firebase/context';
 
 const AddComment = props => {
 	const { currentCategory, currentTopic, firebase } = props;

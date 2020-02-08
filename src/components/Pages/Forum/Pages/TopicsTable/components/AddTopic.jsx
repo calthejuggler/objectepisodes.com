@@ -1,11 +1,9 @@
-import React, { useState, useMemo } from 'react';
-import { withFirebase } from '../../../Firebase/context';
+import React, { useState } from 'react';
+import { withFirebase } from '../../../../../Firebase/context';
 import { withRouter } from 'react-router-dom';
 
 import $ from 'jquery';
-import TextAreaInput from '../../../elements/TextAreaInput/TextAreaInput';
-import { withReact } from 'slate-react';
-import { createEditor } from 'slate';
+import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 
 const AddTopic = props => {
 	const { firebase, currentCategory, history } = props;
