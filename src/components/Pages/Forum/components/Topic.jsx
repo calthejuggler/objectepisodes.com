@@ -1,8 +1,11 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, useMemo } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import AddComment from './AddComment';
 import LikeButton from './LikeButton';
 import ProfilePicture from '../../../elements/ProfilePicture';
+import { Slate, withReact, Editable } from 'slate-react';
+import { createEditor } from 'slate';
+import RichTextView from '../../../elements/RichTextView';
 
 const Topic = props => {
 	const { firebase, currentTopic, currentCategory, setTitle } = props;
@@ -36,7 +39,7 @@ const Topic = props => {
 		return firebase.db
 			.collection('forum-replies')
 			.where('topicID', '==', currentTopic)
-			.orderBy('timestamp','desc')
+			.orderBy('timestamp', 'desc')
 			.onSnapshot(replySnap => {
 				setComments([]);
 				if (replySnap.empty) {
@@ -60,6 +63,8 @@ const Topic = props => {
 				}
 			});
 	}, [currentTopic, firebase]);
+
+	const editor = useMemo(()=> withReact(createEditor()),[])
 
 	return (
 		<>
@@ -110,7 +115,9 @@ const Topic = props => {
 										</div>
 									</div>
 									<div className='col-12 col-md-7'>
-										{post.data.content ? (
+										<RichTextView content={post.data.content} />
+										{console.dir(post.data.content)}
+										{/* {post.data.content ? (
 											<p className='text-center text-md-left'>
 												{post.data.content}
 											</p>
@@ -118,7 +125,7 @@ const Topic = props => {
 											<p className='text-warning mt-3'>
 												This post has no text...
 											</p>
-										)}
+										)} */}
 									</div>
 									<div className='col-12 col-md-2'>
 										<LikeButton
