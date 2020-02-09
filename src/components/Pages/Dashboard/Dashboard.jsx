@@ -10,7 +10,7 @@ const Dashboard = () => {
 	return (
 		<>
 			<div className='row'>
-				<div className='col-12 col-md-4 mb-2'>
+				<div className='col-12 col-md-4 pb-2 px-1'>
 					<DashPanel
 						title='Photo of the Day'
 						btnTitle='See past POTDs'
@@ -18,7 +18,7 @@ const Dashboard = () => {
 						<DashPOTD />
 					</DashPanel>
 				</div>
-				<div className='col-12 col-md-8 mb-2'>
+				<div className='col-12 col-md-8 pb-2 px-1'>
 					<DashPanel
 						title='Top Forum Posts'
 						btnTitle='Go to Forum'
@@ -28,7 +28,7 @@ const Dashboard = () => {
 				</div>
 			</div>
 			<div className='row'>
-				<div className='col-12 col-md-4 mb-2'>
+				<div className='col-12 col-md-4 pb-2 px-1'>
 					<DashPanel
 						title='Top Records'
 						btnTitle='See all Records'
@@ -36,7 +36,7 @@ const Dashboard = () => {
 						<DashRecords />
 					</DashPanel>
 				</div>
-				<div className='col-12 col-md-4 mb-2'>
+				<div className='col-12 col-md-4 pb-2 px-1'>
 					<DashPanel
 						title='Upcoming Event'
 						btnTitle='See all Events'
@@ -44,7 +44,7 @@ const Dashboard = () => {
 						<DashEvent />
 					</DashPanel>
 				</div>
-				<div className='col-12 col-md-4 mb-3'>
+				<div className='col-12 col-md-4 pb-3 px-1'>
 					<DashPanel title='Navigation'>
 						<DashNavigation />
 					</DashPanel>
