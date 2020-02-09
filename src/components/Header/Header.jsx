@@ -9,6 +9,7 @@ import UserHeader from './components/UserHeader';
 const Header = props => {
 	const { user, firebase } = props;
 	const [userData, setUserData] = useState(null);
+	const [error, setError] = useState(null);
 	useEffect(() => {
 		if (user) {
 			firebase.db
@@ -18,7 +19,7 @@ const Header = props => {
 				.then(userSnap => {
 					setUserData(userSnap.data());
 				})
-				.catch(e => console.dir(e.message));
+				.catch(e => setError(e.message));
 		}
 		return () => {};
 	}, [firebase.db, user]);
@@ -48,6 +49,11 @@ const Header = props => {
 				</div>
 			</nav>
 			{userData && userData.admin && <AdminHeader />}
+			{error && (
+				<div className='container'>
+					<div className='alert alert-danger'>{error}</div>
+				</div>
+			)}
 		</>
 	);
 };
