@@ -25,7 +25,7 @@ const Header = props => {
 	}, [firebase.db, user]);
 	return (
 		<>
-			<nav className='navbar navbar-light d-block mt-1'>
+			<nav className='navbar navbar-light d-block mt-2'>
 				<div className='row align-items-center'>
 					<div className='col-12 col-md-4 order-1 order-md-2'>
 						<a href='/' className='navbar-brand d-block'>
@@ -51,7 +51,7 @@ const Header = props => {
 			{userData && userData.admin && <AdminHeader />}
 			{error && (
 				<div className='container'>
-					<div className='alert alert-danger'>{error}</div>
+					<div className='alert alert-danger mb-2'>{error}</div>
 				</div>
 			)}
 		</>
