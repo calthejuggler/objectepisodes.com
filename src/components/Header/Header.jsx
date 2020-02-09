@@ -50,7 +50,7 @@ const Header = props => {
 			</nav>
 			{userData && userData.admin && <AdminHeader />}
 			{error && (
-				<div className='container'>
+				<div className='container-fluid'>
 					<div className='alert alert-danger mb-2'>{error}</div>
 				</div>
 			)}
