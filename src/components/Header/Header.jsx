@@ -60,7 +60,7 @@ const Header = props => {
 								</p>
 							</div>
 						) : (
-							<div className='d-flex justify-content-center'>
+							<div className='d-flex justify-content-center mb-3'>
 								<div
 									className='btn btn-primary mr-3'
 									onClick={() =>
