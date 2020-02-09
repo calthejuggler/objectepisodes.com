@@ -6,9 +6,9 @@ import TermsOfService from './components/TermsOfService';
 
 export const Footer = () => {
 	return (
-		<footer className='bg-dark text-white text-center'>
-			<div className='row align-items-center justify-content-center py-3 order-1'>
-				<div className='col-4'>
+		<footer className='bg-dark text-white text-center py-5'>
+			<div className='row align-items-center justify-content-center'>
+				<div className='col-12 col-sm-6 col-lg-5 order-1'>
 					<ul className='navbar-nav'>
 						<li>
 							<PrivacyPolicy />
@@ -26,10 +26,13 @@ export const Footer = () => {
 						</li>
 					</ul>
 				</div>
-				<div className='col-12 col-md-2 order-3 order-md-2'>
+				<div className='col-12 col-sm-6 col-lg-2 order-3 order-sm-2 pt-3'>
+					<hr className='bg-white d-sm-none w-25' />
 					<ul className='navbar-nav text-white'>
 						<li>
-							Consider donating to support objectepisodes.com!
+							Consider donating to support
+							<br />
+							objectepisodes.com!
 						</li>
 						<li>
 							<small>
@@ -43,7 +46,8 @@ export const Footer = () => {
 						</li>
 					</ul>
 				</div>
-				<div className='col-4 order-2 order-md-3'>
+				<div className='col-12 col-sm-6 col-lg-5 order-2 order-sm-3 mr-auto'>
+					<hr className='bg-white d-none d-sm-block d-lg-none w-25' />
 					<ul className='navbar-nav'>
 						<li>
 							<a href='#/about' className='text-white'>
