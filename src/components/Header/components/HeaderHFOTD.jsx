@@ -62,18 +62,16 @@ const HeaderHFOTD = props => {
 			});
 	}, [firebase.db, firebase.dbFunc.FieldValue]);
 	return (
-		<div className='card h-100 text-center'>
-			<div className='card-body'>
-				<h4 className='card-title'>Historical Fact of the Day</h4>
-				{error && <p className='text-danger'>{error}</p>}
-				{!hfotd ? (
-					<div className='spinner-border' role='status'>
-						<span className='sr-only'>Loading...</span>
-					</div>
-				) : (
-					<p className='card-text'>{hfotd.fact}</p>
-				)}
-			</div>
+		<div className='text-center'>
+			<h4>Historical Fact of the Day</h4>
+			{error && <p className='text-danger'>{error}</p>}
+			{!hfotd ? (
+				<div className='spinner-border' role='status'>
+					<span className='sr-only'>Loading...</span>
+				</div>
+			) : (
+				<p className='card-text'>{hfotd.fact}</p>
+			)}
 		</div>
 	);
 };
