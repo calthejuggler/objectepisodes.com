@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import HeaderHFOTD from './components/HeaderHFOTD';
 import AdminHeader from './components/AdminHeader';
 import ProfilePicture from '../elements/ProfilePicture';
+import UserHeader from './components/UserHeader';
 
 const Header = props => {
 	const { user, firebase } = props;
@@ -34,49 +35,13 @@ const Header = props => {
 								className='img-fluid d-block mx-auto'
 								id='header-logo'
 							/>
-							<p className="text-center lead">The #1 homepage for jugglers.</p>
+							<p className='text-center lead'>
+								The #1 homepage for jugglers.
+							</p>
 						</a>
 					</div>
-					<div className='col-12 col-md-4 order-2 order-md-1'>
-						{user && userData ? (
-							<div className='text-center'>
-								<ProfilePicture
-									userID={user.uid}
-									size={['5rem', '5rem']}
-								/>
-								<p>
-									Logged in as{' '}
-									<a href={'#/user/' + userData.username}>
-										{user.displayName}
-									</a>
-									<br />
-									<button
-										className='btn btn-link btn-sm'
-										onClick={() => {
-											props.firebase.doSignOut();
-										}}>
-										Sign Out?
-									</button>
-								</p>
-							</div>
-						) : (
-							<div className='d-flex justify-content-center mb-3'>
-								<div
-									className='btn btn-primary mr-3'
-									onClick={() =>
-										props.history.push('/login')
-									}>
-									Login
-								</div>
-								<div
-									className='btn btn-secondary ml-3'
-									onClick={() =>
-										props.history.push('/register')
-									}>
-									Register
-								</div>
-							</div>
-						)}
+					<div className='col-12 col-md-4 order-2 order-md-1 mb-4 mb-md-0'>
+						<UserHeader user={user} userData={userData} />
 					</div>
 					<div className='col-12 col-md-4 order-3 order-md-3'>
 						<HeaderHFOTD />
