@@ -5,6 +5,7 @@ import { withRouter } from 'react-router-dom';
 import HeaderHFOTD from './components/HeaderHFOTD';
 import AdminHeader from './components/AdminHeader';
 import UserHeader from './components/UserHeader';
+import Navigation from './components/Navigation';
 
 const Header = props => {
 	const { user, firebase } = props;
@@ -45,6 +46,9 @@ const Header = props => {
 					</div>
 					<div className='col-12 col-md-4 order-3 order-md-3'>
 						<HeaderHFOTD />
+					</div>
+					<div className='col-12 order-4'>
+						<Navigation />
 					</div>
 				</div>
 			</nav>

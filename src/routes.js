@@ -13,64 +13,76 @@ import JugglingTools from './components/Pages/JugglingTools/JugglingTools';
 
 const routes = [
 	{
-		name: 'Dashboard',
+		name: 'Home',
 		path: '/',
 		component: Dashboard,
+		hidden: false,
 	},
 	{
 		name: 'User',
 		path: '/user',
 		component: User,
+		hidden: true,
 	},
 	{
 		name: 'Login',
 		path: '/login',
 		component: Login,
+		hidden: true,
 	},
 	{
 		name: 'Register',
 		path: '/register',
 		component: Register,
+		hidden: true,
 	},
 	{
 		name: 'Forgot',
 		path: '/forgot',
 		component: Forgot,
+		hidden: true,
 	},
 	{
 		name: 'About',
 		path: '/about',
 		component: About,
+		hidden: false,
 	},
 	{
 		name: 'Forum',
 		path: '/forum',
 		component: Forum,
+		hidden: false,
 	},
 	{
 		name: 'POTD',
 		path: '/potd',
 		component: POTD,
+		hidden: false,
 	},
 	{
 		name: 'Records',
 		path: '/record',
 		component: Records,
+		hidden: false,
 	},
 	{
 		name: 'Juggling Tools',
 		path: '/jugglingtools',
 		component: JugglingTools,
+		inProgress: true,
 	},
 	{
 		name: 'Edit Profile',
 		path: '/editprofile',
 		component: EditProfile,
+		hidden: true,
 	},
 	{
 		name: 'Admin',
 		path: '/admin',
 		component: Admin,
+		hidden: true,
 	},
 ];
 
