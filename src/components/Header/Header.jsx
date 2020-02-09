@@ -4,7 +4,6 @@ import logo from '../../images/objectepisodes_logo.jpg';
 import { withRouter } from 'react-router-dom';
 import HeaderHFOTD from './components/HeaderHFOTD';
 import AdminHeader from './components/AdminHeader';
-import ProfilePicture from '../elements/ProfilePicture';
 import UserHeader from './components/UserHeader';
 
 const Header = props => {
