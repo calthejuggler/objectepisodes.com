@@ -29,7 +29,7 @@ function App(props) {
 						<div id='main'>
 							<div className='container-fluid'>
 								<div className='row'>
-									<div className='col-2 d-none d-lg-block'>
+									<div className='col-2 d-none d-lg-block px-2'>
 										<SideNavBar />
 									</div>
 									<div className='col-12 col-lg-10'>
