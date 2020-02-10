@@ -79,6 +79,6 @@ I love to see pull request put in for anything, but if it's one of these things,
 
 ## Have an issue with the site?
 
-Go ahead and register an issue here, or got to my [Website][https://calcourtney.net] and [drop me an email\!](mailto:info@calcourtney.net)
+Go ahead and register an issue here, or got to my [Website](https://calcourtney.net) and [drop me an email\!](mailto:info@calcourtney.net)
 
 ## Thanks for reading\!\!\!
