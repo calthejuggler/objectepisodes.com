@@ -6,6 +6,7 @@ import { Footer } from './components/Footer/Footer';
 import { FirebaseContext } from './components/Firebase/index.jsx';
 import { AuthUserContext } from './components/Session/index.js';
 import LandingPage from './components/Pages/LandingPage/index.jsx';
+import SideNavBar from './components/SideNavBar.jsx';
 
 function App(props) {
 	const { firebase } = props;
@@ -27,28 +28,41 @@ function App(props) {
 						</FirebaseContext.Consumer>
 						<div id='main'>
 							<div className='container-fluid'>
-								<Switch>
-									{routes.map(route => {
-										if (route.name === 'Dashboard') {
-											return (
-												<Route
-													exact
-													key={route.name}
-													path={route.path}
-													component={route.component}
-												/>
-											);
-										} else {
-											return (
-												<Route
-													key={route.name}
-													path={route.path}
-													component={route.component}
-												/>
-											);
-										}
-									})}
-								</Switch>
+								<div className='row'>
+									<div className='col-2 d-none d-lg-block'>
+										<SideNavBar />
+									</div>
+									<div className='col-12 col-lg-10'>
+										<Switch>
+											{routes.map(route => {
+												if (
+													route.name === 'Dashboard'
+												) {
+													return (
+														<Route
+															exact
+															key={route.name}
+															path={route.path}
+															component={
+																route.component
+															}
+														/>
+													);
+												} else {
+													return (
+														<Route
+															key={route.name}
+															path={route.path}
+															component={
+																route.component
+															}
+														/>
+													);
+												}
+											})}
+										</Switch>
+									</div>
+								</div>
 							</div>
 						</div>
 						<Footer />

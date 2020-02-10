@@ -47,7 +47,7 @@ const Header = props => {
 					<div className='col-12 col-md-4 order-3 order-md-3'>
 						<HeaderHFOTD />
 					</div>
-					<div className='col-12 order-4'>
+					<div className='col-12 d-lg-none order-4'>
 						<Navigation />
 					</div>
 				</div>
