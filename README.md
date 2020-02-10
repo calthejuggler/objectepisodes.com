@@ -67,26 +67,21 @@ I have both a production and a development Firebase App, so the two are independ
 ### File Structure
 
 The important elements in the file structure are as follows:
-
-> /public _With files that are untouched by react_
->
-> >      index.html *The html template that webpack will build the website from*
-> >
-> > /src _With files directly relating to the client-side of the app_
-> > /images _Images needed for the site. All images will be imported from here. So far, it's just the logo._
-> > /icons _Self-made icons. The rest come from Font Awesome._
-> > /components _The different parts of the app_
-> >
-> > >           /elements *Reusable elements*
-> > >           /Firebase *The firebase config files, class and context*
-> > >           /Header and /Footer *They are what it says on the tin*
-> > >           /Pages *The different pages that the App.js component will display*
-> > >           /Session *The part that keeps track of what user is currently on the site*
-> > >       App.js *The first child of the parent JS file. Often quite important stuff goes on here. Specifically layout. **The master slide***
-> >
-> >       custom.scss *Styles can be added on top of bootstrap \(After the import\) or mixins can be used to change bootstrap itself*
-> >       index.js *The parent JS file. Not much goes on here.*
-> >       routes.js *This is useful so that any navigation bar never needs to be updated. It does it programmatically*
+>   - /public *With files that are untouched by react*
+>       - index.html *The html template that webpack will build the website from*
+>   - /src *With files directly relating to the client-side of the app*
+>       - /images *Images needed for the site. All images will be imported from here. So far, it's just the logo.*
+>       - /icons *Self-made icons. The rest come from Font Awesome.*
+>       - /components *The different parts of the app*
+>           - /elements *Reusable elements*
+>           - /Firebase *The firebase config files, class and context*
+>           - /Header and /Footer *They are what it says on the tin*
+>           - /Pages *The different pages that the App.js component will display*
+>           - /Session *The part that keeps track of what user is currently on the site*
+>       - App.js *The first child of the parent JS file. Often quite important stuff goes on here. Specifically layout. **The master slide***
+>       - custom.scss *Styles can be added on top of bootstrap \(After the import\) or mixins can be used to change bootstrap itself*
+>       - index.js *The parent JS file. Not much goes on here.*
+>       - routes.js *This is useful so that any navigation bar never needs to be updated. It does it programmatically*
 
 ## What Do We Need?
 
