@@ -78,7 +78,7 @@ I love to see pull request put in for anything, but if it's one of these things,
     -   General ReactJS - an events system where people can host EJC with other people adding themselves as going.
     -   General ReactJS - Juggling Clubs Similar to above, but with the different juggling clubs around the world.
 
-## Have an issue with the site?
+## Have an Issue?
 
 Go ahead and register an issue here, or got to my [Website](https://calcourtney.net) and [drop me an email\!](mailto:info@calcourtney.net)
 
