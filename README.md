@@ -8,7 +8,7 @@ It's nice to meet you\!
 
 This project is written in ReactJS and was built with [Create React App](https://github.com/facebook/create-react-app).
 
-Most of the styling uses [Bootstrap](https://getbootstrap.com/docs/4.4/) and the databasing, storage and authentification are all done using [Google Firebase](https://firebase.google.com/docs/).
+Most of the styling uses [Bootstrap](https://getbootstrap.com/docs/4.4/) and any custom styles are written in [Sass](https://sass-lang.com). The databasing, storage and authentification are all done using [Google Firebase](https://firebase.google.com/docs/).
 
 Want to help?
 
@@ -64,6 +64,25 @@ If you want to start making some databases, just head on over to [Firebase](cons
 
 I have both a production and a development Firebase App, so the two are independent. I may, one day, be inclined to share the development version on here...
 
+### File Structure
+
+The important elements in the file structure are as follows:
+>   - /public *With files that are untouched by react*
+>       - index.html *The html template that webpack will build the website from*
+>   - /src *With files directly relating to the client-side of the app*
+>       - /images *Images needed for the site. All images will be imported from here. So far, it's just the logo.*
+>       - /icons *Self-made icons. The rest come from Font Awesome.*
+>       - /components *The different parts of the app*
+>           - /elements *Reusable elements*
+>           - /Firebase *The firebase config files, class and context*
+>           - /Header and /Footer *They are what it says on the tin*
+>           - /Pages *The different pages that the App.js component will display*
+>           - /Session *The part that keeps track of what user is currently on the site*
+>       - App.js *The first child of the parent JS file. Often quite important stuff goes on here. Specifically layout. **The master slide***
+>       - custom.scss *Styles can be added on top of bootstrap \(After the import\) or mixins can be used to change bootstrap itself*
+>       - index.js *The parent JS file. Not much goes on here.*
+>       - routes.js *This is useful so that any navigation bar never needs to be updated. It does it programmatically*
+
 ## What Do We Need?
 
 This is a list of things that need to be done, but I can't see myself putting them together alone, wether that be for skill set reasons or for tediousness reasons\!
@@ -80,7 +99,7 @@ I love to see pull request put in for anything, but if it's one of these things,
 
 ## Have an Issue?
 
-Go ahead and register an issue here, or got to my [Website](https://calcourtney.net) and [drop me an email\!](mailto:info@calcourtney.net)
+Go ahead and register an issue here, or got to my [website](https://calcourtney.net) and [drop me an email\!](mailto:info@calcourtney.net)
 
 ## Hope To Hear From You Soon!
 
