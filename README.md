@@ -71,11 +71,11 @@ This is a list of things that need to be done, but I can't see myself putting th
 I love to see pull request put in for anything, but if it's one of these things, I'd be absolutely delighted\!
 
 -   Juggling Tools
-    [ ] - Javascript Programmer - The transition generator exists, but doesn't work. It's heavily based on [Jonglage.net](https://www.jonglage.net/generation_transition_siteswap.html)'s one, which also doesn't work\! XD
-    [ ] - HTML5 canvas drawer or other - The site definitely needs a juggling simulator\! And I don't think I could release it if it's not responsive... Come on, we can do this together\!
+    - Javascript Programmer - The transition generator exists, but doesn't work. It's heavily based on [Jonglage.net](https://www.jonglage.net/generation_transition_siteswap.html)'s one, which also doesn't work\! XD
+    - HTML5 canvas drawer or other - The site definitely needs a juggling simulator\! And I don't think I could release it if it's not responsive... Come on, we can do this together\!
 -   More Databases
-    [ ] - General ReactJS - an events system where people can host EJC with other people adding themselves as going.
-    [ ] - General ReactJS - Juggling Clubs Similar to above, but with the different juggling clubs around the world.
+    - General ReactJS - an events system where people can host EJC with other people adding themselves as going.
+    - General ReactJS - Juggling Clubs Similar to above, but with the different juggling clubs around the world.
 
 ## Have an issue with the site?
 
