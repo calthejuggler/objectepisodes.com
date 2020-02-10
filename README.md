@@ -85,7 +85,7 @@ The important elements in the file structure are as follows:
 
 ## What Do We Need?
 
-This is a list of things that need to be done, but I can't see myself putting them together alone, wether that be for skill set reasons or for tediousness reasons\!
+This is a list of things that need to be done, but I can't see myself putting them together alone, whether that be for skill set reasons or for tediousness reasons\!
 
 I love to see pull request put in for anything, but if it's one of these things, I'd be absolutely delighted\!
 
