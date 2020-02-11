@@ -20,7 +20,7 @@ const DashPOTD = props => {
 						.collection('potd')
 						.doc(snapArray.docs[0].id)
 						.update({
-							shown: firebase.dbFunc.FieldValue.serverTimestamp(),
+							shown: firebase.dbFunc.FieldValue.serverTimestamp()
 						})
 						.then(res => {
 							firebase
@@ -30,7 +30,7 @@ const DashPOTD = props => {
 								.then(user => {
 									setPotd({
 										potd: snapArray.docs[0].data(),
-										user: user.data(),
+										user: user.data()
 									});
 								});
 						});
@@ -62,7 +62,7 @@ const DashPOTD = props => {
 										.then(user => {
 											setPotd({
 												potd: snapArray.docs[1].data(),
-												user: user.data(),
+												user: user.data()
 											});
 										});
 								});
@@ -73,9 +73,10 @@ const DashPOTD = props => {
 						.then(user => {
 							setPotd({
 								potd: snapArray.docs[1].data(),
-								user: user.data(),
+								user: user.data()
 							});
-						});
+						})
+						.catch(e => setError(e.message));
 				}
 			})
 			.catch(e => setError(e.message));
