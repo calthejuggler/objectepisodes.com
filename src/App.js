@@ -51,6 +51,7 @@ function App(props) {
 												} else {
 													return (
 														<Route
+															exact
 															key={route.name}
 															path={route.path}
 															component={
