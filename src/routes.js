@@ -10,6 +10,7 @@ import Records from './components/Pages/Records';
 import About from './components/Pages/About';
 import POTD from './components/Pages/POTD';
 import JugglingTools from './components/Pages/JugglingTools/JugglingTools';
+import SiteswapTools from './components/Pages/SiteswapTools/SiteswapTools';
 
 const routes = [
 	{
@@ -67,9 +68,9 @@ const routes = [
 		hidden: false,
 	},
 	{
-		name: 'Juggling Tools',
-		path: '/jugglingtools',
-		component: JugglingTools,
+		name: 'Siteswap Tools',
+		path: '/siteswaptools',
+		component: SiteswapTools,
 		inProgress: true,
 	},
 	{
