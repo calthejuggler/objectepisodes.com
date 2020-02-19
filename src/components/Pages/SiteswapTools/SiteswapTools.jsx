@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useEffect } from 'react';
 
 const SiteswapTools = props => {
 	const [inputSiteswapString, setInputSiteswapString] = useState('3');
@@ -31,7 +30,10 @@ const SiteswapTools = props => {
 
 		let inputIsValid = true;
 
-		if (!Number.isInteger(inputAverage)) inputIsValid = false;
+		if (!Number.isInteger(inputAverage)) {
+			inputIsValid = false;
+			setError('Siteswap is invalid!');
+		}
 
 		setInputSiteswapIsValid(inputIsValid);
 		if (inputIsValid) {
@@ -52,6 +54,11 @@ const SiteswapTools = props => {
 					<div className='card'>
 						<div className='card-body'>
 							<div className='form-group'>
+								{error && (
+									<div className='alert alert-danger'>
+										{error}
+									</div>
+								)}
 								<label htmlFor='siteswapInput'>Siteswap:</label>
 								<input
 									type='text'
