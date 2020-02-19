@@ -1,5 +1,11 @@
 import React from 'react';
 
+interface ButtonInterface {
+	active: boolean,
+	onMouseDown: Function,
+	
+}
+
 const Button = ({ active, children, onMouseDown }) => {
 	return (
 		<button
