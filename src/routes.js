@@ -9,8 +9,8 @@ import Admin from './components/Pages/Admin/Admin';
 import Records from './components/Pages/Records';
 import About from './components/Pages/About';
 import POTD from './components/Pages/POTD';
-import JugglingTools from './components/Pages/JugglingTools/JugglingTools';
-import SiteswapTools from './components/Pages/SiteswapTools/SiteswapTools';
+// import JugglingTools from './components/Pages/JugglingTools/JugglingTools';
+// import SiteswapTools from './components/Pages/SiteswapTools/SiteswapTools';
 
 const routes = [
 	{
@@ -67,12 +67,12 @@ const routes = [
 		component: Records,
 		hidden: false,
 	},
-	{
-		name: 'Siteswap Tools',
-		path: '/siteswaptools',
-		component: SiteswapTools,
-		inProgress: true,
-	},
+	// {
+	// 	name: 'Siteswap Tools',
+	// 	path: '/siteswaptools',
+	// 	component: SiteswapTools,
+	// 	inProgress: true,
+	// },
 	{
 		name: 'Edit Profile',
 		path: '/editprofile',
