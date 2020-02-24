@@ -11,7 +11,7 @@ ReactDOM.render<any>(
 	<HashRouter>
 		<FirebaseContext.Provider value={new Firebase()}>
 			<FirebaseContext.Consumer>
-				{firebase => <App firebase={firebase} />}
+				{(firebase: Firebase) => <App firebase={firebase} />}
 			</FirebaseContext.Consumer>
 		</FirebaseContext.Provider>
 	</HashRouter>,
