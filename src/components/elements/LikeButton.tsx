@@ -2,8 +2,17 @@ import React from 'react';
 import { withFirebase } from '../Firebase/context';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import Firebase from '../Firebase';
 
-const LikeButton = props => {
+interface LikeButtonInterface {
+	firebase: Firebase;
+	postID: string;
+	likes: number;
+	type: string;
+	size: number;
+}
+
+const LikeButton = (props: LikeButtonInterface) => {
 	const { firebase, postID, likes, type, size } = props;
 
 	const [colour, setColour] = useState('#000');
