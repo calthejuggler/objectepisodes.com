@@ -1,5 +1,5 @@
-import FirebaseContext from './context.tsx';
-import Firebase from './config.jsx';
+import FirebaseContext from './context';
+import Firebase from './config';
 
 export default Firebase;
 export { FirebaseContext };

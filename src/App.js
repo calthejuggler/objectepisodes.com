@@ -3,10 +3,10 @@ import { Switch, Route } from 'react-router-dom';
 import routes from './routes.js';
 import Header from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
-import { FirebaseContext } from './components/Firebase/index.jsx';
+import { FirebaseContext } from './components/Firebase/index';
 import { AuthUserContext } from './components/Session/index.js';
-import LandingPage from './components/Pages/LandingPage/index.jsx';
-import SideNavBar from './components/SideNavBar.jsx';
+import LandingPage from './components/Pages/LandingPage/index';
+import SideNavBar from './components/SideNavBar';
 
 function App(props) {
 	const { firebase } = props;
