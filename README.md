@@ -6,7 +6,10 @@ Hey there, my name is Cal Courtney and if you've reached this .md file, then you
 
 It's nice to meet you\!
 
-This project is written in ReactJS and was built with [Create React App](https://github.com/facebook/create-react-app).
+This project is written in ReactJS and was built with [Create React App](https://github.com/facebook/create-react-app). 
+
+*UPDATE*
+The project is now written with Typescript as the priority, for easier use down the line. I don't really write TypeScript, but we'll work it out XD
 
 Most of the styling uses [Bootstrap](https://getbootstrap.com/docs/4.4/) and any custom styles are written in [Sass](https://sass-lang.com). The databasing, storage and authentification are all done using [Google Firebase](https://firebase.google.com/docs/).
 
