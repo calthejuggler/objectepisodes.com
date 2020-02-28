@@ -1,6 +1,14 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-const Icon = ({ children, iconSize }) => {
+interface IconPropsInterface {
+	iconSize?: string;
+	children: string;
+}
+
+const Icon: FunctionComponent<IconPropsInterface> = ({
+	iconSize,
+	children
+}) => {
 	if (iconSize === 'small')
 		return <i style={{ fontSize: '0.75rem' }} className={children}></i>;
 	return <i className={children}></i>;

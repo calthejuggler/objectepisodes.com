@@ -4,7 +4,7 @@ import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 
 const AddComment = props => {
 	const { currentCategory, currentTopic, firebase } = props;
-	const [comment, setComment] = useState([
+	const [comment, setComment] = useState<Array<object>>([
 		{
 			type: 'paragraph',
 			children: [{ text: '' }],

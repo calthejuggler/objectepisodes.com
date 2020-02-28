@@ -1,13 +1,19 @@
 import React, { useMemo, useCallback } from 'react';
-import { Slate, Editable, withReact } from 'slate-react';
+import {
+	Slate,
+	Editable,
+	withReact,
+	RenderElementProps,
+	RenderLeafProps
+} from 'slate-react';
 import { createEditor } from 'slate';
 
-const RichTextView = ({ content }) => {
+const RichTextView = ({ content }: { content: any }) => {
 	const renderElement = useCallback(props => <Element {...props} />, []);
 	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
 	const editor = useMemo(() => withReact(createEditor()), []);
 
-	const Element = ({ attributes, children, element }) => {
+	const Element = ({ attributes, children, element }: RenderElementProps) => {
 		switch (element.type) {
 			case 'block-quote':
 				return <blockquote {...attributes}>{children}</blockquote>;
@@ -26,7 +32,7 @@ const RichTextView = ({ content }) => {
 		}
 	};
 
-	const Leaf = ({ attributes, children, leaf }) => {
+	const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 		if (leaf.bold) {
 			children = <strong>{children}</strong>;
 		}
@@ -47,7 +53,7 @@ const RichTextView = ({ content }) => {
 	};
 
 	return (
-		<Slate editor={editor} value={content}>
+		<Slate editor={editor} value={content} onChange={() => {}}>
 			<Editable
 				readOnly
 				renderElement={renderElement}

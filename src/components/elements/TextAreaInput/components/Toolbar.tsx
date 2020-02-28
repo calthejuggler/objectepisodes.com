@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { FunctionComponent, ReactNode, FC } from 'react';
 
-const Toolbar = ({ children }) => {
+interface ToolbarInterface {
+	children: Array<JSX.Element>;
+}
+
+const Toolbar: FunctionComponent<ToolbarInterface> = props => {
 	return (
 		<div className='btn-group d-flex justify-content-center'>
-			{children.map((child, i) => child)}
+			{props.children.map((child, i) => child)}
 		</div>
 	);
 };

@@ -1,24 +1,28 @@
-import React, { MouseEventHandler } from 'react';
+import React, { MouseEventHandler, FunctionComponent } from 'react';
 
 interface ButtonInterface {
 	active: boolean;
 	onMouseDown: MouseEventHandler;
-	children: HTMLElement;
 }
 
-const Button = (props: ButtonInterface) => {
+const Button: FunctionComponent<ButtonInterface> = ({
+	active,
+	onMouseDown,
+	children
+}) => {
 	return (
 		<>
 			<div />
 			<button
 				className={
-					props.active
+					active
 						? 'btn btn-sm btn-primary'
 						: 'btn btn-sm btn-secondary'
 				}
 				onClick={e => e.preventDefault()}
-				onMouseDown={props.onMouseDown}>
-				{props.children}
+				onMouseDown={onMouseDown}
+			>
+				{children}
 			</button>
 		</>
 	);

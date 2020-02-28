@@ -3,7 +3,7 @@ import Firebase from './';
 
 const FirebaseContext = createContext<Firebase | null>(null);
 
-export const withFirebase = (Component: React.FunctionComponent) => (
+export const withFirebase = (Component: React.FunctionComponent<any>) => (
 	props: any
 ) => (
 	<FirebaseContext.Consumer>

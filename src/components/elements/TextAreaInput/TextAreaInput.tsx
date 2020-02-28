@@ -1,65 +1,25 @@
-import React, { useCallback, useMemo } from 'react';
-import isHotkey from 'is-hotkey';
-import { Editable, withReact, useSlate, Slate } from 'slate-react';
-import { Editor, Transforms, createEditor } from 'slate';
-import { withHistory } from 'slate-history';
+import React, { useMemo, FC, useCallback } from 'react';
+import { createEditor, Node, Editor } from 'slate';
+import { isHotkey } from 'is-hotkey';
 
-import Button from './components/Button';
-import Icon from './components/Icon';
+import {
+	Slate,
+	Editable,
+	withReact,
+	ReactEditor,
+	RenderElementProps,
+	RenderLeafProps
+} from 'slate-react';
+import MarkButton from './components/MarkButton';
 import Toolbar from './components/Toolbar';
+import BlockButton from './components/BlockButton';
 
-const HOTKEYS = {
-	'mod+b': 'bold',
-	'mod+i': 'italic',
-	'mod+u': 'underline',
-	'mod+`': 'code',
-};
-
-const LIST_TYPES = ['numbered-list', 'bulleted-list'];
-
-const toggleBlock = (editor, format) => {
-	const isActive = isBlockActive(editor, format);
-	const isList = LIST_TYPES.includes(format);
-
-	Transforms.unwrapNodes(editor, {
-		match: n => LIST_TYPES.includes(n.type),
-		split: true,
-	});
-
-	Transforms.setNodes(editor, {
-		type: isActive ? 'paragraph' : isList ? 'list-item' : format,
-	});
-
-	if (!isActive && isList) {
-		const block = { type: format, children: [] };
-		Transforms.wrapNodes(editor, block);
-	}
-};
-
-const toggleMark = (editor, format) => {
-	const isActive = isMarkActive(editor, format);
-
-	if (isActive) {
-		Editor.removeMark(editor, format);
-	} else {
-		Editor.addMark(editor, format, true);
-	}
-};
-
-const isBlockActive = (editor, format) => {
-	const [match] = Editor.nodes(editor, {
-		match: n => n.type === format,
-	});
-
-	return !!match;
-};
-
-const isMarkActive = (editor, format) => {
-	const marks = Editor.marks(editor);
-	return marks ? marks[format] === true : false;
-};
-
-const Element = ({ attributes, children, element }) => {
+interface TextAreaInterface {
+	state: Node[];
+	setState: (value: Node[]) => void;
+	placeholder: string;
+}
+const Element = ({ attributes, children, element }: RenderElementProps) => {
 	switch (element.type) {
 		case 'block-quote':
 			return <blockquote {...attributes}>{children}</blockquote>;
@@ -78,7 +38,7 @@ const Element = ({ attributes, children, element }) => {
 	}
 };
 
-const Leaf = ({ attributes, children, leaf }) => {
+const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 	if (leaf.bold) {
 		children = <strong>{children}</strong>;
 	}
@@ -98,44 +58,68 @@ const Leaf = ({ attributes, children, leaf }) => {
 	return <span {...attributes}>{children}</span>;
 };
 
-const BlockButton = ({ format, icon, iconSize }) => {
-	const editor = useSlate();
-	return (
-		<Button
-			active={isBlockActive(editor, format)}
-			onMouseDown={event => {
-				event.preventDefault();
-				toggleBlock(editor, format);
-			}}>
-			<Icon iconSize={iconSize}>{icon}</Icon>
-		</Button>
-	);
-};
+const TextAreaInput: FC<TextAreaInterface> = ({
+	state,
+	setState,
+	placeholder
+}) => {
+	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
 
-const MarkButton = ({ format, icon }) => {
-	const editor = useSlate();
-	return (
-		<Button
-			active={isMarkActive(editor, format)}
-			onMouseDown={event => {
-				event.preventDefault();
-				toggleMark(editor, format);
-			}}>
-			<Icon>{icon}</Icon>
-		</Button>
-	);
-};
+	const HOTKEYS: object = {
+		'mod+b': 'bold',
+		'mod+i': 'italic',
+		'mod+u': 'underline',
+		'mod+`': 'code'
+	};
 
-const TextAreaInput = ({ state, setState, placeholder }) => {
-	const renderElement = useCallback(props => <Element {...props} />, []);
-	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
-	const editor = useMemo(() => withHistory(withReact(createEditor())), []);
+	const toggleMark = (editor: ReactEditor, format: string) => {
+		const isActive = isMarkActive(editor, format);
+
+		if (isActive) {
+			Editor.removeMark(editor, format);
+		} else {
+			Editor.addMark(editor, format, true);
+		}
+	};
+
+	const isMarkActive = (editor: ReactEditor, format: string) => {
+		const marks = Editor.marks(editor);
+		return marks ? marks[format] === true : false;
+	};
+
+	const renderElement = useCallback(
+		(props: RenderElementProps) => <Element {...props} />,
+		[]
+	);
+	const renderLeaf = useCallback(
+		(props: RenderLeafProps) => <Leaf {...props} />,
+		[]
+	);
 
 	return (
 		<Slate
 			editor={editor}
 			value={state}
-			onChange={value => setState(value)}>
+			onChange={(value: Node[]) => setState(value)}
+			onKeyDown={(event: KeyboardEvent) => {
+				for (const hotkey in HOTKEYS) {
+					if (isHotkey(hotkey, event)) {
+						event.preventDefault();
+						const markKeys: Array<string> = Object.keys(HOTKEYS);
+						const markValues: Array<string> = Object.values(
+							HOTKEYS
+						);
+
+						let mark: string = 'regular';
+						for (let i = 0; i <= markKeys.length; i++) {
+							if (markKeys[i] === hotkey) mark = markValues[i];
+						}
+
+						toggleMark(editor, mark);
+					}
+				}
+			}}
+		>
 			<Toolbar>
 				<MarkButton format='bold' icon='fas fa-bold' />
 				<MarkButton format='italic' icon='fas fa-italic' />
@@ -159,15 +143,6 @@ const TextAreaInput = ({ state, setState, placeholder }) => {
 				className='bg-dark text-white p-2'
 				autoFocus
 				spellCheck
-				onKeyDown={event => {
-					for (const hotkey in HOTKEYS) {
-						if (isHotkey(hotkey, event)) {
-							event.preventDefault();
-							const mark = HOTKEYS[hotkey];
-							toggleMark(editor, mark);
-						}
-					}
-				}}
 			/>
 		</Slate>
 	);

@@ -1,10 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FunctionComponent } from 'react';
 import { withFirebase } from '../Firebase/context';
+import Firebase from './../Firebase/index';
 
-const ProfilePicture = props => {
-	const { firebase, userID, size, centered } = props;
+interface ProfilePictureInterface {
+	firebase: Firebase;
+	userID: string;
+	centered: boolean;
+	size: Array<number>;
+}
 
-	const [userData, setUserData] = useState(null);
+interface IUser {
+	photoURL: string;
+	username: string;
+}
+
+const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
+	firebase,
+	userID,
+	size,
+	centered
+}) => {
+	const [userData, setUserData] = useState<IUser | null>(null);
 
 	useEffect(() => {
 		firebase
@@ -19,7 +35,7 @@ const ProfilePicture = props => {
 				style={{
 					width: size ? size[0] : 'auto',
 					height: size ? size[1] : 'auto',
-					objectFit: 'cover',
+					objectFit: 'cover'
 				}}
 				className={
 					'img-fluid rounded-circle ' +
