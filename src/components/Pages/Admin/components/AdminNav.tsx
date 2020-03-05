@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { FC, SetStateAction } from 'react';
 
-const AdminNav = props => {
-	const { setNavChoice,navChoice } = props;
+interface Props {
+	setNavChoice: any;
+	navChoice: string;
+}
+
+const AdminNav: FC<Props> = props => {
+	const { setNavChoice, navChoice } = props;
 	return (
 		<ul className='list-group'>
 			<li
@@ -10,7 +15,8 @@ const AdminNav = props => {
 						? 'list-group-item active'
 						: 'list-group-item'
 				}
-				onClick={() => setNavChoice('hfotd')}>
+				onClick={() => setNavChoice('hfotd')}
+			>
 				Historical fact of the day
 			</li>
 			<li
@@ -19,7 +25,8 @@ const AdminNav = props => {
 						? 'list-group-item active'
 						: 'list-group-item'
 				}
-				onClick={() => setNavChoice('potd')}>
+				onClick={() => setNavChoice('potd')}
+			>
 				Photo of the day
 			</li>
 			<li
@@ -28,7 +35,8 @@ const AdminNav = props => {
 						? 'list-group-item active'
 						: 'list-group-item'
 				}
-				onClick={() => setNavChoice('users')}>
+				onClick={() => setNavChoice('users')}
+			>
 				Users
 			</li>
 		</ul>

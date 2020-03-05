@@ -1,24 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { withFirebase } from '../../../Firebase/context';
+import Firebase from './../../../Firebase/index';
 
-const ListPOTD = props => {
+interface Props {
+	firebase: Firebase;
+}
+
+const ListPOTD: FC<Props> = props => {
 	const { firebase } = props;
 
-	const [photos, setPhotos] = useState([]);
+	const [photos, setPhotos] = useState<Array<{ potd: any; user: any }>>([]);
 
 	useEffect(() => {
 		firebase.db
 			.collection('potd')
 			.orderBy('toBeShown', 'asc')
-			.onSnapshot(potdDocsSnap => {
+			.onSnapshot((potdDocsSnap: any) => {
 				setPhotos([]);
-				potdDocsSnap.forEach(potd => {
+				potdDocsSnap.forEach((potd: any) => {
 					firebase
 						.getUserDataFromUID(potd.data().uploadedBy)
 						.then(user => {
 							setPhotos(prev => [
 								...prev,
-								{ potd: potd, user: user },
+								{ potd: potd, user: user }
 							]);
 						});
 				});
@@ -75,7 +80,8 @@ const ListPOTD = props => {
 								<a
 									href={
 										'#/user/' + photo.user.data().username
-									}>
+									}
+								>
 									{photo.user.data().username}
 								</a>
 							</div>

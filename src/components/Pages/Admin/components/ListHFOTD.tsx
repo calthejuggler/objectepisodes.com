@@ -1,28 +1,35 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, FC } from 'react';
 import { withFirebase } from '../../../Firebase/context';
+import Firebase from './../../../Firebase/index';
 
-const ListHFOTD = props => {
+interface Props {
+	firebase: Firebase;
+}
+
+const ListHFOTD: FC<Props> = props => {
 	const { firebase } = props;
-	const [facts, setFacts] = useState([]);
-	const [error, setError] = useState(null);
+	const [facts, setFacts] = useState<object[]>([
+		{ factData: null, user: null }
+	]);
+	const [error, setError] = useState<null | string>(null);
 	useLayoutEffect(() => {
 		return firebase.db
 			.collection('hfotd')
 			.orderBy('timestamp', 'asc')
-			.onSnapshot(hfotdsSnap => {
+			.onSnapshot((hfotdsSnap: any) => {
 				setFacts([]);
-				hfotdsSnap.forEach(hfotd => {
+				hfotdsSnap.forEach((hfotd: any) => {
 					firebase.db
 						.collection('users')
 						.doc(hfotd.data().user)
 						.get()
-						.then(userDoc => {
+						.then((userDoc: any) => {
 							setFacts(prev => [
 								...prev,
-								{ factData: hfotd, user: userDoc },
+								{ factData: hfotd, user: userDoc }
 							]);
 						})
-						.catch(e => setError(e.message));
+						.catch((e: { message: string }) => setError(e.message));
 				});
 			});
 	}, [firebase.db]);
@@ -47,10 +54,11 @@ const ListHFOTD = props => {
 					</div>
 				</li>
 				{facts.length > 0
-					? facts.map(fact => (
+					? facts.map((fact: any) => (
 							<li
 								className='list-group-item'
-								key={fact.factData.id}>
+								key={fact.factData.id}
+							>
 								<div className='row text-center'>
 									<div className='col-5'>
 										{fact.factData.data().fact}
