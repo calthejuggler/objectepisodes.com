@@ -1,26 +1,32 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 
 import logo from '../../images/objectepisodes_logo.jpg';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import HeaderHFOTD from './components/HeaderHFOTD';
 import AdminHeader from './components/AdminHeader';
 import UserHeader from './components/UserHeader';
 import Navigation from './components/Navigation';
+import Firebase from './../Firebase/config';
 
-const Header = props => {
+interface Props extends RouteComponentProps {
+	user: any;
+	firebase: Firebase;
+}
+
+const Header: FC<Props> = props => {
 	const { user, firebase } = props;
-	const [userData, setUserData] = useState(null);
-	const [error, setError] = useState(null);
+	const [userData, setUserData] = useState<null | { admin: boolean }>(null);
+	const [error, setError] = useState<null | string>(null);
 	useEffect(() => {
 		if (user) {
 			firebase.db
 				.collection('users')
 				.doc(user.uid)
 				.get()
-				.then(userSnap => {
+				.then((userSnap: any) => {
 					setUserData(userSnap.data());
 				})
-				.catch(e => setError(e.message));
+				.catch((e: { message: string }) => setError(e.message));
 		}
 		return () => {};
 	}, [firebase.db, user]);

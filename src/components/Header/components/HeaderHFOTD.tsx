@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { withFirebase } from '../../Firebase/context';
+import Firebase from './../../Firebase/config';
 
-const HeaderHFOTD = props => {
+const HeaderHFOTD: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
 
-	const [hfotd, setHfotd] = useState(null);
-	const [error, setError] = useState(null);
+	const [hfotd, setHfotd] = useState<null | { fact: string }>(null);
+	const [error, setError] = useState<null | string>(null);
 
 	useEffect(() => {
 		firebase.db
@@ -13,20 +14,22 @@ const HeaderHFOTD = props => {
 			.orderBy('timestamp', 'asc')
 			.limit(2)
 			.get()
-			.then(docsSnap => {
+			.then((docsSnap: any) => {
 				if (docsSnap.empty) {
-					setError("There were no HFOTD in the database :'(");
-					setHfotd('ERROR:');
+					setError("There were no HFsOTD in the database :'(");
+					setHfotd({ fact: 'ERROR:' });
 				} else {
 					if (!docsSnap.docs[0].data().shown) {
 						firebase.db
 							.collection('hfotd')
 							.doc(docsSnap.docs[0].id)
 							.update({
-								shown: firebase.dbFunc.FieldValue.serverTimestamp(),
+								shown: firebase.dbFunc.FieldValue.serverTimestamp()
 							})
-							.then(res => setHfotd(docsSnap.docs[0].data()))
-							.catch(e => setError(e.message));
+							.then(() => setHfotd(docsSnap.docs[0].data()))
+							.catch((e: { message: string }) =>
+								setError(e.message)
+							);
 					} else if (
 						docsSnap.docs[0]
 							.data()
@@ -42,7 +45,7 @@ const HeaderHFOTD = props => {
 							.collection('hfotd-archive')
 							.doc(docsSnap.docs[0].id)
 							.set(docsSnap.docs[0].data())
-							.then(res => {
+							.then(() => {
 								firebase.db
 									.collection('hfotd')
 									.doc(docsSnap.docs[0].id)
@@ -51,13 +54,15 @@ const HeaderHFOTD = props => {
 										setHfotd(docsSnap.docs[1].data());
 									});
 							})
-							.catch(e => setError(e.message));
+							.catch((e: { message: string }) =>
+								setError(e.message)
+							);
 					} else {
 						setHfotd(docsSnap.docs[0].data());
 					}
 				}
 			})
-			.catch(e => {
+			.catch((e: { message: string }) => {
 				setError(e.message);
 			});
 	}, [firebase.db, firebase.dbFunc.FieldValue]);

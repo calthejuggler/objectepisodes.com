@@ -13,34 +13,27 @@ const Navigation = () => {
 				data-target='#mainNav'
 				aria-controls='mainNav'
 				aria-expanded='false'
-				aria-label='Toggle navigation'>
+				aria-label='Toggle navigation'
+			>
 				<span className='navbar-toggler-icon'></span>
 			</button>
 			<div className='collapse navbar-collapse' id='mainNav'>
 				<ul className='navbar-nav mx-auto'>
 					{routes.map(route =>
-						route.hidden ? null : route.inProgress ? (
+						route.hidden ? null : (
 							<li
 								className='nav-item'
 								key={route.name}
 								data-toggle='tooltip'
 								data-placement='bottom'
-								title='Coming Soon!'>
+								title='Coming Soon!'
+							>
 								<button
 									type='button'
-									className='btn btn-link nav-link disabled'>
+									className='btn btn-link nav-link disabled'
+								>
 									{route.name}
 								</button>
-							</li>
-						) : (
-							<li className='nav-item' key={route.name}>
-								<NavLink
-									className='nav-link'
-									activeClassName='active'
-									exact
-									to={route.path}>
-									{route.name}
-								</NavLink>
 							</li>
 						)
 					)}

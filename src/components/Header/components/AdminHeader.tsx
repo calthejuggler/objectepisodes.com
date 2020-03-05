@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AdminHeader = props => {
+const AdminHeader = () => {
 	return (
 		<nav className='navbar navbar-light bg-danger mb-2'>
 			<div className='row w-100 d-block'>
