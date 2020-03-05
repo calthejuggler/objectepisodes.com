@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 import DonateButton from './components/DonateButton';
 import GiveFeedback from './components/GiveFeedback';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import TermsOfService from './components/TermsOfService';
 
-export const Footer = () => {
+export const Footer:FC = () => {
 	return (
 		<footer className='bg-dark text-white text-center py-5'>
 			<div className='row align-items-center justify-content-center'>

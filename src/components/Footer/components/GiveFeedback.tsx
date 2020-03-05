@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { withFirebase } from '../../Firebase/context';
 import { withAuth } from '../../Session/withAuth';
@@ -6,17 +6,27 @@ import { withAuth } from '../../Session/withAuth';
 import logo from '../../../images/objectepisodes_logo.jpg';
 import FiveStars from './FiveStars';
 import { useState } from 'react';
+import Firebase from './../../Firebase/config';
 
-const GiveFeedback = props => {
-	const { firebase, user } = props;
+interface User {
+	uid: string;
+	displayName: string;
+	email: string;
+}
 
-	const [rating, setRating] = useState([1, 1, 1, 0, 0]);
+interface Props {
+	firebase: Firebase;
+	user: User;
+}
+
+const GiveFeedback: FC<Props> = ({ firebase, user }) => {
+	const [rating, setRating] = useState<number[]>([1, 1, 1, 0, 0]);
 	const [ratingCanChange, setRatingCanChange] = useState(true);
 
 	const [message, setMessage] = useState('');
 
-	const [error, setError] = useState(null);
-	const [success, setSuccess] = useState(null);
+	const [error, setError] = useState<string | null>(null);
+	const [success, setSuccess] = useState<boolean | null>(null);
 
 	const handleFeedbackSubmit = () => {
 		user &&
@@ -30,12 +40,12 @@ const GiveFeedback = props => {
 						email: user.email,
 						timestamp: firebase.dbFunc.FieldValue.serverTimestamp(),
 						message: message,
-						rating: rating,
+						rating: rating
 					})
-					.then(res => {
+					.then(() => {
 						setSuccess(true);
 					})
-					.catch(e => setError(e.message));
+					.catch((e: Error) => setError(e.message));
 			});
 	};
 
@@ -45,17 +55,19 @@ const GiveFeedback = props => {
 				type='button'
 				className='btn btn-link text-white'
 				data-toggle='modal'
-				data-target='#giveFeedbackModal'>
+				data-target='#giveFeedbackModal'
+			>
 				Give Feedback
 			</button>
 
 			<div
 				className='modal fade text-dark'
 				id='giveFeedbackModal'
-				tabIndex='-1'
+				tabIndex={-1}
 				role='dialog'
 				aria-labelledby='giveFeedbackModalLabel'
-				aria-hidden='true'>
+				aria-hidden='true'
+			>
 				<div className='modal-dialog' role='document'>
 					<div className='modal-content'>
 						<div className='modal-header d-block'>
@@ -63,7 +75,8 @@ const GiveFeedback = props => {
 								type='button'
 								className='close'
 								data-dismiss='modal'
-								aria-label='Close'>
+								aria-label='Close'
+							>
 								<span aria-hidden='true'>&times;</span>
 							</button>
 							<img
@@ -73,7 +86,8 @@ const GiveFeedback = props => {
 							/>
 							<h5
 								className='modal-title'
-								id='giveFeedbackModalLabel'>
+								id='giveFeedbackModalLabel'
+							>
 								Give Feedback
 							</h5>
 						</div>
@@ -102,25 +116,26 @@ const GiveFeedback = props => {
 							)}
 							<textarea
 								name='feedback'
-								cols='30'
-								rows='10'
+								cols={30}
+								rows={10}
 								className='form-control'
 								value={message}
-								onChange={e =>
-									setMessage(e.target.value)
-								}></textarea>
+								onChange={e => setMessage(e.target.value)}
+							></textarea>
 						</div>
 						<div className='modal-footer'>
 							<button
 								type='button'
 								className='btn btn-secondary'
-								data-dismiss='modal'>
+								data-dismiss='modal'
+							>
 								Close
 							</button>
 							<button
 								type='button'
 								className='btn btn-primary'
-								onClick={handleFeedbackSubmit}>
+								onClick={handleFeedbackSubmit}
+							>
 								Send Feedback
 							</button>
 						</div>

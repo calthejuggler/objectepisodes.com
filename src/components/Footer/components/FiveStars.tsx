@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const FiveStars = props => {
-	const { rating, setRating, ratingCanChange, setRatingCanChange } = props;
+interface Props {
+	rating: Array<number>;
+	setRating: (value: Array<number>) => void;
+	ratingCanChange: boolean;
+	setRatingCanChange: (value: boolean) => void;
+}
 
+const FiveStars: FC<Props> = ({
+	rating,
+	setRating,
+	ratingCanChange,
+	setRatingCanChange
+}) => {
 	return (
 		<>
 			<link
@@ -21,17 +31,18 @@ const FiveStars = props => {
 								ratingCanChange &&
 									setRating(
 										rating.map((value, idx) =>
-											idx <= i ? true : false
+											idx <= i ? 1 : 0
 										)
 									);
 							}}
 							onClick={() => {
-								const newRating = rating.map((value, idx) =>
-									idx <= i ? true : false
+								const newRating: number[] = rating.map(
+									(value, idx) => (idx <= i ? 1 : 0)
 								);
 								setRating(newRating);
 								setRatingCanChange(false);
-							}}></span>
+							}}
+						></span>
 					</div>
 				))}
 			</div>

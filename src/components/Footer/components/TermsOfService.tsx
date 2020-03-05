@@ -16,7 +16,7 @@ const TermsOfService = () => {
 			<div
 				className='modal fade text-dark'
 				id='termsOfServiceModal'
-				tabIndex='-1'
+				tabIndex={-1}
 				role='dialog'
 				aria-labelledby='termsOfServiceLabel'
 				aria-hidden='true'>

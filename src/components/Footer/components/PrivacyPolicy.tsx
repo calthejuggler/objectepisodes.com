@@ -16,7 +16,7 @@ const PrivacyPolicy = () => {
 			<div
 				className='modal fade text-dark'
 				id='privacyPolicyModal'
-				tabIndex='-1'
+				tabIndex={-1}
 				role='dialog'
 				aria-labelledby='privacyPolicyLabel'
 				aria-hidden='true'>
