@@ -1,23 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC, SetStateAction } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import UserRow from './UserRow';
+import Firebase from './../../../../../Firebase/config';
 
-const UsersList = props => {
+interface Props {
+	firebase: Firebase;
+	setSelectedUser: SetStateAction<any>;
+}
+
+const UsersList: FC<Props> = props => {
 	const { firebase, setSelectedUser } = props;
 
 	const [sortBy, setSortBy] = useState('created');
 	const [sortDirection, setSortDirection] = useState('desc');
 
-	const [userArray, setUserArray] = useState([]);
+	const [userArray, setUserArray] = useState<Array<any>>([]);
 
 	useEffect(() => {
 		return firebase.db
 			.collection('users')
 			.orderBy(sortBy, sortDirection)
-			.onSnapshot(usersSnap => {
+			.onSnapshot((usersSnap: any) => {
 				setUserArray([]);
-				usersSnap.forEach(user =>
-					setUserArray(prev => [...prev, user])
+				usersSnap.forEach((user: any) =>
+					setUserArray((prev: Array<any>) => [...prev, user])
 				);
 			});
 	}, [firebase.db, sortBy, sortDirection]);
@@ -31,7 +37,8 @@ const UsersList = props => {
 							sortDirection === 'desc'
 								? setSortDirection('asc')
 								: setSortDirection('desc');
-						}}>
+						}}
+					>
 						{sortDirection[0].toUpperCase() +
 							sortDirection.slice(1) +
 							'.'}
@@ -41,7 +48,8 @@ const UsersList = props => {
 					className='custom-select'
 					value={sortBy}
 					onChange={e => setSortBy(e.target.value)}
-					name='sortBy'>
+					name='sortBy'
+				>
 					<option value='created'>Added</option>
 					<option value='firstname'>Name</option>
 					<option value='username'>Username</option>

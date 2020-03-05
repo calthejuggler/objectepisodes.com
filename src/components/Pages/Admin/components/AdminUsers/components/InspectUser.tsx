@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { withAuth } from '../../../../../Session/withAuth';
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
+import Firebase from './../../../../../Firebase/config';
 
-const InspectUser = props => {
+interface Props {
+	selectedUser: any;
+	firebase: Firebase;
+}
+
+const InspectUser: FC<Props> = props => {
 	const { selectedUser, firebase } = props;
 
 	const [userIsAdmin, setUserIsAdmin] = useState(false);
@@ -34,7 +40,7 @@ const InspectUser = props => {
 					style={{
 						width: '10rem',
 						height: '10rem',
-						objectFit: 'cover',
+						objectFit: 'cover'
 					}}
 					className='img-fluid rounded-circle d-block mx-auto'
 				/>
@@ -77,18 +83,21 @@ const InspectUser = props => {
 				<h5 className='text-center'>Actions</h5>
 				<button
 					disabled={userIsAdmin}
-					className='btn btn-danger d-block mx-auto mb-1'>
+					className='btn btn-danger d-block mx-auto mb-1'
+				>
 					Delete Account
 				</button>
 				<button
 					disabled={userIsAdmin}
-					className='btn btn-warning d-block mx-auto'>
+					className='btn btn-warning d-block mx-auto'
+				>
 					Ban Account
 				</button>
 				<hr />
 				<button
 					disabled={userIsAdmin}
-					className='btn btn-success d-block mx-auto'>
+					className='btn btn-success d-block mx-auto'
+				>
 					Make Admin
 				</button>
 			</div>

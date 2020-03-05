@@ -1,13 +1,17 @@
-import React from 'react';
-
-const UserRow = props => {
+import React, { FC, SetStateAction } from 'react';
+interface Props {
+	user: any;
+	setSelectedUser: SetStateAction<any>;
+}
+const UserRow: FC<Props> = props => {
 	const { user, setSelectedUser } = props;
 	return (
 		<li
 			className='list-group-item'
 			onClick={() => {
 				setSelectedUser(user);
-			}}>
+			}}
+		>
 			<div className='row text-center align-items-center'>
 				<div className='col-2'>
 					<img
@@ -16,7 +20,7 @@ const UserRow = props => {
 						style={{
 							objectFit: 'cover',
 							width: '3rem',
-							height: '3rem',
+							height: '3rem'
 						}}
 						alt={user.data().username + "'s Profile"}
 					/>
