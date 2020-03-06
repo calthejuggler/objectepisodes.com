@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 
 import { withFirebase } from '../../../Firebase/context';
+import Firebase from './../../../Firebase/index';
+import { analytics } from 'firebase';
 
-const DashPOTD = props => {
+const DashPOTD: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
-	const [potd, setPotd] = useState(null);
-	const [error, setError] = useState(null);
+	const [potd, setPotd] = useState<any>(null);
+	const [error, setError] = useState<null|string>(null);
 	useEffect(() => {
 		firebase.db
 			.collection('potd')
 			.orderBy('timestamp', 'asc')
 			.limit(2)
 			.get()
-			.then(snapArray => {
+			.then((snapArray:any) => {
 				if (snapArray.empty) {
 					setError('ERROR: There were no POTDs in the Database :(');
 				} else if (!snapArray.docs[0].data().shown) {
@@ -22,7 +24,7 @@ const DashPOTD = props => {
 						.update({
 							shown: firebase.dbFunc.FieldValue.serverTimestamp()
 						})
-						.then(res => {
+						.then(() => {
 							firebase
 								.getUserDataFromUID(
 									snapArray.docs[0].data().uploadedBy
@@ -49,7 +51,7 @@ const DashPOTD = props => {
 						.collection('potd-archive')
 						.doc(snapArray.docs[0].id)
 						.set(snapArray.docs[0].data())
-						.then(res => {
+						.then(() => {
 							firebase.db
 								.collection('potd')
 								.doc(snapArray.docs[0].id)
@@ -79,7 +81,7 @@ const DashPOTD = props => {
 						.catch(e => setError(e.message));
 				}
 			})
-			.catch(e => setError(e.message));
+			.catch((e:{message:string}) => setError(e.message));
 	}, [firebase]);
 	return (
 		<>

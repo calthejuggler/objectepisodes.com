@@ -1,9 +1,20 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
-
+import React, { Dispatch, SetStateAction, FC } from 'react';
 import LikeButton from '../../../../../elements/LikeButton';
 
-const TopicRow = props => {
+interface Props {
+	id: string;
+	title: string;
+	username: string;
+	posted: Date;
+	lastPost: Date;
+	currentCategory: string | null;
+	setCurrentTopic: Dispatch<SetStateAction<string|null>>;
+	setLocationArray: Dispatch<SetStateAction<Array<string | null>>>;
+	photoURL: string;
+	likes: number;
+}
+
+const TopicRow: FC<Props> = props => {
 	const {
 		id,
 		title,
@@ -12,9 +23,9 @@ const TopicRow = props => {
 		lastPost,
 		currentCategory,
 		setCurrentTopic,
-		setLocation,
+		setLocationArray,
 		photoURL,
-		likes,
+		likes
 	} = props;
 	return (
 		<li className='list-group-item'>
@@ -24,22 +35,24 @@ const TopicRow = props => {
 						href={'#/forum/' + currentCategory + '/' + id}
 						onClick={() => {
 							setCurrentTopic(id);
-							setLocation(['forum', currentCategory, id]);
-						}}>
+							setLocationArray(['forum', currentCategory, id]);
+						}}
+					>
 						{title}
 					</a>
 				</div>
 				<div className='col-4 col-sm-2'>
 					<a
 						href={'#/user/' + username}
-						className='row align-items-center justify-content-left'>
+						className='row align-items-center justify-content-left'
+					>
 						<img
 							className='rounded-circle d-block mr-lg-3'
 							style={{
 								objectFit: 'cover',
 								width: '40px',
 								height: '40px',
-								margin: '0.15rem',
+								margin: '0.15rem'
 							}}
 							src={photoURL}
 							alt='Topic poster profile'
@@ -74,4 +87,4 @@ const TopicRow = props => {
 	);
 };
 
-export default withRouter(TopicRow);
+export default TopicRow;

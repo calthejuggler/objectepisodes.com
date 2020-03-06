@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, FC } from 'react';
 import { withFirebase } from '../../Firebase/context';
 
 import CategoryTable from './Pages/CategoryTable';
@@ -6,16 +6,28 @@ import TopicsTable from './Pages/TopicsTable/TopicsTable';
 import Topic from './Pages/Topic/Topic';
 
 import Breadcrumbs from './components/Breadcrumbs';
+import Firebase from './../../Firebase/index';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const Forum = props => {
+interface Props extends RouteComponentProps {
+	firebase: Firebase;
+}
+
+const Forum: FC<Props> = props => {
 	const { firebase } = props;
 
-	const [categories, setCategories] = useState([]);
-	const [currentCategory, setCurrentCategory] = useState(null);
-	const [currentTopic, setCurrentTopic] = useState(null);
-	const [location, setLocation] = useState(['forum']);
+	const [categories, setCategories] = useState<Array<any>>([]);
+	const [currentCategory, setCurrentCategory] = useState<undefined | string>(
+		undefined
+	);
+	const [currentTopic, setCurrentTopic] = useState<undefined | string>(
+		undefined
+	);
+	const [locationArray, setLocationArray] = useState<
+		Array<string | undefined>
+	>(['forum']);
 
-	const [title, setTitle] = useState(['Loading...']);
+	const [title, setTitle] = useState('Loading...');
 
 	useLayoutEffect(() => {
 		let locationArray = props.history.location.pathname.slice(1).split('/');
@@ -27,20 +39,20 @@ const Forum = props => {
 		firebase.db
 			.collection('forum-categories')
 			.get()
-			.then(categoriesSnap => {
-				categoriesSnap.forEach(categorySnap =>
+			.then((categoriesSnap: any) => {
+				categoriesSnap.forEach((categorySnap: any) =>
 					setCategories(prev => [...prev, categorySnap])
 				);
 			});
-		setLocation(locationArray);
+		setLocationArray(locationArray);
 	}, [firebase, props.history]);
 
 	return (
 		<div className='row mb-3'>
 			<div className='col-12'>
 				<Breadcrumbs
-					locationArray={location}
-					setLocation={setLocation}
+					locationArray={locationArray}
+					setLocationArray={setLocationArray}
 					setCurrentCategory={setCurrentCategory}
 					setCurrentTopic={setCurrentTopic}
 					currentCategory={currentCategory}
@@ -61,13 +73,13 @@ const Forum = props => {
 					<CategoryTable
 						categories={categories}
 						setCurrentCategory={setCurrentCategory}
-						setLocation={setLocation}
+						setLocationArray={setLocationArray}
 						setTitle={setTitle}
 					/>
 				) : !currentTopic ? (
 					<TopicsTable
 						setTitle={setTitle}
-						setLocation={setLocation}
+						setLocationArray={setLocationArray}
 						currentCategory={currentCategory}
 						setCurrentTopic={setCurrentTopic}
 					/>
@@ -83,4 +95,4 @@ const Forum = props => {
 	);
 };
 
-export default withFirebase(Forum);
+export default withRouter(withFirebase(Forum));

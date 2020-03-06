@@ -73,13 +73,12 @@ class Firebase extends Component {
 			.orderBy('timestamp')
 			.get();
 	};
-	getForumPostFromTopic = async (
-		currentTopic: string
-	) => {
-		return await this.db
-			.collection('forum')
-			.doc(currentTopic.trim())
-			.get();
+	getForumPostFromTopic = async (currentTopic: undefined | string) => {
+		if (currentTopic !== undefined)
+			return await this.db
+				.collection('forum')
+				.doc(currentTopic.trim())
+				.get();
 	};
 	getForumTopicsFromCategory = async (currentCategory: string) => {
 		return await this.db

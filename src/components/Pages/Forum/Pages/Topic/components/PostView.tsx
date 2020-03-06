@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { FC } from 'react';
 import ProfilePicture from '../../../../../elements/ProfilePicture';
 import RichTextView from '../../../../../elements/RichTextView';
 import LikeButton from '../../../../../elements/LikeButton';
 
-const PostView = ({ post }) => {
+const PostView: FC<{ post: { data: any; user: any; id: string } | null }> = ({
+	post
+}) => {
 	return (
 		<div className='col-12'>
 			<div className='card'>
@@ -12,7 +14,8 @@ const PostView = ({ post }) => {
 						<div className='d-flex justify-content-center'>
 							<div
 								className='spinner-border mx-auto'
-								role='status'>
+								role='status'
+							>
 								<span className='sr-only'>Loading...</span>
 							</div>
 						</div>
@@ -29,7 +32,8 @@ const PostView = ({ post }) => {
 										<a
 											href={
 												'#/user/' + post.user.username
-											}>
+											}
+										>
 											{post.user.username}
 										</a>
 									</div>

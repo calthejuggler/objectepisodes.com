@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, Dispatch, SetStateAction, FC } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/context';
+import Firebase from './../../../Firebase/index';
 
-const Breadcrumbs = props => {
+interface Props extends RouteComponentProps {
+	locationArray: Array<string | undefined>;
+	firebase: Firebase;
+	currentCategory: undefined | string;
+	currentTopic: undefined | string;
+	setLocationArray: Dispatch<SetStateAction<Array<string | undefined>>>;
+	setCurrentTopic: Dispatch<SetStateAction<undefined | string>>;
+	setCurrentCategory: Dispatch<SetStateAction<undefined | string>>;
+	setTitle: Dispatch<SetStateAction<string>>;
+}
+
+const Breadcrumbs: FC<Props> = props => {
 	const {
 		locationArray,
 		firebase,
 		currentCategory,
 		currentTopic,
-		location,
-		setLocation,
+		setLocationArray,
 		setCurrentTopic,
 		setCurrentCategory,
-		setTitle,
+		setTitle
 	} = props;
 
-	const [topicTitle, setTopicTitle] = useState(null);
+	const [topicTitle, setTopicTitle] = useState<undefined | string>(undefined);
 	return (
 		<nav aria-label='breadcrumb'>
 			<ol className='breadcrumb'>
@@ -31,26 +42,24 @@ const Breadcrumbs = props => {
 								value => value !== '' && value
 							);
 							prevPageArray.pop();
-							setLocation(prevPageArray);
+							setLocationArray(prevPageArray);
 							if (prevPageArray.length === 1) {
-								setCurrentCategory(null);
-								setCurrentTopic(null);
+								setCurrentCategory(undefined);
+								setCurrentTopic(undefined);
 								setTitle('Loading categories...');
 							} else {
-								setCurrentTopic(null);
+								setCurrentTopic(undefined);
 								setTitle('Loading topics...');
 							}
-						}}>
+						}}
+					>
 						Go Back
 					</button>
 				</li>
 				{locationArray.map((loc, i) => {
 					if (i === 2) {
 						firebase
-							.getForumPostFromTopic(
-								currentCategory,
-								currentTopic
-							)
+							.getForumPostFromTopic(currentTopic)
 							.then(topicSnap => {
 								setTopicTitle(topicSnap.data().title);
 								setTitle('Topic');
@@ -59,12 +68,13 @@ const Breadcrumbs = props => {
 					return (
 						<li
 							className={
-								i === location.length - 1
+								i === locationArray.length - 1
 									? 'breadcrumb-item active'
 									: 'breadcrumb-item'
 							}
 							aria-current='page'
-							key={loc}>
+							key={loc}
+						>
 							<button
 								className={
 									i === 2
@@ -74,25 +84,30 @@ const Breadcrumbs = props => {
 								onClick={() => {
 									if (i === 0) {
 										props.history.replace('/forum');
-										setLocation(['forum']);
-										setCurrentCategory(null);
-										setCurrentTopic(null);
+										setLocationArray(['forum']);
+										setCurrentCategory(undefined);
+										setCurrentTopic(undefined);
 										setTitle('Loading...');
 									}
 									if (i === 1) {
 										props.history.replace(
 											'/forum/' + currentCategory
 										);
-										setLocation(['forum', currentCategory]);
-										setCurrentTopic(null);
+										setLocationArray([
+											'forum',
+											currentCategory
+										]);
+										setCurrentTopic(undefined);
 									}
-								}}>
+								}}
+							>
 								{i === 2
 									? topicTitle
 										? topicTitle[0].toUpperCase() +
 										  topicTitle.slice(1)
 										: 'Loading topic title...'
-									: loc[0].toUpperCase() + loc.slice(1)}
+									: loc !== undefined &&
+									  loc[0].toUpperCase() + loc.slice(1)}
 							</button>
 						</li>
 					);
@@ -102,4 +117,4 @@ const Breadcrumbs = props => {
 	);
 };
 
-export default withFirebase(withRouter(Breadcrumbs));
+export default withRouter(withFirebase(Breadcrumbs));

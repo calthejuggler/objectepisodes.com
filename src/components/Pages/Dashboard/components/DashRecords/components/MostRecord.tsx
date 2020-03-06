@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const MostRecord = props => {
+const MostRecord: FC<{
+	recordProp: { record: any; user: any };
+	title: string;
+}> = props => {
 	const { recordProp, title } = props;
 
 	return (
@@ -19,7 +22,7 @@ const MostRecord = props => {
 							style={{
 								width: '30px',
 								height: '30px',
-								objectFit: 'cover',
+								objectFit: 'cover'
 							}}
 							className='rounded-circle mr-lg-3'
 						/>

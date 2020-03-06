@@ -1,6 +1,12 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, FC } from 'react';
 
-const ItemsPerPage = props => {
+interface Props {
+	setLoadingState: Dispatch<SetStateAction<boolean>>;
+	setItemsPerPage: Dispatch<SetStateAction<number>>;
+	currentItemsPerPage: number;
+}
+
+const ItemsPerPage: FC<Props> = props => {
 	const { setLoadingState, setItemsPerPage, currentItemsPerPage } = props;
 	return (
 		<div className='form-group'>
@@ -11,9 +17,10 @@ const ItemsPerPage = props => {
 				className='dropdown'
 				value={currentItemsPerPage}
 				onChange={e => {
-					setLoadingState(1);
+					setLoadingState(true);
 					setItemsPerPage(parseInt(e.target.value, 10));
-				}}>
+				}}
+			>
 				<option value={5}>5</option>
 				<option value={10}>10</option>
 				<option value={20}>20</option>

@@ -1,15 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, FC, FormEvent } from 'react';
 import { withFirebase } from '../../Firebase/context';
+import Firebase from './../../Firebase/index';
 
-const Forgot = props => {
+const Forgot:FC<{firebase:Firebase}> = props => {
 	const [email, setEmail] = useState('');
 	const [emailSent, setEmailSent] = useState(false);
 	const [error, setError] = useState(null);
-	const handlePasswordResetFormSubmit = e => {
+	const handlePasswordResetFormSubmit = (e:FormEvent) => {
 		e.preventDefault();
 		props.firebase
 			.doSendForgotPasswordEmail(email)
-			.then(res => {
+			.then(() => {
 				setEmailSent(true);
 				setError(null);
 			})

@@ -1,24 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, FC, FormEvent } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import $ from 'jquery';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
+import Firebase from './../../../../../Firebase/index';
+import { Node } from 'slate';
 
-const AddTopic = props => {
+interface Props extends RouteComponentProps {
+	firebase: Firebase;
+	currentCategory: string | undefined;
+}
+
+const AddTopic: FC<Props> = props => {
 	const { firebase, currentCategory, history } = props;
 
 	const [title, setTitle] = useState('');
-	const [content, setContent] = useState([
+	const [content, setContent] = useState<Array<Node>>([
 		{
 			type: 'paragraph',
-			children: [{ text: '' }],
-		},
+			children: [{ text: '' }]
+		}
 	]);
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<string | null>(null);
 
-	const handleAddTopicSubmit = e => {
+	const handleAddTopicSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		title.trim() === ''
 			? setError('You must add a title.')
@@ -30,7 +37,7 @@ const AddTopic = props => {
 						title: title,
 						posted: new Date(),
 						lastPost: new Date(),
-						user: firebase.auth.currentUser.uid,
+						user: firebase.auth.currentUser.uid
 					})
 					.then(() => {
 						firebase.incrementForumPosts(
@@ -39,7 +46,7 @@ const AddTopic = props => {
 						setTitle('');
 						$('#addTopicModal').modal('hide');
 					})
-					.catch(e => setError(e.message));
+					.catch((e:{message:string}) => setError(e.message));
 	};
 
 	return (
@@ -48,17 +55,19 @@ const AddTopic = props => {
 				type='button'
 				className='btn btn-primary mb-3'
 				data-toggle='modal'
-				data-target='#addTopicModal'>
+				data-target='#addTopicModal'
+			>
 				+ Topic
 			</button>
 
 			<div
 				className='modal fade'
 				id='addTopicModal'
-				tabIndex='-1'
+				tabIndex={-1}
 				role='dialog'
 				aria-labelledby='addTopicModalLabel'
-				aria-hidden='true'>
+				aria-hidden='true'
+			>
 				<div className='modal-dialog' role='document'>
 					<div className='modal-content'>
 						<div className='modal-header'>
@@ -69,7 +78,8 @@ const AddTopic = props => {
 								type='button'
 								className='close'
 								data-dismiss='modal'
-								aria-label='Close'>
+								aria-label='Close'
+							>
 								<span aria-hidden='true'>&times;</span>
 							</button>
 						</div>
@@ -109,7 +119,8 @@ const AddTopic = props => {
 										className='btn btn-sm btn-link'
 										onClick={() =>
 											history.replace('/login')
-										}>
+										}
+									>
 										Sign In
 									</button>
 								</p>
@@ -119,13 +130,15 @@ const AddTopic = props => {
 							<button
 								type='button'
 								className='btn btn-secondary'
-								data-dismiss='modal'>
+								data-dismiss='modal'
+							>
 								Cancel
 							</button>
 							<button
 								type='button'
 								className='btn btn-primary'
-								onClick={handleAddTopicSubmit}>
+								onClick={handleAddTopicSubmit}
+							>
 								Post
 							</button>
 						</div>

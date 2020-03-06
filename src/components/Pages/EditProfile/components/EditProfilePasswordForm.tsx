@@ -1,11 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, FC } from 'react';
 import { withAuth } from '../../../Session/withAuth';
 import { withFirebase } from '../../../Firebase/context';
+import Firebase from './../../../Firebase/index';
 
-const EditProfilePasswordForm = props => {
+const EditProfilePasswordForm: FC<{
+	firebase: Firebase;
+	user: any;
+}> = props => {
 	const { firebase, user } = props;
 	const [emailSent, setEmailSent] = useState(false);
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<null|string>(null);
 	return (
 		<>
 			<hr />
@@ -22,8 +26,11 @@ const EditProfilePasswordForm = props => {
 							firebase.auth
 								.sendPasswordResetEmail(user.email)
 								.then(() => setEmailSent(true))
-								.catch(e => setError(e.message))
-						}>
+								.catch((e: { message: string }) =>
+									setError(e.message)
+								)
+						}
+					>
 						Click Here
 					</button>
 				</div>

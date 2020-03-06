@@ -1,15 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { withFirebase } from '../../../../Firebase/context';
 import MostRecord from './components/MostRecord';
+import Firebase from './../../../../Firebase/index';
 
-const DashRecords = props => {
+const DashRecords: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
 
-	const [mostBalls, setMostBalls] = useState(null);
-	const [mostClubs, setMostClubs] = useState(null);
-	const [mostRings, setMostRings] = useState(null);
+	const [mostBalls, setMostBalls] = useState<null | {
+		record: any;
+		user: any;
+	}>(null);
+	const [mostClubs, setMostClubs] = useState<null | {
+		record: any;
+		user: any;
+	}>(null);
+	const [mostRings, setMostRings] = useState<null | {
+		record: any;
+		user: any;
+	}>(null);
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<null | string>(null);
 
 	useEffect(() => {
 		firebase.db
@@ -18,8 +28,8 @@ const DashRecords = props => {
 			.orderBy('noOfProps', 'desc')
 			.limit(1)
 			.get()
-			.then(mostBallsDocs => {
-				mostBallsDocs.forEach(doc => {
+			.then((mostBallsDocs: any) => {
+				mostBallsDocs.forEach((doc: any) => {
 					firebase
 						.getUserDataFromUID(doc.data().userID)
 						.then(userDoc => {
@@ -27,15 +37,15 @@ const DashRecords = props => {
 						});
 				});
 			})
-			.catch(e => setError(e.message));
+			.catch((e: { message: string }) => setError(e.message));
 		firebase.db
 			.collection('records')
 			.where('propType', '==', 'club')
 			.orderBy('noOfProps', 'desc')
 			.limit(1)
 			.get()
-			.then(mostClubsDocs => {
-				mostClubsDocs.forEach(doc => {
+			.then((mostClubsDocs: any) => {
+				mostClubsDocs.forEach((doc: any) => {
 					firebase
 						.getUserDataFromUID(doc.data().userID)
 						.then(userDoc => {
@@ -43,15 +53,15 @@ const DashRecords = props => {
 						});
 				});
 			})
-			.catch(e => setError(e.message));
+			.catch((e: { message: string }) => setError(e.message));
 		firebase.db
 			.collection('records')
 			.where('propType', '==', 'ring')
 			.orderBy('noOfProps', 'desc')
 			.limit(1)
 			.get()
-			.then(mostRingsDocs => {
-				mostRingsDocs.forEach(doc => {
+			.then((mostRingsDocs: any) => {
+				mostRingsDocs.forEach((doc:any) => {
 					firebase
 						.getUserDataFromUID(doc.data().userID)
 						.then(userDoc => {
@@ -59,7 +69,7 @@ const DashRecords = props => {
 						});
 				});
 			})
-			.catch(e => setError(e.message));
+			.catch((e: { message: string }) => setError(e.message));
 	}, [firebase]);
 	return (
 		<>

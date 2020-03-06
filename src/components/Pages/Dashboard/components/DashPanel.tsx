@@ -1,11 +1,17 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { FC } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
 import routes from '../../../../routes';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
-const DashPanel = props => {
+interface Props extends RouteComponentProps{
+	title:string;
+	btnTitle:string;
+	url:string;
+}
+
+const DashPanel:FC<Props> = props => {
 	const { title, children, btnTitle, url, history } = props;
 	const [disabled, setDisabled] = useState(true);
 	useEffect(() => {

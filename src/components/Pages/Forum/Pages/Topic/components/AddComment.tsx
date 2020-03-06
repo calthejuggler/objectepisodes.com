@@ -1,17 +1,25 @@
-import React, { useState } from 'react';
+import React, { useState, FC, FormEvent } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
+import Firebase from './../../../../../Firebase/index';
+import { Node } from 'slate';
 
-const AddComment = props => {
+interface Props {
+	currentCategory: string | undefined;
+	currentTopic: string | undefined;
+	firebase: Firebase;
+}
+
+const AddComment: FC<Props> = props => {
 	const { currentCategory, currentTopic, firebase } = props;
-	const [comment, setComment] = useState<Array<object>>([
+	const [comment, setComment] = useState<Node[]>([
 		{
 			type: 'paragraph',
-			children: [{ text: '' }],
-		},
+			children: [{ text: '' }]
+		}
 	]);
-	const [error, setError] = useState(null);
-	const handleCommentSubmit = e => {
+	const [error, setError] = useState<null | string>(null);
+	const handleCommentSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		firebase.db
 			.collection('forum-replies')
@@ -19,29 +27,29 @@ const AddComment = props => {
 				comment: comment,
 				user: firebase.auth.currentUser.uid,
 				topicID: currentTopic,
-				timestamp: new Date(),
+				timestamp: new Date()
 			})
 			.then(() => {
-				firebase.db
-					.collection('forum')
-					.doc(currentTopic.trim())
-					.update({
-						lastPost: new Date(),
-					})
-					.then(() => {
-						firebase.db
-							.collection('forum-categories')
-							.doc(currentCategory)
-							.update({ lastPost: new Date() })
-							.then(() => {
-								firebase.incrementForumPosts(
-									firebase.auth.currentUser.uid
-								);
-								
-							});
-					});
+				if (currentTopic !== undefined)
+					firebase.db
+						.collection('forum')
+						.doc(currentTopic.trim())
+						.update({
+							lastPost: new Date()
+						})
+						.then(() => {
+							firebase.db
+								.collection('forum-categories')
+								.doc(currentCategory)
+								.update({ lastPost: new Date() })
+								.then(() => {
+									firebase.incrementForumPosts(
+										firebase.auth.currentUser.uid
+									);
+								});
+						});
 			})
-			.catch(e => setError(e.message));
+			.catch((e: { message: string }) => setError(e.message));
 	};
 	return (
 		<>

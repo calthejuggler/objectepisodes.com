@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { FC, SetStateAction, Dispatch } from 'react';
 import EditProfilePersonalForm from './EditProfilePersonalForm';
 import EditProfilePasswordForm from './EditProfilePasswordForm';
 import EditProfileButtons from './EditProfileButtons';
 
-const EditProfileForm = props => {
+interface Props {
+	firstname: string;
+	lastname: string;
+	email: string;
+	username: string;
+	setUsername: Dispatch<SetStateAction<string>>;
+	setFirstname: Dispatch<SetStateAction<string>>;
+	setLastname: Dispatch<SetStateAction<string>>;
+	setEmail: Dispatch<SetStateAction<string>>;
+	saveChanges: any;
+	loadUserInfo: any;
+	currentSetting: string;
+}
+
+const EditProfileForm: FC<Props> = props => {
 	const {
 		firstname,
 		lastname,
@@ -15,7 +29,7 @@ const EditProfileForm = props => {
 		setEmail,
 		saveChanges,
 		loadUserInfo,
-		currentSetting,
+		currentSetting
 	} = props;
 	return (
 		<div className='card'>

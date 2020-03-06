@@ -1,9 +1,20 @@
-import React, { useEffect } from 'react';
-import { withRouter } from 'react-router-dom';
-import { withFirebase } from '../../../Firebase/context';
+import React, { useEffect, Dispatch, SetStateAction, FC } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const CategoryTable = props => {
-	const { categories, setCurrentCategory, setLocation, setTitle } = props;
+interface Props extends RouteComponentProps {
+	categories: Array<any>;
+	setCurrentCategory: Dispatch<SetStateAction<undefined | string>>;
+	setLocationArray: Dispatch<SetStateAction<Array<string | undefined>>>;
+	setTitle: Dispatch<SetStateAction<string>>;
+}
+
+const CategoryTable: FC<Props> = props => {
+	const {
+		categories,
+		setCurrentCategory,
+		setLocationArray,
+		setTitle
+	} = props;
 	useEffect(() => {
 		setTitle('Categories');
 	}, [setTitle]);
@@ -28,9 +39,13 @@ const CategoryTable = props => {
 								onClick={() => {
 									setCurrentCategory(category.id);
 									props.history.push('/forum/' + category.id);
-									setLocation(prev => [...prev, category.id]);
-									setTitle(category.id)
-								}}>
+									setLocationArray(prev => [
+										...prev,
+										category.id
+									]);
+									setTitle(category.id);
+								}}
+							>
 								{category.id}
 							</button>
 						</div>
@@ -47,4 +62,4 @@ const CategoryTable = props => {
 	);
 };
 
-export default withFirebase(withRouter(CategoryTable));
+export default withRouter(CategoryTable);

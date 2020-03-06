@@ -1,9 +1,29 @@
-import React, { useState } from 'react';
+import React, {
+	useState,
+	Dispatch,
+	SetStateAction,
+	FC,
+	ChangeEvent
+} from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import UploadProfilePicture from './UploadProfilePicture';
 import { withAuth } from '../../../Session/withAuth';
+import Firebase from './../../../Firebase/index';
 
-const EditProfilePersonalForm = props => {
+interface Props {
+	firstname: string;
+	lastname: string;
+	email: string;
+	username: string;
+	setFirstname: Dispatch<SetStateAction<string>>;
+	setLastname: Dispatch<SetStateAction<string>>;
+	setEmail: Dispatch<SetStateAction<string>>;
+	setUsername: Dispatch<SetStateAction<string>>;
+	firebase: Firebase;
+	user: any;
+}
+
+const EditProfilePersonalForm: FC<Props> = props => {
 	const {
 		firstname,
 		lastname,
@@ -14,17 +34,17 @@ const EditProfilePersonalForm = props => {
 		setEmail,
 		setUsername,
 		firebase,
-		user,
+		user
 	} = props;
 
 	const [storageRef, setStorageRef] = useState('');
 
-	const [img, setImg] = useState(null);
+	const [img, setImg] = useState<null | File>(null);
 	const [imageLoading, setImageLoading] = useState(true);
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<null | string>(null);
 
-	const handleFileUpload = e => {
+	const handleFileUpload = (e: ChangeEvent<{ files: File[] }>):void => {
 		setImageLoading(true);
 		let uid = user.uid;
 		let file = e.target.files[0];
@@ -39,10 +59,10 @@ const EditProfilePersonalForm = props => {
 			const firebaseQuery = firebase.storage.ref(
 				'profile-pictures/' + uid.trim()
 			);
-			firebaseQuery.put(file).then(snap => {
+			firebaseQuery.put(file).then((snap: any) => {
 				snap.ref
 					.getDownloadURL()
-					.then(url => {
+					.then((url: any) => {
 						setStorageRef(url);
 						user.updateProfile({ photoURL: url }).then(() => {
 							firebase.db
@@ -54,7 +74,7 @@ const EditProfilePersonalForm = props => {
 								});
 						});
 					})
-					.catch(e => console.error(e));
+					.catch((e: { message: string }) => setError(e.message));
 			});
 		}
 	};
@@ -117,7 +137,7 @@ const EditProfilePersonalForm = props => {
 									.collection('users')
 									.where('username', '==', e.target.value)
 									.get()
-									.then(ans => {
+									.then((ans: any) => {
 										setUsernameLoading(false);
 										if (
 											!ans.empty &&
@@ -138,7 +158,8 @@ const EditProfilePersonalForm = props => {
 								{usernameLoading && (
 									<div
 										className='spinner-border'
-										role='status'>
+										role='status'
+									>
 										<span className='sr-only'>
 											Loading...
 										</span>
@@ -151,7 +172,8 @@ const EditProfilePersonalForm = props => {
 								{usernameLoading && (
 									<div
 										className='spinner-border'
-										role='status'>
+										role='status'
+									>
 										<span className='sr-only'>
 											Loading...
 										</span>

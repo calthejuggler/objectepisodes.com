@@ -1,10 +1,11 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState, FC } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import LikeButton from '../../../elements/LikeButton';
+import Firebase from './../../../Firebase/index';
 
-const DashForum = props => {
+const DashForum: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
-	const [topLikedTopics, setTopLikedTopics] = useState([]);
+	const [topLikedTopics, setTopLikedTopics] = useState<any[]>([]);
 	const [postsLoading, setPostsLoading] = useState(true);
 	useLayoutEffect(() => {
 		setPostsLoading(true);
@@ -12,10 +13,10 @@ const DashForum = props => {
 			.collection('forum')
 			.orderBy('likeCount', 'desc')
 			.limit(3)
-			.onSnapshot(likedTopicsSnap => {
+			.onSnapshot((likedTopicsSnap: any) => {
 				setPostsLoading(true);
 				setTopLikedTopics([]);
-				likedTopicsSnap.forEach(likedTopicSnap => {
+				likedTopicsSnap.forEach((likedTopicSnap: any) => {
 					firebase
 						.getUserDataFromUID(likedTopicSnap.data().user)
 						.then(userData => {
@@ -25,8 +26,8 @@ const DashForum = props => {
 									topicData: likedTopicSnap.data(),
 									user: userData.data(),
 									category: likedTopicSnap.data().category,
-									id: likedTopicSnap.id,
-								},
+									id: likedTopicSnap.id
+								}
 							]);
 						});
 				});
@@ -65,7 +66,8 @@ const DashForum = props => {
 										topic.category +
 										'/' +
 										topic.id
-									}>
+									}
+								>
 									{topic.topicData.title}
 								</a>
 							</div>
@@ -75,8 +77,9 @@ const DashForum = props => {
 										style={{
 											display: 'flex',
 											justifyContent: 'center',
-											alignItems: 'center',
-										}}>
+											alignItems: 'center'
+										}}
+									>
 										<img
 											src={topic.user.photoURL}
 											alt='Topic User Profile'
@@ -85,7 +88,7 @@ const DashForum = props => {
 												width: '2.5rem',
 												height: '2.5rem',
 												objectFit: 'cover',
-												textAlign: 'center',
+												textAlign: 'center'
 											}}
 										/>
 										<p className='card-text'>

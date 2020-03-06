@@ -1,19 +1,34 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, {
+	useLayoutEffect,
+	useState,
+	FC,
+	Dispatch,
+	SetStateAction
+} from 'react';
 import { withFirebase } from '../../../../Firebase/context';
 import AddTopic from './components/AddTopic';
 import TopicRow from './components/TopicRow';
 import ItemsPerPage from '../../components/ItemsPerPage';
+import Firebase from './../../../../Firebase/index';
 
-const TopicsTable = props => {
+interface Props {
+	firebase: Firebase;
+	currentCategory: string | null;
+	setCurrentTopic: Dispatch<SetStateAction<string | null>>;
+	setLocationArray: Dispatch<SetStateAction<Array<string | null>>>;
+	setTitle: Dispatch<SetStateAction<string | null>>;
+}
+
+const TopicsTable: FC<Props> = props => {
 	const {
 		firebase,
 		currentCategory,
 		setCurrentTopic,
-		setLocation,
-		setTitle,
+		setLocationArray,
+		setTitle
 	} = props;
 
-	const [topics, setTopics] = useState([]);
+	const [topics, setTopics] = useState<Array<{ thread: any; user: any }>>([]);
 	const [topicLoading, setTopicLoading] = useState(true);
 
 	const [page, setPage] = useState(0);
@@ -28,7 +43,7 @@ const TopicsTable = props => {
 			.collection('forum')
 			.where('category', '==', currentCategory)
 			.get()
-			.then(topicCountSnap => {
+			.then((topicCountSnap: any) => {
 				const pages = Math.floor(
 					topicCountSnap.docs.length / topicsPerPage
 				);
@@ -39,7 +54,7 @@ const TopicsTable = props => {
 			.where('category', '==', currentCategory)
 			.orderBy('posted', 'desc')
 			.limit(topicsPerPage)
-			.onSnapshot(topicsSnap => {
+			.onSnapshot((topicsSnap: any) => {
 				setLastTopicVisible(
 					topicsSnap.docs[topicsSnap.docs.length - 1]
 				);
@@ -48,13 +63,13 @@ const TopicsTable = props => {
 					setTopicLoading(false);
 				} else {
 					setTopics([]);
-					topicsSnap.forEach(topicDoc => {
+					topicsSnap.forEach((topicDoc: any) => {
 						firebase
 							.getUserDataFromUID(topicDoc.data().user)
 							.then(userDoc => {
 								setTopics(prev => [
 									...prev,
-									{ thread: topicDoc, user: userDoc },
+									{ thread: topicDoc, user: userDoc }
 								]);
 								setTopicLoading(false);
 							});
@@ -72,7 +87,7 @@ const TopicsTable = props => {
 			.orderBy('posted', 'desc')
 			.startAfter(lastTopicVisible)
 			.limit(topicsPerPage)
-			.onSnapshot(topicsSnap => {
+			.onSnapshot((topicsSnap: any) => {
 				setLastTopicVisible(
 					topicsSnap.docs[topicsSnap.docs.length - 1]
 				);
@@ -81,13 +96,13 @@ const TopicsTable = props => {
 					setTopicLoading(false);
 				} else {
 					setTopics([]);
-					topicsSnap.forEach(topicDoc => {
+					topicsSnap.forEach((topicDoc: any) => {
 						firebase
 							.getUserDataFromUID(topicDoc.data().user)
 							.then(userDoc => {
 								setTopics(prev => [
 									...prev,
-									{ thread: topicDoc, user: userDoc },
+									{ thread: topicDoc, user: userDoc }
 								]);
 								setTopicLoading(false);
 							});
@@ -104,7 +119,7 @@ const TopicsTable = props => {
 			.orderBy('posted', 'desc')
 			.endBefore(firstTopicVisible)
 			.limit(topicsPerPage)
-			.onSnapshot(topicsSnap => {
+			.onSnapshot((topicsSnap: any) => {
 				setLastTopicVisible(
 					topicsSnap.docs[topicsSnap.docs.length - 1]
 				);
@@ -113,13 +128,13 @@ const TopicsTable = props => {
 					setTopicLoading(false);
 				} else {
 					setTopics([]);
-					topicsSnap.forEach(topicDoc => {
+					topicsSnap.forEach((topicDoc: any) => {
 						firebase
 							.getUserDataFromUID(topicDoc.data().user)
 							.then(userDoc => {
 								setTopics(prev => [
 									...prev,
-									{ thread: topicDoc, user: userDoc },
+									{ thread: topicDoc, user: userDoc }
 								]);
 								setTopicLoading(false);
 							});
@@ -132,9 +147,7 @@ const TopicsTable = props => {
 		<>
 			<div className='row justify-content-between align-items-center'>
 				<div className='col-6'>
-					<AddTopic
-						currentCategory={currentCategory}
-					/>
+					<AddTopic currentCategory={currentCategory} />
 				</div>
 				<div className='col-6 text-right'>
 					<ItemsPerPage
@@ -176,7 +189,7 @@ const TopicsTable = props => {
 								lastPost={topic.thread.data().lastPost.toDate()}
 								currentCategory={currentCategory}
 								setCurrentTopic={setCurrentTopic}
-								setLocation={setLocation}
+								setLocationArray={setLocationArray}
 								photoURL={topic.user.data().photoURL}
 								likes={topic.thread.data().likes}
 							/>
@@ -206,13 +219,15 @@ const TopicsTable = props => {
 				)}
 				<nav
 					aria-label='Page navigation example'
-					className='mx-auto my-3'>
+					className='mx-auto my-3'
+				>
 					<ul className='pagination'>
 						{page !== 0 && (
 							<li className='page-item'>
 								<button
 									className={'btn page-link'}
-									onClick={loadPrevTopics}>
+									onClick={loadPrevTopics}
+								>
 									Prev
 								</button>
 							</li>
@@ -221,7 +236,8 @@ const TopicsTable = props => {
 							<li className='page-item'>
 								<button
 									className={'btn page-link'}
-									onClick={loadNextTopics}>
+									onClick={loadNextTopics}
+								>
 									Next
 								</button>
 							</li>

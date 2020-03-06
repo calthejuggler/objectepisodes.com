@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const EditProfileButtons = props => {
+const EditProfileButtons: FC<{
+	loadUserInfo: any;
+	saveChanges: any;
+}> = props => {
 	const { loadUserInfo, saveChanges } = props;
 	return (
 		<div className='row'>
@@ -8,7 +11,8 @@ const EditProfileButtons = props => {
 				<button
 					type='submit'
 					className='btn btn-secondary d-block ml-auto'
-					onClick={loadUserInfo}>
+					onClick={loadUserInfo}
+				>
 					Cancel
 				</button>
 			</div>
@@ -16,7 +20,8 @@ const EditProfileButtons = props => {
 				<button
 					type='submit'
 					className='btn btn-primary d-block mr-auto'
-					onClick={saveChanges}>
+					onClick={saveChanges}
+				>
 					Save Changes
 				</button>
 			</div>

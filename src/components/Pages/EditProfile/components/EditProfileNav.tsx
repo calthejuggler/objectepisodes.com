@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { FC, SetStateAction, Dispatch } from 'react';
 
-const EditProfileNav = props => {
+const EditProfileNav: FC<{
+	setCurrentSetting: Dispatch<SetStateAction<string>>;
+	
+}> = props => {
 	const { setCurrentSetting } = props;
 	return (
 		<div className='card'>
@@ -11,14 +14,14 @@ const EditProfileNav = props => {
 						className='list-group-item'
 						onClick={() =>
 							setCurrentSetting('Personal Information')
-						}>
+						}
+					>
 						Personal Information
 					</li>
 					<li
 						className='list-group-item'
-						onClick={() =>
-							setCurrentSetting('Password & Security')
-						}>
+						onClick={() => setCurrentSetting('Password & Security')}
+					>
 						Password & Security
 					</li>
 				</ul>

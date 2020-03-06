@@ -1,14 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Dispatch, SetStateAction, FC } from 'react';
 import { withAuth } from '../../../Session/withAuth';
 
-const UploadProfilePicture = props => {
+interface Props {
+	user: any;
+	handleFileUpload: () => void;
+	storageRef: any;
+	setStorageRef: Dispatch<SetStateAction<any>>;
+	imageLoading: boolean;
+	setImageLoading: Dispatch<SetStateAction<boolean>>;
+}
+
+const UploadProfilePicture: FC<Props> = props => {
 	const {
 		user,
 		handleFileUpload,
 		storageRef,
 		setStorageRef,
 		imageLoading,
-		setImageLoading,
+		setImageLoading
 	} = props;
 
 	useEffect(() => {
@@ -25,7 +34,7 @@ const UploadProfilePicture = props => {
 						style={{
 							width: '150px',
 							height: '150px',
-							objectFit: 'cover',
+							objectFit: 'cover'
 						}}
 						src={storageRef}
 						alt='Profile Preview'
@@ -33,7 +42,8 @@ const UploadProfilePicture = props => {
 				) : (
 					<div
 						className='spinner-border mx-auto d-block'
-						role='status'>
+						role='status'
+					>
 						<span className='sr-only'>Loading...</span>
 					</div>
 				)}
