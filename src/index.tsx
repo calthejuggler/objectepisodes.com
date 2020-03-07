@@ -12,9 +12,7 @@ const fakeProp = 'YO';
 ReactDOM.render<any>(
 	<HashRouter>
 		<FirebaseContext.Provider value={new Firebase(fakeProp)}>
-			<FirebaseContext.Consumer>
-				{(firebase: Firebase | null) => <App firebase={firebase} />}
-			</FirebaseContext.Consumer>
+			<App />
 		</FirebaseContext.Provider>
 	</HashRouter>,
 	document.getElementById('root')
