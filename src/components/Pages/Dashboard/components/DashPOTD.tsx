@@ -2,7 +2,6 @@ import React, { useEffect, useState, FC } from 'react';
 
 import { withFirebase } from '../../../Firebase/context';
 import Firebase from './../../../Firebase/index';
-import { analytics } from 'firebase';
 
 const DashPOTD: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;

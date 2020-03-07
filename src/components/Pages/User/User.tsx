@@ -45,7 +45,7 @@ const User: FC<Props> = props => {
 		return () => {
 			setOwnProfile(false);
 		};
-	}, [firebase.auth.currentUser, userData.id]);
+	}, [firebase.auth.currentUser, userData]);
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>

@@ -1,4 +1,4 @@
-import React, { FC, SetStateAction } from 'react';
+import React, { FC } from 'react';
 
 interface Props {
 	setNavChoice: any;

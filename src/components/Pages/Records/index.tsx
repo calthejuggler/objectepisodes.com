@@ -8,7 +8,7 @@ const Records = () => {
 	const [sortBy, setSortBy] = useState('recorded');
 	const [sortDirection, setSortDirection] = useState('desc');
 
-	const [recordType, setRecordType] = useState(null);
+	const [recordType, setRecordType] = useState<null | string>(null);
 
 	const [selectedRecord, setSelectedRecord] = useState(null);
 
@@ -23,8 +23,8 @@ const Records = () => {
 								setSortDirection={setSortDirection}
 								sortBy={sortBy}
 								sortDirection={sortDirection}
-								// recordType={recordType}
-								// setRecordType={setRecordType}
+								recordType={recordType}
+								setRecordType={setRecordType}
 							/>
 						</div>
 					</div>

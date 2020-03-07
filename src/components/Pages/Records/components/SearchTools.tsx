@@ -5,6 +5,8 @@ interface Props {
 	setSortBy: Dispatch<SetStateAction<string>>;
 	sortDirection: string;
 	setSortDirection: Dispatch<SetStateAction<string>>;
+	recordType: string | null;
+	setRecordType: Dispatch<SetStateAction<string | null>>;
 }
 
 const SearchTools: FC<Props> = props => {

@@ -1,7 +1,5 @@
 import React from 'react';
 import LoginForm from './components/LoginForm';
-import { FirebaseContext } from '../../Firebase';
-import Firebase from './../../Firebase/index';
 
 export const Login = () => {
 	return (

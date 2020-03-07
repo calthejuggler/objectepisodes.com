@@ -1,6 +1,5 @@
 import React, { FC } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import Firebase from './../../../Firebase/index';
 
 interface Props extends RouteComponentProps {
 	userData: any;
