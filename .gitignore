@@ -18,6 +18,7 @@
 .env.test.local
 .env.production.local
 /Assets
+/.vscode
 
 .env.development
 .env.production
