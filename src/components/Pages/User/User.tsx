@@ -1,31 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import UserDetails from './components/UserDetails';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withFirebase } from '../../Firebase/context';
 import PersonalRecords from './components/PersonalRecords';
 import PersonalForumPosts from './components/PersonalForumPosts';
+import Firebase from './../../Firebase/index';
 
-const User = props => {
+interface Props extends RouteComponentProps {
+	firebase: Firebase;
+}
+
+const User: FC<Props> = props => {
 	const { history, firebase } = props;
 	const URLUser = history.location.pathname.slice(1).split('/')[1];
 
-	const [userData, setUserData] = useState('Loading');
+	const [userData, setUserData] = useState<any>('Loading');
 	const [ownProfile, setOwnProfile] = useState(false);
 
 	useEffect(() => {
 		firebase.getUserDataFromUsername(URLUser).then(userDocs => {
-			if (userDocs.empty) {
-				firebase.getUserDataFromUID().then(UIDUserDocs => {
+			if (!userDocs.empty) {
+				firebase.getUserDataFromUID(userDocs.docs[0].id).then(UIDUserDocs => {
 					if (UIDUserDocs.empty) {
 						setUserData(null);
 					} else {
-						UIDUserDocs.forEach(UIDUserDoc => {
+						UIDUserDocs.forEach((UIDUserDoc:any) => {
 							setUserData(UIDUserDoc);
 						});
 					}
 				});
 			} else {
-				userDocs.forEach(userDoc => {
+				userDocs.forEach((userDoc:any) => {
 					setUserData(userDoc);
 				});
 			}
@@ -33,7 +38,7 @@ const User = props => {
 	}, [URLUser, firebase]);
 	useEffect(() => {
 		if (firebase.auth.currentUser) {
-			if (userData.id === firebase.auth.currentUser.uid) {
+			if (userData!==null && userData.id === firebase.auth.currentUser.uid) {
 				setOwnProfile(true);
 			}
 		}
@@ -54,4 +59,4 @@ const User = props => {
 	);
 };
 
-export default withFirebase(withRouter(User));
+export default withRouter(withFirebase(User));

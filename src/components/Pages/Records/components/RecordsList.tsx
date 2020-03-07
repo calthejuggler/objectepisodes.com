@@ -1,19 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+	useEffect,
+	useState,
+	Dispatch,
+	SetStateAction,
+	FC
+} from 'react';
 
 import { withFirebase } from '../../../Firebase/context';
+import Firebase from './../../../Firebase/index';
 
-const RecordsList = props => {
+interface Props {
+	firebase: Firebase;
+	selectedRecord: { record: any; user: any };
+	setSelectedRecord: Dispatch<SetStateAction<{ record: any; user: any }>>;
+	sortBy: string;
+	sortDirection: string;
+}
+
+const RecordsList: FC<Props> = props => {
 	const {
 		firebase,
 		selectedRecord,
 		setSelectedRecord,
 		sortBy,
-		sortDirection,
+		sortDirection
 	} = props;
 
-	const [records, setRecords] = useState([]);
+	const [records, setRecords] = useState<Array<{ user: any; record: any }>>(
+		[]
+	);
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<null | string>(null);
 
 	useEffect(() => {
 		setRecords([]);
@@ -21,19 +38,19 @@ const RecordsList = props => {
 			.collection('records')
 			.orderBy(sortBy, sortDirection)
 			.get()
-			.then(recordRes => {
-				recordRes.forEach(record => {
+			.then((recordRes: any) => {
+				recordRes.forEach((record: any) => {
 					firebase
 						.getUserDataFromUID(record.data().userID)
 						.then(userData => {
 							setRecords(prev => [
 								...prev,
-								{ user: userData.data(), record: record },
+								{ user: userData.data(), record: record }
 							]);
 						});
 				});
 			})
-			.catch(e => setError(e.message));
+			.catch((e: { message: string }) => setError(e.message));
 	}, [sortBy, sortDirection, firebase]);
 	return (
 		<>
@@ -67,7 +84,8 @@ const RecordsList = props => {
 								'bg-secondary text-light')
 						}
 						key={record.record.id}
-						onClick={() => setSelectedRecord(record)}>
+						onClick={() => setSelectedRecord(record)}
+					>
 						<div className='row'>
 							<div className='col-4 col-md-3'>
 								{record.record.data().noOfProps +

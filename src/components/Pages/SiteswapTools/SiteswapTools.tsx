@@ -1,24 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, FC, FormEvent } from 'react';
 
-const SiteswapTools = props => {
-	const [inputSiteswapString, setInputSiteswapString] = useState('3');
+const SiteswapTools: FC = () => {
+	const [inputSiteswapString, setInputSiteswapString] = useState<string>('3');
 
-	const [inputSiteswapPeriod, setInputSiteswapPeriod] = useState(1);
-	const [inputSiteswapAverage, setInputSiteswapAverage] = useState(3);
+	const [inputSiteswapPeriod, setInputSiteswapPeriod] = useState<number>(1);
+	const [inputSiteswapAverage, setInputSiteswapAverage] = useState<number>(3);
 
-	const [inputSiteswapIsValid, setInputSiteswapIsValid] = useState(1);
+	const [inputSiteswapIsValid, setInputSiteswapIsValid] = useState<boolean>(
+		true
+	);
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<null | string>(null);
 
-	const updateSiteswap = e => {
-		const inputString = e.target.value;
+	const updateSiteswap = (e: FormEvent<HTMLInputElement>) => {
+		const inputString = e.currentTarget.value;
 		const inputArray = inputString.split('');
 		const inputPeriod = inputArray.length;
 
 		const alph = 'abcdefghijklmnopqrstuvwxyz';
 		const alphArray = alph.split('');
 
-		const inputArrayAsNumbers = inputArray.map(number =>
+		const inputArrayAsNumbers = inputArray.map((number: string) =>
 			alphArray.includes(number)
 				? alphArray.indexOf(number) + 10
 				: parseInt(number)
@@ -43,7 +45,7 @@ const SiteswapTools = props => {
 		} else {
 			setInputSiteswapString(inputString);
 			setInputSiteswapPeriod(inputPeriod);
-			setInputSiteswapAverage('N/A');
+			setInputSiteswapAverage(inputAverage);
 		}
 	};
 

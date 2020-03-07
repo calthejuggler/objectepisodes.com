@@ -1,6 +1,6 @@
 import React from 'react';
 import JugglingSimulator from './tools/JugglingSimulator/JugglingSimulator';
-import TransitionGenerator from './tools/TransitionGenerator/TransitionGenerator';
+// import TransitionGenerator from './tools/TransitionGenerator/TransitionGenerator';
 
 const JugglingTools = () => {
 	return (
@@ -9,7 +9,7 @@ const JugglingTools = () => {
 				<JugglingSimulator />
 			</div>
 			<div className="col-12 col-md-4">
-				<TransitionGenerator />
+				{/* <TransitionGenerator /> */}
 			</div>
 		</div>
 	);

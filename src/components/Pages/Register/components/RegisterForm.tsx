@@ -1,18 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, FormEvent, FC } from 'react';
+import Firebase from './../../../Firebase/index';
+import { withFirebase } from '../../../Firebase/context';
 
-export const RegisterForm = props => {
-	const [firstname, setFirstname] = useState('');
-	const [lastname, setLastname] = useState('');
-	const [username, setUsername] = useState('');
-	const [email, setEmail] = useState('');
-	const [password, setPassword] = useState('');
-	const [confirmPassword, setConfirmPassword] = useState('');
+const RegisterForm: FC<{ firebase: Firebase }> = props => {
+	const [firstname, setFirstname] = useState<string>('');
+	const [lastname, setLastname] = useState<string>('');
+	const [username, setUsername] = useState<string>('');
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [confirmPassword, setConfirmPassword] = useState<string>('');
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<null | string>(null);
 
-	const [registered, setRegistered] = useState(false);
+	const [registered, setRegistered] = useState<boolean>(false);
 
-	const handleRegisterSubmit = e => {
+	const handleRegisterSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		if (
 			firstname === '' ||
@@ -27,12 +29,18 @@ export const RegisterForm = props => {
 			setError('Passwords do not match!');
 		} else {
 			props.firebase
-				.doRegisterWithEmailAndPassword(email, password, firstname, lastname, username)
-				.then(res => {
+				.doRegisterWithEmailAndPassword(
+					email,
+					password,
+					firstname,
+					lastname,
+					username
+				)
+				.then(() => {
 					setError(null);
 					setRegistered(true);
 				})
-				.catch(e => {
+				.catch((e: { message: string }) => {
 					setError(e.message);
 				});
 		}
@@ -111,3 +119,5 @@ export const RegisterForm = props => {
 		</form>
 	);
 };
+
+export default withFirebase(RegisterForm);

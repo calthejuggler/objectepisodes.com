@@ -1,7 +1,13 @@
-import React from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { FC } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Firebase from './../../../Firebase/index';
 
-const UserDetails = props => {
+interface Props extends RouteComponentProps {
+	userData: any;
+	ownProfile: any;
+}
+
+const UserDetails: FC<Props> = props => {
 	const { userData, ownProfile, history } = props;
 	return (
 		<div className='card'>
@@ -14,7 +20,7 @@ const UserDetails = props => {
 						style={{
 							width: '150px',
 							height: '150px',
-							objectFit: 'cover',
+							objectFit: 'cover'
 						}}
 					/>
 				) : (
@@ -27,7 +33,8 @@ const UserDetails = props => {
 				{ownProfile && (
 					<button
 						className='btn btn-primary d-block mt-2 mx-auto'
-						onClick={() => history.push('/editprofile')}>
+						onClick={() => history.push('/editprofile')}
+					>
 						Edit Profile
 					</button>
 				)}

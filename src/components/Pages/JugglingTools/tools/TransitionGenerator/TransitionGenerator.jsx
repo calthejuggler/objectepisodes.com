@@ -1,22 +1,22 @@
-import React from 'react';
+import React, { FormEvent } from 'react';
 import { useState } from 'react';
 
-const TransitionGenerator = props => {
+const TransitionGenerator = () => {
 	const [ss1, setSs1] = useState('');
 	const [ss2, setSs2] = useState('');
 
 	const [transPeriod1, setTransPeriod1] = useState(0);
 	const [transPeriod2, setTransPeriod2] = useState(0);
 
-	const [trans1To2, setTrans1To2] = useState('');
-	const [trans2To1, setTrans2To1] = useState('');
+	const [trans1To2, setTrans1To2] = useState(0);
+	const [trans2To1, setTrans2To1] = useState(0);
 
 	const [maxH1, setMaxH1] = useState(0);
 	const [maxH2, setMaxH2] = useState(0);
 
 	const [error, setError] = useState(null);
 
-	const generate = e => {
+	const generate = (e) => {
 		e.preventDefault();
 		setError(null);
 		//Strings
@@ -29,9 +29,9 @@ const TransitionGenerator = props => {
 		let SP = []; //State Patern used in Properties()
 		let SS1 = []; //SiteSwap 1
 		let SS2 = []; //SiteSwap 2
-		let SP1 = []; //State Patern of SiteSwap 1
+		let SP1  = []; //State Patern of SiteSwap 1
 		let SP2 = []; //State Patern of SiteSwap 2
-		let SP1copy = SP1; //Copy of SP1
+		let SP1copy= SP1; //Copy of SP1
 		let SP2copy = SP2; //Copy of SP2
 		let SP1aux = []; //State Patern of SiteSwap 1 modefied
 		let SP2aux = []; //State Patern of SiteSwap 2 modefied
@@ -39,11 +39,11 @@ const TransitionGenerator = props => {
 		let SP2time = []; //Timebeat in the Patern of SP2aux
 		let a = []; //Timebeat elements belonging solo to SP1aux
 		let b = []; //Timebeat elements belonging solo to SP2aux
-		let TT = []; //Array with the Transitions Throws
+		let TT= []; //Array with the Transitions Throws
 		let TTaux = []; //List of Transitions Throws
 		let SSprint = []; //SiteSwap: SS1 + TT12 + SS2 + TT21
-		let Tbeat = []; //	Timebeat of SS
-		let Timebeat = []; //	Ideal Timebeat of SS
+		let Tbeat= []; //	Timebeat of SS
+		let Timebeat= []; //	Ideal Timebeat of SS
 		//
 
 		//Logicals
@@ -1520,7 +1520,8 @@ const TransitionGenerator = props => {
 									value={transPeriod1}
 									onChange={e => {
 										setTransPeriod1(e.target.value);
-									}}>
+									}}
+								>
 									<option value={0}>Lowest Period</option>
 									{new Array(7)
 										.fill(undefined)
@@ -1529,7 +1530,8 @@ const TransitionGenerator = props => {
 												key={
 													'Lowest period + ' + (i + 1)
 												}
-												value={i + 1}>
+												value={i + 1}
+											>
 												Lowest Period + {i + 1}
 											</option>
 										))}
@@ -1546,7 +1548,8 @@ const TransitionGenerator = props => {
 									value={transPeriod2}
 									onChange={e => {
 										setTransPeriod2(e.target.value);
-									}}>
+									}}
+								>
 									<option value={0}>Lowest Period</option>
 									{new Array(7)
 										.fill(undefined)
@@ -1566,7 +1569,8 @@ const TransitionGenerator = props => {
 									value={maxH1}
 									onChange={e => {
 										setMaxH1(e.target.value);
-									}}>
+									}}
+								>
 									<option value={0}>No Max</option>
 									{'3456789abcdefghijklmnopqrstuv'
 										.split('')
@@ -1586,7 +1590,8 @@ const TransitionGenerator = props => {
 									value={maxH2}
 									onChange={e => {
 										setMaxH2(e.target.value);
-									}}>
+									}}
+								>
 									<option value={0}>No Max</option>
 									{'3456789abcdefghijklmnopqrstuv'
 										.split('')

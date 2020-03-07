@@ -1,6 +1,16 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const PersonalRecordRow = props => {
+interface Props {
+	recordData: any;
+	noOfProps: number;
+	propType: string;
+	pattern: string;
+	recordType: string;
+	recorded: any;
+	videoURL: string;
+}
+
+const PersonalRecordRow: FC<Props> = props => {
 	const {
 		recordData,
 		noOfProps,
@@ -8,7 +18,7 @@ const PersonalRecordRow = props => {
 		pattern,
 		recordType,
 		recorded,
-		videoURL,
+		videoURL
 	} = props;
 	return (
 		<div className='row align-items-center'>
@@ -29,7 +39,13 @@ const PersonalRecordRow = props => {
 				{videoURL === '' ? (
 					<p>No Video</p>
 				) : (
-					<a target="_blank" rel="noopener noreferrer" href={videoURL}>Video</a>
+					<a
+						target='_blank'
+						rel='noopener noreferrer'
+						href={videoURL}
+					>
+						Video
+					</a>
 				)}
 			</div>
 			<div className='col-4'>

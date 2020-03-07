@@ -1,5 +1,5 @@
 import React from 'react';
-import { RegisterForm } from './components/RegisterForm';
+import RegisterForm from './components/RegisterForm';
 import { FirebaseContext } from '../../Firebase';
 
 export const Register = () => {
@@ -9,9 +9,7 @@ export const Register = () => {
 				<div className='card'>
 					<div className='card-body text-center'>
 						<h3>Register</h3>
-						<FirebaseContext.Consumer>
-							{firebase => <RegisterForm firebase={firebase} />}
-						</FirebaseContext.Consumer>
+						<RegisterForm />
 					</div>
 				</div>
 			</div>

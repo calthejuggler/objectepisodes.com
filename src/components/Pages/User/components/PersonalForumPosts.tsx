@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import PersonalForumPostsRow from './PersonalForumPostsRow';
+import Firebase from './../../../Firebase/index';
 
-const PersonalForumPosts = props => {
+const PersonalForumPosts: FC<{ firebase: Firebase; userData: any }> = props => {
 	const { firebase, userData } = props;
-	const [topics, setTopics] = useState([]);
-	const [topicsLoading, setTopicsLoading] = useState(true);
+	const [topics, setTopics] = useState<Array<any>>([]);
+	const [topicsLoading, setTopicsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
 		if (userData.id) {
@@ -15,8 +16,8 @@ const PersonalForumPosts = props => {
 				.orderBy('posted', 'desc')
 				.limit(12)
 				.get()
-				.then(topicsSnap => {
-					topicsSnap.forEach(topic => {
+				.then((topicsSnap: any) => {
+					topicsSnap.forEach((topic: any) => {
 						setTopics(prev => [...prev, topic]);
 					});
 					setTopicsLoading(false);

@@ -1,30 +1,33 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import { withFirebase } from '../../Firebase/context';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import POTDCard from './components/POTDCard';
+import Firebase from './../../Firebase/index';
 
-const POTD = props => {
+const POTD: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
 
-	const [photoData, setPhotoData] = useState([]);
+	const [photoData, setPhotoData] = useState<
+		Array<{ photo: any; user: any }>
+	>([]);
 
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<null | string>(null);
 
 	useEffect(() => {
 		firebase.db
 			.collection('potd-archive')
 			.orderBy('shown', 'desc')
 			.get()
-			.then(potdSnap => {
-				potdSnap.forEach(photo => {
+			.then((potdSnap: any) => {
+				potdSnap.forEach((photo: any) => {
 					firebase
 						.getUserDataFromUID(photo.data().uploadedBy)
 						.then(userData => {
 							setPhotoData(prev => [
 								...prev,
-								{ photo: photo, user: userData },
+								{ photo: photo, user: userData }
 							]);
 						})
 						.catch(e => setError(e.message));

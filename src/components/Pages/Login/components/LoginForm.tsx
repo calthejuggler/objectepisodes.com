@@ -1,11 +1,17 @@
-import React, { useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import React, { useState, FC, FormEvent } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Firebase from './../../../Firebase/index';
+import { withFirebase } from '../../../Firebase/context';
 
-const LoginForm = props => {
+interface Props extends RouteComponentProps {
+	firebase: Firebase;
+}
+
+const LoginForm: FC<Props> = props => {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [error, setError] = useState(null);
-	const handleLoginSubmit = e => {
+	const handleLoginSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		props.firebase
 			.doLoginWithEmailAndPassword(email, password)
@@ -42,7 +48,8 @@ const LoginForm = props => {
 				<small className='ml-auto'>
 					<button
 						className='btn btn-link btn-sm'
-						onClick={e => props.history.push('/forgot')}>
+						onClick={e => props.history.push('/forgot')}
+					>
 						Forgot your password?
 					</button>
 				</small>
@@ -56,4 +63,4 @@ const LoginForm = props => {
 	);
 };
 
-export default withRouter(LoginForm);
+export default withRouter(withFirebase(LoginForm));

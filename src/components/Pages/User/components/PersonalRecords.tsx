@@ -1,20 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, FC } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import AddPersonalRecord from './AddPersonalRecord';
 import PersonalRecordRow from './PersonalRecordRow';
+import Firebase from './../../../Firebase/index';
 
-const PersonalRecords = props => {
+const PersonalRecords: FC<{
+	userData: any;
+	firebase: Firebase;
+	ownProfile: any;
+}> = props => {
 	const { userData, firebase, ownProfile } = props;
-	const [personalBests, setPersonalBests] = useState([]);
+	const [personalBests, setPersonalBests] = useState<Array<any>>([]);
 	useEffect(() => {
 		if (userData.id) {
 			firebase.db
 				.collection('records')
 				.where('userID', '==', userData.id)
 				.orderBy('recorded', 'desc')
-				.onSnapshot(personalBestsSnap => {
+				.onSnapshot((personalBestsSnap: any) => {
 					setPersonalBests([]);
-					personalBestsSnap.forEach(personalBest =>
+					personalBestsSnap.forEach((personalBest: any) =>
 						setPersonalBests(prev => [...prev, personalBest])
 					);
 				});
@@ -74,7 +79,8 @@ const PersonalRecords = props => {
 						type='button'
 						className='btn btn-primary'
 						data-toggle='modal'
-						data-target='#addPersonalRecord'>
+						data-target='#addPersonalRecord'
+					>
 						Add Personal Record
 					</button>
 				) : null}

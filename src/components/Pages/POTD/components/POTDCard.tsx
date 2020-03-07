@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const POTDCard = props => {
+const POTDCard: FC<{ photoData: { photo: any; user: any } }> = props => {
 	const { photoData } = props;
 	return (
 		<div className='col-12 col-md m-2'>

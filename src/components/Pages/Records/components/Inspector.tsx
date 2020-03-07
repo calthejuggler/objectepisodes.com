@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { FC } from 'react';
 
 import ProfilePicture from '../../../elements/ProfilePicture';
 
-const Inspector = props => {
+const Inspector: FC<{
+	selectedRecord: { record: any; user: any } | null;
+}> = props => {
 	const { selectedRecord } = props;
 	return (
 		<div className='row align-items-center'>
@@ -25,7 +27,8 @@ const Inspector = props => {
 											href={
 												'#/user/' +
 												selectedRecord.user.username
-											}>
+											}
+										>
 											{selectedRecord.user.username}
 										</a>
 									</div>
@@ -105,7 +108,8 @@ const Inspector = props => {
 												href={
 													selectedRecord.record.data()
 														.videoURL
-												}>
+												}
+											>
 												{
 													selectedRecord.record.data()
 														.videoURL

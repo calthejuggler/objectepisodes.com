@@ -23,8 +23,8 @@ const Records = () => {
 								setSortDirection={setSortDirection}
 								sortBy={sortBy}
 								sortDirection={sortDirection}
-								recordType={recordType}
-								setRecordType={setRecordType}
+								// recordType={recordType}
+								// setRecordType={setRecordType}
 							/>
 						</div>
 					</div>

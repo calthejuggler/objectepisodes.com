@@ -7,11 +7,13 @@ import Firebase, { FirebaseContext } from './components/Firebase';
 
 import 'bootstrap';
 
+const fakeProp = 'YO';
+
 ReactDOM.render<any>(
 	<HashRouter>
-		<FirebaseContext.Provider value={new Firebase()}>
+		<FirebaseContext.Provider value={new Firebase(fakeProp)}>
 			<FirebaseContext.Consumer>
-				{(firebase: Firebase) => <App firebase={firebase} />}
+				{(firebase: Firebase | null) => <App firebase={firebase} />}
 			</FirebaseContext.Consumer>
 		</FirebaseContext.Provider>
 	</HashRouter>,

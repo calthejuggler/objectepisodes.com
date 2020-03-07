@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction, FC } from 'react';
 
-const SearchTools = props => {
+interface Props {
+	sortBy: string;
+	setSortBy: Dispatch<SetStateAction<string>>;
+	sortDirection: string;
+	setSortDirection: Dispatch<SetStateAction<string>>;
+}
+
+const SearchTools: FC<Props> = props => {
 	const { sortBy, setSortBy, sortDirection, setSortDirection } = props;
 	return (
 		<>
@@ -40,7 +47,8 @@ const SearchTools = props => {
 							sortDirection === 'desc'
 								? setSortDirection('asc')
 								: setSortDirection('desc');
-						}}>
+						}}
+					>
 						{sortDirection[0].toUpperCase() +
 							sortDirection.slice(1) +
 							'.'}
@@ -50,7 +58,8 @@ const SearchTools = props => {
 					name='sortBy'
 					className='custom-select'
 					value={sortBy}
-					onChange={e => setSortBy(e.target.value)}>
+					onChange={e => setSortBy(e.target.value)}
+				>
 					<option value='recorded'>Recorded</option>
 					<option value='noOfProps'>No. of Props</option>
 					<option value='catches'>Catches</option>

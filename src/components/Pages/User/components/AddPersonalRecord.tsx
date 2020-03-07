@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, FC, MouseEvent } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import $ from 'jquery';
+import Firebase from './../../../Firebase/index';
 
-const AddPersonalRecord = props => {
+interface Props {
+	firebase: Firebase;
+}
+
+const AddPersonalRecord: FC<Props> = props => {
 	const { firebase } = props;
 
-	const [noOfProps, setNoOfProps] = useState(3);
-	const [propType, setPropType] = useState('ball');
-	const [otherProp, setOtherProp] = useState('');
-	const [pattern, setPattern] = useState('cascade');
-	const [otherPattern, setOtherPattern] = useState('');
-	const [recordType, setRecordType] = useState('catches');
-	const [catches, setCatches] = useState(0);
-	const [time, setTime] = useState(0);
-	const [videoURL, setVideoURL] = useState('');
+	const [noOfProps, setNoOfProps] = useState<number>(3);
+	const [propType, setPropType] = useState<string>('ball');
+	const [otherProp, setOtherProp] = useState<string>('');
+	const [pattern, setPattern] = useState<string>('cascade');
+	const [otherPattern, setOtherPattern] = useState<string>('');
+	const [recordType, setRecordType] = useState<string>('catches');
+	const [catches, setCatches] = useState<number>(0);
+	const [time, setTime] = useState<number>(0);
+	const [videoURL, setVideoURL] = useState<string>('');
 
-	const handleRecordSubmit = e => {
+	const handleRecordSubmit = (e: MouseEvent) => {
 		e.preventDefault();
 		if (propType === 'other') {
 			if (pattern === 'other') {
@@ -30,12 +35,12 @@ const AddPersonalRecord = props => {
 							catches: catches,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				} else {
 					firebase.db
 						.collection('records')
@@ -47,12 +52,12 @@ const AddPersonalRecord = props => {
 							time: time,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				}
 			} else {
 				if (recordType === 'catches') {
@@ -66,12 +71,12 @@ const AddPersonalRecord = props => {
 							catches: catches,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				} else {
 					firebase.db
 						.collection('records')
@@ -83,12 +88,12 @@ const AddPersonalRecord = props => {
 							time: time,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				}
 			}
 		} else {
@@ -104,12 +109,12 @@ const AddPersonalRecord = props => {
 							catches: catches,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				} else {
 					firebase.db
 						.collection('records')
@@ -121,12 +126,12 @@ const AddPersonalRecord = props => {
 							time: time,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				}
 			} else {
 				if (recordType === 'catches') {
@@ -140,12 +145,12 @@ const AddPersonalRecord = props => {
 							catches: catches,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				} else {
 					firebase.db
 						.collection('records')
@@ -157,12 +162,12 @@ const AddPersonalRecord = props => {
 							time: time,
 							videoURL: videoURL,
 							recorded: new Date(),
-							userID: firebase.auth.currentUser.uid,
+							userID: firebase.auth.currentUser.uid
 						})
 						.then(() => {
 							$('#addPersonalRecord').modal('hide');
 						})
-						.catch(e => console.dir(e));
+						.catch((e: { message: string }) => console.dir(e));
 				}
 			}
 		}
@@ -172,10 +177,11 @@ const AddPersonalRecord = props => {
 		<div
 			className='modal fade'
 			id='addPersonalRecord'
-			tabIndex='-1'
+			tabIndex={-1}
 			role='dialog'
 			aria-labelledby='addPersonalRecordLabel'
-			aria-hidden='true'>
+			aria-hidden='true'
+		>
 			<div className='modal-dialog' role='document'>
 				<div className='modal-content'>
 					<div className='modal-header'>
@@ -186,7 +192,8 @@ const AddPersonalRecord = props => {
 							type='button'
 							className='close'
 							data-dismiss='modal'
-							aria-label='Close'>
+							aria-label='Close'
+						>
 							<span aria-hidden='true'>&times;</span>
 						</button>
 					</div>
@@ -198,7 +205,11 @@ const AddPersonalRecord = props => {
 								name='numberOfProps'
 								className='form-control'
 								value={noOfProps}
-								onChange={e => setNoOfProps(e.target.value)}
+								onChange={e =>
+									setNoOfProps(
+										parseInt(e.currentTarget.value)
+									)
+								}
 							/>
 						</div>
 						<div className='form-group'>
@@ -207,7 +218,8 @@ const AddPersonalRecord = props => {
 								name='propType'
 								className='form-control'
 								value={propType}
-								onChange={e => setPropType(e.target.value)}>
+								onChange={e => setPropType(e.target.value)}
+							>
 								<option value='ball'>Ball</option>
 								<option value='club'>Club</option>
 								<option value='ring'>Ring</option>
@@ -236,7 +248,8 @@ const AddPersonalRecord = props => {
 								name='pattern'
 								className='form-control'
 								value={pattern}
-								onChange={e => setPattern(e.target.value)}>
+								onChange={e => setPattern(e.target.value)}
+							>
 								<option value='cascade'>
 									Cascade/Fountain
 								</option>
@@ -268,7 +281,8 @@ const AddPersonalRecord = props => {
 								name='recordType'
 								className='form-control'
 								value={recordType}
-								onChange={e => setRecordType(e.target.value)}>
+								onChange={e => setRecordType(e.target.value)}
+							>
 								<option value='catches'>
 									Number of Catches
 								</option>
@@ -283,7 +297,9 @@ const AddPersonalRecord = props => {
 									name='catches'
 									className='form-control'
 									value={catches}
-									onChange={e => setCatches(e.target.value)}
+									onChange={e =>
+										setCatches(parseInt(e.target.value))
+									}
 								/>
 							</div>
 						)}
@@ -295,7 +311,9 @@ const AddPersonalRecord = props => {
 									name='time'
 									className='form-control'
 									value={time}
-									onChange={e => setTime(e.target.value)}
+									onChange={e =>
+										setTime(parseInt(e.target.value))
+									}
 								/>
 							</div>
 						)}
@@ -314,13 +332,15 @@ const AddPersonalRecord = props => {
 						<button
 							type='button'
 							className='btn btn-secondary'
-							data-dismiss='modal'>
+							data-dismiss='modal'
+						>
 							Close
 						</button>
 						<button
 							type='button'
 							className='btn btn-primary'
-							onClick={handleRecordSubmit}>
+							onClick={handleRecordSubmit}
+						>
 							Add
 						</button>
 					</div>

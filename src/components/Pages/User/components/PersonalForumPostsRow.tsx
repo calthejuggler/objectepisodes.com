@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { FC } from 'react';
 
-const PersonalForumPostsRow = props => {
+const PersonalForumPostsRow: FC<{
+	topicData: any;
+	category: string;
+}> = props => {
 	const { topicData, category } = props;
 	return (
 		<li className='list-group-item'>
