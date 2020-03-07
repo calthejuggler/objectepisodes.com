@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, FC } from 'react';
 import { Switch, Route } from 'react-router-dom';
 import routes from './routes.js';
 import Header from './components/Header/Header';
@@ -7,12 +7,13 @@ import { FirebaseContext } from './components/Firebase/index';
 import { AuthUserContext } from './components/Session/index.js';
 import LandingPage from './components/Pages/LandingPage/index';
 import SideNavBar from './components/SideNavBar';
+import Firebase from './components/Firebase/config';
 
-function App(props) {
+const App: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
-	const [user, setUser] = useState(null);
+	const [user, setUser] = useState<any>(null);
 	useEffect(() => {
-		return firebase.auth.onAuthStateChanged(authedUser => {
+		return firebase.auth.onAuthStateChanged((authedUser: any) => {
 			authedUser ? setUser(authedUser) : setUser(null);
 		});
 	}, [firebase]);
@@ -21,11 +22,7 @@ function App(props) {
 			<div className='App h-100 w-100'>
 				{user ? (
 					<>
-						<FirebaseContext.Consumer>
-							{firebase => (
-								<Header user={user} firebase={firebase} />
-							)}
-						</FirebaseContext.Consumer>
+						<Header user={user} firebase={firebase} />
 						<div id='main'>
 							<div className='container-fluid'>
 								<div className='row'>
@@ -76,6 +73,6 @@ function App(props) {
 			</div>
 		</AuthUserContext.Provider>
 	);
-}
+};
 
 export default App;

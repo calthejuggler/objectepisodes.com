@@ -7,6 +7,7 @@ import AdminHeader from './components/AdminHeader';
 import UserHeader from './components/UserHeader';
 import Navigation from './components/Navigation';
 import Firebase from './../Firebase/config';
+import { withFirebase } from '../Firebase/context';
 
 interface Props extends RouteComponentProps {
 	user: any;
@@ -68,4 +69,4 @@ const Header: FC<Props> = props => {
 	);
 };
 
-export default withRouter(Header);
+export default withRouter(withFirebase(Header));
