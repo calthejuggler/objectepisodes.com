@@ -8,7 +8,7 @@ interface Props {
 	posted: Date;
 	lastPost: Date;
 	currentCategory: string | null;
-	setCurrentTopic: Dispatch<SetStateAction<string|null>>;
+	setCurrentTopic: Dispatch<SetStateAction<string | null>>;
 	setLocationArray: Dispatch<SetStateAction<Array<string | null>>>;
 	photoURL: string;
 	likes: number;
@@ -31,15 +31,15 @@ const TopicRow: FC<Props> = props => {
 		<li className='list-group-item'>
 			<div className='row align-items-center'>
 				<div className='col-4 col-sm-3'>
-					<a
-						href={'#/forum/' + currentCategory + '/' + id}
+					<button
+						className='btn btn-link'
 						onClick={() => {
 							setCurrentTopic(id);
 							setLocationArray(['forum', currentCategory, id]);
 						}}
 					>
 						{title}
-					</a>
+					</button>
 				</div>
 				<div className='col-4 col-sm-2'>
 					<a

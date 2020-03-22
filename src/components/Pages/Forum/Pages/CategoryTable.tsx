@@ -1,7 +1,6 @@
 import React, { useEffect, Dispatch, SetStateAction, FC } from 'react';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props extends RouteComponentProps {
+interface Props {
 	categories: Array<any>;
 	setCurrentCategory: Dispatch<SetStateAction<undefined | string>>;
 	setLocationArray: Dispatch<SetStateAction<Array<string | undefined>>>;
@@ -38,7 +37,6 @@ const CategoryTable: FC<Props> = props => {
 								className='btn btn-link'
 								onClick={() => {
 									setCurrentCategory(category.id);
-									props.history.push('/forum/' + category.id);
 									setLocationArray(prev => [
 										...prev,
 										category.id
@@ -62,4 +60,4 @@ const CategoryTable: FC<Props> = props => {
 	);
 };
 
-export default withRouter(CategoryTable);
+export default CategoryTable;
