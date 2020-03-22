@@ -17,55 +17,55 @@ const routes = [
 		name: 'Home',
 		path: '/',
 		component: Dashboard,
-		hidden: false,
+		hidden: false
 	},
 	{
 		name: 'User',
 		path: '/user',
 		component: User,
-		hidden: true,
+		hidden: true
 	},
 	{
 		name: 'Login',
 		path: '/login',
 		component: Login,
-		hidden: true,
+		hidden: true
 	},
 	{
 		name: 'Register',
 		path: '/register',
 		component: Register,
-		hidden: true,
+		hidden: true
 	},
 	{
 		name: 'Forgot',
 		path: '/forgot',
 		component: Forgot,
-		hidden: true,
+		hidden: true
 	},
 	{
 		name: 'About',
 		path: '/about',
 		component: About,
-		hidden: false,
+		hidden: false
 	},
 	{
 		name: 'Forum',
 		path: '/forum',
 		component: Forum,
-		hidden: false,
+		hidden: false
 	},
 	{
 		name: 'POTD',
 		path: '/potd',
 		component: POTD,
-		hidden: false,
+		hidden: false
 	},
 	{
 		name: 'Records',
 		path: '/record',
 		component: Records,
-		hidden: false,
+		hidden: false
 	},
 	// {
 	// 	name: 'Siteswap Tools',
@@ -77,14 +77,14 @@ const routes = [
 		name: 'Edit Profile',
 		path: '/editprofile',
 		component: EditProfile,
-		hidden: true,
+		hidden: true
 	},
 	{
 		name: 'Admin',
 		path: '/admin',
 		component: Admin,
-		hidden: true,
-	},
+		hidden: true
+	}
 ];
 
 export default routes;

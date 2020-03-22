@@ -8,6 +8,7 @@ import LandingPage from './components/Pages/LandingPage/index';
 import SideNavBar from './components/SideNavBar';
 import Firebase from './components/Firebase/config';
 import { withFirebase } from './components/Firebase/context';
+import Unsubscribe from './components/Pages/Unsubscribe/Unsubscribe';
 
 const App: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
@@ -16,7 +17,7 @@ const App: FC<{ firebase: Firebase }> = props => {
 		return firebase.auth.onAuthStateChanged((authedUser: any) => {
 			authedUser ? setUser(authedUser) : setUser(null);
 		});
-	}, [firebase]);
+	}, [firebase.auth]);
 	return (
 		<AuthUserContext.Provider value={user}>
 			<div className='App h-100 w-100'>
@@ -67,7 +68,11 @@ const App: FC<{ firebase: Firebase }> = props => {
 					</>
 				) : (
 					<div className='container h-100 w-100'>
-						<LandingPage />
+						<Switch>
+							<Route exact path='/' component={LandingPage} />
+							<Route exact path='/unsubscribe' component={Unsubscribe} />
+							<Route exact path='/unsubscribe/:docID' component={Unsubscribe} />
+						</Switch>
 					</div>
 				)}
 			</div>
