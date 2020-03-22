@@ -4,11 +4,11 @@ import { withAuth } from '../../../Session/withAuth';
 import Firebase from './../../../Firebase/index';
 
 interface Props {
-	firebase:Firebase;
-	user:firebase.User;
+	firebase: Firebase;
+	user: { uid: string };
 }
 
-const AddPOTD:FC<Props> = props => {
+const AddPOTD: FC<Props> = props => {
 	const { firebase, user } = props;
 	const [files, setFiles] = useState<FileList>(new FileList());
 
