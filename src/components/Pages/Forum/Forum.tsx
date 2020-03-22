@@ -16,26 +16,16 @@ interface Props extends RouteComponentProps {
 const Forum: FC<Props> = props => {
 	const { firebase } = props;
 
-	const [categories, setCategories] = useState<Array<any>>([]);
-	const [currentCategory, setCurrentCategory] = useState<undefined | string>(
-		undefined
-	);
-	const [currentTopic, setCurrentTopic] = useState<undefined | string>(
-		undefined
-	);
-	const [locationArray, setLocationArray] = useState<
-		Array<string | undefined>
-	>(['forum']);
+	const [categories, setCategories] = useState<string[]>([]);
+	const [currentCategory, setCurrentCategory] = useState<null | string>(null);
+	const [currentTopic, setCurrentTopic] = useState<null | string>(null);
+	const [locationArray, setLocationArray] = useState<string[]>([
+		'forum'
+	]);
 
 	const [title, setTitle] = useState('Loading...');
 
 	useLayoutEffect(() => {
-		let locationArray = props.history.location.pathname.slice(1).split('/');
-		if (locationArray.length === 3) {
-			setCurrentCategory(locationArray[1]);
-			setCurrentTopic(locationArray[2]);
-		} else if (locationArray.length === 2)
-			setCurrentCategory(locationArray[1]);
 		firebase.db
 			.collection('forum-categories')
 			.get()
@@ -44,7 +34,6 @@ const Forum: FC<Props> = props => {
 					setCategories(prev => [...prev, categorySnap])
 				);
 			});
-		setLocationArray(locationArray);
 	}, [firebase, props.history]);
 
 	return (

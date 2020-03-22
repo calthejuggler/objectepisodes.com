@@ -4,13 +4,13 @@ import { withFirebase } from '../../../Firebase/context';
 import Firebase from './../../../Firebase/index';
 
 interface Props extends RouteComponentProps {
-	locationArray: Array<string | undefined>;
+	locationArray: string[];
 	firebase: Firebase;
-	currentCategory: undefined | string;
-	currentTopic: undefined | string;
-	setLocationArray: Dispatch<SetStateAction<Array<string | undefined>>>;
-	setCurrentTopic: Dispatch<SetStateAction<undefined | string>>;
-	setCurrentCategory: Dispatch<SetStateAction<undefined | string>>;
+	currentCategory: null | string;
+	currentTopic: null | string;
+	setLocationArray: Dispatch<SetStateAction<string[]>>;
+	setCurrentTopic: Dispatch<SetStateAction<string | null>>;
+	setCurrentCategory: Dispatch<SetStateAction<string | null>>;
 	setTitle: Dispatch<SetStateAction<string>>;
 }
 
@@ -34,21 +34,17 @@ const Breadcrumbs: FC<Props> = props => {
 					<button
 						className='btn btn-secondary'
 						onClick={() => {
-							props.history.goBack();
-							const prevPage = props.history.location.pathname.split(
-								'/'
+							let shorterLocationArray: string[] = locationArray.slice(
+								0,
+								-1
 							);
-							const prevPageArray = prevPage.filter(
-								value => value !== '' && value
-							);
-							prevPageArray.pop();
-							setLocationArray(prevPageArray);
-							if (prevPageArray.length === 1) {
-								setCurrentCategory(undefined);
-								setCurrentTopic(undefined);
+							setLocationArray(shorterLocationArray);
+							if (shorterLocationArray.length === 1) {
+								setCurrentCategory(null);
+								setCurrentTopic(null);
 								setTitle('Loading categories...');
 							} else {
-								setCurrentTopic(undefined);
+								setCurrentTopic(null);
 								setTitle('Loading topics...');
 							}
 						}}
@@ -60,10 +56,14 @@ const Breadcrumbs: FC<Props> = props => {
 					if (i === 2) {
 						firebase
 							.getForumPostFromTopic(currentTopic)
-							.then(topicSnap => {
-								setTopicTitle(topicSnap.data().title);
-								setTitle('Topic');
-							});
+							.then(
+								(topicSnap: { data(): { title: string } }) => {
+									if (topicSnap) {
+										setTopicTitle(topicSnap.data().title);
+										setTitle('Topic');
+									}
+								}
+							);
 					}
 					return (
 						<li
@@ -83,21 +83,17 @@ const Breadcrumbs: FC<Props> = props => {
 								}
 								onClick={() => {
 									if (i === 0) {
-										props.history.replace('/forum');
 										setLocationArray(['forum']);
-										setCurrentCategory(undefined);
-										setCurrentTopic(undefined);
+										setCurrentCategory(null);
+										setCurrentTopic(null);
 										setTitle('Loading...');
 									}
-									if (i === 1) {
-										props.history.replace(
-											'/forum/' + currentCategory
-										);
+									if (i === 1 && currentCategory) {
 										setLocationArray([
 											'forum',
 											currentCategory
 										]);
-										setCurrentTopic(undefined);
+										setCurrentTopic(null);
 									}
 								}}
 							>

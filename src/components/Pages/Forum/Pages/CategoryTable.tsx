@@ -2,8 +2,8 @@ import React, { useEffect, Dispatch, SetStateAction, FC } from 'react';
 
 interface Props {
 	categories: Array<any>;
-	setCurrentCategory: Dispatch<SetStateAction<undefined | string>>;
-	setLocationArray: Dispatch<SetStateAction<Array<string | undefined>>>;
+	setCurrentCategory: Dispatch<SetStateAction<string | null>>;
+	setLocationArray: Dispatch<SetStateAction<string[]>>;
 	setTitle: Dispatch<SetStateAction<string>>;
 }
 
