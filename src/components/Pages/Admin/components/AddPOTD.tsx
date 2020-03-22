@@ -1,14 +1,14 @@
 import React, { useState, FC, ChangeEvent } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import { withAuth } from '../../../Session/withAuth';
-import Firebase from './../../../Firebase/config';
+import Firebase from './../../../Firebase/index';
 
 interface Props {
-	firebase: Firebase;
-	user: any;
+	firebase:Firebase;
+	user:firebase.User;
 }
 
-const AddPOTD: FC<Props> = (props: Props): JSX.Element => {
+const AddPOTD:FC<Props> = props => {
 	const { firebase, user } = props;
 	const [files, setFiles] = useState<FileList>(new FileList());
 
@@ -99,4 +99,4 @@ const AddPOTD: FC<Props> = (props: Props): JSX.Element => {
 	);
 };
 
-export default withAuth(withFirebase(AddPOTD));
+export default withFirebase(withAuth(AddPOTD));

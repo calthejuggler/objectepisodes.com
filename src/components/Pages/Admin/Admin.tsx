@@ -7,7 +7,7 @@ import ListPOTD from './components/ListPOTD';
 import AdminUsers from './components/AdminUsers';
 
 const Admin = () => {
-	const [navChoice, setNavChoice] = useState<string>('users');
+	const [navChoice, setNavChoice] = useState<string>('potd');
 	return (
 		<>
 			<div className='row mt-3'>
