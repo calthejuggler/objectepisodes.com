@@ -105,4 +105,4 @@ const InspectUser: FC<Props> = props => {
 	);
 };
 
-export default withFirebase(withAuth(InspectUser));
+export default withAuth(withFirebase(InspectUser));

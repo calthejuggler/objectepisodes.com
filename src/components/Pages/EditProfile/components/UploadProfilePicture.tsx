@@ -2,7 +2,7 @@ import React, { useEffect, Dispatch, SetStateAction, FC } from 'react';
 import { withAuth } from '../../../Session/withAuth';
 
 interface Props {
-	user: any;
+	user: { photoURL: string };
 	handleFileUpload: () => void;
 	storageRef: any;
 	setStorageRef: Dispatch<SetStateAction<any>>;

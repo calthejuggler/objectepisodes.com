@@ -7,9 +7,9 @@ import Topic from './Pages/Topic/Topic';
 
 import Breadcrumbs from './components/Breadcrumbs';
 import Firebase from './../../Firebase/index';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-interface Props extends RouteComponentProps {
+interface Props {
 	firebase: Firebase;
 }
 
@@ -34,7 +34,7 @@ const Forum: FC<Props> = props => {
 					setCategories(prev => [...prev, categorySnap])
 				);
 			});
-	}, [firebase, props.history]);
+	}, [firebase]);
 
 	return (
 		<div className='row mb-3'>

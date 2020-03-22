@@ -3,12 +3,12 @@ import { withFirebase } from '../../../Firebase/context';
 import { withAuth } from '../../../Session/withAuth';
 import Firebase from './../../../Firebase/index';
 
-interface Props {
+interface AddPOTDProps {
 	firebase: Firebase;
 	user: { uid: string };
 }
 
-const AddPOTD: FC<Props> = props => {
+const AddPOTD: FC<AddPOTDProps> = props => {
 	const { firebase, user } = props;
 	const [files, setFiles] = useState<FileList>(new FileList());
 
@@ -99,4 +99,4 @@ const AddPOTD: FC<Props> = props => {
 	);
 };
 
-export default withFirebase(withAuth(AddPOTD));
+export default withAuth(withFirebase(AddPOTD));

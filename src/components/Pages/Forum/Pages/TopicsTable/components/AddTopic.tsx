@@ -1,19 +1,19 @@
 import React, { useState, FC, FormEvent } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
 import $ from 'jquery';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
 import { Node } from 'slate';
 
-interface Props extends RouteComponentProps {
+interface Props {
 	firebase: Firebase;
 	currentCategory: string | undefined;
 }
 
 const AddTopic: FC<Props> = props => {
-	const { firebase, currentCategory, history } = props;
+	const { firebase, currentCategory } = props;
 
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState<Array<Node>>([
@@ -46,7 +46,7 @@ const AddTopic: FC<Props> = props => {
 						setTitle('');
 						$('#addTopicModal').modal('hide');
 					})
-					.catch((e:{message:string}) => setError(e.message));
+					.catch((e: { message: string }) => setError(e.message));
 	};
 
 	return (
@@ -115,14 +115,12 @@ const AddTopic: FC<Props> = props => {
 								<p>
 									If you want to post to the forum, you need
 									to{' '}
-									<button
+									<a
+										href='/login'
 										className='btn btn-sm btn-link'
-										onClick={() =>
-											history.replace('/login')
-										}
 									>
 										Sign In
-									</button>
+									</a>
 								</p>
 							)}
 						</div>

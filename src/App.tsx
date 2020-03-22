@@ -3,7 +3,7 @@ import { Switch, Route } from 'react-router-dom';
 import routes from './routes.js';
 import Header from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
-import { AuthUserContext } from './components/Session/index.js';
+import { AuthUserContext } from './components/Session';
 import LandingPage from './components/Pages/LandingPage/index';
 import SideNavBar from './components/SideNavBar';
 import Firebase from './components/Firebase/config';
