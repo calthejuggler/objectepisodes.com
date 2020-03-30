@@ -6,7 +6,7 @@ import ProfilePicture from './../../elements/ProfilePicture';
 import { withFirebase } from './../../Firebase/context';
 interface Props extends RouteComponentProps<any> {
 	user: any;
-	userData: any;
+	userData: { username: string };
 	firebase: Firebase;
 }
 
@@ -18,7 +18,7 @@ const UserHeader: FC<Props> = props => {
 			<ProfilePicture userID={user.uid} size={['5rem', '5rem']} />
 			<p>
 				Logged in as{' '}
-				<a href={'#/user/' + userData.username}>{user.displayName}</a>
+				<a href={'#/user/' + userData.username}>{userData.username}</a>
 				<br />
 				<button
 					className='btn btn-link btn-sm'

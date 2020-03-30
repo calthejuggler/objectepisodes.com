@@ -27,10 +27,23 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 			.getUserDataFromUID(userID)
 			.then(res => setUserData(res.data()));
 	}, [firebase, userID]);
-	return (
+	return userData && userData.photoURL && userData.photoURL !== '' ? (
+		<img
+			src={userData.photoURL}
+			alt={'profile pic ' + userData.username}
+			style={{
+				width: size ? size[0] : 'auto',
+				height: size ? size[1] : 'auto',
+				objectFit: 'cover'
+			}}
+			className={
+				'img-fluid rounded-circle ' + (centered && 'd-block mx-auto')
+			}
+		/>
+	) : (
 		userData && (
 			<img
-				src={userData.photoURL}
+				src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/20625/avatar-bg.png'
 				alt={'profile pic ' + userData.username}
 				style={{
 					width: size ? size[0] : 'auto',

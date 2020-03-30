@@ -10,6 +10,10 @@ import Firebase from './components/Firebase/config';
 import { withFirebase } from './components/Firebase/context';
 import Unsubscribe from './components/Pages/Unsubscribe/Unsubscribe';
 
+import {Login} from './components/Pages/Login/Login'
+
+import './custom.scss';
+
 const App: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
 	const [user, setUser] = useState<any>(null);
@@ -72,6 +76,7 @@ const App: FC<{ firebase: Firebase }> = props => {
 							<Route exact path='/' component={LandingPage} />
 							<Route exact path='/unsubscribe' component={Unsubscribe} />
 							<Route exact path='/unsubscribe/:docID' component={Unsubscribe} />
+							<Route exact path='/login/' component={Login} />
 						</Switch>
 					</div>
 				)}
