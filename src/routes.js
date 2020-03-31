@@ -56,6 +56,12 @@ const routes = [
 		hidden: false
 	},
 	{
+		name: 'Forum Topic',
+		path: '/forum/:paramCategory/:paramId',
+		component: Forum,
+		hidden: true
+	},
+	{
 		name: 'POTD',
 		path: '/potd',
 		component: POTD,

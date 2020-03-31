@@ -7,7 +7,7 @@ import Topic from './Pages/Topic/Topic';
 
 import Breadcrumbs from './components/Breadcrumbs';
 import Firebase from './../../Firebase/index';
-import { withRouter } from 'react-router-dom';
+import { withRouter, useParams } from 'react-router-dom';
 
 interface Props {
 	firebase: Firebase;
@@ -16,16 +16,28 @@ interface Props {
 const Forum: FC<Props> = props => {
 	const { firebase } = props;
 
+	let { paramCategory, paramId } = useParams();
+
 	const [categories, setCategories] = useState<string[]>([]);
 	const [currentCategory, setCurrentCategory] = useState<null | string>(null);
 	const [currentTopic, setCurrentTopic] = useState<null | string>(null);
-	const [locationArray, setLocationArray] = useState<string[]>([
-		'forum'
-	]);
+	const [locationArray, setLocationArray] = useState<string[]>(['forum']);
 
 	const [title, setTitle] = useState('Loading...');
 
 	useLayoutEffect(() => {
+		if (paramId && paramCategory) {
+			setCurrentTopic(paramId);
+			setCurrentCategory(paramCategory);
+			setLocationArray(['forum', paramCategory, paramId]);
+			console.dir('Yo');
+		} else if (paramId) {
+			setCurrentTopic(paramId);
+			setLocationArray(['forum', '', paramId]);
+		} else if (paramCategory) {
+			setCurrentCategory(paramCategory);
+			setLocationArray(['forum', paramCategory]);
+		}
 		firebase.db
 			.collection('forum-categories')
 			.get()
@@ -34,7 +46,7 @@ const Forum: FC<Props> = props => {
 					setCategories(prev => [...prev, categorySnap])
 				);
 			});
-	}, [firebase]);
+	}, [firebase, paramId, paramCategory]);
 
 	return (
 		<div className='row mb-3'>
