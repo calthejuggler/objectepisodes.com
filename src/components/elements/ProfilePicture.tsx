@@ -37,7 +37,8 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 				objectFit: 'cover'
 			}}
 			className={
-				'img-fluid rounded-circle ' + (centered && 'd-block mx-auto')
+				'img-fluid rounded-circle ' +
+				(centered ? 'd-block mx-auto' : '')
 			}
 		/>
 	) : (
@@ -52,7 +53,7 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 				}}
 				className={
 					'img-fluid rounded-circle ' +
-					(centered && 'd-block mx-auto')
+					(centered ? 'd-block mx-auto' : '')
 				}
 			/>
 		)
