@@ -5,7 +5,6 @@ import Header from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { AuthUserContext } from './components/Session';
 import LandingPage from './components/Pages/LandingPage/index';
-import SideNavBar from './components/SideNavBar';
 import Firebase from './components/Firebase/config';
 import { withFirebase } from './components/Firebase/context';
 import Unsubscribe from './components/Pages/Unsubscribe/Unsubscribe';
@@ -34,10 +33,7 @@ const App: FC<{ firebase: Firebase }> = props => {
 						<div id='main'>
 							<div className='container-fluid h-100'>
 								<div className='row h-100'>
-									<div className='col-2 d-none d-lg-block px-2'>
-										<SideNavBar />
-									</div>
-									<div className='col-12 col-lg-10 h-100'>
+									<div className='col-12 h-100'>
 										<Switch>
 											{routes.map(route => {
 												if (
