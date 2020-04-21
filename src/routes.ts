@@ -10,6 +10,7 @@ import About from './components/Pages/About';
 import POTD from './components/Pages/POTD';
 import { FC } from 'react';
 import Home from './components/Pages/Home/Home';
+import Database from './components/Pages/Database/Database';
 
 interface Route {
 	name: string;
@@ -26,11 +27,16 @@ const routes = {
 			component: Home,
 			hidden: false
 		},
-
 		{
 			name: 'About',
 			path: '/about',
 			component: About,
+			hidden: false
+		},
+		{
+			name: 'Database',
+			path: '/database',
+			component: Database,
 			hidden: false
 		}
 	],
@@ -108,6 +114,15 @@ const createAllRouteArray = () => {
 	return newRouteArray;
 };
 
+const createDatabaseRouteArray = () => {
+	let newRouteArray: Array<Route> = [];
+	routes.database.forEach((route: Route) => {
+		newRouteArray.push(route);
+	});
+	console.dir(newRouteArray);
+	return newRouteArray;
+};
+
 export default routes;
 
-export { createAllRouteArray };
+export { createAllRouteArray, createDatabaseRouteArray };
