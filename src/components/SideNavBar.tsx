@@ -1,9 +1,10 @@
-import React, { FC } from 'react';
+import React, { FC, useState } from 'react';
 
-import routes from '../routes';
+import { createAllRouteArray } from '../routes';
 import { NavLink } from 'react-router-dom';
 
 const SideNavBar: FC = () => {
+	const [routes, setRoutes] = useState(createAllRouteArray());
 	return (
 		<ul className='list-group'>
 			{routes.map(route =>

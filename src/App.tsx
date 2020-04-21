@@ -1,6 +1,6 @@
 import React, { useEffect, useState, FC } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import routes from './routes.js';
+import { createAllRouteArray } from './routes';
 import Header from './components/Header/Header';
 import { Footer } from './components/Footer/Footer';
 import { AuthUserContext } from './components/Session';
@@ -10,13 +10,16 @@ import Firebase from './components/Firebase/config';
 import { withFirebase } from './components/Firebase/context';
 import Unsubscribe from './components/Pages/Unsubscribe/Unsubscribe';
 
-import {Login} from './components/Pages/Login/Login'
+import { Login } from './components/Pages/Login/Login';
 
 import './custom.scss';
 
 const App: FC<{ firebase: Firebase }> = props => {
 	const { firebase } = props;
 	const [user, setUser] = useState<any>(null);
+	const [routes, setRoutes] = useState<
+		Array<{ name: string; path: string; component: FC }>
+	>(createAllRouteArray());
 	useEffect(() => {
 		return firebase.auth.onAuthStateChanged((authedUser: any) => {
 			authedUser ? setUser(authedUser) : setUser(null);
@@ -74,8 +77,16 @@ const App: FC<{ firebase: Firebase }> = props => {
 					<div className='container h-100 w-100'>
 						<Switch>
 							<Route exact path='/' component={LandingPage} />
-							<Route exact path='/unsubscribe' component={Unsubscribe} />
-							<Route exact path='/unsubscribe/:docID' component={Unsubscribe} />
+							<Route
+								exact
+								path='/unsubscribe'
+								component={Unsubscribe}
+							/>
+							<Route
+								exact
+								path='/unsubscribe/:docID'
+								component={Unsubscribe}
+							/>
 							<Route exact path='/login/' component={Login} />
 						</Switch>
 					</div>

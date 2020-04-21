@@ -1,8 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-import routes from '../../../routes';
+import { createAllRouteArray } from '../../../routes';
 
 const Navigation = () => {
+	const [routes, setRoutes] = useState<
+		Array<{ hidden: boolean; name: string }>
+	>(createAllRouteArray());
 	return (
 		<nav className='navbar navbar-expand-lg navbar-light bg-light'>
 			<button
