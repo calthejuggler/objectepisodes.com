@@ -20,7 +20,7 @@ const DashPanel: FC<Props> = props => {
 		for (let i = 0; i < routes.length; i++) {
 			if (routes[i].path === '/' + url) setDisabled(false);
 		}
-	}, [url]);
+	}, [url,routes]);
 	return (
 		<div className='card h-100'>
 			<div className='card-body text-center'>

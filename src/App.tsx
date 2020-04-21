@@ -32,12 +32,12 @@ const App: FC<{ firebase: Firebase }> = props => {
 					<>
 						<Header user={user} firebase={firebase} />
 						<div id='main'>
-							<div className='container-fluid'>
-								<div className='row'>
+							<div className='container-fluid h-100'>
+								<div className='row h-100'>
 									<div className='col-2 d-none d-lg-block px-2'>
 										<SideNavBar />
 									</div>
-									<div className='col-12 col-lg-10'>
+									<div className='col-12 col-lg-10 h-100'>
 										<Switch>
 											{routes.map(route => {
 												if (

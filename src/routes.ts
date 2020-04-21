@@ -2,13 +2,14 @@ import { Login } from './components/Pages/Login/Login';
 import { Register } from './components/Pages/Register/Register';
 import Forgot from './components/Pages/Forgot/Forgot';
 import Forum from './components/Pages/Forum/Forum';
-import Dashboard from './components/Pages/Dashboard/Dashboard';
+// import Dashboard from './components/Pages/Dashboard/Dashboard';
 import User from './components/Pages/User/User';
 import EditProfile from './components/Pages/EditProfile/EditProfile';
 import Admin from './components/Pages/Admin/Admin';
 import About from './components/Pages/About';
 import POTD from './components/Pages/POTD';
 import { FC } from 'react';
+import Home from './components/Pages/Home/Home';
 
 interface Route {
 	name: string;
@@ -22,7 +23,7 @@ const routes = {
 		{
 			name: 'Home',
 			path: '/',
-			component: Dashboard,
+			component: Home,
 			hidden: false
 		},
 
