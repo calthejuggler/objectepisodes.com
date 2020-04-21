@@ -2,10 +2,8 @@ import React, { useEffect, useState, FC } from 'react';
 
 import logo from '../../images/objectepisodes_logo.jpg';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
-import HeaderHFOTD from './components/HeaderHFOTD';
 import AdminHeader from './components/AdminHeader';
 import UserHeader from './components/UserHeader';
-import Navigation from './components/Navigation';
 import Firebase from './../Firebase/config';
 import { withFirebase } from '../Firebase/context';
 
@@ -50,12 +48,6 @@ const Header: FC<Props> = props => {
 					</div>
 					<div className='col-12 col-md-4 order-2 order-md-1 mb-4 mb-md-0'>
 						<UserHeader user={user} userData={userData} />
-					</div>
-					<div className='col-12 col-md-4 order-3 order-md-3'>
-						<HeaderHFOTD />
-					</div>
-					<div className='col-12 d-lg-none order-4'>
-						<Navigation />
 					</div>
 				</div>
 			</nav>
