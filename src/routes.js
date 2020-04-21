@@ -6,7 +6,6 @@ import Dashboard from './components/Pages/Dashboard/Dashboard';
 import User from './components/Pages/User/User';
 import EditProfile from './components/Pages/EditProfile/EditProfile';
 import Admin from './components/Pages/Admin/Admin';
-import Records from './components/Pages/Records';
 import About from './components/Pages/About';
 import POTD from './components/Pages/POTD';
 // import JugglingTools from './components/Pages/JugglingTools/JugglingTools';
@@ -65,12 +64,6 @@ const routes = [
 		name: 'POTD',
 		path: '/potd',
 		component: POTD,
-		hidden: false
-	},
-	{
-		name: 'Records',
-		path: '/record',
-		component: Records,
 		hidden: false
 	},
 	// {

@@ -1,6 +1,5 @@
 import React from 'react';
 import DashForum from './components/DashForum';
-import DashRecords from './components/DashRecords/DashRecords';
 import DashPOTD from './components/DashPOTD';
 import DashEvent from './components/DashEvent';
 import DashPanel from './components/DashPanel';
@@ -28,12 +27,6 @@ const Dashboard = () => {
 			</div>
 			<div className='row'>
 				<div className='col-12 col-md-6 pb-2 px-1'>
-					<DashPanel
-						title='Top Records'
-						btnTitle='See all Records'
-						url='record'>
-						<DashRecords />
-					</DashPanel>
 				</div>
 				<div className='col-12 col-md-6 pb-2 px-1'>
 					<DashPanel

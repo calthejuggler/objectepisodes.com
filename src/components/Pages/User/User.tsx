@@ -2,7 +2,6 @@ import React, { useState, useEffect, FC } from 'react';
 import UserDetails from './components/UserDetails';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withFirebase } from '../../Firebase/context';
-import PersonalRecords from './components/PersonalRecords';
 import PersonalForumPosts from './components/PersonalForumPosts';
 import Firebase from './../../Firebase/index';
 
@@ -50,7 +49,6 @@ const User: FC<Props> = props => {
 		<div className='row'>
 			<div className='col-12 col-md-4'>
 				<UserDetails userData={userData} ownProfile={ownProfile} />
-				<PersonalRecords userData={userData} ownProfile={ownProfile} />
 			</div>
 			<div className='col-12 col-md-8'>
 				<PersonalForumPosts userData={userData} />
