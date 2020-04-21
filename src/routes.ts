@@ -119,7 +119,6 @@ const createDatabaseRouteArray = () => {
 	routes.database.forEach((route: Route) => {
 		newRouteArray.push(route);
 	});
-	console.dir(newRouteArray);
 	return newRouteArray;
 };
 
