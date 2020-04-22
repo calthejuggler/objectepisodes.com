@@ -88,11 +88,35 @@ const routes = {
 	],
 	database: [
 		{
-			name: 'POTD',
+			name: 'Photos',
+			path: '/photos',
+			component: POTD,
+			hidden: false
+		},
+		{
+			name: 'Props',
 			path: '/potd',
 			component: POTD,
 			hidden: false
-		}
+		},
+		{
+			name: 'Literature',
+			path: '/potd',
+			component: POTD,
+			hidden: false
+		},
+		{
+			name: 'Tricks',
+			path: '/potd',
+			component: POTD,
+			hidden: false
+		},
+		{
+			name: 'Biographies',
+			path: '/potd',
+			component: POTD,
+			hidden: false
+		},
 	],
 	admin: [
 		{

@@ -1,13 +1,16 @@
-import React from 'react'
-import { createDatabaseRouteArray } from '../../../routes'
+import React, { useState } from 'react';
+import { createDatabaseRouteArray } from '../../../routes';
+import DatabaseThumb from './../../elements/DatabaseThumb';
 
 const Database = () => {
-    createDatabaseRouteArray()
-    return (
-        <div className='row h-100 align-items-center justify-content-center'>
-            .col
-        </div>
-    )
-}
+	const [routes, setRoutes] = useState(createDatabaseRouteArray());
+	return (
+		<div className='row align-items-center justify-content-around h-100'>
+			{routes.map(route => (
+				<DatabaseThumb key={route.name} route={route} />
+			))}
+		</div>
+	);
+};
 
-export default Database
+export default Database;
