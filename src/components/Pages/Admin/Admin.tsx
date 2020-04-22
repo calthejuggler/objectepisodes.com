@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import AddHFOTD from './components/AddHFOTD';
-import ListHFOTD from './components/ListHFOTD';
 import AdminNav from './components/AdminNav';
 import ListPOTD from './components/ListPOTD';
 import AdminUsers from './components/AdminUsers';
 import AddPhoto from './components/AdminPhotos/components/AddPhoto';
 import AdminPhotos from './components/AdminPhotos/AdminPhotos';
+import AdminProps from './components/AdminProps/AdminProps';
 
 const Admin = () => {
-	const [navChoice, setNavChoice] = useState<string>('photos');
+	const [navChoice, setNavChoice] = useState<string>('props');
+	const [editTemplate, setEditTemplate] = useState<boolean>(false);
 	return (
 		<>
 			<div className='row mt-3'>
@@ -16,9 +16,12 @@ const Admin = () => {
 					<AdminNav
 						setNavChoice={setNavChoice}
 						navChoice={navChoice}
+						editTemplate={editTemplate}
+						setEditTemplate={setEditTemplate}
 					/>
 				</div>
 				{navChoice === 'photos' && <AdminPhotos />}
+				{navChoice === 'props' && <AdminProps />}
 				{navChoice === 'potd' && (
 					<>
 						<div className='col-12 col-md-9'>
