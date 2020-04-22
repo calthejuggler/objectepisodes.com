@@ -12,8 +12,8 @@ interface Props extends RouteComponentProps {
 	firebase: Firebase;
 }
 
-const Header: FC<Props> = props => {
-	const { user, firebase } = props;
+const Header: FC<Props> = (props) => {
+	const { user, firebase, history } = props;
 	const [userData, setUserData] = useState<null | { admin: boolean }>(null);
 	const [error, setError] = useState<null | string>(null);
 	useEffect(() => {
@@ -46,12 +46,14 @@ const Header: FC<Props> = props => {
 							</p>
 						</a>
 					</div>
-					<div className='col-12 col-md-4 order-2 order-md-1 mb-4 mb-md-0'>
+					<div className='col-12 col-md-4 order-2 order-md-1 mb-md-0'>
 						<UserHeader user={user} userData={userData} />
 					</div>
 				</div>
 			</nav>
-			{userData && userData.admin && <AdminHeader />}
+			{userData &&
+				userData.admin &&
+				history.location.pathname !== '/admin' && <AdminHeader />}
 			{error && (
 				<div className='container-fluid'>
 					<div className='alert alert-danger mb-2'>{error}</div>
