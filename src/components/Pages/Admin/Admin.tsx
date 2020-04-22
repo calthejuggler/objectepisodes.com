@@ -21,7 +21,9 @@ const Admin = () => {
 					/>
 				</div>
 				{navChoice === 'photos' && <AdminPhotos />}
-				{navChoice === 'props' && <AdminProps />}
+				{navChoice === 'props' && (
+					<AdminProps editTemplate={editTemplate} />
+				)}
 				{navChoice === 'potd' && (
 					<>
 						<div className='col-12 col-md-9'>
