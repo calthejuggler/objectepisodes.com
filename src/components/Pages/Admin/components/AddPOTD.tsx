@@ -1,3 +1,4 @@
+
 import React, { useState, FC, ChangeEvent } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import { withAuth } from '../../../Session/withAuth';
@@ -81,7 +82,7 @@ const AddPOTD: FC<AddPOTDProps> = props => {
 			.catch((e: { message: string }) => setError(e.message));
 	};
 
-	return (
+	return(
 		<>
 			<div className='custom-file'>
 				<input

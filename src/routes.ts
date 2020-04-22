@@ -11,6 +11,7 @@ import POTD from './components/Pages/POTD';
 import { FC } from 'react';
 import Home from './components/Pages/Home/Home';
 import Database from './components/Pages/Database/Database';
+import AddPhoto from './components/Pages/Admin/components/AdminPhotos/components/AddPhoto';
 
 interface Route {
 	name: string;
@@ -124,7 +125,7 @@ const routes = {
 			path: '/admin',
 			component: Admin,
 			hidden: true
-		}
+		},
 	]
 };
 

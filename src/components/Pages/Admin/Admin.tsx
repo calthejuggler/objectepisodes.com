@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import AddHFOTD from './components/AddHFOTD';
 import ListHFOTD from './components/ListHFOTD';
 import AdminNav from './components/AdminNav';
-import AddPOTD from './components/AddPOTD';
 import ListPOTD from './components/ListPOTD';
 import AdminUsers from './components/AdminUsers';
+import AddPhoto from './components/AdminPhotos/components/AddPhoto';
+import AdminPhotos from './components/AdminPhotos/AdminPhotos';
 
 const Admin = () => {
-	const [navChoice, setNavChoice] = useState<string>('potd');
+	const [navChoice, setNavChoice] = useState<string>('photos');
 	return (
 		<>
 			<div className='row mt-3'>
@@ -17,30 +18,13 @@ const Admin = () => {
 						navChoice={navChoice}
 					/>
 				</div>
-				{navChoice === 'hfotd' && (
-					<>
-						<div className='col-12 col-md-9'>
-							<div className='card'>
-								<div className='card-body'>
-									<AddHFOTD />
-								</div>
-							</div>
-						</div>
-						<div className='col-12 mt-3'>
-							<div className='card'>
-								<div className='card-body'>
-									<ListHFOTD />
-								</div>
-							</div>
-						</div>
-					</>
-				)}
+				{navChoice === 'photos' && <AdminPhotos />}
 				{navChoice === 'potd' && (
 					<>
 						<div className='col-12 col-md-9'>
 							<div className='card'>
 								<div className='card-body'>
-									<AddPOTD />
+									<AddPhoto />
 								</div>
 							</div>
 						</div>

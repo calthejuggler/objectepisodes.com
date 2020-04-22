@@ -5,39 +5,59 @@ interface Props {
 	navChoice: string;
 }
 
-const AdminNav: FC<Props> = props => {
+const AdminNav: FC<Props> = (props) => {
 	const { setNavChoice, navChoice } = props;
 	return (
 		<ul className='list-group'>
 			<li
 				className={
-					navChoice === 'hfotd'
+					navChoice === 'photos'
 						? 'list-group-item active'
 						: 'list-group-item'
 				}
-				onClick={() => setNavChoice('hfotd')}
+				onClick={() => setNavChoice('photos')}
 			>
-				Historical fact of the day
+				Photos
 			</li>
 			<li
 				className={
-					navChoice === 'potd'
+					navChoice === 'props'
 						? 'list-group-item active'
 						: 'list-group-item'
 				}
-				onClick={() => setNavChoice('potd')}
+				onClick={() => setNavChoice('props')}
 			>
-				Photo of the day
+				Props
 			</li>
 			<li
 				className={
-					navChoice === 'users'
+					navChoice === 'literature'
 						? 'list-group-item active'
 						: 'list-group-item'
 				}
-				onClick={() => setNavChoice('users')}
+				onClick={() => setNavChoice('literature')}
 			>
-				Users
+				Literature
+			</li>
+			<li
+				className={
+					navChoice === 'tricks'
+						? 'list-group-item active'
+						: 'list-group-item'
+				}
+				onClick={() => setNavChoice('tricks')}
+			>
+				Tricks
+			</li>
+			<li
+				className={
+					navChoice === 'bios'
+						? 'list-group-item active'
+						: 'list-group-item'
+				}
+				onClick={() => setNavChoice('bios')}
+			>
+				Biographies
 			</li>
 		</ul>
 	);
