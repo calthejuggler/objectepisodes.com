@@ -89,31 +89,31 @@ const routes = {
 	],
 	database: [
 		{
-			name: 'Photos',
+			name: 'photos',
 			path: '/photos',
 			component: POTD,
 			hidden: false
 		},
 		{
-			name: 'Props',
+			name: 'props',
 			path: '/potd',
 			component: POTD,
 			hidden: false
 		},
 		{
-			name: 'Literature',
+			name: 'literature',
 			path: '/potd',
 			component: POTD,
 			hidden: false
 		},
 		{
-			name: 'Tricks',
+			name: 'tricks',
 			path: '/potd',
 			component: POTD,
 			hidden: false
 		},
 		{
-			name: 'Biographies',
+			name: 'biographies',
 			path: '/potd',
 			component: POTD,
 			hidden: false
