@@ -14,8 +14,8 @@ const DatabaseThumb: FC<Props> = ({ route, history, setCurrentView }) => {
 				setCurrentView(route.name);
 			}}
 		>
-			<div className='card h-100'>
-				<div className='card-body'>
+			<div className='card h-100 btn btn-white'>
+				<div className='card-body btn-link'>
 					{route.name[0].toUpperCase() + route.name.slice(1)}
 				</div>
 			</div>

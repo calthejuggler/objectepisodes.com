@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { createDatabaseRouteArray } from '../../../routes';
 import DatabaseThumb from './../../elements/DatabaseThumb';
-import PropsDatabase from './pages/PropsDatabase';
+import PropsDatabase from './pages/PropsDatabase/PropsDatabase';
 
 const Database = () => {
 	const routes: Array<{
