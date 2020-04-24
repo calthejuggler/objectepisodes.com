@@ -21,11 +21,14 @@ const PropsDatabase: FC<{ firebase: Firebase }> = ({ firebase }) => {
 	}, [firebase.db]);
 
 	return (
-		<div className='row align-items-center justify-content-around h-100'>
+		<div className='row align-items-center justify-content-around h-100 mb-3'>
 			{propsDataArray &&
 				propsDataArray.map(
-					(propData: firebase.firestore.DocumentData) => (
-						<div className='col-6 col-md-4 col-lg-3'>
+					(propData: firebase.firestore.DocumentData, i) => (
+						<div
+							className='col-6 col-md-4 col-lg-3'
+							key={'dataCard' + i}
+						>
 							<div className='card'>
 								<div className='card-body'>
 									{Object.keys(propData).map(
@@ -33,7 +36,10 @@ const PropsDatabase: FC<{ firebase: Firebase }> = ({ firebase }) => {
 											isNaN(Number.parseInt(field[0])) &&
 											field[0] ===
 												field[0].toUpperCase() && (
-												<div className='row' key={i}>
+												<div
+													className='row'
+													key={'dataField' + i}
+												>
 													{field}:{' '}
 													{typeof Object.values(
 														propData
