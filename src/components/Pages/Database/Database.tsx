@@ -1,16 +1,43 @@
 import React, { useState } from 'react';
 import { createDatabaseRouteArray } from '../../../routes';
 import DatabaseThumb from './../../elements/DatabaseThumb';
+import PropsDatabase from './pages/PropsDatabase';
 
 const Database = () => {
-	const [routes, setRoutes] = useState(createDatabaseRouteArray());
-	return (
-		<div className='row align-items-center justify-content-around h-100'>
-			{routes.map(route => (
-				<DatabaseThumb key={route.name} route={route} />
-			))}
-		</div>
-	);
+	const routes: Array<{
+		name: string;
+		path: string;
+	}> = createDatabaseRouteArray();
+	const [currentView, setCurrentView] = useState<string>('database');
+
+	switch (currentView) {
+		case 'database':
+			return (
+				<div className='row align-items-center justify-content-around h-100'>
+					{routes.map((route) => (
+						<DatabaseThumb
+							key={route.name}
+							route={route}
+							setCurrentView={setCurrentView}
+						/>
+					))}
+				</div>
+			);
+		case 'props':
+			return <PropsDatabase />;
+		default:
+			return (
+				<div className='row align-items-center justify-content-around h-100'>
+					{routes.map((route) => (
+						<DatabaseThumb
+							key={route.name}
+							route={route}
+							setCurrentView={setCurrentView}
+						/>
+					))}
+				</div>
+			);
+	}
 };
 
 export default Database;
