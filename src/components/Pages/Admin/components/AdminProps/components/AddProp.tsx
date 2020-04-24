@@ -1,10 +1,10 @@
 import React, {
 	useState,
 	ChangeEvent,
-	ChangeEventHandler,
 	FC,
 	useEffect,
 	FormEvent,
+	useCallback,
 } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import Firebase from './../../../../../Firebase/config';
@@ -39,7 +39,7 @@ const AddProp: FC<{
 		}
 	};
 
-	const resetFields = () => {
+	const resetFields = useCallback(() => {
 		firebase.db
 			.collection('database-templates')
 			.doc('props')
@@ -59,17 +59,17 @@ const AddProp: FC<{
 			})
 			.catch((e: ErrorEvent) => setError(e.message));
 		setFields([['', '']]);
-	};
+	}, [firebase.db]);
 
 	const handleAddSuccess = () => {
-		setError(null)
+		setError(null);
 		setSuccess(true);
 		resetFields();
 	};
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		setSuccess(false)
+		setSuccess(false);
 		let objectPlaceholder: { [key: string]: string } = {};
 		templateFields.forEach(
 			(tempField) => (objectPlaceholder[tempField[0]] = tempField[1])
@@ -91,7 +91,7 @@ const AddProp: FC<{
 
 	useEffect(() => {
 		resetFields();
-	}, []);
+	}, [resetFields]);
 
 	return (
 		<div className='col-12 col-md-9'>

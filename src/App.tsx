@@ -13,12 +13,10 @@ import { Login } from './components/Pages/Login/Login';
 
 import './custom.scss';
 
-const App: FC<{ firebase: Firebase }> = props => {
+const App: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
 	const [user, setUser] = useState<any>(null);
-	const [routes, setRoutes] = useState<
-		Array<{ name: string; path: string; component: FC }>
-	>(createAllRouteArray());
+	const routes = createAllRouteArray();
 	useEffect(() => {
 		return firebase.auth.onAuthStateChanged((authedUser: any) => {
 			authedUser ? setUser(authedUser) : setUser(null);
@@ -35,7 +33,7 @@ const App: FC<{ firebase: Firebase }> = props => {
 								<div className='row h-100'>
 									<div className='col-12 h-100'>
 										<Switch>
-											{routes.map(route => {
+											{routes.map((route) => {
 												if (
 													route.name === 'Dashboard'
 												) {

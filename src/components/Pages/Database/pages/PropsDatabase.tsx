@@ -18,7 +18,7 @@ const PropsDatabase: FC<{ firebase: Firebase }> = ({ firebase }) => {
 				});
 				setPropsDataArray(newArr);
 			});
-	}, []);
+	}, [firebase.db]);
 
 	return (
 		<div className='row align-items-center justify-content-around h-100'>
