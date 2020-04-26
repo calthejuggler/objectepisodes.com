@@ -1,7 +1,11 @@
-import React, { Dispatch, SetStateAction, FC, FormEvent } from 'react';
-import withFirebase from './../../../../../../App';
+import React, {
+	Dispatch,
+	SetStateAction,
+	FC,
+	FormEvent,
+	MouseEvent,
+} from 'react';
 import Firebase from './../../../../../Firebase/config';
-import { withAuth } from './../../../../../Session/withAuth';
 
 interface Props {
 	setFields: Dispatch<SetStateAction<string[][]>>;
@@ -12,6 +16,8 @@ interface Props {
 	firebase: Firebase;
 	user: { displayName: string };
 	resetFields: CallableFunction;
+	photo: { file: File; uploaded: boolean } | null;
+	handlePhotoUpload: (e?: MouseEvent) => Promise<void>;
 }
 
 const AddPropButtons: FC<Props> = ({
@@ -23,10 +29,18 @@ const AddPropButtons: FC<Props> = ({
 	user,
 	setError,
 	resetFields,
+	photo,
+	handlePhotoUpload,
 }) => {
-	const handleSubmit = (e: FormEvent) => {
-		e.preventDefault();
-		setSuccess(false);
+	const uploadData = (objectPlaceholder: { [key: string]: string }) => {
+		firebase.db
+			.collection('props-database')
+			.doc()
+			.set(objectPlaceholder)
+			.then(handleAddSuccess)
+			.catch((e: ErrorEvent) => setError(e.message));
+	};
+	const createDataObjectAndUpload = () => {
 		let objectPlaceholder: { [key: string]: string } = {};
 		templateFields.forEach(
 			(tempField) => (objectPlaceholder[tempField[0]] = tempField[1])
@@ -38,12 +52,29 @@ const AddPropButtons: FC<Props> = ({
 
 		objectPlaceholder.added = firebase.dbFunc.FieldValue.serverTimestamp();
 		objectPlaceholder.by = user.displayName;
-		firebase.db
-			.collection('props-database')
-			.doc()
-			.set(objectPlaceholder)
-			.then(handleAddSuccess)
-			.catch((e: ErrorEvent) => setError(e.message));
+		if (photo) {
+			firebase.storage
+				.ref()
+				.child('prop-images/' + photo.file.name)
+				.getDownloadURL()
+				.then((url: string) => {
+					objectPlaceholder.photoURL = url;
+					uploadData(objectPlaceholder);
+				});
+		} else {
+			uploadData(objectPlaceholder);
+		}
+	};
+	const handleSubmit = (e: FormEvent) => {
+		e.preventDefault();
+		setSuccess(false);
+		if (!photo?.uploaded) {
+			handlePhotoUpload().then(() => {
+				createDataObjectAndUpload();
+			});
+		} else {
+			createDataObjectAndUpload();
+		}
 	};
 	const handleAddSuccess = () => {
 		setError(null);

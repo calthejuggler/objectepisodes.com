@@ -1,6 +1,7 @@
 import React, {
 	useState,
 	ChangeEvent,
+	MouseEvent,
 	FC,
 	useEffect,
 	useCallback,
@@ -43,6 +44,28 @@ const AddProp: FC<{
 		}
 	};
 
+	const handlePhotoUpload = async (e?: MouseEvent): Promise<void> => {
+		e && e.preventDefault();
+		if (photo) {
+			setPhoto({ file: photo.file, uploaded: true });
+			const storageRef = firebase.storage
+				.ref()
+				.child('prop-images/' + photo.file.name);
+			await storageRef
+				.put(photo.file)
+				.then((snapshot: firebase.storage.UploadTaskSnapshot) => {
+					setUploadState(snapshot.state);
+					snapshot.ref
+						.getDownloadURL()
+						.then((url) => setPhotoURL(url));
+				})
+				.catch((e: Error) => setError(e.message));
+		}
+	};
+
+	const [uploadState, setUploadState] = useState<string | null>(null);
+	const [photoURL, setPhotoURL] = useState<string | null>(null);
+
 	const resetFields = useCallback(() => {
 		firebase.db
 			.collection('database-templates')
@@ -62,7 +85,8 @@ const AddProp: FC<{
 				}
 			})
 			.catch((e: ErrorEvent) => setError(e.message));
-		setFields([['', '']]);
+		setFields([]);
+		setPhoto(null);
 	}, [firebase.db]);
 
 	useEffect(() => {
@@ -82,7 +106,15 @@ const AddProp: FC<{
 				success={success}
 			/>
 			<form>
-				<PropPhotoUpload photo={photo} setPhoto={setPhoto} />
+				<PropPhotoUpload
+					photo={photo}
+					setPhoto={setPhoto}
+					firebase={firebase}
+					setError={setError}
+					handlePhotoUpload={handlePhotoUpload}
+					photoURL={photoURL}
+					uploadState={uploadState}
+				/>
 				<PropTemplateFields
 					templateFields={templateFields}
 					setTemplateFields={setTemplateFields}
@@ -102,6 +134,8 @@ const AddProp: FC<{
 					fields={fields}
 					firebase={firebase}
 					user={user}
+					photo={photo}
+					handlePhotoUpload={handlePhotoUpload}
 				/>
 			</form>
 		</div>

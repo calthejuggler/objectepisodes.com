@@ -10,6 +10,13 @@ const PropCard: FC<Props> = ({ propData, i }) => {
 	return (
 		<div className='col-6 col-md-4 col-lg-3' key={'dataCard' + i}>
 			<div className='card'>
+				{propData.photoURL && (
+					<img
+						src={propData.photoURL}
+						alt={propData.Title}
+						className='card-img-top'
+					/>
+				)}
 				<div className='card-body'>
 					{Object.keys(propData).map(
 						(field, i) =>
