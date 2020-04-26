@@ -85,7 +85,8 @@ const AddPropButtons: FC<Props> = ({
 		<>
 			<button
 				className='btn btn-secondary'
-				onClick={() => {
+				onClick={(e) => {
+					e.preventDefault();
 					setFields((prev) => [...prev, ['', '']]);
 				}}
 			>

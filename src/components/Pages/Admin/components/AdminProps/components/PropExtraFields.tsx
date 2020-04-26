@@ -23,9 +23,10 @@ const PropExtraFields: FC<Props> = ({
 						<div className='col-1'>
 							<button
 								className='btn btn-danger btn-sm'
-								onClick={() => {
+								onClick={(e) => {
+									e.preventDefault();
 									setFields((prev) => {
-										let newArr = prev;
+										let newArr = [...prev];
 										newArr.splice(i, 1);
 										return newArr;
 									});

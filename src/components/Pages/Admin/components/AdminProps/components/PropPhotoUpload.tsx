@@ -21,24 +21,25 @@ const PropPhotoUpload: FC<{
 	uploadState,
 }) => {
 	const handlePhotoSelect = (selectorFiles: FileList) => {
-		firebase.storage
-			.ref()
-			.child('prop-images/' + selectorFiles[0].name)
-			.getDownloadURL()
-			.then(() => {
-				setError(
-					'A file with this name has already been uploaded... Please choose another or rename it.'
-				);
-				setPhoto(null);
-			})
-			.catch((e: { code: string; message: string }) => {
-				if (e.code === 'storage/object-not-found') {
-					setError(null);
-					setPhoto({ file: selectorFiles[0], uploaded: false });
-				} else {
-					setError(e.message);
-				}
-			});
+		selectorFiles[0] &&
+			firebase.storage
+				.ref()
+				.child('prop-images/' + selectorFiles[0].name)
+				.getDownloadURL()
+				.then(() => {
+					setError(
+						'A file with this name has already been uploaded... Please choose another or rename it.'
+					);
+					setPhoto(null);
+				})
+				.catch((e: { code: string; message: string }) => {
+					if (e.code === 'storage/object-not-found') {
+						setError(null);
+						setPhoto({ file: selectorFiles[0], uploaded: false });
+					} else {
+						setError(e.message);
+					}
+				});
 	};
 
 	const handleDeletePhoto = (e: MouseEvent) => {

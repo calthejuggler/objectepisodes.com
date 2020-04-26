@@ -20,21 +20,7 @@ const PropTemplateFields: FC<Props> = ({
 			{templateFields.map((templateField, i) => (
 				<div key={'template' + i.toString()}>
 					<div className='row'>
-						<div className='col-1'>
-							<button
-								className='btn btn-danger btn-sm'
-								onClick={() => {
-									setTemplateFields((prev) => {
-										let newArr = prev;
-										newArr.splice(i, 1);
-										return newArr;
-									});
-								}}
-							>
-								X
-							</button>
-						</div>
-						<div className='col-11'>Template Field #{i + 1}</div>
+						<div className='col-12'>Template Field #{i + 1}</div>
 					</div>
 					<div className='form-group row'>
 						<div className='col-12'>

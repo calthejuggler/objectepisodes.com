@@ -5,6 +5,8 @@ import React, {
 	FC,
 	useEffect,
 	useCallback,
+	Dispatch,
+	SetStateAction,
 } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import Firebase from './../../../../../Firebase/config';
@@ -19,30 +21,38 @@ const AddProp: FC<{
 	editTemplate: boolean;
 	firebase: Firebase;
 	user: { displayName: string };
-}> = ({ editTemplate, firebase, user }) => {
-	const [templateFields, setTemplateFields] = useState<Array<Array<string>>>(
-		[]
-	);
-	const [fields, setFields] = useState<Array<Array<string>>>([['', '']]);
-
-	const [success, setSuccess] = useState<boolean>(false);
-	const [error, setError] = useState<string | null>(null);
-
-	const updateFieldChanged = (
+	fields: string[][];
+	setFields: Dispatch<SetStateAction<string[][]>>;
+	templateFields: string[][];
+	setTemplateFields: Dispatch<SetStateAction<string[][]>>;
+	updateFieldChanged: (
 		parentI: number,
 		childI: number,
 		template: boolean
-	) => (e: ChangeEvent<HTMLInputElement>) => {
-		if (!template) {
-			let newArr = [...fields];
-			newArr[parentI][childI] = e.target.value;
-			setFields(newArr);
-		} else {
-			let newArr = [...templateFields];
-			newArr[parentI][childI] = e.target.value;
-			setTemplateFields(newArr);
-		}
-	};
+	) => (e: ChangeEvent<HTMLInputElement>) => void;
+	error: string | null;
+	setError: Dispatch<SetStateAction<string | null>>;
+	resetFields: () => void;
+	photo: { file: File; uploaded: boolean } | null;
+	setPhoto: Dispatch<
+		SetStateAction<{ file: File; uploaded: boolean } | null>
+	>;
+}> = ({
+	editTemplate,
+	firebase,
+	user,
+	templateFields,
+	setTemplateFields,
+	updateFieldChanged,
+	fields,
+	setFields,
+	error,
+	setError,
+	resetFields,
+	photo,
+	setPhoto,
+}) => {
+	const [success, setSuccess] = useState<boolean>(false);
 
 	const handlePhotoUpload = async (e?: MouseEvent): Promise<void> => {
 		e && e.preventDefault();
@@ -65,38 +75,6 @@ const AddProp: FC<{
 
 	const [uploadState, setUploadState] = useState<string | null>(null);
 	const [photoURL, setPhotoURL] = useState<string | null>(null);
-
-	const resetFields = useCallback(() => {
-		firebase.db
-			.collection('database-templates')
-			.doc('props')
-			.get()
-			.then((res: firebase.firestore.DocumentData) => {
-				if (res.data().noOfFields > 0) {
-					let newTemplateFieldsWithNum: Array<string> = Object.values(
-						res.data()
-					);
-					let newTemplateFields: Array<Array<
-						string
-					>> = newTemplateFieldsWithNum
-						.slice(0, newTemplateFieldsWithNum.length - 1)
-						.map((field) => [field, '']);
-					setTemplateFields(newTemplateFields);
-				}
-			})
-			.catch((e: ErrorEvent) => setError(e.message));
-		setFields([]);
-		setPhoto(null);
-	}, [firebase.db]);
-
-	useEffect(() => {
-		resetFields();
-	}, [resetFields]);
-
-	const [photo, setPhoto] = useState<{
-		file: File;
-		uploaded: boolean;
-	} | null>(null);
 
 	return (
 		<div className='col-12 col-md-9'>
