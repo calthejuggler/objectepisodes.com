@@ -9,6 +9,7 @@ import React, {
 import AddProp from './components/AddProp';
 import Firebase from './../../../../Firebase/config';
 import { withFirebase } from './../../../../Firebase/context';
+import EditPropTemplate from './components/EditPropTemplate';
 
 const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 	editTemplate,
@@ -46,15 +47,13 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 			.doc('props')
 			.get()
 			.then((res: firebase.firestore.DocumentData) => {
-				if (res.data().noOfFields > 0) {
+				if (Object.keys(res.data()).length > 0) {
 					let newTemplateFieldsWithNum: Array<string> = Object.values(
 						res.data()
 					);
 					let newTemplateFields: Array<Array<
 						string
-					>> = newTemplateFieldsWithNum
-						.slice(0, newTemplateFieldsWithNum.length - 1)
-						.map((field) => [field, '']);
+					>> = newTemplateFieldsWithNum.map((field) => [field, '']);
 					setTemplateFields(newTemplateFields);
 				}
 			})
@@ -65,7 +64,7 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 
 	useEffect(() => {
 		resetFields();
-	}, [resetFields]);
+	}, [resetFields, editTemplate]);
 	return (
 		<>
 			{!editTemplate ? (
@@ -75,7 +74,7 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 						templateFields={templateFields}
 						setTemplateFields={setTemplateFields}
 						fields={fields}
-						setField={setFields}
+						setFields={setFields}
 						updateFieldChanged={updateFieldChanged}
 						error={error}
 						setError={setError}
@@ -86,7 +85,12 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 					<div className='col-12 col-md-9'>Edit Props</div>
 				</>
 			) : (
-				<div />
+				<EditPropTemplate
+					templateFields={templateFields}
+					setTemplateFields={setTemplateFields}
+					updateFieldChanged={updateFieldChanged}
+					editTemplate={editTemplate}
+				/>
 			)}
 		</>
 	);

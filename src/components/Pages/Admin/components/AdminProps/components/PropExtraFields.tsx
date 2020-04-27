@@ -20,7 +20,8 @@ const PropExtraFields: FC<Props> = ({
 			{fields.map((field, i) => (
 				<div key={'field' + i.toString()}>
 					<div className='row'>
-						<div className='col-1'>
+						<div className='col-6'>Extra Field #{i + 1}</div>
+						<div className='col-6 text-right'>
 							<button
 								className='btn btn-danger btn-sm'
 								onClick={(e) => {
@@ -35,7 +36,6 @@ const PropExtraFields: FC<Props> = ({
 								X
 							</button>
 						</div>
-						<div className='col-11'>Field #{i + 1}</div>
 					</div>
 					<div className='form-group row'>
 						<div className='col-12'>

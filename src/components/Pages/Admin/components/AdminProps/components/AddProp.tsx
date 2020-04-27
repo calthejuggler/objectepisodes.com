@@ -3,8 +3,6 @@ import React, {
 	ChangeEvent,
 	MouseEvent,
 	FC,
-	useEffect,
-	useCallback,
 	Dispatch,
 	SetStateAction,
 } from 'react';
