@@ -18,8 +18,11 @@ const PropCard: FC<Props> = ({ propData, i }) => {
 					/>
 				)}
 				<div className='card-body'>
+					<h5 className='card-title'>{propData.Title}</h5>
 					{Object.keys(propData).map(
 						(field, i) =>
+							field !== 'Title' &&
+							field !== 'Description' &&
 							isNaN(Number.parseInt(field[0])) &&
 							field[0] === field[0].toUpperCase() && (
 								<PropCardField
@@ -29,6 +32,7 @@ const PropCard: FC<Props> = ({ propData, i }) => {
 								/>
 							)
 					)}
+					<p className='card-text'>{propData.Description}</p>
 				</div>
 			</div>
 			{propData.title}

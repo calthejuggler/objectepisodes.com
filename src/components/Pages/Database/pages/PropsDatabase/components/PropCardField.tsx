@@ -7,9 +7,14 @@ const PropCardField: FC<{
 }> = ({ field, propData, i }) => {
 	return (
 		<div className='row' key={'dataField' + i}>
-			{field}:{' '}
-			{typeof Object.values(propData)[i] === 'string' &&
-				Object.values(propData)[i]}
+			<div className='col'>
+				<b>{field}: </b>{' '}
+			</div>
+			<div className='col'>
+				{typeof Object.values(propData)[i] === 'string' &&
+					Object.values(propData)[i]}
+			<hr />
+			</div>
 		</div>
 	);
 };
