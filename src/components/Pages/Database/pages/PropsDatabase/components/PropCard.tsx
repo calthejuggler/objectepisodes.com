@@ -8,7 +8,10 @@ interface Props {
 
 const PropCard: FC<Props> = ({ propData, i }) => {
 	return (
-		<div className='col-6 col-md-4 col-lg-3' key={'dataCard' + i}>
+		<div
+			className='col-12 my-3 col-sm-6 col-md-4 col-lg-3'
+			key={'dataCard' + i}
+		>
 			<div className='card'>
 				{propData.photoURL && (
 					<img
@@ -18,7 +21,7 @@ const PropCard: FC<Props> = ({ propData, i }) => {
 					/>
 				)}
 				<div className='card-body'>
-					<h5 className='card-title'>{propData.Title}</h5>
+					<h5 className='card-title text-center'>{propData.Title}</h5>
 					{Object.keys(propData).map(
 						(field, i) =>
 							field !== 'Title' &&
