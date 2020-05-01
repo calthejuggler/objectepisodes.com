@@ -18,7 +18,7 @@ const UserHeader: FC<Props> = props => {
 			<ProfilePicture userID={user.uid} size={['5rem', '5rem']} />
 			<p>
 				Logged in as{' '}
-				<a href={'#/user/' + userData.username}>{userData.username}</a>
+				<a href={'#/users/' + userData.username}>{userData.username}</a>
 				<br />
 				<button
 					className='btn btn-link btn-sm'

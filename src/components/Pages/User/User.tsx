@@ -1,43 +1,45 @@
 import React, { useState, useEffect, FC } from 'react';
 import UserDetails from './components/UserDetails';
-import { withRouter, RouteComponentProps } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { withFirebase } from '../../Firebase/context';
 import PersonalForumPosts from './components/PersonalForumPosts';
 import Firebase from './../../Firebase/index';
 
-interface Props extends RouteComponentProps {
+const User: FC<{
 	firebase: Firebase;
-}
-
-const User: FC<Props> = props => {
-	const { history, firebase } = props;
-	const URLUser = history.location.pathname.slice(1).split('/')[1];
+}> = (props) => {
+	const { firebase } = props;
+	const { paramUser } = useParams();
 
 	const [userData, setUserData] = useState<any>('Loading');
 	const [ownProfile, setOwnProfile] = useState(false);
 
 	useEffect(() => {
-		firebase.getUserDataFromUsername(URLUser).then(userDocs => {
-			if (!userDocs.empty) {
-				firebase.getUserDataFromUID(userDocs.docs[0].id).then(UIDUserDocs => {
-					if (UIDUserDocs.empty) {
-						setUserData(null);
-					} else {
-						UIDUserDocs.forEach((UIDUserDoc:any) => {
-							setUserData(UIDUserDoc);
+		if (typeof paramUser === 'string')
+			firebase.getUserDataFromUsername(paramUser).then((userDocs) => {
+				if (!userDocs.empty) {
+					firebase
+						.getUserDataFromUID(userDocs.docs[0].id)
+						.then((UIDUserDocs) => {
+							if (UIDUserDocs.empty) {
+								setUserData(null);
+							} else {
+								setUserData(UIDUserDocs);
+							}
 						});
-					}
-				});
-			} else {
-				userDocs.forEach((userDoc:any) => {
-					setUserData(userDoc);
-				});
-			}
-		});
-	}, [URLUser, firebase]);
+				} else {
+					userDocs.forEach((userDoc: any) => {
+						setUserData(userDoc);
+					});
+				}
+			});
+	}, [paramUser, firebase]);
 	useEffect(() => {
 		if (firebase.auth.currentUser) {
-			if (userData!==null && userData.id === firebase.auth.currentUser.uid) {
+			if (
+				userData !== null &&
+				userData.id === firebase.auth.currentUser.uid
+			) {
 				setOwnProfile(true);
 			}
 		}
@@ -57,4 +59,4 @@ const User: FC<Props> = props => {
 	);
 };
 
-export default withRouter(withFirebase(User));
+export default withFirebase(User);

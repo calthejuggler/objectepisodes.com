@@ -43,7 +43,7 @@ const routes = {
 	user: [
 		{
 			name: 'User',
-			path: '/user',
+			path: '/users/:paramUser',
 			component: User,
 			hidden: true
 		},
