@@ -32,11 +32,16 @@ const EditPropTemplate: FC<Props> = ({
 	const [error, setError] = useState<string | null>(null);
 	const createDataObjectAndUpload = () => {
 		let objectPlaceholder: { [key: string]: string } = {};
-		templateFields.forEach(
-			(tempField, i) => (objectPlaceholder[i.toString()] = tempField[0])
-		);
-		console.dir(objectPlaceholder);
-		uploadData(objectPlaceholder);
+		let thereIsAnEmptyField = false;
+		templateFields.forEach((tempField, i) => {
+			if (tempField[0] === '') thereIsAnEmptyField = true;
+			return (objectPlaceholder[i.toString()] = tempField[0]);
+		});
+		if (thereIsAnEmptyField) {
+			setError('You have left a template field empty.');
+		} else {
+			uploadData(objectPlaceholder);
+		}
 	};
 	const uploadData = (objectPlaceholder: { [key: string]: string }) => {
 		firebase.db
@@ -49,13 +54,7 @@ const EditPropTemplate: FC<Props> = ({
 	const handleTemplateChangeSuccess = () => setSuccess(true);
 	return (
 		<>
-			{error && <div className='alert alert-danger'>{error}</div>}
-			{success && (
-				<div className='alert alert-success'>
-					You have successfully changed the template!
-				</div>
-			)}
-			<div className='col'>
+			<div className='col-12 col-md-9'>
 				<PropTemplateFields
 					templateFields={templateFields}
 					setTemplateFields={setTemplateFields}
@@ -63,13 +62,15 @@ const EditPropTemplate: FC<Props> = ({
 					editTemplate={editTemplate}
 				/>
 			</div>
-			<div className='col-12 mb-3'>
+			<div className='col-12 col-md-9 offset-md-3 mb-3'>
 				<div className='row justify-content-around'>
-					<div className='col'>
+					<div className='col text-center'>
 						<button
 							className='btn btn-secondary text-center'
 							onClick={(e) => {
 								e.preventDefault();
+								setSuccess(false);
+								setError(null);
 								setTemplateFields((prev) => [
 									...prev,
 									['', ''],
@@ -79,11 +80,13 @@ const EditPropTemplate: FC<Props> = ({
 							+ Add Field
 						</button>
 					</div>
-					<div className='col'>
+					<div className='col text-center'>
 						<button
 							className='btn btn-primary text-center'
 							onClick={(e) => {
 								e.preventDefault();
+								setSuccess(false);
+								setError(null);
 								createDataObjectAndUpload();
 							}}
 						>
@@ -92,6 +95,14 @@ const EditPropTemplate: FC<Props> = ({
 					</div>
 				</div>
 			</div>
+			{error && <div className='alert alert-danger col-12'>{error}</div>}
+			{success && (
+				<div className='col-12'>
+					<div className='alert alert-success'>
+						You have successfully changed the template!
+					</div>
+				</div>
+			)}
 		</>
 	);
 };
