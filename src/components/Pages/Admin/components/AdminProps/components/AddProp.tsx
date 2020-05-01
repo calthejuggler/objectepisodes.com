@@ -18,7 +18,7 @@ import AddPropButtons from './AddPropButtons';
 const AddProp: FC<{
 	editTemplate: boolean;
 	firebase: Firebase;
-	user: { displayName: string };
+	user: { uid: string };
 	fields: string[][];
 	setFields: Dispatch<SetStateAction<string[][]>>;
 	templateFields: string[][];

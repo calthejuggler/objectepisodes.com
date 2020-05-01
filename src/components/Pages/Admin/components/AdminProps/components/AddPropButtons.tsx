@@ -14,7 +14,7 @@ interface Props {
 	templateFields: string[][];
 	fields: string[][];
 	firebase: Firebase;
-	user: { displayName: string };
+	user: { uid: string };
 	resetFields: CallableFunction;
 	photo: { file: File; uploaded: boolean } | null;
 	handlePhotoUpload: (e?: MouseEvent) => Promise<void>;
@@ -51,7 +51,7 @@ const AddPropButtons: FC<Props> = ({
 		);
 
 		objectPlaceholder.added = firebase.dbFunc.FieldValue.serverTimestamp();
-		objectPlaceholder.by = user.displayName;
+		objectPlaceholder.by = user.uid;
 		if (photo) {
 			firebase.storage
 				.ref()
