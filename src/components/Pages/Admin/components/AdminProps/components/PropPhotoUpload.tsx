@@ -21,25 +21,39 @@ const PropPhotoUpload: FC<{
 	uploadState,
 }) => {
 	const handlePhotoSelect = (selectorFiles: FileList) => {
-		selectorFiles[0] &&
-			firebase.storage
-				.ref()
-				.child('prop-images/' + selectorFiles[0].name)
-				.getDownloadURL()
-				.then(() => {
-					setError(
-						'A file with this name has already been uploaded... Please choose another or rename it.'
-					);
-					setPhoto(null);
-				})
-				.catch((e: { code: string; message: string }) => {
-					if (e.code === 'storage/object-not-found') {
-						setError(null);
-						setPhoto({ file: selectorFiles[0], uploaded: false });
-					} else {
-						setError(e.message);
-					}
-				});
+		setError(null);
+		selectorFiles[0] && selectorFiles[0].size > 2000000
+			? setError('For now, the uploaded image must be under 2MB.')
+			: selectorFiles[0].type !== 'image/jpeg' &&
+			  selectorFiles[0].type !== 'image/png' &&
+			  selectorFiles[0].type !== 'image/bmp' &&
+			  selectorFiles[0].type !== 'image/x-icon' &&
+			  selectorFiles[0].type !== 'image/svg+xml' &&
+			  selectorFiles[0].type !== 'image/gif'
+			? setError(
+					'The selected file is not a JPG, PNG, BMP, ICO, SVG or GIF.'
+			  )
+			: firebase.storage
+					.ref()
+					.child('prop-images/' + selectorFiles[0].name)
+					.getDownloadURL()
+					.then(() => {
+						setError(
+							'A file with this name has already been uploaded... Please choose another or rename it.'
+						);
+						setPhoto(null);
+					})
+					.catch((e: { code: string; message: string }) => {
+						if (e.code === 'storage/object-not-found') {
+							setError(null);
+							setPhoto({
+								file: selectorFiles[0],
+								uploaded: false,
+							});
+						} else {
+							setError(e.message);
+						}
+					});
 	};
 
 	const handleDeletePhoto = (e: MouseEvent) => {

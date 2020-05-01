@@ -62,7 +62,18 @@ const AddPropButtons: FC<Props> = ({
 					uploadData(objectPlaceholder);
 				});
 		} else {
-			uploadData(objectPlaceholder);
+			let willWeContinue = true;
+			templateFields.forEach((field) => {
+				if (field[1] === '') willWeContinue = false;
+			});
+			fields.forEach((field) => {
+				if (field[1] === '') willWeContinue = false;
+			});
+			if (!willWeContinue) {
+				setError('All fields are required!');
+			} else {
+				uploadData(objectPlaceholder);
+			}
 		}
 	};
 	const handleSubmit = (e: FormEvent) => {
