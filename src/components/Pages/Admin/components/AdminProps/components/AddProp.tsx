@@ -35,6 +35,12 @@ const AddProp: FC<{
 	setPhoto: Dispatch<
 		SetStateAction<{ file: File; uploaded: boolean } | null>
 	>;
+	adminSection: {
+		photo: boolean;
+		editingNoun: string;
+		title: string;
+		photoRequired: boolean;
+	};
 }> = ({
 	editTemplate,
 	firebase,
@@ -49,6 +55,7 @@ const AddProp: FC<{
 	resetFields,
 	photo,
 	setPhoto,
+	adminSection,
 }) => {
 	const [success, setSuccess] = useState<boolean>(false);
 
@@ -58,7 +65,7 @@ const AddProp: FC<{
 			setPhoto({ file: photo.file, uploaded: true });
 			const storageRef = firebase.storage
 				.ref()
-				.child('prop-images/' + photo.file.name);
+				.child(adminSection.editingNoun + '-images/' + photo.file.name);
 			await storageRef
 				.put(photo.file)
 				.then((snapshot: firebase.storage.UploadTaskSnapshot) => {
@@ -80,17 +87,20 @@ const AddProp: FC<{
 				editTemplate={editTemplate}
 				error={error}
 				success={success}
+				editingNoun={adminSection.editingNoun}
 			/>
 			<form>
-				<PropPhotoUpload
-					photo={photo}
-					setPhoto={setPhoto}
-					firebase={firebase}
-					setError={setError}
-					handlePhotoUpload={handlePhotoUpload}
-					photoURL={photoURL}
-					uploadState={uploadState}
-				/>
+				{adminSection.photo && (
+					<PropPhotoUpload
+						photo={photo}
+						setPhoto={setPhoto}
+						firebase={firebase}
+						setError={setError}
+						handlePhotoUpload={handlePhotoUpload}
+						photoURL={photoURL}
+						uploadState={uploadState}
+					/>
+				)}
 				<PropTemplateFields
 					templateFields={templateFields}
 					setTemplateFields={setTemplateFields}
@@ -112,6 +122,7 @@ const AddProp: FC<{
 					user={user}
 					photo={photo}
 					handlePhotoUpload={handlePhotoUpload}
+					adminSection={adminSection}
 				/>
 			</form>
 		</div>

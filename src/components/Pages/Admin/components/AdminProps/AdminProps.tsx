@@ -11,10 +11,11 @@ import Firebase from './../../../../Firebase/config';
 import { withFirebase } from './../../../../Firebase/context';
 import EditPropTemplate from './components/EditPropTemplate';
 
-const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
-	editTemplate,
-	firebase,
-}) => {
+const AdminProps: FC<{
+	editTemplate: boolean;
+	adminSection: { title: string };
+	firebase: Firebase;
+}> = ({ editTemplate, firebase, adminSection }) => {
 	const [templateFields, setTemplateFields] = useState<Array<Array<string>>>(
 		[]
 	);
@@ -44,7 +45,7 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 	const resetFields = useCallback(() => {
 		firebase.db
 			.collection('database-templates')
-			.doc('props')
+			.doc(adminSection.title)
 			.get()
 			.then((res: firebase.firestore.DocumentData) => {
 				if (Object.keys(res.data()).length > 0) {
@@ -60,7 +61,7 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 			.catch((e: ErrorEvent) => setError(e.message));
 		setFields([]);
 		setPhoto(null);
-	}, [firebase.db]);
+	}, [firebase.db, adminSection.title]);
 
 	useEffect(() => {
 		resetFields();
@@ -81,6 +82,7 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 						photo={photo}
 						setPhoto={setPhoto}
 						resetFields={resetFields}
+						adminSection={adminSection}
 					/>
 					<div className='col-12 col-md-9'>Edit Props</div>
 				</>
@@ -90,6 +92,7 @@ const AdminProps: FC<{ editTemplate: boolean; firebase: Firebase }> = ({
 					setTemplateFields={setTemplateFields}
 					updateFieldChanged={updateFieldChanged}
 					editTemplate={editTemplate}
+					adminSection={adminSection}
 				/>
 			)}
 		</>

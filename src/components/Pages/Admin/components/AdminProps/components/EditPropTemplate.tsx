@@ -19,6 +19,7 @@ interface Props {
 		template: boolean
 	) => (e: ChangeEvent<HTMLInputElement>) => void;
 	firebase: Firebase;
+	adminSection: { title: string };
 }
 
 const EditPropTemplate: FC<Props> = ({
@@ -27,6 +28,7 @@ const EditPropTemplate: FC<Props> = ({
 	updateFieldChanged,
 	editTemplate,
 	firebase,
+	adminSection,
 }) => {
 	const [success, setSuccess] = useState<boolean>(false);
 	const [error, setError] = useState<string | null>(null);
@@ -46,7 +48,7 @@ const EditPropTemplate: FC<Props> = ({
 	const uploadData = (objectPlaceholder: { [key: string]: string }) => {
 		firebase.db
 			.collection('database-templates')
-			.doc('props')
+			.doc(adminSection.title)
 			.set(objectPlaceholder)
 			.then(handleTemplateChangeSuccess)
 			.catch((e: ErrorEvent) => setError(e.message));

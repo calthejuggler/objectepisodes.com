@@ -5,24 +5,31 @@ interface Props {
 	editTemplate: boolean;
 	setNavChoice: Dispatch<SetStateAction<string>>;
 	setEditTemplate: Dispatch<SetStateAction<boolean>>;
+	adminSections: Array<{ title: string }>;
 }
 
 const AdminNav: FC<Props> = (props) => {
-	const { setNavChoice, navChoice, editTemplate, setEditTemplate } = props;
-	const areas = ['photos', 'props', 'literature', 'tricks', 'biographies'];
+	const {
+		setNavChoice,
+		navChoice,
+		editTemplate,
+		setEditTemplate,
+		adminSections,
+	} = props;
 	return (
 		<ul className='list-group'>
-			{areas.map((area) => (
+			{adminSections.map((section) => (
 				<li
-					key={area}
+					key={section.title}
 					className={
-						navChoice === area
+						navChoice === section.title
 							? 'list-group-item active'
 							: 'list-group-item'
 					}
-					onClick={() => setNavChoice(area)}
+					onClick={() => setNavChoice(section.title)}
 				>
-					{area.slice(0, 1).toUpperCase() + area.slice(1)}
+					{section.title.slice(0, 1).toUpperCase() +
+						section.title.slice(1)}
 					<span
 						className={
 							editTemplate

@@ -18,6 +18,11 @@ interface Props {
 	resetFields: CallableFunction;
 	photo: { file: File; uploaded: boolean } | null;
 	handlePhotoUpload: (e?: MouseEvent) => Promise<void>;
+	adminSection: {
+		title: string;
+		editingNoun: string;
+		photoRequired: boolean;
+	};
 }
 
 const AddPropButtons: FC<Props> = ({
@@ -31,10 +36,11 @@ const AddPropButtons: FC<Props> = ({
 	resetFields,
 	photo,
 	handlePhotoUpload,
+	adminSection,
 }) => {
 	const uploadData = (objectPlaceholder: { [key: string]: string }) => {
 		firebase.db
-			.collection('props-database')
+			.collection(adminSection.title + '-database')
 			.doc()
 			.set(objectPlaceholder)
 			.then(handleAddSuccess)
@@ -55,7 +61,7 @@ const AddPropButtons: FC<Props> = ({
 		if (photo) {
 			firebase.storage
 				.ref()
-				.child('prop-images/' + photo.file.name)
+				.child(adminSection.editingNoun + '-images/' + photo.file.name)
 				.getDownloadURL()
 				.then((url: string) => {
 					objectPlaceholder.photoURL = url;
@@ -79,12 +85,18 @@ const AddPropButtons: FC<Props> = ({
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
 		setSuccess(false);
-		if (!photo?.uploaded) {
-			handlePhotoUpload().then(() => {
-				createDataObjectAndUpload();
-			});
+		if (adminSection.photoRequired && !photo) {
+			setError(
+				'A photo is required with posts in this database category'
+			);
 		} else {
-			createDataObjectAndUpload();
+			if (!photo?.uploaded) {
+				handlePhotoUpload().then(() => {
+					createDataObjectAndUpload();
+				});
+			} else {
+				createDataObjectAndUpload();
+			}
 		}
 	};
 	const handleAddSuccess = () => {
