@@ -5,9 +5,9 @@ import React, {
 	ChangeEvent,
 	useState,
 } from 'react';
-import PropTemplateFields from './PropTemplateFields';
-import { withFirebase } from './../../../../../Firebase/context';
-import Firebase from './../../../../../Firebase/index';
+import TemplateFields from '../AddItem/components/TemplateFields';
+import { withFirebase } from '../../../Firebase/context';
+import Firebase from '../../../Firebase/index';
 
 interface Props {
 	templateFields: string[][];
@@ -22,7 +22,7 @@ interface Props {
 	adminSection: { title: string };
 }
 
-const EditPropTemplate: FC<Props> = ({
+const EditItems: FC<Props> = ({
 	templateFields,
 	setTemplateFields,
 	updateFieldChanged,
@@ -57,7 +57,7 @@ const EditPropTemplate: FC<Props> = ({
 	return (
 		<>
 			<div className='col-12 col-md-9'>
-				<PropTemplateFields
+				<TemplateFields
 					templateFields={templateFields}
 					setTemplateFields={setTemplateFields}
 					updateFieldChanged={updateFieldChanged}
@@ -109,4 +109,4 @@ const EditPropTemplate: FC<Props> = ({
 	);
 };
 
-export default withFirebase(EditPropTemplate);
+export default withFirebase(EditItems);

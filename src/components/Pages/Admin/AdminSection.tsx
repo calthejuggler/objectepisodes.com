@@ -6,12 +6,12 @@ import React, {
 	useEffect,
 } from 'react';
 
-import AddProp from './components/AddProp';
-import Firebase from './../../../../Firebase/config';
-import { withFirebase } from './../../../../Firebase/context';
-import EditPropTemplate from './components/EditPropTemplate';
+import AddItem from './AddItem/AddItem';
+import Firebase from '../../Firebase/config';
+import { withFirebase } from '../../Firebase/context';
+import EditItems from './EditItems/EditItems';
 
-const AdminProps: FC<{
+const AdminSection: FC<{
 	editTemplate: boolean;
 	adminSection: { title: string };
 	firebase: Firebase;
@@ -70,7 +70,7 @@ const AdminProps: FC<{
 		<>
 			{!editTemplate ? (
 				<>
-					<AddProp
+					<AddItem
 						editTemplate={editTemplate}
 						templateFields={templateFields}
 						setTemplateFields={setTemplateFields}
@@ -91,7 +91,7 @@ const AdminProps: FC<{
 					</div>
 				</>
 			) : (
-				<EditPropTemplate
+				<EditItems
 					templateFields={templateFields}
 					setTemplateFields={setTemplateFields}
 					updateFieldChanged={updateFieldChanged}
@@ -103,4 +103,4 @@ const AdminProps: FC<{
 	);
 };
 
-export default withFirebase(AdminProps);
+export default withFirebase(AdminSection);

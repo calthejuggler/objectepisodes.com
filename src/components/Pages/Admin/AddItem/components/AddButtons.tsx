@@ -5,7 +5,7 @@ import React, {
 	FormEvent,
 	MouseEvent,
 } from 'react';
-import Firebase from './../../../../../Firebase/config';
+import Firebase from '../../../../Firebase/config';
 
 interface Props {
 	setFields: Dispatch<SetStateAction<string[][]>>;
@@ -25,7 +25,7 @@ interface Props {
 	};
 }
 
-const AddPropButtons: FC<Props> = ({
+const AddButtons: FC<Props> = ({
 	setFields,
 	setSuccess,
 	templateFields,
@@ -130,4 +130,4 @@ const AddPropButtons: FC<Props> = ({
 	);
 };
 
-export default AddPropButtons;
+export default AddButtons;

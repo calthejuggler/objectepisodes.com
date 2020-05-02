@@ -10,7 +10,7 @@ interface Props {
 	) => (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PropExtraFields: FC<Props> = ({
+const ExtraFields: FC<Props> = ({
 	fields,
 	setFields,
 	updateFieldChanged,
@@ -61,4 +61,4 @@ const PropExtraFields: FC<Props> = ({
 	);
 };
 
-export default PropExtraFields;
+export default ExtraFields;

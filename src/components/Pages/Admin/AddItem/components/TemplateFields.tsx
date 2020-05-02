@@ -11,7 +11,7 @@ interface Props {
 	editTemplate?: boolean;
 }
 
-const PropTemplateFields: FC<Props> = ({
+const TemplateFields: FC<Props> = ({
 	templateFields,
 	setTemplateFields,
 	updateFieldChanged,
@@ -75,4 +75,4 @@ const PropTemplateFields: FC<Props> = ({
 	);
 };
 
-export default PropTemplateFields;
+export default TemplateFields;

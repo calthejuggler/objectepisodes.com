@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import AdminNav from './components/AdminNav';
-import AdminProps from './components/AdminProps/AdminProps';
+import AdminNav from './AdminNav';
+import AdminSection from './AdminSection';
 import { adminSections } from './admin-sections';
 
 const Admin = () => {
@@ -19,7 +19,13 @@ const Admin = () => {
 					/>
 				</div>
 				{adminSections.map(
-					(section) => navChoice === section.title && <AdminProps adminSection={section} editTemplate={editTemplate} />
+					(section) =>
+						navChoice === section.title && (
+							<AdminSection
+								adminSection={section}
+								editTemplate={editTemplate}
+							/>
+						)
 				)}
 			</div>
 		</>

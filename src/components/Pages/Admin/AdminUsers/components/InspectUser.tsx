@@ -1,9 +1,9 @@
 import React, { FC } from 'react';
-import { withAuth } from '../../../../../Session/withAuth';
+import { withAuth } from '../../../../Session/withAuth';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { withFirebase } from '../../../../../Firebase/context';
-import Firebase from './../../../../../Firebase/config';
+import { withFirebase } from '../../../../Firebase/context';
+import Firebase from '../../../../Firebase/config';
 
 interface Props {
 	selectedUser: any;

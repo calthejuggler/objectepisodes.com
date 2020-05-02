@@ -6,16 +6,16 @@ import React, {
 	Dispatch,
 	SetStateAction,
 } from 'react';
-import { withFirebase } from '../../../../../Firebase/context';
-import Firebase from './../../../../../Firebase/config';
-import { withAuth } from './../../../../../Session/withAuth';
-import PropPhotoUpload from './PropPhotoUpload';
-import PropUploadAlerts from './PropUploadAlerts';
-import PropTemplateFields from './PropTemplateFields';
-import PropExtraFields from './PropExtraFields';
-import AddPropButtons from './AddPropButtons';
+import { withFirebase } from '../../../Firebase/context';
+import Firebase from '../../../Firebase/config';
+import { withAuth } from '../../../Session/withAuth';
+import AddPhotoUpload from './components/AddPhotoUpload';
+import AddAlerts from './components/AddAlerts';
+import TemplateFields from './components/TemplateFields';
+import ExtraFields from './components/ExtraFields';
+import AddPropButtons from './components/AddButtons';
 
-const AddProp: FC<{
+const AddItem: FC<{
 	editTemplate: boolean;
 	firebase: Firebase;
 	user: { uid: string };
@@ -83,7 +83,7 @@ const AddProp: FC<{
 
 	return (
 		<div className='col-12 col-md-9'>
-			<PropUploadAlerts
+			<AddAlerts
 				editTemplate={editTemplate}
 				error={error}
 				success={success}
@@ -91,7 +91,7 @@ const AddProp: FC<{
 			/>
 			<form>
 				{adminSection.photo && (
-					<PropPhotoUpload
+					<AddPhotoUpload
 						photo={photo}
 						setPhoto={setPhoto}
 						firebase={firebase}
@@ -101,12 +101,12 @@ const AddProp: FC<{
 						uploadState={uploadState}
 					/>
 				)}
-				<PropTemplateFields
+				<TemplateFields
 					templateFields={templateFields}
 					setTemplateFields={setTemplateFields}
 					updateFieldChanged={updateFieldChanged}
 				/>
-				<PropExtraFields
+				<ExtraFields
 					fields={fields}
 					setFields={setFields}
 					updateFieldChanged={updateFieldChanged}
@@ -129,4 +129,4 @@ const AddProp: FC<{
 	);
 };
 
-export default withAuth(withFirebase(AddProp));
+export default withAuth(withFirebase(AddItem));

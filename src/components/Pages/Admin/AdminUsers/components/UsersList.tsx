@@ -1,7 +1,7 @@
 import React, { useEffect, useState, FC, SetStateAction } from 'react';
-import { withFirebase } from '../../../../../Firebase/context';
+import { withFirebase } from '../../../../Firebase/context';
 import UserRow from './UserRow';
-import Firebase from './../../../../../Firebase/config';
+import Firebase from '../../../../Firebase/config';
 
 interface Props {
 	firebase: Firebase;

@@ -7,7 +7,7 @@ interface Props {
 	editingNoun: string;
 }
 
-const PropUploadAlerts: FC<Props> = ({
+const AddAlerts: FC<Props> = ({
 	editTemplate,
 	error,
 	success,
@@ -37,4 +37,4 @@ const PropUploadAlerts: FC<Props> = ({
 	);
 };
 
-export default PropUploadAlerts;
+export default AddAlerts;

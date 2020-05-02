@@ -1,7 +1,7 @@
 import React, { FC, Dispatch, SetStateAction, MouseEvent } from 'react';
-import Firebase from './../../../../../Firebase/config';
+import Firebase from '../../../../Firebase/config';
 
-const PropPhotoUpload: FC<{
+const AddPhotoUpload: FC<{
 	photo: { file: File; uploaded: boolean } | null;
 	setPhoto: Dispatch<
 		SetStateAction<{ file: File; uploaded: boolean } | null>
@@ -129,4 +129,4 @@ const PropPhotoUpload: FC<{
 	);
 };
 
-export default PropPhotoUpload;
+export default AddPhotoUpload;
