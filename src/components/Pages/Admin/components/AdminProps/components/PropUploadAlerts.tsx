@@ -4,21 +4,29 @@ interface Props {
 	editTemplate: boolean;
 	error: string | null;
 	success: boolean;
-	editingNoun:string;
+	editingNoun: string;
 }
 
-const PropUploadAlerts: FC<Props> = ({ editTemplate, error, success,editingNoun }) => {
+const PropUploadAlerts: FC<Props> = ({
+	editTemplate,
+	error,
+	success,
+	editingNoun,
+}) => {
 	return (
 		<>
 			{editTemplate && (
 				<div className='alert alert-danger mt-3'>
-					You are currently editing the template for new {editingNoun}s. NOT
-					adding a single {editingNoun}. Changes made here will apply to all
-					previous and future {editingNoun} posts. Be sure that you want to
-					make any changes before clicking save.
+					You are currently editing the template for new {editingNoun}
+					s. NOT adding a single {editingNoun}. Changes made here will
+					apply to all previous and future {editingNoun} posts. Be
+					sure that you want to make any changes before clicking save.
 				</div>
 			)}
-			<h3>Add Prop</h3>
+			<h2 className='text-center'>
+				Add{' '}
+				{editingNoun.slice(0, 1).toUpperCase() + editingNoun.slice(1)}
+			</h2>
 			{error && <div className='alert alert-danger'>{error}</div>}
 			{success && (
 				<div className='alert alert-success'>

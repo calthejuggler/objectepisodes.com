@@ -69,6 +69,7 @@ const PropPhotoUpload: FC<{
 	return (
 		<div className='row my-3 align-items-center'>
 			<div className='col-12 col-md-6'>
+				<h5>Photo</h5>
 				{!photo ? (
 					'No image has been set.'
 				) : !photo.uploaded ? (
@@ -108,7 +109,6 @@ const PropPhotoUpload: FC<{
 				)}
 			</div>
 			<div className='col-12 col-md-6'>
-				<h5>Photo</h5>
 				<div className='custom-file'>
 					<input
 						type='file'
@@ -123,6 +123,7 @@ const PropPhotoUpload: FC<{
 						Choose Photo
 					</label>
 				</div>
+				<hr className='d-block d-sm-none' />
 			</div>
 		</div>
 	);

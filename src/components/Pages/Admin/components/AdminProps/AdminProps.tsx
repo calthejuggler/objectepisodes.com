@@ -84,7 +84,11 @@ const AdminProps: FC<{
 						resetFields={resetFields}
 						adminSection={adminSection}
 					/>
-					<div className='col-12 col-md-9'>Edit Props</div>
+					<div className='col-12 col-md-9'>
+						<p className='text-center mt-3'>
+							Edit {adminSection.title} section coming soon!
+						</p>
+					</div>
 				</>
 			) : (
 				<EditPropTemplate
