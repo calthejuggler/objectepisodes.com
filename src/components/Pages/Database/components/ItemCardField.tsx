@@ -1,12 +1,12 @@
 import React, { FC } from 'react';
 
-const PropCardField: FC<{
+const ItemCardField: FC<{
 	field: string;
 	propData: firebase.firestore.DocumentData;
 	i: number;
 }> = ({ field, propData, i }) => {
 	return (
-		<div className='row' key={'dataField' + i}>
+		<div className='row'>
 			<div className='col'>
 				<b>{field}: </b>{' '}
 			</div>
@@ -19,4 +19,4 @@ const PropCardField: FC<{
 	);
 };
 
-export default PropCardField;
+export default ItemCardField;

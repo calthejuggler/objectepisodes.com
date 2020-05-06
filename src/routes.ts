@@ -25,97 +25,97 @@ const routes = {
 			name: 'Home',
 			path: '/',
 			component: Home,
-			hidden: false
+			hidden: false,
 		},
 		{
 			name: 'About',
 			path: '/about',
 			component: About,
-			hidden: false
+			hidden: false,
 		},
 		{
 			name: 'Database',
 			path: '/database',
 			component: Database,
-			hidden: false
-		}
+			hidden: false,
+		},
 	],
 	user: [
 		{
 			name: 'User',
 			path: '/users/:paramUser',
 			component: User,
-			hidden: true
+			hidden: true,
 		},
 		{
 			name: 'Login',
 			path: '/login',
 			component: Login,
-			hidden: true
+			hidden: true,
 		},
 		{
 			name: 'Register',
 			path: '/register',
 			component: Register,
-			hidden: true
+			hidden: true,
 		},
 		{
 			name: 'Forgot',
 			path: '/forgot',
 			component: Forgot,
-			hidden: true
+			hidden: true,
 		},
 		{
 			name: 'Edit Profile',
 			path: '/editprofile',
 			component: EditProfile,
-			hidden: true
-		}
+			hidden: true,
+		},
 	],
 	forum: [
 		{
 			name: 'Forum',
 			path: '/forum',
 			component: Forum,
-			hidden: false
+			hidden: false,
 		},
 		{
 			name: 'Forum Topic',
 			path: '/forum/:paramCategory/:paramId',
 			component: Forum,
-			hidden: true
-		}
+			hidden: true,
+		},
 	],
 	database: [
 		{
 			name: 'photos',
 			path: '/photos',
 			component: POTD,
-			hidden: false
+			hidden: false,
 		},
 		{
 			name: 'props',
 			path: '/potd',
 			component: POTD,
-			hidden: false
+			hidden: false,
 		},
 		{
 			name: 'literature',
 			path: '/potd',
 			component: POTD,
-			hidden: false
+			hidden: false,
 		},
 		{
 			name: 'tricks',
 			path: '/potd',
 			component: POTD,
-			hidden: false
+			hidden: false,
 		},
 		{
 			name: 'biographies',
 			path: '/potd',
 			component: POTD,
-			hidden: false
+			hidden: false,
 		},
 	],
 	admin: [
@@ -123,9 +123,9 @@ const routes = {
 			name: 'Admin',
 			path: '/admin',
 			component: Admin,
-			hidden: true
+			hidden: true,
 		},
-	]
+	],
 };
 
 const createAllRouteArray = () => {
