@@ -12,20 +12,22 @@ const ItemCard: FC<Props> = ({ propData, i, currentView, setCurrentView }) => {
 	return (
 		<div className='col-12 my-3 col-sm-6 col-md-4 col-lg-3'>
 			{currentView === 'database' ? (
-				<div className='card'>
-					<div className='card-body text-center'>
-						<button
-							className='btn btn-link'
-							onClick={(e) => {
-								e.preventDefault();
-								setCurrentView(propData.name);
-							}}
-						>
-							{propData.name[0].toUpperCase() +
-								propData.name.slice(1)}
-						</button>
+				propData.name && (
+					<div className='card'>
+						<div className='card-body text-center'>
+							<button
+								className='btn btn-link'
+								onClick={(e) => {
+									e.preventDefault();
+									setCurrentView(propData.name);
+								}}
+							>
+								{propData.name[0].toUpperCase() +
+									propData.name.slice(1)}
+							</button>
+						</div>
 					</div>
-				</div>
+				)
 			) : (
 				<div className='card'>
 					{propData.photoURL && (

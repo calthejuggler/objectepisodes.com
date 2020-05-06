@@ -8,6 +8,7 @@ import React, {
 import { withFirebase } from '../../../Firebase/context';
 import Firebase from '../../../Firebase/config';
 import ItemCard from './ItemCard';
+import BackButton from './BackButton';
 import routes from '../../../../routes';
 
 const CategoryViewer: FC<{
@@ -40,6 +41,12 @@ const CategoryViewer: FC<{
 	}, [firebase.db, currentView]);
 	return (
 		<div className='row align-items-center justify-content-around h-100 mb-3'>
+			<div className="col-12">
+				<BackButton
+					currentView={currentView}
+					setCurrentView={setCurrentView}
+				/>
+			</div>
 			{dataArray &&
 				dataArray.map(
 					(propData: firebase.firestore.DocumentData, i) => (
