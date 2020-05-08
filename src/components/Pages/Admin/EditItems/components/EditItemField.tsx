@@ -9,7 +9,7 @@ const EditItemField: FC<Props> = ({ itemData }) => {
 		<div className='row'>
 			<div className='col'>
 				<p>
-					<b>{itemData[0]}: </b>
+					<em>{itemData[0]}:</em>
 				</p>
 			</div>
 			<div className='col'>

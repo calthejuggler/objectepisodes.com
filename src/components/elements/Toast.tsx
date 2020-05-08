@@ -6,6 +6,8 @@ import React, {
 	MouseEvent,
 } from 'react';
 
+import logo from '../../images/objectepisodes_logo.jpg';
+
 import 'bootstrap/js/dist/toast';
 
 import $ from 'jquery';
@@ -14,7 +16,7 @@ const Toast: FC<{
 	message: string;
 	cancelBtnText?: string;
 	nextBtnText?: string;
-	nextBtnFunc?: (e:MouseEvent) => void;
+	nextBtnFunc?: (e: MouseEvent) => void;
 	autohide?: boolean;
 	setToastActive: Dispatch<SetStateAction<false | string>>;
 }> = ({
@@ -58,9 +60,12 @@ const Toast: FC<{
 					data-autohide={autohide ? autohide : 'false'}
 				>
 					<div className='toast-header'>
-						<img src='...' className='rounded mr-2' alt='...' />
-						<strong className='mr-auto'>Bootstrap</strong>
-						<small>11 mins ago</small>
+						<img
+							src={logo}
+							className='mr-2'
+							alt='ObjectEpisodes logo'
+							style={{ width: '90%'}}
+						/>
 						<button
 							type='button'
 							className='ml-2 mb-1 close'
