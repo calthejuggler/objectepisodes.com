@@ -9,6 +9,7 @@ import React, {
 import AddItem from './AddItem/AddItem';
 import Firebase from '../../Firebase/config';
 import { withFirebase } from '../../Firebase/context';
+import EditTemplate from './EditTemplate/EditTemplate';
 import EditItems from './EditItems/EditItems';
 
 const AdminSection: FC<{
@@ -34,7 +35,12 @@ const AdminSection: FC<{
 	) => (e: ChangeEvent<HTMLInputElement>) => {
 		if (!template) {
 			let newArr = [...fields];
-			newArr[parentI][childI] = e.target.value;
+			if (e.target.value) {
+				newArr[parentI][childI] =
+					e.target.value[0].toUpperCase() + e.target.value.slice(1);
+			} else {
+				newArr[parentI][childI] = e.target.value;
+			}
 			setFields(newArr);
 		} else {
 			let newArr = [...templateFields];
@@ -84,14 +90,9 @@ const AdminSection: FC<{
 						resetFields={resetFields}
 						adminSection={adminSection}
 					/>
-					<div className='col-12 col-md-9'>
-						<p className='text-center mt-3'>
-							Edit {adminSection.title} section coming soon!
-						</p>
-					</div>
 				</>
 			) : (
-				<EditItems
+				<EditTemplate
 					templateFields={templateFields}
 					setTemplateFields={setTemplateFields}
 					updateFieldChanged={updateFieldChanged}
@@ -99,6 +100,7 @@ const AdminSection: FC<{
 					adminSection={adminSection}
 				/>
 			)}
+			<EditItems adminSection={adminSection} setError={setError} />
 		</>
 	);
 };

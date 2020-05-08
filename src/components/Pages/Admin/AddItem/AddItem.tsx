@@ -13,7 +13,7 @@ import AddPhotoUpload from './components/AddPhotoUpload';
 import AddAlerts from './components/AddAlerts';
 import TemplateFields from './components/TemplateFields';
 import ExtraFields from './components/ExtraFields';
-import AddPropButtons from './components/AddButtons';
+import AddButtons from './components/AddButtons';
 
 const AddItem: FC<{
 	editTemplate: boolean;
@@ -111,7 +111,7 @@ const AddItem: FC<{
 					setFields={setFields}
 					updateFieldChanged={updateFieldChanged}
 				/>
-				<AddPropButtons
+				<AddButtons
 					resetFields={resetFields}
 					setFields={setFields}
 					setSuccess={setSuccess}

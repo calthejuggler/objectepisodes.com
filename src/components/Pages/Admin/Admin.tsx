@@ -24,6 +24,7 @@ const Admin = () => {
 							<AdminSection
 								adminSection={section}
 								editTemplate={editTemplate}
+								key={section.title}
 							/>
 						)
 				)}

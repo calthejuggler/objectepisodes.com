@@ -58,27 +58,32 @@ const AddButtons: FC<Props> = ({
 
 		objectPlaceholder.added = firebase.dbFunc.FieldValue.serverTimestamp();
 		objectPlaceholder.by = user.uid;
-		if (photo) {
-			firebase.storage
-				.ref()
-				.child(adminSection.editingNoun + '-images/' + photo.file.name)
-				.getDownloadURL()
-				.then((url: string) => {
-					objectPlaceholder.photoURL = url;
-					uploadData(objectPlaceholder);
-				});
+		let willWeContinue = true;
+		templateFields.forEach((field) => {
+			if (field[1] === '') willWeContinue = false;
+		});
+		fields.forEach((field) => {
+			if (field[1] === '') willWeContinue = false;
+		});
+		if (!willWeContinue) {
+			setError('All fields are required!');
 		} else {
-			let willWeContinue = true;
-			templateFields.forEach((field) => {
-				if (field[1] === '') willWeContinue = false;
-			});
-			fields.forEach((field) => {
-				if (field[1] === '') willWeContinue = false;
-			});
-			if (!willWeContinue) {
-				setError('All fields are required!');
+			if (photo) {
+				const photoStorageRef = firebase.storage
+					.ref()
+					.child(
+						adminSection.editingNoun + '-images/' + photo.file.name
+					);
+				photoStorageRef.getDownloadURL().then((url: string) => {
+					objectPlaceholder.photoURL = url;
+					objectPlaceholder.photoStorageRef =
+						photoStorageRef.fullPath;
+					uploadData(objectPlaceholder);
+					return;
+				});
 			} else {
 				uploadData(objectPlaceholder);
+				return;
 			}
 		}
 	};

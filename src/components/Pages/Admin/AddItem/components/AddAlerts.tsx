@@ -23,10 +23,10 @@ const AddAlerts: FC<Props> = ({
 					sure that you want to make any changes before clicking save.
 				</div>
 			)}
-			<h2 className='text-center'>
+			<h4 className='text-center'>
 				Add{' '}
 				{editingNoun.slice(0, 1).toUpperCase() + editingNoun.slice(1)}
-			</h2>
+			</h4>
 			{error && <div className='alert alert-danger'>{error}</div>}
 			{success && (
 				<div className='alert alert-success'>
