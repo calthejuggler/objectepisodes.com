@@ -91,24 +91,73 @@ const Database: FC<{ firebase: Firebase }> = ({ firebase }) => {
 
 	const checkStringForSearch = (string: string): ReactFragment => {
 		if (string) {
+			const searchString = string
+				.toLowerCase()
+				.indexOf(currentSearch.toLowerCase());
 			if (currentSearch === '') return string;
-			if (string.toLowerCase().search(currentSearch.toLowerCase()) === -1)
-				return string;
+			if (searchString === -1) return string;
 
-			const searchTermPos = string.search(currentSearch);
-			
+			const splitString = string.split(currentSearch);
+			let stringBuild: { bold: boolean; text: string }[] = [];
 
-			return (
-				<>
-					{string.slice(0, searchTermPos)}
-					<b>
-						{string.slice(
-							searchTermPos,
-							searchTermPos + currentSearch.length
-						)}
-					</b>
-					{string.slice(searchTermPos + currentSearch.length)}
-				</>
+			splitString.forEach((section, i) => {
+				if (i === 0) {
+					if (searchString === 0) {
+						stringBuild.push({
+							text: currentSearch.toUpperCase(),
+							bold: true,
+						});
+						stringBuild.push({
+							text: section.slice(currentSearch.length),
+							bold: false,
+						});
+					} else {
+						stringBuild.push({
+							text: section,
+							bold: false,
+						});
+						stringBuild.push({
+							text: currentSearch.toUpperCase(),
+							bold: true,
+						});
+					}
+				} else if (i === splitString.length - 1) {
+					if (
+						string
+							.slice(
+								currentSearch.length -
+									(currentSearch.length - 1)
+							)
+							.toLowerCase() === currentSearch.toLowerCase()
+					) {
+						stringBuild.push({
+							text: section,
+							bold: false,
+						});
+						stringBuild.push({
+							text: currentSearch.toUpperCase(),
+							bold: true,
+						});
+					} else {
+						stringBuild.push({
+							text: section,
+							bold: false,
+						});
+					}
+				} else {
+					stringBuild.push({
+						text: section,
+						bold: false,
+					});
+					stringBuild.push({
+						text: currentSearch.toUpperCase(),
+						bold: true,
+					});
+				}
+				return <></>;
+			});
+			return stringBuild.map((section) =>
+				section.bold ? <b>{section.text}</b> : <>{section.text}</>
 			);
 		} else return <></>;
 	};
@@ -150,7 +199,9 @@ const Database: FC<{ firebase: Firebase }> = ({ firebase }) => {
 									field[0] === field[0].toUpperCase() && (
 										<ItemCardField
 											key={'dataField' + i}
-											checkStringForSearch={checkStringForSearch}
+											checkStringForSearch={
+												checkStringForSearch
+											}
 											field={field}
 											propData={propData}
 											i={i}

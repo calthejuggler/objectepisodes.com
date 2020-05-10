@@ -14,7 +14,7 @@ const SearchBar: FC<Props> = ({
 		<input
 			className='form-control'
 			value={currentSearch}
-			onChange={(e) => setCurrentSearch(e.target.value)}
+			onChange={(e) => setCurrentSearch(e.target.value.toLowerCase())}
 			placeholder='Search...'
 		/>
 	);
