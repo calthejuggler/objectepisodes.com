@@ -1,10 +1,4 @@
-import React, {
-	useState,
-	FC,
-	useCallback,
-	useEffect,
-	ReactFragment,
-} from 'react';
+import React, { useState, FC, useCallback, useEffect } from 'react';
 import BackButton from './components/BackButton';
 import SearchBar from '../../elements/SearchBar/SearchBar';
 import ItemCard from './components/ItemCard';
@@ -89,79 +83,6 @@ const Database: FC<{ firebase: Firebase }> = ({ firebase }) => {
 		setDisplayedData(searchFilter(dataArray));
 	}, [dataArray, searchFilter]);
 
-	const checkStringForSearch = (string: string): ReactFragment => {
-		if (string) {
-			const searchString = string
-				.toLowerCase()
-				.indexOf(currentSearch.toLowerCase());
-			if (currentSearch === '') return string;
-			if (searchString === -1) return string;
-
-			const splitString = string.split(currentSearch);
-			let stringBuild: { bold: boolean; text: string }[] = [];
-
-			splitString.forEach((section, i) => {
-				if (i === 0) {
-					if (searchString === 0) {
-						stringBuild.push({
-							text: currentSearch.toUpperCase(),
-							bold: true,
-						});
-						stringBuild.push({
-							text: section.slice(currentSearch.length),
-							bold: false,
-						});
-					} else {
-						stringBuild.push({
-							text: section,
-							bold: false,
-						});
-						stringBuild.push({
-							text: currentSearch.toUpperCase(),
-							bold: true,
-						});
-					}
-				} else if (i === splitString.length - 1) {
-					if (
-						string
-							.slice(
-								currentSearch.length -
-									(currentSearch.length - 1)
-							)
-							.toLowerCase() === currentSearch.toLowerCase()
-					) {
-						stringBuild.push({
-							text: section,
-							bold: false,
-						});
-						stringBuild.push({
-							text: currentSearch.toUpperCase(),
-							bold: true,
-						});
-					} else {
-						stringBuild.push({
-							text: section,
-							bold: false,
-						});
-					}
-				} else {
-					stringBuild.push({
-						text: section,
-						bold: false,
-					});
-					stringBuild.push({
-						text: currentSearch.toUpperCase(),
-						bold: true,
-					});
-				}
-				return <></>;
-			});
-			return stringBuild.map((section) =>
-				section.bold ? <b>{section.text}</b> : <>{section.text}</>
-			);
-		} else return <></>;
-	};
-
 	return (
 		<>
 			<div className='row align-items-center justify-content-around h-100 mb-3'>
@@ -184,11 +105,10 @@ const Database: FC<{ firebase: Firebase }> = ({ firebase }) => {
 				{displayedData.map(
 					(propData: firebase.firestore.DocumentData, i: number) => (
 						<ItemCard
-							checkStringForSearch={checkStringForSearch}
+							currentSearch={currentSearch}
 							propData={propData}
 							currentView={currentView}
 							setCurrentView={setCurrentView}
-							currentSearch={currentSearch}
 							key={'dataCard' + i}
 						>
 							{Object.keys(propData).map(
@@ -199,9 +119,7 @@ const Database: FC<{ firebase: Firebase }> = ({ firebase }) => {
 									field[0] === field[0].toUpperCase() && (
 										<ItemCardField
 											key={'dataField' + i}
-											checkStringForSearch={
-												checkStringForSearch
-											}
+											currentSearch={currentSearch}
 											field={field}
 											propData={propData}
 											i={i}

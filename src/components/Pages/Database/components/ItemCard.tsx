@@ -1,11 +1,11 @@
-import React, { FC, Dispatch, SetStateAction, ReactFragment } from 'react';
+import React, { FC, Dispatch, SetStateAction,  } from 'react';
+import { checkStringForSearchAndBuild } from './../../../../functions/_checkStringForSearchAndBuild';
 
 interface Props {
 	propData: firebase.firestore.DocumentData;
 	currentView: string;
 	setCurrentView: Dispatch<SetStateAction<string>>;
 	currentSearch: string;
-	checkStringForSearch: (string:string)=>ReactFragment
 }
 
 const ItemCard: FC<Props> = ({
@@ -14,7 +14,6 @@ const ItemCard: FC<Props> = ({
 	setCurrentView,
 	currentSearch,
 	children,
-	checkStringForSearch
 }) => {
 	return (
 		<div className='col-12 my-3 col-sm-6 col-md-4 col-lg-3'>
@@ -46,14 +45,23 @@ const ItemCard: FC<Props> = ({
 					)}
 					<div className='card-body'>
 						<h5 className='card-title text-center'>
-							{checkStringForSearch(propData.Title)}
+							{checkStringForSearchAndBuild(
+								propData.Title,
+								currentSearch
+							)}
 						</h5>
 						{children}
 						<p className='card-text'>
-							{checkStringForSearch(propData.Description)}
+							{checkStringForSearchAndBuild(
+								propData.Description,
+								currentSearch
+							)}
 						</p>
 					</div>
-					{checkStringForSearch(propData.title)}
+					{checkStringForSearchAndBuild(
+						propData.title,
+						currentSearch
+					)}
 				</div>
 			)}
 		</div>
