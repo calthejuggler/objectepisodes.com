@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import React, { FC, ReactFragment } from 'react';
 
 const ItemCardField: FC<{
 	field: string;
 	propData: firebase.firestore.DocumentData;
 	i: number;
-}> = ({ field, propData, i }) => {
+	checkStringForSearch: (string: string) => ReactFragment;
+}> = ({ field, propData, i, checkStringForSearch }) => {
 	return (
 		<div className='row'>
 			<div className='col'>
@@ -12,8 +13,8 @@ const ItemCardField: FC<{
 			</div>
 			<div className='col'>
 				{typeof Object.values(propData)[i] === 'string' &&
-					Object.values(propData)[i]}
-			<hr />
+					checkStringForSearch(Object.values(propData)[i])}
+				<hr />
 			</div>
 		</div>
 	);

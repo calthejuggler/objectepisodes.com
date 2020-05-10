@@ -1,14 +1,21 @@
-import React, { FC, Dispatch, SetStateAction } from 'react';
-import ItemCardField from './ItemCardField';
+import React, { FC, Dispatch, SetStateAction, ReactFragment } from 'react';
 
 interface Props {
 	propData: firebase.firestore.DocumentData;
-	i: number;
 	currentView: string;
 	setCurrentView: Dispatch<SetStateAction<string>>;
+	currentSearch: string;
+	checkStringForSearch: (string:string)=>ReactFragment
 }
 
-const ItemCard: FC<Props> = ({ propData, i, currentView, setCurrentView }) => {
+const ItemCard: FC<Props> = ({
+	propData,
+	currentView,
+	setCurrentView,
+	currentSearch,
+	children,
+	checkStringForSearch
+}) => {
 	return (
 		<div className='col-12 my-3 col-sm-6 col-md-4 col-lg-3'>
 			{currentView === 'database' ? (
@@ -39,25 +46,14 @@ const ItemCard: FC<Props> = ({ propData, i, currentView, setCurrentView }) => {
 					)}
 					<div className='card-body'>
 						<h5 className='card-title text-center'>
-							{propData.Title}
+							{checkStringForSearch(propData.Title)}
 						</h5>
-						{Object.keys(propData).map(
-							(field, i) =>
-								field !== 'Title' &&
-								field !== 'Description' &&
-								isNaN(Number.parseInt(field[0])) &&
-								field[0] === field[0].toUpperCase() && (
-									<ItemCardField
-										key={'dataField' + i}
-										field={field}
-										propData={propData}
-										i={i}
-									/>
-								)
-						)}
-						<p className='card-text'>{propData.Description}</p>
+						{children}
+						<p className='card-text'>
+							{checkStringForSearch(propData.Description)}
+						</p>
 					</div>
-					{propData.title}
+					{checkStringForSearch(propData.title)}
 				</div>
 			)}
 		</div>
