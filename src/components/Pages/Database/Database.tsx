@@ -92,6 +92,7 @@ const Database: FC<{ firebase: Firebase }> = ({ firebase }) => {
 					<BackButton
 						currentView={currentView}
 						setCurrentView={setCurrentView}
+						setCurrentSearch={setCurrentSearch}
 					/>
 				</div>
 				{currentView !== 'database' && (

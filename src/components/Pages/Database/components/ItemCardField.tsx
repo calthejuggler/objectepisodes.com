@@ -1,5 +1,4 @@
-import React, { FC,  } from 'react';
-import { checkStringForSearchAndBuild } from './../../../../functions/_checkStringForSearchAndBuild';
+import React, { FC } from 'react';
 
 const ItemCardField: FC<{
 	field: string;
@@ -14,10 +13,7 @@ const ItemCardField: FC<{
 			</div>
 			<div className='col'>
 				{typeof Object.values(propData)[i] === 'string' &&
-					checkStringForSearchAndBuild(
-						Object.values(propData)[i],
-						currentSearch
-					)}
+					Object.values(propData)[i]}
 				<hr />
 			</div>
 		</div>

@@ -1,5 +1,4 @@
-import React, { FC, Dispatch, SetStateAction,  } from 'react';
-import { checkStringForSearchAndBuild } from './../../../../functions/_checkStringForSearchAndBuild';
+import React, { FC, Dispatch, SetStateAction } from 'react';
 
 interface Props {
 	propData: firebase.firestore.DocumentData;
@@ -45,23 +44,12 @@ const ItemCard: FC<Props> = ({
 					)}
 					<div className='card-body'>
 						<h5 className='card-title text-center'>
-							{checkStringForSearchAndBuild(
-								propData.Title,
-								currentSearch
-							)}
+							{propData.Title}
 						</h5>
 						{children}
-						<p className='card-text'>
-							{checkStringForSearchAndBuild(
-								propData.Description,
-								currentSearch
-							)}
-						</p>
+						<p className='card-text'>{propData.Description}</p>
 					</div>
-					{checkStringForSearchAndBuild(
-						propData.title,
-						currentSearch
-					)}
+					{propData.title}
 				</div>
 			)}
 		</div>

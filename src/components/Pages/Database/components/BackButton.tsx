@@ -4,17 +4,26 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 interface Props extends RouteComponentProps {
 	currentView: string;
 	setCurrentView: Dispatch<SetStateAction<string>>;
+	setCurrentSearch: Dispatch<SetStateAction<string>>;
 }
 
-const BackButton: FC<Props> = ({ currentView, setCurrentView, history }) => {
+const BackButton: FC<Props> = ({
+	currentView,
+	setCurrentView,
+	history,
+	setCurrentSearch,
+}) => {
 	return (
 		<button
 			className='btn btn-secondary mt-3'
-			onClick={() =>
-				currentView === 'database'
-					? history.push('/')
-					: setCurrentView('database')
-			}
+			onClick={() => {
+				if (currentView === 'database') {
+					history.push('/');
+				} else {
+					setCurrentView('database');
+					setCurrentSearch('');
+				}
+			}}
 		>
 			Back
 		</button>
