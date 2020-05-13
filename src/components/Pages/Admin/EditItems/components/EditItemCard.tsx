@@ -6,11 +6,7 @@ import EditItemField from './EditItemField';
 
 const EditItemCard: FC<{
 	firebase: Firebase;
-	item: {
-		exists: boolean;
-		data: () => firebase.firestore.DocumentData;
-		id: string;
-	};
+	item: firebase.firestore.DocumentData;
 	sectionTemplate: firebase.firestore.QueryDocumentSnapshot;
 	adminSection: { title: string };
 }> = ({ item, sectionTemplate, adminSection, firebase }) => {
@@ -43,7 +39,7 @@ const EditItemCard: FC<{
 	);
 
 	useEffect(() => {
-		setItemDataArray(sortItemDataArray(item.data()));
+		setItemDataArray(sortItemDataArray(item));
 	}, [item, sortItemDataArray]);
 
 	const handleDeleteBtnClick = (e: MouseEvent) => {
@@ -75,7 +71,7 @@ const EditItemCard: FC<{
 						<div className='row align-items-center'>
 							<div className='col-8'>
 								<h6 className='card-text text-left'>
-									{item.data()[sectionTemplate.data()[0]]}
+									{item[sectionTemplate.data()[0]]}
 								</h6>
 							</div>
 							<div className='col-4 text-right'>

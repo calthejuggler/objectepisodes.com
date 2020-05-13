@@ -4,10 +4,12 @@ import React, {
 	useState,
 	Dispatch,
 	SetStateAction,
+	useCallback,
 } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import Firebase from './../../../Firebase/config';
 import EditItemCard from './components/EditItemCard';
+import SearchBar from '../../../elements/SearchBar/SearchBar';
 
 interface Props {
 	adminSection: { title: string };
@@ -17,10 +19,15 @@ interface Props {
 
 const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 	const [queryData, setQueryData] = useState<
-		firebase.firestore.QuerySnapshot
+		firebase.firestore.DocumentData[]
 	>();
 	const [sectionTemplate, setSectionTemplate] = useState<
 		firebase.firestore.QueryDocumentSnapshot
+	>();
+
+	const [currentSearch, setCurrentSearch] = useState<string>('');
+	const [displayedData, setDisplayedData] = useState<
+		firebase.firestore.DocumentData[] | undefined
 	>();
 	useEffect(() => {
 		return firebase.db
@@ -28,7 +35,7 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 			.orderBy('added', 'desc')
 			.onSnapshot(
 				(queryRes: firebase.firestore.QuerySnapshot) =>
-					setQueryData(queryRes),
+					setQueryData(queryRes.docs),
 				(err: Error) => setError(err.message)
 			);
 	}, [adminSection.title, firebase.db, setError]);
@@ -43,6 +50,52 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 			);
 	}, [adminSection.title, firebase.db, setError]);
 
+	const searchFilter = useCallback(
+		(propDataArray: firebase.firestore.DocumentData[] | undefined) => {
+			if (propDataArray) {
+				if (currentSearch !== '') {
+					let newArr: firebase.firestore.DocumentData[] = [];
+					propDataArray.forEach(
+						(doc: firebase.firestore.DocumentData) => {
+							let includesSearchTerm = false;
+							Object.values(doc.data()).forEach(
+								(value: any, i) => {
+									if (
+										Object.keys(doc.data())[i][0] !==
+										Object.keys(doc.data())[
+											i
+										][0].toLowerCase()
+									) {
+										if (
+											typeof value === 'string' &&
+											value
+												.toLowerCase()
+												.includes(
+													currentSearch.toLowerCase()
+												)
+										) {
+											includesSearchTerm = true;
+										}
+									}
+								}
+							);
+							if (includesSearchTerm) {
+								newArr.push(doc.data());
+							}
+						}
+					);
+					return newArr;
+				} else {
+					return propDataArray.map((propData) => propData.data());
+				}
+			}
+		},
+		[currentSearch]
+	);
+	useEffect(() => {
+		setDisplayedData(searchFilter(queryData));
+	}, [queryData, searchFilter]);
+
 	return (
 		<>
 			<div className='col-12'>
@@ -53,12 +106,18 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 						adminSection.title.slice(1)}
 				</h4>
 			</div>
-			<div className='col-12'>
+			<div className='col-12 col-md-10 mx-auto'>
+				<SearchBar
+					currentSearch={currentSearch}
+					setCurrentSearch={setCurrentSearch}
+				/>
+			</div>
+			<div className='col-12 col-md-10 mx-auto'>
 				<div className='row'>
-					{queryData &&
-						!queryData.empty &&
+					{displayedData &&
+						displayedData.length !== 0 &&
 						sectionTemplate &&
-						queryData.docs.map((item) => (
+						displayedData.map((item) => (
 							<EditItemCard
 								item={item}
 								sectionTemplate={sectionTemplate}
