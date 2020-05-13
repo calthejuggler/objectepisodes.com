@@ -22,7 +22,7 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 		firebase.firestore.DocumentData[]
 	>();
 	const [sectionTemplate, setSectionTemplate] = useState<
-		firebase.firestore.QueryDocumentSnapshot
+		firebase.firestore.DocumentData
 	>();
 
 	const [currentSearch, setCurrentSearch] = useState<string>('');
@@ -45,7 +45,7 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 			.doc(adminSection.title)
 			.onSnapshot(
 				(queryRes: firebase.firestore.QueryDocumentSnapshot) =>
-					setSectionTemplate(queryRes),
+					setSectionTemplate(queryRes.data()),
 				(err: Error) => setError(err.message)
 			);
 	}, [adminSection.title, firebase.db, setError]);
@@ -122,7 +122,7 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 								item={item}
 								sectionTemplate={sectionTemplate}
 								adminSection={adminSection}
-								key={item.id}
+								key={item[sectionTemplate[0]]}
 							/>
 						))}
 				</div>

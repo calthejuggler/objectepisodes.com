@@ -7,7 +7,7 @@ import EditItemField from './EditItemField';
 const EditItemCard: FC<{
 	firebase: Firebase;
 	item: firebase.firestore.DocumentData;
-	sectionTemplate: firebase.firestore.QueryDocumentSnapshot;
+	sectionTemplate: firebase.firestore.DocumentData;
 	adminSection: { title: string };
 }> = ({ item, sectionTemplate, adminSection, firebase }) => {
 	const [toastActive, setToastActive] = useState<false | string>(false);
@@ -18,15 +18,11 @@ const EditItemCard: FC<{
 			let newArr: string[][] = [];
 			Object.keys(itemData).forEach((objectKey, i) => {
 				if (
-					objectKey !== sectionTemplate.data()[0] &&
+					objectKey !== sectionTemplate[0] &&
 					objectKey !== 'added' &&
 					objectKey !== 'by'
 				) {
-					if (
-						Object.values(sectionTemplate.data()).includes(
-							objectKey
-						)
-					) {
+					if (Object.values(sectionTemplate).includes(objectKey)) {
 						newArr.unshift([objectKey, itemData[objectKey]]);
 					} else {
 						newArr.push([objectKey, itemData[objectKey]]);
@@ -71,7 +67,7 @@ const EditItemCard: FC<{
 						<div className='row align-items-center'>
 							<div className='col-8'>
 								<h6 className='card-text text-left'>
-									{item[sectionTemplate.data()[0]]}
+									{item[sectionTemplate[0]]}
 								</h6>
 							</div>
 							<div className='col-4 text-right'>
@@ -90,7 +86,7 @@ const EditItemCard: FC<{
 							alt={
 								sectionTemplate.exists &&
 								sectionTemplate.data()[0] &&
-								item.data()[sectionTemplate.data()[0]]
+								item.data()[sectionTemplate[0]]
 							}
 							className='card-img-top'
 							object-fit='cover'
