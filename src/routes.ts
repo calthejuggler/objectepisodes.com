@@ -7,7 +7,6 @@ import User from './components/Pages/User/User';
 import EditProfile from './components/Pages/EditProfile/EditProfile';
 import Admin from './components/Pages/Admin/Admin';
 import About from './components/Pages/About';
-import POTD from './components/Pages/POTD';
 import { FC } from 'react';
 import Home from './components/Pages/Home/Home';
 import Database from './components/Pages/Database/Database';
@@ -90,31 +89,31 @@ const routes = {
 		{
 			name: 'photos',
 			path: '/photos',
-			component: POTD,
+			component: Database,
 			hidden: false,
 		},
 		{
 			name: 'props',
 			path: '/potd',
-			component: POTD,
+			component: Database,
 			hidden: false,
 		},
 		{
 			name: 'literature',
 			path: '/potd',
-			component: POTD,
+			component: Database,
 			hidden: false,
 		},
 		{
 			name: 'tricks',
 			path: '/potd',
-			component: POTD,
+			component: Database,
 			hidden: false,
 		},
 		{
 			name: 'biographies',
 			path: '/potd',
-			component: POTD,
+			component: Database,
 			hidden: false,
 		},
 	],
