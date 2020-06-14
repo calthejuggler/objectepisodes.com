@@ -79,7 +79,7 @@ const TopicRow: FC<Props> = props => {
 						postID={id}
 						likes={likes}
 						type='post'
-						size={3}
+						size={2}
 					/>
 				</div>
 			</div>

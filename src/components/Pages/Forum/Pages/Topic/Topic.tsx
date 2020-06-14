@@ -3,7 +3,7 @@ import React, {
 	useState,
 	Dispatch,
 	SetStateAction,
-	FC
+	FC,
 } from 'react';
 import { withFirebase } from '../../../../Firebase/context';
 
@@ -18,7 +18,7 @@ interface Props {
 	setTitle: Dispatch<SetStateAction<string>>;
 }
 
-const Topic: FC<Props> = props => {
+const Topic: FC<Props> = (props) => {
 	const { firebase, currentTopic, currentCategory, setTitle } = props;
 
 	const [post, setPost] = useState<{
@@ -42,15 +42,15 @@ const Topic: FC<Props> = props => {
 				setPost(null);
 				firebase
 					.getUserDataFromUID(topicSnap.data().user.trim())
-					.then(topicUserSnap => {
-						setTitle('Loading Topic');
+					.then((topicUserSnap) => {
+						setTitle(topicSnap.data().title);
 						setPost({
 							data: topicSnap.data(),
 							user: topicUserSnap.data(),
-							id: topicSnap.id
+							id: topicSnap.id,
 						});
 					})
-					.catch(e => console.dir(e.message));
+					.catch((e) => console.dir(e.message));
 			});
 	}, [currentCategory, currentTopic, firebase, setTitle]);
 
@@ -67,14 +67,14 @@ const Topic: FC<Props> = props => {
 					replySnap.forEach((reply: any) => {
 						firebase
 							.getUserDataFromUID(reply.data().user)
-							.then(user => {
-								setComments(prev => [
+							.then((user) => {
+								setComments((prev) => [
 									...prev,
 									{
 										user: user.data(),
 										data: reply.data(),
-										id: reply.id
-									}
+										id: reply.id,
+									},
 								]);
 								setCommentsLoading(false);
 							});
@@ -85,24 +85,15 @@ const Topic: FC<Props> = props => {
 
 	return (
 		<>
-			<div className='row'>
-				<div className='col-12'>
-					<h3 className='m-2 text-center text-md-left'>
-						Original Post
-					</h3>
-				</div>
+			<div className='row justify-content-center'>
 				<PostView post={post} />
-				<div className='col-12'>
-					<h3 className='m-2 text-center text-md-left'>
-						Recent Comments <small>(Date - desc.)</small>
-					</h3>
-					<AddComment
-						currentCategory={currentCategory}
-						currentTopic={currentTopic}
-					/>
+				<div className='col-12 col-lg-8'>
+					<h2 className='text-center'>
+						Comments
+					</h2>
 				</div>
 				{commentsLoading ? (
-					<div className='col-12 mt-1'>
+					<div className='col-12 col-lg-8 mt-1'>
 						<div className='card'>
 							<div className='d-flex justify-content-center'>
 								<div
@@ -115,7 +106,7 @@ const Topic: FC<Props> = props => {
 						</div>
 					</div>
 				) : comments !== null && comments.length === 0 ? (
-					<div className='col-12 mt-1'>
+					<div className='col-12 col-lg-8 mt-1'>
 						<div className='card'>
 							<div className='card-body'>
 								<p>
@@ -127,10 +118,16 @@ const Topic: FC<Props> = props => {
 					</div>
 				) : (
 					comments !== null &&
-					comments.map(comment => (
+					comments.map((comment) => (
 						<PostView post={comment} key={comment.id} />
 					))
 				)}
+				<div className='col-12 col-lg-8'>
+					<AddComment
+						currentCategory={currentCategory}
+						currentTopic={currentTopic}
+					/>
+				</div>
 			</div>
 		</>
 	);

@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, FC } from 'react';
+import React, { useLayoutEffect, useState, SFC } from 'react';
 import { withFirebase } from '../../Firebase/context';
 
 import CategoryTable from './Pages/CategoryTable';
@@ -13,7 +13,7 @@ interface Props {
 	firebase: Firebase;
 }
 
-const Forum: FC<Props> = props => {
+const Forum: SFC<Props> = (props) => {
 	const { firebase } = props;
 
 	let { paramCategory, paramId } = useParams();
@@ -43,23 +43,25 @@ const Forum: FC<Props> = props => {
 			.get()
 			.then((categoriesSnap: any) => {
 				categoriesSnap.forEach((categorySnap: any) =>
-					setCategories(prev => [...prev, categorySnap])
+					setCategories((prev) => [...prev, categorySnap])
 				);
 			});
 	}, [firebase, paramId, paramCategory]);
 
 	return (
-		<div className='row mb-3'>
-			<div className='col-12'>
-				<Breadcrumbs
-					locationArray={locationArray}
-					setLocationArray={setLocationArray}
-					setCurrentCategory={setCurrentCategory}
-					setCurrentTopic={setCurrentTopic}
-					currentCategory={currentCategory}
-					currentTopic={currentTopic}
-					setTitle={setTitle}
-				/>
+		<div className='row justify-content-center my-3'>
+			<div className='col-12 col-lg-8'>
+				{locationArray.length !== 1 && (
+					<Breadcrumbs
+						locationArray={locationArray}
+						setLocationArray={setLocationArray}
+						setCurrentCategory={setCurrentCategory}
+						setCurrentTopic={setCurrentTopic}
+						currentCategory={currentCategory}
+						currentTopic={currentTopic}
+						setTitle={setTitle}
+					/>
+				)}
 				<h1 className='text-center'>{title}</h1>
 				<hr />
 				{categories.length === 0 &&
