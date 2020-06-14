@@ -80,13 +80,13 @@ const EditItemCard: FC<{
 							</div>
 						</div>
 					</div>
-					{item.exists && item.data() && item.data().photoURL && (
+					{item.photoURL && (
 						<img
-							src={item.data().photoURL}
+							src={item.photoURL}
 							alt={
 								sectionTemplate.exists &&
 								sectionTemplate.data()[0] &&
-								item.data()[sectionTemplate[0]]
+								item[sectionTemplate[0]]
 							}
 							className='card-img-top'
 							object-fit='cover'
