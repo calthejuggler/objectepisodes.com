@@ -4,6 +4,8 @@ import App from './App';
 import { HashRouter } from 'react-router-dom';
 import Firebase, { FirebaseContext } from './components/Firebase';
 
+import 'bootstrap/dist/js/bootstrap'
+
 const fakeProp = 'YO';
 
 ReactDOM.render<any>(
