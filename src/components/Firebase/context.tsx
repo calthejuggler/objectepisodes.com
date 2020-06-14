@@ -1,6 +1,6 @@
 import React, { createContext } from 'react';
 
-const FirebaseContext = createContext(null);
+const FirebaseContext = createContext<any>(null);
 
 export const withFirebase = (Component: React.FunctionComponent<any>) => (
 	props: any
