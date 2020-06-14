@@ -1,4 +1,4 @@
-import React, { useState, FC, FormEvent } from 'react';
+import React, { useState, SFC, FormEvent } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import { withRouter } from 'react-router-dom';
 
@@ -12,7 +12,7 @@ interface Props {
 	currentCategory: string | undefined;
 }
 
-const AddTopic: FC<Props> = props => {
+const AddTopic: SFC<Props> = props => {
 	const { firebase, currentCategory } = props;
 
 	const [title, setTitle] = useState('');
