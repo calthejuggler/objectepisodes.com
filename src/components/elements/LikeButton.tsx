@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, MouseEvent } from 'react';
 import { withFirebase } from '../Firebase/context';
 import { useState, FunctionComponent } from 'react';
 import { useEffect } from 'react';
@@ -17,97 +17,62 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 	postID,
 	likes,
 	type,
-	size
+	size,
 }) => {
 	const [colour, setColour] = useState('#000');
 	const [userHasLiked, setUserHasLiked] = useState(false);
 
-	const handleLikeClick = (e: MouseEvent) => {
-		e.preventDefault();
-		if (likes !== undefined) {
-			if (likes.includes(firebase.auth.currentUser.uid)) {
-				if (type === 'post') {
-					firebase.db
-						.collection('forum')
-						.doc(postID)
-						.update({
-							likes: firebase.dbFunc.FieldValue.arrayRemove(
-								firebase.auth.currentUser.uid
-							),
-							likeCount: firebase.dbFunc.FieldValue.increment(-1)
-						});
-				} else {
-					firebase.db
-						.collection('forum-replies')
-						.doc(postID)
-						.update({
-							likes: firebase.dbFunc.FieldValue.arrayRemove(
-								firebase.auth.currentUser.uid
-							),
-							likeCount: firebase.dbFunc.FieldValue.increment(-1)
-						});
-				}
-				firebase.db
-					.collection('users')
-					.doc(firebase.auth.currentUser.uid)
-					.update({
-						likes: firebase.dbFunc.FieldValue.arrayRemove(postID)
-					});
-			} else {
-				if (type === 'post') {
-					firebase.db
-						.collection('forum')
-						.doc(postID)
-						.update({
-							likes: firebase.dbFunc.FieldValue.arrayUnion(
-								firebase.auth.currentUser.uid
-							),
-							likeCount: firebase.dbFunc.FieldValue.increment(1)
-						});
-				} else {
-					firebase.db
-						.collection('forum-replies')
-						.doc(postID)
-						.update({
-							likes: firebase.dbFunc.FieldValue.arrayUnion(
-								firebase.auth.currentUser.uid
-							),
-							likeCount: firebase.dbFunc.FieldValue.increment(1)
-						});
-				}
-				firebase.db
-					.collection('users')
-					.doc(firebase.auth.currentUser.uid)
-					.update({
-						likes: firebase.dbFunc.FieldValue.arrayUnion(postID)
-					});
-			}
-		} else {
-			if (type === 'post') {
-				firebase.db
-					.collection('forum')
-					.doc(postID)
-					.update({
-						likes: [firebase.auth.currentUser.uid],
-						likeCount: firebase.dbFunc.FieldValue.increment(1)
-					});
-			} else {
-				firebase.db
-					.collection('forum-replies')
-					.doc(postID)
-					.update({
-						likes: [firebase.auth.currentUser.uid],
-						likeCount: firebase.dbFunc.FieldValue.increment(1)
-					});
-			}
-			firebase.db
-				.collection('users')
-				.doc(firebase.auth.currentUser.uid)
-				.update({
-					likes: firebase.dbFunc.FieldValue.arrayUnion(postID)
-				});
-		}
-	};
+	const likeSomething = useCallback(() => {
+		firebase.db
+			.collection(type === 'post' ? 'forum' : 'forum-replies')
+			.doc(postID)
+			.update({
+				likes: firebase.dbFunc.FieldValue.arrayUnion(
+					firebase.auth.currentUser.uid
+				),
+				likeCount: firebase.dbFunc.FieldValue.increment(1),
+			})
+			.catch((e: Error) => console.dir(e));
+		firebase.db
+			.collection('users')
+			.doc(firebase.auth.currentUser.uid)
+			.update({
+				likes: firebase.dbFunc.FieldValue.arrayUnion(postID),
+			})
+			.catch((e: Error) => console.dir(e));
+	}, [firebase, postID, type]);
+
+	const dislikeSomething = useCallback(() => {
+		firebase.db
+			.collection(type === 'post' ? 'forum' : 'forum-replies')
+			.doc(postID)
+			.update({
+				likes: firebase.dbFunc.FieldValue.arrayRemove(
+					firebase.auth.currentUser.uid
+				),
+				likeCount: firebase.dbFunc.FieldValue.increment(-1),
+			})
+			.catch((e: Error) => console.dir(e));
+		firebase.db
+			.collection('users')
+			.doc(firebase.auth.currentUser.uid)
+			.update({
+				likes: firebase.dbFunc.FieldValue.arrayRemove(postID),
+			})
+			.catch((e: Error) => console.dir(e));
+	}, [firebase, postID, type]);
+
+	const handleLikeClick = useCallback(
+		(e: MouseEvent) => {
+			e.preventDefault();
+			likes !== undefined
+				? likes.includes(firebase.auth.currentUser.uid)
+					? dislikeSomething()
+					: likeSomething()
+				: likeSomething();
+		},
+		[likes, firebase.auth.currentUser.uid, dislikeSomething, likeSomething]
+	);
 
 	useEffect(() => {
 		if (likes) {
@@ -122,8 +87,8 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 	}, [likes, firebase.auth.currentUser.uid]);
 
 	return (
-		<span
-			onClick={() => handleLikeClick}
+		<div
+			onClick={handleLikeClick}
 			style={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -137,7 +102,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 				margin: 'auto',
 				paddingTop: '0.2rem',
 				color: colour,
-				cursor: 'pointer'
+				cursor: 'pointer',
 			}}
 			onMouseEnter={() => setColour('#2497fa')}
 			onMouseLeave={() => {
@@ -161,7 +126,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 				<path d='M233.15,362l-4.86-9.87s-1.32-2.69-5.35-1.82c0,0-50.94-107-59.69-136.13L141.5,122.35S137.64,98.62,118.1,77l-6.66-6.75L88.35,46s-1.33-2.7-9.77-10.8c0,0-17.9,2.11-27.82,13.68L58,97.64s-.9.44.84,8.5,4.3,24.63,21.14,47.55l59,72.4s45.54,79,70.23,131.5a3.58,3.58,0,0,0-1.81,3.12s1.29,7.17,5.74,11.67C213.18,372.38,227,373.37,233.15,362Z' />
 			</svg>
 			{!likes ? 0 : likes.length}
-		</span>
+		</div>
 	);
 };
 
