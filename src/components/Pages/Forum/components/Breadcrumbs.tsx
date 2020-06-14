@@ -1,4 +1,10 @@
-import React, { useState, Dispatch, SetStateAction, FC } from 'react';
+import React, {
+	useState,
+	Dispatch,
+	SetStateAction,
+	FC,
+	useCallback,
+} from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { withFirebase } from '../../../Firebase/context';
 import Firebase from './../../../Firebase/index';
@@ -14,7 +20,7 @@ interface Props extends RouteComponentProps {
 	setTitle: Dispatch<SetStateAction<string>>;
 }
 
-const Breadcrumbs: FC<Props> = props => {
+const Breadcrumbs: FC<Props> = (props) => {
 	const {
 		locationArray,
 		firebase,
@@ -23,32 +29,37 @@ const Breadcrumbs: FC<Props> = props => {
 		setLocationArray,
 		setCurrentTopic,
 		setCurrentCategory,
-		setTitle
+		setTitle,
 	} = props;
 
 	const [topicTitle, setTopicTitle] = useState<undefined | string>(undefined);
+
+	const goBack = useCallback(() => {
+		let shorterLocationArray: string[] = locationArray.slice(0, -1);
+		console.dir(locationArray);
+		setLocationArray(shorterLocationArray);
+		if (shorterLocationArray.length === 1) {
+			setCurrentCategory(null);
+			setCurrentTopic(null);
+			setTitle('Loading categories...');
+		} else if (shorterLocationArray.length === 0) {
+		} else {
+			setCurrentTopic(null);
+			setTitle('Loading topics...');
+		}
+	}, [
+		locationArray,
+		setCurrentCategory,
+		setCurrentTopic,
+		setLocationArray,
+		setTitle,
+	]);
+
 	return (
 		<nav aria-label='breadcrumb'>
 			<ol className='breadcrumb'>
 				<li className='mr-3 mr-lg-5'>
-					<button
-						className='btn btn-secondary'
-						onClick={() => {
-							let shorterLocationArray: string[] = locationArray.slice(
-								0,
-								-1
-							);
-							setLocationArray(shorterLocationArray);
-							if (shorterLocationArray.length === 1) {
-								setCurrentCategory(null);
-								setCurrentTopic(null);
-								setTitle('Loading categories...');
-							} else {
-								setCurrentTopic(null);
-								setTitle('Loading topics...');
-							}
-						}}
-					>
+					<button className='btn btn-secondary' onClick={goBack}>
 						Go Back
 					</button>
 				</li>
@@ -60,7 +71,7 @@ const Breadcrumbs: FC<Props> = props => {
 								(topicSnap: { data(): { title: string } }) => {
 									if (topicSnap) {
 										setTopicTitle(topicSnap.data().title);
-										setTitle('Topic');
+										setTitle(topicSnap.data().title);
 									}
 								}
 							);
@@ -91,7 +102,7 @@ const Breadcrumbs: FC<Props> = props => {
 									if (i === 1 && currentCategory) {
 										setLocationArray([
 											'forum',
-											currentCategory
+											currentCategory,
 										]);
 										setCurrentTopic(null);
 									}
