@@ -61,7 +61,7 @@ const EditItemCard: FC<{
 					nextBtnFunc={handleDeleteConfirm}
 				/>
 			)}
-			<div className='col-12 col-sm-6 col-md-4 col-lg-3 col-xl-2'>
+			<div className='col-12 col-sm-6 col-md-4'>
 				<div className='card my-2'>
 					<div className='card-header text-right'>
 						<div className='row align-items-center'>

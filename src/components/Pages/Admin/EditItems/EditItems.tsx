@@ -106,7 +106,7 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 						adminSection.title.slice(1)}
 				</h4>
 			</div>
-			<div className='col-12 col-md-10 mx-auto'>
+			<div className='col-12 mx-auto my-2'>
 				<SearchBar
 					currentSearch={currentSearch}
 					setCurrentSearch={setCurrentSearch}

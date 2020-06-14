@@ -50,7 +50,7 @@ const Forum: SFC<Props> = (props) => {
 
 	return (
 		<div className='row justify-content-center my-3'>
-			<div className='col-12 col-lg-8'>
+			<div className='col-12'>
 				{locationArray.length !== 1 && (
 					<Breadcrumbs
 						locationArray={locationArray}

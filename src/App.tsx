@@ -29,7 +29,7 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 					<>
 						<Header user={user} firebase={firebase} />
 						<div id='main'>
-							<div className='container-fluid h-100'>
+							<div className='container h-100'>
 								<div className='row h-100'>
 									<div className='col-12 h-100'>
 										<Switch>
