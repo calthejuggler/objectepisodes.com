@@ -29,6 +29,7 @@ interface State {
 	}[];
 	hasMore: boolean;
 	error: string | null;
+	numberOfRows: number;
 }
 
 const initialState = {
@@ -36,6 +37,7 @@ const initialState = {
 	topics: [],
 	hasMore: true,
 	error: null,
+	numberOfRows: 10,
 };
 
 const TopicsTable: FC<Props> = (props) => {
@@ -60,6 +62,15 @@ const TopicsTable: FC<Props> = (props) => {
 				}
 				break;
 			}
+			case 'empty-topics': {
+				return {
+					...state,
+					hasMore: true,
+					topicsLoading: true,
+					topics: [],
+					error: null,
+				};
+			}
 			case 'no-more-topics': {
 				return { ...state, topicsLoading: false, hasMore: false };
 			}
@@ -80,12 +91,14 @@ const TopicsTable: FC<Props> = (props) => {
 		initialState
 	);
 
+	const numberOfRows = useRef<number>(10);
+
 	useEffect(() => {
 		firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
 			.orderBy('lastPost', 'desc')
-			.limit(10)
+			.limit(numberOfRows.current)
 			.get()
 			.then((snap: firebase.firestore.QuerySnapshot) => {
 				if (snap.empty || snap.docs.length < 10) {
@@ -116,10 +129,7 @@ const TopicsTable: FC<Props> = (props) => {
 							});
 						});
 				});
-			})
-			.catch((e: Error) =>
-				dispatch({ type: 'error', payload: e.message })
-			);
+			});
 	}, [currentCategory, firebase]);
 
 	const loadMoreTopics = useCallback(() => {
@@ -128,7 +138,7 @@ const TopicsTable: FC<Props> = (props) => {
 				type: 'set-loading',
 				payload: true,
 			});
-			firebase.db
+			return firebase.db
 				.collection('forum')
 				.where('category', '==', currentCategory)
 				.orderBy('lastPost', 'desc')
@@ -136,7 +146,6 @@ const TopicsTable: FC<Props> = (props) => {
 				.startAfter(topics[topics.length - 1].thread)
 				.get()
 				.then((snap: firebase.firestore.QuerySnapshot) => {
-					console.dir(snap.empty);
 					if (snap.empty || snap.docs.length < 10) {
 						dispatch({ type: 'no-more-topics', payload: null });
 					}
@@ -144,6 +153,7 @@ const TopicsTable: FC<Props> = (props) => {
 						firebase
 							.getUserDataFromUID(doc.data().user)
 							.then((userSnap) => {
+								numberOfRows.current += 1;
 								dispatch({
 									type: 'add-topic',
 									payload: {
@@ -231,6 +241,7 @@ const TopicsTable: FC<Props> = (props) => {
 										currentCategory={currentCategory}
 										setCurrentTopic={setCurrentTopic}
 										setLocationArray={setLocationArray}
+										dispatch={dispatch}
 									/>
 								);
 							} else

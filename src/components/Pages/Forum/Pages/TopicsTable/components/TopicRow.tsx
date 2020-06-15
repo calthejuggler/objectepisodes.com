@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, FC, Ref } from 'react';
+import React, { Dispatch, SetStateAction, FC, Ref, ReducerAction } from 'react';
 import LikeButton from '../../../../../elements/LikeButton';
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
 	setCurrentTopic: Dispatch<SetStateAction<string | null>>;
 	setLocationArray: Dispatch<SetStateAction<Array<string | null>>>;
 	lastTopicRef?: Ref<HTMLLIElement>;
+	dispatch?: Dispatch<{ type: string; payload: any }>;
 }
 
 const TopicRow: FC<Props> = (props) => {
@@ -18,6 +19,7 @@ const TopicRow: FC<Props> = (props) => {
 		setCurrentTopic,
 		setLocationArray,
 		lastTopicRef,
+		dispatch,
 	} = props;
 
 	const { title, posted, lastPost, likes } = props.thread?.data();
@@ -82,6 +84,7 @@ const TopicRow: FC<Props> = (props) => {
 						likes={likes}
 						type='post'
 						size={2}
+						dispatch={dispatch}
 					/>
 				</div>
 			</div>
