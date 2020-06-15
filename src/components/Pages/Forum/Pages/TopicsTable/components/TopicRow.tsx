@@ -1,34 +1,34 @@
-import React, { Dispatch, SetStateAction, FC } from 'react';
+import React, { Dispatch, SetStateAction, FC, Ref } from 'react';
 import LikeButton from '../../../../../elements/LikeButton';
 
 interface Props {
 	id: string;
-	title: string;
-	username: string;
-	posted: Date;
-	lastPost: Date;
+	thread: firebase.firestore.DocumentData;
+	user: firebase.firestore.DocumentData;
 	currentCategory: string | null;
 	setCurrentTopic: Dispatch<SetStateAction<string | null>>;
 	setLocationArray: Dispatch<SetStateAction<Array<string | null>>>;
-	photoURL: string;
-	likes: number;
+	lastTopicRef?: Ref<HTMLLIElement>;
 }
 
-const TopicRow: FC<Props> = props => {
+const TopicRow: FC<Props> = (props) => {
 	const {
 		id,
-		title,
-		username,
-		posted,
-		lastPost,
 		currentCategory,
 		setCurrentTopic,
 		setLocationArray,
-		photoURL,
-		likes
+		lastTopicRef,
 	} = props;
+
+	const { title, posted, lastPost, likes } = props.thread?.data();
+
+	const { username, photoURL } = props.user;
+
 	return (
-		<li className='list-group-item'>
+		<li
+			ref={lastTopicRef ? lastTopicRef : undefined}
+			className='list-group-item'
+		>
 			<div className='row align-items-center'>
 				<div className='col-4 col-sm-3'>
 					<button
@@ -52,7 +52,7 @@ const TopicRow: FC<Props> = props => {
 								objectFit: 'cover',
 								width: '40px',
 								height: '40px',
-								margin: '0.15rem'
+								margin: '0.15rem',
 							}}
 							src={photoURL}
 							alt='Topic poster profile'
@@ -62,16 +62,18 @@ const TopicRow: FC<Props> = props => {
 				</div>
 				<div className='col-3 d-none d-sm-block'>
 					<p>
-						{posted.toDateString() === new Date().toDateString()
-							? 'Today - ' + posted.toTimeString()
-							: posted.toUTCString()}
+						{posted.toDate().toDateString() ===
+						new Date().toDateString()
+							? 'Today - ' + posted.toDate().toTimeString()
+							: posted.toDate().toUTCString()}
 					</p>
 				</div>
 				<div className='col-3 d-none d-sm-block'>
 					<p>
-						{lastPost.toDateString() === new Date().toDateString()
-							? 'Today - ' + lastPost.toTimeString()
-							: lastPost.toUTCString()}
+						{lastPost.toDate().toDateString() ===
+						new Date().toDateString()
+							? 'Today - ' + lastPost.toDate().toTimeString()
+							: lastPost.toDate().toUTCString()}
 					</p>
 				</div>
 				<div className='col-4 col-sm-1'>

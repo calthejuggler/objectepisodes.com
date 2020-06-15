@@ -1,14 +1,15 @@
 import React, {
-	useLayoutEffect,
-	useState,
 	FC,
 	Dispatch,
-	SetStateAction
+	SetStateAction,
+	useRef,
+	useCallback,
+	useReducer,
+	useEffect,
 } from 'react';
 import { withFirebase } from '../../../../Firebase/context';
 import AddTopic from './components/AddTopic';
 import TopicRow from './components/TopicRow';
-import ItemsPerPage from '../../components/ItemsPerPage';
 import Firebase from './../../../../Firebase/index';
 
 interface Props {
@@ -19,129 +20,170 @@ interface Props {
 	setTitle: Dispatch<SetStateAction<string | null>>;
 }
 
-const TopicsTable: FC<Props> = props => {
+interface State {
+	topicsLoading: boolean;
+	topics: {
+		thread: firebase.firestore.DocumentData;
+		user: firebase.firestore.DocumentData;
+		id: string;
+	}[];
+	hasMore: boolean;
+	error: string | null;
+}
+
+const initialState = {
+	topicsLoading: true,
+	topics: [],
+	hasMore: true,
+	error: null,
+};
+
+const TopicsTable: FC<Props> = (props) => {
 	const {
 		firebase,
 		currentCategory,
 		setCurrentTopic,
 		setLocationArray,
-		setTitle
 	} = props;
 
-	const [topics, setTopics] = useState<Array<{ thread: any; user: any }>>([]);
-	const [topicLoading, setTopicLoading] = useState(true);
+	const topicsReducer = (
+		state: State,
+		action: { type: string; payload: any }
+	): State => {
+		switch (action.type) {
+			case 'add-topic': {
+				if (action.payload) {
+					return {
+						...state,
+						topics: [...state.topics, action.payload],
+					};
+				}
+				break;
+			}
+			case 'no-more-topics': {
+				return { ...state, topicsLoading: false, hasMore: false };
+			}
+			case 'set-loading': {
+				return { ...state, topicsLoading: action.payload };
+			}
+			case 'error': {
+				return { ...state, error: action.payload };
+			}
+			default:
+				return state;
+		}
+		return state;
+	};
 
-	const [page, setPage] = useState(0);
-	const [lastPage, setLastPage] = useState(0);
-	const [topicsPerPage, setTopicsPerPage] = useState(5);
-	const [lastTopicVisible, setLastTopicVisible] = useState(null);
-	const [firstTopicVisible, setFirstTopicVisible] = useState(null);
+	const [{ topicsLoading, topics, hasMore, error }, dispatch] = useReducer(
+		topicsReducer,
+		initialState
+	);
 
-	useLayoutEffect(() => {
-		setTitle(currentCategory);
+	useEffect(() => {
 		firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
+			.orderBy('lastPost', 'desc')
+			.limit(10)
 			.get()
-			.then((topicCountSnap: any) => {
-				const pages = Math.floor(
-					topicCountSnap.docs.length / topicsPerPage
-				);
-				setLastPage(pages);
-			});
-		return firebase.db
-			.collection('forum')
-			.where('category', '==', currentCategory)
-			.orderBy('posted', 'desc')
-			.limit(topicsPerPage)
-			.onSnapshot((topicsSnap: any) => {
-				setLastTopicVisible(
-					topicsSnap.docs[topicsSnap.docs.length - 1]
-				);
-				setFirstTopicVisible(topicsSnap.docs[0]);
-				if (topicsSnap.empty) {
-					setTopicLoading(false);
-				} else {
-					setTopics([]);
-					topicsSnap.forEach((topicDoc: any) => {
-						firebase
-							.getUserDataFromUID(topicDoc.data().user)
-							.then(userDoc => {
-								setTopics(prev => [
-									...prev,
-									{ thread: topicDoc, user: userDoc }
-								]);
-								setTopicLoading(false);
-							});
-					});
+			.then((snap: firebase.firestore.QuerySnapshot) => {
+				if (snap.empty || snap.docs.length < 10) {
+					dispatch({ type: 'no-more-topics', payload: null });
 				}
-			});
-	}, [currentCategory, firebase, topicsPerPage, setTitle]);
+				snap.docs.forEach((doc, i) => {
+					firebase
+						.getUserDataFromUID(doc.data().user)
+						.then((userSnap) => {
+							dispatch({
+								type: 'add-topic',
+								payload: {
+									thread: doc,
+									user: userSnap.data(),
+									id: doc.id,
+								},
+							});
+							if (snap.docs.length - 1)
+								dispatch({
+									type: 'set-loading',
+									payload: false,
+								});
+						})
+						.catch((e: Error) => {
+							dispatch({
+								type: 'error',
+								payload: e.message,
+							});
+						});
+				});
+			})
+			.catch((e: Error) =>
+				dispatch({ type: 'error', payload: e.message })
+			);
+	}, [currentCategory, firebase]);
 
-	const loadNextTopics = () => {
-		setTopicLoading(true);
-		setPage(prev => prev + 1);
-		return firebase.db
-			.collection('forum')
-			.where('category', '==', currentCategory)
-			.orderBy('posted', 'desc')
-			.startAfter(lastTopicVisible)
-			.limit(topicsPerPage)
-			.onSnapshot((topicsSnap: any) => {
-				setLastTopicVisible(
-					topicsSnap.docs[topicsSnap.docs.length - 1]
-				);
-				setFirstTopicVisible(topicsSnap.docs[0]);
-				if (topicsSnap.empty) {
-					setTopicLoading(false);
-				} else {
-					setTopics([]);
-					topicsSnap.forEach((topicDoc: any) => {
+	const loadMoreTopics = useCallback(() => {
+		if (hasMore) {
+			dispatch({
+				type: 'set-loading',
+				payload: true,
+			});
+			firebase.db
+				.collection('forum')
+				.where('category', '==', currentCategory)
+				.orderBy('lastPost', 'desc')
+				.limit(10)
+				.startAfter(topics[topics.length - 1].thread)
+				.get()
+				.then((snap: firebase.firestore.QuerySnapshot) => {
+					console.dir(snap.empty);
+					if (snap.empty || snap.docs.length < 10) {
+						dispatch({ type: 'no-more-topics', payload: null });
+					}
+					snap.docs.forEach((doc, i) => {
 						firebase
-							.getUserDataFromUID(topicDoc.data().user)
-							.then(userDoc => {
-								setTopics(prev => [
-									...prev,
-									{ thread: topicDoc, user: userDoc }
-								]);
-								setTopicLoading(false);
+							.getUserDataFromUID(doc.data().user)
+							.then((userSnap) => {
+								dispatch({
+									type: 'add-topic',
+									payload: {
+										thread: doc,
+										user: userSnap.data(),
+										id: doc.id,
+									},
+								});
+								if (snap.docs.length - 1 === i) {
+									dispatch({
+										type: 'set-loading',
+										payload: false,
+									});
+								}
+							})
+							.catch((e: Error) => {
+								dispatch({
+									type: 'error',
+									payload: e.message,
+								});
 							});
 					});
+				});
+		}
+	}, [currentCategory, firebase, topics, hasMore]);
+	const observer = useRef<IntersectionObserver>();
+
+	const lastTopic = useCallback(
+		(node) => {
+			if (topicsLoading) return null;
+			if (observer.current) observer.current.disconnect();
+			observer.current = new IntersectionObserver((entries) => {
+				if (entries[0].isIntersecting && hasMore) {
+					loadMoreTopics();
 				}
 			});
-	};
-	const loadPrevTopics = () => {
-		setTopicLoading(true);
-		setPage(prev => prev - 1);
-		return firebase.db
-			.collection('forum')
-			.where('category', '==', currentCategory)
-			.orderBy('posted', 'desc')
-			.endBefore(firstTopicVisible)
-			.limit(topicsPerPage)
-			.onSnapshot((topicsSnap: any) => {
-				setLastTopicVisible(
-					topicsSnap.docs[topicsSnap.docs.length - 1]
-				);
-				setFirstTopicVisible(topicsSnap.docs[0]);
-				if (topicsSnap.empty) {
-					setTopicLoading(false);
-				} else {
-					setTopics([]);
-					topicsSnap.forEach((topicDoc: any) => {
-						firebase
-							.getUserDataFromUID(topicDoc.data().user)
-							.then(userDoc => {
-								setTopics(prev => [
-									...prev,
-									{ thread: topicDoc, user: userDoc }
-								]);
-								setTopicLoading(false);
-							});
-					});
-				}
-			});
-	};
+			if (node) observer.current.observe(node);
+		},
+		[topicsLoading, hasMore, loadMoreTopics]
+	);
 
 	return (
 		<>
@@ -149,13 +191,11 @@ const TopicsTable: FC<Props> = props => {
 				<div className='col-6'>
 					<AddTopic currentCategory={currentCategory} />
 				</div>
-				<div className='col-6 text-right'>
-					<ItemsPerPage
-						currentItemsPerPage={topicsPerPage}
-						setLoadingState={setTopicLoading}
-						setItemsPerPage={setTopicsPerPage}
-					/>
-				</div>
+				{error && (
+					<div className='col-6'>
+						<div className='alert alert-danger'>{error}</div>
+					</div>
+				)}
 			</div>
 			<ul className='list-group list-group-flush'>
 				<li className='list-group-item'>
@@ -177,36 +217,49 @@ const TopicsTable: FC<Props> = props => {
 						</div>
 					</div>
 				</li>
-				{!topicLoading ? (
-					topics.length !== 0 ? (
-						topics.map(topic => (
-							<TopicRow
-								key={topic.thread.id}
-								id={topic.thread.id}
-								title={topic.thread.data().title}
-								username={topic.user.data().username}
-								posted={topic.thread.data().posted.toDate()}
-								lastPost={topic.thread.data().lastPost.toDate()}
-								currentCategory={currentCategory}
-								setCurrentTopic={setCurrentTopic}
-								setLocationArray={setLocationArray}
-								photoURL={topic.user.data().photoURL}
-								likes={topic.thread.data().likes}
-							/>
-						))
-					) : (
-						<li className='list-group-item'>
-							<div className='row'>
-								<div className='col-12'>
-									<p>
-										There are no topics here yet! Will you
-										be the first to post one?
-									</p>
-								</div>
-							</div>
-						</li>
+				{topics !== [] ? (
+					topics.map(
+						(topic: firebase.firestore.DocumentData, i: number) => {
+							if (topics.length === i + 1) {
+								return (
+									<TopicRow
+										key={topic.id}
+										id={topic.id}
+										lastTopicRef={lastTopic}
+										thread={topic.thread}
+										user={topic.user}
+										currentCategory={currentCategory}
+										setCurrentTopic={setCurrentTopic}
+										setLocationArray={setLocationArray}
+									/>
+								);
+							} else
+								return (
+									<TopicRow
+										key={topic.id}
+										id={topic.id}
+										thread={topic.thread}
+										user={topic.user}
+										currentCategory={currentCategory}
+										setCurrentTopic={setCurrentTopic}
+										setLocationArray={setLocationArray}
+									/>
+								);
+						}
 					)
 				) : (
+					<li className='list-group-item'>
+						<div className='row'>
+							<div className='col-12'>
+								<p>
+									There are no topics here yet! Will you be
+									the first to post one?
+								</p>
+							</div>
+						</div>
+					</li>
+				)}
+				{topicsLoading && (
 					<li className='list-group-item'>
 						<div className='row'>
 							<div className='col-1 mx-auto'>
@@ -217,33 +270,6 @@ const TopicsTable: FC<Props> = props => {
 						</div>
 					</li>
 				)}
-				<nav
-					aria-label='Page navigation example'
-					className='mx-auto my-3'
-				>
-					<ul className='pagination'>
-						{page !== 0 && (
-							<li className='page-item'>
-								<button
-									className={'btn page-link'}
-									onClick={loadPrevTopics}
-								>
-									Prev
-								</button>
-							</li>
-						)}
-						{lastPage !== page && (
-							<li className='page-item'>
-								<button
-									className={'btn page-link'}
-									onClick={loadNextTopics}
-								>
-									Next
-								</button>
-							</li>
-						)}
-					</ul>
-				</nav>
 			</ul>
 		</>
 	);
