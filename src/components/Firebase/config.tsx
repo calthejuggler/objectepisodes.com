@@ -4,6 +4,8 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
+// import './admin.ts';
+
 const config = {
 	apiKey: process.env.REACT_APP_FIREBASE_APIKEY,
 	authDomain: process.env.REACT_APP_FIREBASE_AUTHDOMAIN,
@@ -11,7 +13,7 @@ const config = {
 	projectId: process.env.REACT_APP_FIREBASE_PROJECTID,
 	storageBucket: process.env.REACT_APP_FIREBASE_STORAGEBUCKET,
 	messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGINGSENDERID,
-	appId: process.env.REACT_APP_FIREBASE_APPID
+	appId: process.env.REACT_APP_FIREBASE_APPID,
 };
 
 class Firebase extends Component {
@@ -41,18 +43,15 @@ class Firebase extends Component {
 			.createUserWithEmailAndPassword(email, password)
 			.then((res: app.User) => {
 				res.updateProfile({ displayName: username });
-				this.db
-					.collection('users')
-					.doc(res.uid)
-					.set({
-						firstname: firstname,
-						lastname: lastname,
-						username: username,
-						email: email,
-						admin: false,
-						forumPosts: 0,
-						created: new Date()
-					});
+				this.db.collection('users').doc(res.uid).set({
+					firstname: firstname,
+					lastname: lastname,
+					username: username,
+					email: email,
+					admin: false,
+					forumPosts: 0,
+					created: new Date(),
+				});
 			});
 	};
 	doSignOut = () => {
@@ -83,17 +82,14 @@ class Firebase extends Component {
 	};
 	getForumTopicsFromCategory: (
 		currentCategory: string
-	) => Promise<app.firestore.DocumentSnapshot> = async currentCategory => {
+	) => Promise<app.firestore.DocumentSnapshot> = async (currentCategory) => {
 		return await this.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
 			.get();
 	};
 	getUserDataFromUID = async (userID: string) => {
-		return await this.db
-			.collection('users')
-			.doc(userID)
-			.get();
+		return await this.db.collection('users').doc(userID).get();
 	};
 	getUserDataFromUsername = async (username: string) => {
 		return await this.db
@@ -106,7 +102,7 @@ class Firebase extends Component {
 			.collection('users')
 			.doc(uid)
 			.update({
-				forumPosts: this.dbFunc.FieldValue.increment(1)
+				forumPosts: this.dbFunc.FieldValue.increment(1),
 			});
 	};
 }
