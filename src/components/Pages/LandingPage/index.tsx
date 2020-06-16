@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react';
 import { withFirebase } from '../../Firebase/context';
 import Firebase from './../../Firebase/index';
 
-const LandingPage: FC<{ firebase: Firebase }> = props => {
+const LandingPage: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
 
 	const [email, setEmail] = useState('');
@@ -51,7 +51,7 @@ const LandingPage: FC<{ firebase: Firebase }> = props => {
 											.collection('mailing-list')
 											.add({
 												email: email,
-												timestamp: firebase.dbFunc.FieldValue.serverTimestamp()
+												timestamp: firebase.dbFunc.FieldValue.serverTimestamp(),
 											})
 											.then(
 												(
@@ -66,7 +66,7 @@ const LandingPage: FC<{ firebase: Firebase }> = props => {
 															'oe_mailing_list',
 															{
 																user_email: email,
-																doc_id: doc.id
+																doc_id: doc.id,
 															}
 														)
 														.then(() => {
@@ -99,23 +99,15 @@ const LandingPage: FC<{ firebase: Firebase }> = props => {
 	};
 	return (
 		<>
-			<div className='row'>
-				<div className='col-12 col-md-6 mx-auto text-center'>
+			<div className='row' style={{ height: '88vh' }}>
+				<div className='col-12 col-md-6 m-auto text-center'>
 					<img
 						src={logo}
 						alt='ObjectEpisodes.com'
 						className='img-fluid d-block m-auto'
 					/>
 					<h1 className='display-4 text-center'>is returning...</h1>
-				</div>
-			</div>
-			<div className='row'>
-				<div className='col-12 col-md-6 mx-auto text-center'>
 					<hr />
-					<p>
-						<b>Subscribe to the mailing list</b> to be the first to
-						know when it is online!
-					</p>
 					<form onSubmit={handleSubmit}>
 						{error && (
 							<div className='alert alert-danger'>{error}</div>
@@ -123,20 +115,28 @@ const LandingPage: FC<{ firebase: Firebase }> = props => {
 						{message && (
 							<div className='alert alert-success'>{message}</div>
 						)}
-						<input
-							type='email'
-							name='email'
-							value={email}
-							onChange={e => setEmail(e.target.value)}
-							className='form-control'
-							placeholder='Email Address'
-						/>
+						<div className='form-group'>
+							<label htmlFor='email'>
+								Enter your email address to either <b>login</b>{' '}
+								or <b>subscribe to the mailing list</b> to be
+								informed about updates and account releases.
+							</label>
+							<input
+								id='email'
+								type='email'
+								name='email'
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+								className='form-control'
+								placeholder='Email Address'
+							/>
+						</div>
 						{betaTester && (
 							<input
 								type='password'
 								name='password'
 								value={password}
-								onChange={e => setPassword(e.target.value)}
+								onChange={(e) => setPassword(e.target.value)}
 								className='form-control'
 								placeholder='Password'
 							/>
