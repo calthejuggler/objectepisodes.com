@@ -30,7 +30,6 @@ const Forum: SFC<Props> = (props) => {
 			setCurrentTopic(paramId);
 			setCurrentCategory(paramCategory);
 			setLocationArray(['forum', paramCategory, paramId]);
-			console.dir('Yo');
 		} else if (paramId) {
 			setCurrentTopic(paramId);
 			setLocationArray(['forum', '', paramId]);
