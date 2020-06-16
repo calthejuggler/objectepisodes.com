@@ -97,8 +97,8 @@ class Firebase extends Component {
 			.where('username', '==', username)
 			.get();
 	};
-	incrementForumPosts = (uid: string) => {
-		this.db
+	incrementForumPosts = async (uid: string) => {
+		await this.db
 			.collection('users')
 			.doc(uid)
 			.update({
