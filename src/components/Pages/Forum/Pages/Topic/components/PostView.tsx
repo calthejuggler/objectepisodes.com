@@ -3,9 +3,10 @@ import ProfilePicture from '../../../../../elements/ProfilePicture';
 import RichTextView from '../../../../../elements/RichTextView';
 import LikeButton from '../../../../../elements/LikeButton';
 
-const PostView: FC<{ post: { data: any; user: any; id: string } | null }> = ({
-	post,
-}) => {
+const PostView: FC<{
+	post: { data: any; user: any; id: string } | null;
+	collection: string;
+}> = ({ post,collection }) => {
 	return (
 		<div className='col-12 col-lg-8'>
 			<div className='card my-3'>
@@ -82,8 +83,9 @@ const PostView: FC<{ post: { data: any; user: any; id: string } | null }> = ({
 									<LikeButton
 										postID={post.id}
 										likes={post.data.likes}
-										type='post'
+										collection={collection}
 										size={3}
+										noReload
 									/>
 								</div>
 							</div>

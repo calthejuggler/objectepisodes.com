@@ -85,7 +85,7 @@ const TopicRow: FC<Props> = (props) => {
 					<LikeButton
 						postID={id}
 						likes={likes}
-						type='post'
+						collection='forum'
 						size={2}
 						dispatch={dispatch}
 					/>
