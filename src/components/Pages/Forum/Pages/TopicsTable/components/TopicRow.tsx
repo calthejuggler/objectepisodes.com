@@ -87,6 +87,7 @@ const TopicRow: FC<Props> = (props) => {
 						collection='forum'
 						size={2}
 						dispatch={dispatch}
+						noReload
 					/>
 				</div>
 			</div>

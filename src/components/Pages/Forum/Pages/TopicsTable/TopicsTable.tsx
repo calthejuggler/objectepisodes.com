@@ -11,7 +11,6 @@ import { withFirebase } from '../../../../Firebase/context';
 import AddTopic from './components/AddTopic';
 import TopicRow from './components/TopicRow';
 import Firebase from './../../../../Firebase/index';
-import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 
 interface Props {
 	firebase: Firebase;
@@ -67,10 +66,16 @@ const TopicsTable: FC<Props> = (props) => {
 			case 'empty-topics': {
 				return {
 					...state,
-					hasMore: true,
-					topicsLoading: true,
+					// hasMore: true,
 					topics: [],
 					error: null,
+				};
+			}
+			case 'load-more-topics': {
+				return {
+					...state,
+					topicsLoading: true,
+					numberOfRows: state.numberOfRows + 10,
 				};
 			}
 			case 'no-more-topics': {
@@ -88,25 +93,26 @@ const TopicsTable: FC<Props> = (props) => {
 		return state;
 	};
 
-	const [{ topicsLoading, topics, hasMore, error }, dispatch] = useReducer(
-		topicsReducer,
-		initialState
-	);
+	const [
+		{ topicsLoading, topics, hasMore, error, numberOfRows },
+		dispatch,
+	] = useReducer(topicsReducer, initialState);
 
-	const numberOfRows = useRef<number>(10);
+	const numberOfTopics = useRef<number>(0);
 
 	useEffect(() => {
 		setTitle(currentCategory);
-		firebase.db
+		return firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
 			.orderBy('lastPost', 'desc')
-			.limit(numberOfRows.current)
-			.get()
-			.then((snap: firebase.firestore.QuerySnapshot) => {
-				if (snap.empty || snap.docs.length < 10) {
+			.limit(numberOfRows)
+			.onSnapshot((snap: firebase.firestore.QuerySnapshot) => {
+				if (snap.docs.length === numberOfTopics.current) {
 					dispatch({ type: 'no-more-topics', payload: null });
 				}
+				dispatch({ type: 'empty-topics', payload: null });
+				numberOfTopics.current = 0;
 				snap.docs.forEach(
 					(
 						doc: firebase.firestore.QueryDocumentSnapshot,
@@ -119,6 +125,7 @@ const TopicsTable: FC<Props> = (props) => {
 								id: doc.id,
 							},
 						});
+						numberOfTopics.current++;
 						if (i === snap.docs.length - 1)
 							dispatch({
 								type: 'set-loading',
@@ -126,57 +133,9 @@ const TopicsTable: FC<Props> = (props) => {
 							});
 					}
 				);
-			})
-			.catch((e: Error) => {
-				dispatch({
-					type: 'error',
-					payload: e.message,
-				});
 			});
-	}, [currentCategory, firebase, setTitle]);
-
-	const loadMoreTopics = useCallback(() => {
-		if (hasMore) {
-			dispatch({
-				type: 'set-loading',
-				payload: true,
-			});
-			firebase.db
-				.collection('forum')
-				.where('category', '==', currentCategory)
-				.orderBy('lastPost', 'desc')
-				.limit(10)
-				.startAfter(topics[topics.length - 1].thread)
-				.get()
-				.then((snap: firebase.firestore.QuerySnapshot) => {
-					if (snap.empty || snap.docs.length < 10) {
-						dispatch({ type: 'no-more-topics', payload: null });
-					}
-					snap.docs.forEach((doc, i) => {
-						numberOfRows.current += 1;
-						dispatch({
-							type: 'add-topic',
-							payload: {
-								thread: doc,
-								id: doc.id,
-							},
-						});
-						if (snap.docs.length - 1 === i) {
-							dispatch({
-								type: 'set-loading',
-								payload: false,
-							});
-						}
-					});
-				})
-				.catch((e: Error) => {
-					dispatch({
-						type: 'error',
-						payload: e.message,
-					});
-				});
-		}
-	}, [currentCategory, firebase, topics, hasMore]);
+	}, [currentCategory, firebase, setTitle, numberOfRows]);
+	
 	const observer = useRef<IntersectionObserver>();
 
 	const lastTopic = useCallback(
@@ -185,12 +144,12 @@ const TopicsTable: FC<Props> = (props) => {
 			if (observer.current) observer.current.disconnect();
 			observer.current = new IntersectionObserver((entries) => {
 				if (entries[0].isIntersecting && hasMore) {
-					loadMoreTopics();
+					dispatch({ type: 'load-more-topics', payload: null });
 				}
 			});
 			if (node) observer.current.observe(node);
 		},
-		[topicsLoading, hasMore, loadMoreTopics]
+		[topicsLoading, hasMore]
 	);
 
 	return (
