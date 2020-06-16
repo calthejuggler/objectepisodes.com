@@ -1,4 +1,10 @@
-import React, { useMemo, FC, useCallback } from 'react';
+import React, {
+	useMemo,
+	FC,
+	useCallback,
+	Dispatch,
+	SetStateAction,
+} from 'react';
 import { createEditor, Node, Editor } from 'slate';
 import { isHotkey } from 'is-hotkey';
 
@@ -8,7 +14,7 @@ import {
 	withReact,
 	ReactEditor,
 	RenderElementProps,
-	RenderLeafProps
+	RenderLeafProps,
 } from 'slate-react';
 import MarkButton from './components/MarkButton';
 import Toolbar from './components/Toolbar';
@@ -18,7 +24,9 @@ interface TextAreaInterface {
 	state: Node[];
 	setState: (value: Node[]) => void;
 	placeholder: string;
+	setInputMark?: Dispatch<SetStateAction<string>>;
 }
+
 const Element = ({ attributes, children, element }: RenderElementProps) => {
 	switch (element.type) {
 		case 'block-quote':
@@ -33,6 +41,18 @@ const Element = ({ attributes, children, element }: RenderElementProps) => {
 			return <li {...attributes}>{children}</li>;
 		case 'numbered-list':
 			return <ol {...attributes}>{children}</ol>;
+		case 'link':
+			return (
+				<pre {...attributes}>
+					<a
+						href={children}
+						target='_blank'
+						rel='noopener noreferrer'
+					>
+						{children}
+					</a>
+				</pre>
+			);
 		default:
 			return <p {...attributes}>{children}</p>;
 	}
@@ -61,7 +81,8 @@ const Leaf = ({ attributes, children, leaf }: RenderLeafProps) => {
 const TextAreaInput: FC<TextAreaInterface> = ({
 	state,
 	setState,
-	placeholder
+	placeholder,
+	setInputMark,
 }) => {
 	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
 
@@ -69,7 +90,6 @@ const TextAreaInput: FC<TextAreaInterface> = ({
 		'mod+b': 'bold',
 		'mod+i': 'italic',
 		'mod+u': 'underline',
-		'mod+`': 'code'
 	};
 
 	const toggleMark = (editor: ReactEditor, format: string) => {
@@ -79,6 +99,7 @@ const TextAreaInput: FC<TextAreaInterface> = ({
 			Editor.removeMark(editor, format);
 		} else {
 			Editor.addMark(editor, format, true);
+			setInputMark && setInputMark(format);
 		}
 	};
 
@@ -124,16 +145,15 @@ const TextAreaInput: FC<TextAreaInterface> = ({
 				<MarkButton format='bold' icon='fas fa-bold' />
 				<MarkButton format='italic' icon='fas fa-italic' />
 				<MarkButton format='underline' icon='fas fa-underline' />
-				<MarkButton format='code' icon='fas fa-code' />
 				<BlockButton
 					format='heading-two'
 					icon='fas fa-heading'
 					iconSize='small'
 				/>
-				<BlockButton format='heading-one' icon='fas fa-heading' />
 				<BlockButton format='block-quote' icon='fas fa-quote-right' />
 				<BlockButton format='numbered-list' icon='fas fa-list-ol' />
 				<BlockButton format='bulleted-list' icon='fas fa-list-ul' />
+				<BlockButton format='link' icon='fas fa-link' />
 			</Toolbar>
 			<Editable
 				renderElement={renderElement}

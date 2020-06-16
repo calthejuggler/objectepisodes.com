@@ -4,13 +4,13 @@ import {
 	Editable,
 	withReact,
 	RenderElementProps,
-	RenderLeafProps
+	RenderLeafProps,
 } from 'slate-react';
 import { createEditor } from 'slate';
 
 const RichTextView = ({ content }: { content: any }) => {
-	const renderElement = useCallback(props => <Element {...props} />, []);
-	const renderLeaf = useCallback(props => <Leaf {...props} />, []);
+	const renderElement = useCallback((props) => <Element {...props} />, []);
+	const renderLeaf = useCallback((props) => <Leaf {...props} />, []);
 	const editor = useMemo(() => withReact(createEditor()), []);
 
 	const Element = ({ attributes, children, element }: RenderElementProps) => {
@@ -27,6 +27,18 @@ const RichTextView = ({ content }: { content: any }) => {
 				return <li {...attributes}>{children}</li>;
 			case 'numbered-list':
 				return <ol {...attributes}>{children}</ol>;
+			case 'link':
+				const link = children.props.node.children[0].text
+				return (
+					<a
+						href={link}
+						target='_blank'
+						rel='noopener noreferrer'
+						{...attributes}
+					>
+						{children}
+					</a>
+				);
 			default:
 				return <p {...attributes}>{children}</p>;
 		}
