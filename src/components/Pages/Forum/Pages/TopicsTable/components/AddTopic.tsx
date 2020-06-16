@@ -1,26 +1,27 @@
 import React, { useState, SFC, FormEvent } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
-import { withRouter } from 'react-router-dom';
 
 import $ from 'jquery';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
 import { Node } from 'slate';
+import { withAuth } from './../../../../../Session';
 
 interface Props {
 	firebase: Firebase;
 	currentCategory: string | undefined;
+	user: any;
 }
 
-const AddTopic: SFC<Props> = props => {
-	const { firebase, currentCategory } = props;
+const AddTopic: SFC<Props> = (props) => {
+	const { firebase, currentCategory, user } = props;
 
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState<Array<Node>>([
 		{
 			type: 'paragraph',
-			children: [{ text: '' }]
-		}
+			children: [{ text: '' }],
+		},
 	]);
 
 	const [error, setError] = useState<string | null>(null);
@@ -37,12 +38,14 @@ const AddTopic: SFC<Props> = props => {
 						title: title,
 						posted: new Date(),
 						lastPost: new Date(),
-						user: firebase.auth.currentUser.uid
+						user: {
+							id: user.uid,
+							name: user.displayName,
+							photoURL: user.photoURL,
+						},
 					})
 					.then(() => {
-						firebase.incrementForumPosts(
-							firebase.auth.currentUser.uid
-						);
+						firebase.incrementForumPosts(user.uid);
 						setTitle('');
 						$('#addTopicModal').modal('hide');
 					})
@@ -89,7 +92,7 @@ const AddTopic: SFC<Props> = props => {
 									{error}
 								</div>
 							)}
-							{firebase.auth.currentUser ? (
+							{user.uid ? (
 								<form>
 									<div className='form-group'>
 										<input
@@ -98,7 +101,7 @@ const AddTopic: SFC<Props> = props => {
 											className='form-control'
 											placeholder='Write your post title here...'
 											value={title}
-											onChange={e =>
+											onChange={(e) =>
 												setTitle(e.target.value)
 											}
 										/>
@@ -147,4 +150,4 @@ const AddTopic: SFC<Props> = props => {
 	);
 };
 
-export default withRouter(withFirebase(AddTopic));
+export default withFirebase(withAuth(AddTopic));

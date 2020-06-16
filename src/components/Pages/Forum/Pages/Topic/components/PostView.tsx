@@ -15,7 +15,7 @@ const PostView: FC<{
 						<div className='row align-items-start justify-content-center my-2'>
 							<div className='col-3 col-sm-2'>
 								<ProfilePicture
-									userID={post.data.user}
+									photoURL={post.data.user.photoURL}
 									size={['3rem', '3rem']}
 									centered
 								/>
@@ -25,10 +25,10 @@ const PostView: FC<{
 									<div className='col-12'>
 										<a
 											href={
-												'#/user/' + post.user.username
+												'#/user/' + post.user.id
 											}
 										>
-											{post.user.username}
+											{post.user.name}
 										</a>
 									</div>
 								</div>

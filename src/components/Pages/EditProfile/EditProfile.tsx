@@ -77,7 +77,7 @@ const EditProfile: FC<{ firebase: Firebase; user: any }> = props => {
 			if (e) e.preventDefault();
 			if (user) {
 				firebase
-					.getUserDataFromUID(firebase.auth.currentUser.uid)
+					.getUserDataFromUID(user.uid)
 					.then(userSnap => {
 						setEmail(userSnap.data().email);
 						setFirstname(userSnap.data().firstname);

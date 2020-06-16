@@ -4,11 +4,13 @@ import { useParams } from 'react-router-dom';
 import { withFirebase } from '../../Firebase/context';
 import PersonalForumPosts from './components/PersonalForumPosts';
 import Firebase from './../../Firebase/index';
+import { withAuth } from './../../Session/withAuth';
 
 const User: FC<{
 	firebase: Firebase;
+	user: any;
 }> = (props) => {
-	const { firebase } = props;
+	const { firebase, user } = props;
 	const { paramUser } = useParams();
 
 	const [userData, setUserData] = useState<any>('Loading');
@@ -33,20 +35,17 @@ const User: FC<{
 					});
 				}
 			});
-	}, [paramUser, firebase]);
+	}, [paramUser, firebase, user.uid]);
 	useEffect(() => {
-		if (firebase.auth.currentUser) {
-			if (
-				userData !== null &&
-				userData.id === firebase.auth.currentUser.uid
-			) {
+		if (user.uid) {
+			if (userData !== null && userData.id === user.uid) {
 				setOwnProfile(true);
 			}
 		}
 		return () => {
 			setOwnProfile(false);
 		};
-	}, [firebase.auth.currentUser, userData]);
+	}, [user.uid, userData]);
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>
@@ -59,4 +58,4 @@ const User: FC<{
 	);
 };
 
-export default withFirebase(User);
+export default withAuth(withFirebase(User));

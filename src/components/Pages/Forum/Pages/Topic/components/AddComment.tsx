@@ -3,20 +3,22 @@ import { withFirebase } from '../../../../../Firebase/context';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
 import { Node } from 'slate';
+import { withAuth } from './../../../../../Session/withAuth';
 
 interface Props {
 	currentCategory: string | undefined;
 	currentTopic: string | undefined;
 	firebase: Firebase;
+	user: any;
 }
 
-const AddComment: FC<Props> = props => {
-	const { currentCategory, currentTopic, firebase } = props;
+const AddComment: FC<Props> = (props) => {
+	const { currentCategory, currentTopic, firebase, user } = props;
 	const [comment, setComment] = useState<Node[]>([
 		{
 			type: 'paragraph',
-			children: [{ text: '' }]
-		}
+			children: [{ text: '' }],
+		},
 	]);
 	const [error, setError] = useState<null | string>(null);
 	const handleCommentSubmit = (e: FormEvent) => {
@@ -25,9 +27,13 @@ const AddComment: FC<Props> = props => {
 			.collection('forum-replies')
 			.add({
 				comment: comment,
-				user: firebase.auth.currentUser.uid,
+				user: {
+					id: user.uid,
+					name: user.displayName,
+					photoURL: user.photoURL,
+				},
 				topicID: currentTopic,
-				timestamp: new Date()
+				timestamp: new Date(),
 			})
 			.then(() => {
 				if (currentTopic !== undefined)
@@ -35,7 +41,7 @@ const AddComment: FC<Props> = props => {
 						.collection('forum')
 						.doc(currentTopic.trim())
 						.update({
-							lastPost: new Date()
+							lastPost: new Date(),
 						})
 						.then(() => {
 							firebase.db
@@ -43,9 +49,7 @@ const AddComment: FC<Props> = props => {
 								.doc(currentCategory)
 								.update({ lastPost: new Date() })
 								.then(() => {
-									firebase.incrementForumPosts(
-										firebase.auth.currentUser.uid
-									);
+									firebase.incrementForumPosts(user.uid);
 								});
 						});
 			})
@@ -68,4 +72,4 @@ const AddComment: FC<Props> = props => {
 	);
 };
 
-export default withFirebase(AddComment);
+export default withAuth(withFirebase(AddComment));

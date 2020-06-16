@@ -5,7 +5,6 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 interface Props extends RouteComponentProps {
 	id: string;
 	thread: firebase.firestore.DocumentData;
-	user: firebase.firestore.DocumentData;
 	currentCategory: string | null;
 	setCurrentTopic: Dispatch<SetStateAction<string | null>>;
 	setLocationArray: Dispatch<SetStateAction<Array<string | null>>>;
@@ -26,7 +25,7 @@ const TopicRow: FC<Props> = (props) => {
 
 	const { title, posted, lastPost, likes } = props.thread?.data();
 
-	const { username, photoURL } = props.user;
+	const { name, photoURL } = props.thread?.data().user;
 
 	return (
 		<li
@@ -48,7 +47,7 @@ const TopicRow: FC<Props> = (props) => {
 				</div>
 				<div className='col-4 col-sm-2'>
 					<a
-						href={'#/user/' + username}
+						href={'#/user/' + props.thread?.data().user.id}
 						className='row align-items-center justify-content-left'
 					>
 						<img
@@ -62,7 +61,7 @@ const TopicRow: FC<Props> = (props) => {
 							src={photoURL}
 							alt='Topic poster profile'
 						/>
-						{username}
+						{name}
 					</a>
 				</div>
 				<div className='col-3 d-none d-sm-block'>

@@ -8,20 +8,19 @@ import Firebase from '../../../../Firebase/config';
 interface Props {
 	selectedUser: any;
 	firebase: Firebase;
+	user: any;
 }
 
-const InspectUser: FC<Props> = props => {
-	const { selectedUser, firebase } = props;
+const InspectUser: FC<Props> = (props) => {
+	const { selectedUser, firebase, user } = props;
 
 	const [userIsAdmin, setUserIsAdmin] = useState(false);
 
 	useEffect(() => {
-		if (firebase.auth.currentUser) {
-			firebase
-				.getUserDataFromUID(firebase.auth.currentUser.uid)
-				.then(user => {
-					if (user.data().admin) setUserIsAdmin(true);
-				});
+		if (user) {
+			firebase.getUserDataFromUID(user.uid).then((userSnap) => {
+				if (userSnap.data().admin) setUserIsAdmin(true);
+			});
 		}
 	}, [firebase]);
 
@@ -40,7 +39,7 @@ const InspectUser: FC<Props> = props => {
 					style={{
 						width: '10rem',
 						height: '10rem',
-						objectFit: 'cover'
+						objectFit: 'cover',
 					}}
 					className='img-fluid rounded-circle d-block mx-auto'
 				/>
@@ -64,10 +63,7 @@ const InspectUser: FC<Props> = props => {
 					</li>
 					<li>
 						<b>Account Created: </b>
-						{selectedUser
-							.data()
-							.created.toDate()
-							.toDateString()}
+						{selectedUser.data().created.toDate().toDateString()}
 					</li>
 					<li>
 						<b>Forum Posts: </b>

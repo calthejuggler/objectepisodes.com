@@ -4,9 +4,10 @@ import Firebase from './../Firebase/index';
 
 interface ProfilePictureInterface {
 	firebase: Firebase;
-	userID: string;
 	centered: boolean;
 	size: Array<number>;
+	userID?: string;
+	photoURL?: string;
 }
 
 interface IUser {
@@ -18,23 +19,29 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 	firebase,
 	userID,
 	size,
-	centered
+	centered,
+	photoURL,
 }) => {
 	const [userData, setUserData] = useState<IUser | null>(null);
 
 	useEffect(() => {
-		firebase
-			.getUserDataFromUID(userID)
-			.then(res => setUserData(res.data()));
+		if (userID)
+			firebase
+				.getUserDataFromUID(userID)
+				.then((res) => setUserData(res.data()));
 	}, [firebase, userID]);
-	return userData && userData.photoURL && userData.photoURL !== '' ? (
+	return userID || photoURL ? (
 		<img
-			src={userData.photoURL}
-			alt={'profile pic ' + userData.username}
+			src={userData ? userData.photoURL : photoURL}
+			alt={
+				userData
+					? 'profile pic for ' + userData.username
+					: 'profile pic'
+			}
 			style={{
 				width: size ? size[0] : 'auto',
 				height: size ? size[1] : 'auto',
-				objectFit: 'cover'
+				objectFit: 'cover',
 			}}
 			className={
 				'img-fluid rounded-circle ' +
@@ -49,7 +56,7 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 				style={{
 					width: size ? size[0] : 'auto',
 					height: size ? size[1] : 'auto',
-					objectFit: 'cover'
+					objectFit: 'cover',
 				}}
 				className={
 					'img-fluid rounded-circle ' +

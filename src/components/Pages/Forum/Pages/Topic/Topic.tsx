@@ -40,17 +40,13 @@ const Topic: FC<Props> = (props) => {
 			.doc(currentTopic)
 			.onSnapshot((topicSnap: any) => {
 				setPost(null);
-				firebase
-					.getUserDataFromUID(topicSnap.data().user.trim())
-					.then((topicUserSnap) => {
-						setTitle(topicSnap.data().title);
-						setPost({
-							data: topicSnap.data(),
-							user: topicUserSnap.data(),
-							id: topicSnap.id,
-						});
-					})
-					.catch((e) => console.dir(e.message));
+
+				setTitle(topicSnap.data().title);
+				setPost({
+					data: topicSnap.data(),
+					user: topicSnap.data().user,
+					id: topicSnap.id,
+				});
 			});
 	}, [currentCategory, currentTopic, firebase, setTitle]);
 
@@ -65,19 +61,15 @@ const Topic: FC<Props> = (props) => {
 					setCommentsLoading(false);
 				} else {
 					replySnap.forEach((reply: any) => {
-						firebase
-							.getUserDataFromUID(reply.data().user)
-							.then((user) => {
-								setComments((prev) => [
-									...prev,
-									{
-										user: user.data(),
-										data: reply.data(),
-										id: reply.id,
-									},
-								]);
-								setCommentsLoading(false);
-							});
+						setComments((prev) => [
+							...prev,
+							{
+								user: reply.data().user,
+								data: reply.data(),
+								id: reply.id,
+							},
+						]);
+						setCommentsLoading(false);
 					});
 				}
 			});

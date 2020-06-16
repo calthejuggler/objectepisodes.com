@@ -30,12 +30,11 @@ const Forum: SFC<Props> = (props) => {
 			setCurrentTopic(paramId);
 			setCurrentCategory(paramCategory);
 			setLocationArray(['forum', paramCategory, paramId]);
-		} else if (paramId) {
-			setCurrentTopic(paramId);
-			setLocationArray(['forum', '', paramId]);
 		} else if (paramCategory) {
 			setCurrentCategory(paramCategory);
 			setLocationArray(['forum', paramCategory]);
+		} else {
+			setLocationArray(['forum']);
 		}
 		firebase.db
 			.collection('forum-categories')

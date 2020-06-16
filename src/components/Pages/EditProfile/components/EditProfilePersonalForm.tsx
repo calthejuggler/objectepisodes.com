@@ -3,7 +3,7 @@ import React, {
 	Dispatch,
 	SetStateAction,
 	FC,
-	ChangeEvent
+	ChangeEvent,
 } from 'react';
 import { withFirebase } from '../../../Firebase/context';
 import UploadProfilePicture from './UploadProfilePicture';
@@ -23,7 +23,7 @@ interface Props {
 	user: any;
 }
 
-const EditProfilePersonalForm: FC<Props> = props => {
+const EditProfilePersonalForm: FC<Props> = (props) => {
 	const {
 		firstname,
 		lastname,
@@ -34,7 +34,7 @@ const EditProfilePersonalForm: FC<Props> = props => {
 		setEmail,
 		setUsername,
 		firebase,
-		user
+		user,
 	} = props;
 
 	const [storageRef, setStorageRef] = useState('');
@@ -44,7 +44,7 @@ const EditProfilePersonalForm: FC<Props> = props => {
 
 	const [error, setError] = useState<null | string>(null);
 
-	const handleFileUpload = (e: ChangeEvent<{ files: File[] }>):void => {
+	const handleFileUpload = (e: ChangeEvent<{ files: File[] }>): void => {
 		setImageLoading(true);
 		let uid = user.uid;
 		let file = e.target.files[0];
@@ -105,7 +105,7 @@ const EditProfilePersonalForm: FC<Props> = props => {
 						<input
 							type='text'
 							value={firstname}
-							onChange={e => setFirstname(e.target.value)}
+							onChange={(e) => setFirstname(e.target.value)}
 							className='form-control'
 						/>
 					</div>
@@ -116,7 +116,7 @@ const EditProfilePersonalForm: FC<Props> = props => {
 						<input
 							type='text'
 							value={lastname}
-							onChange={e => setLastname(e.target.value)}
+							onChange={(e) => setLastname(e.target.value)}
 							className='form-control'
 						/>
 					</div>
@@ -130,7 +130,7 @@ const EditProfilePersonalForm: FC<Props> = props => {
 							type='text'
 							className='form-control'
 							value={username}
-							onChange={e => {
+							onChange={(e) => {
 								setUsername(e.target.value);
 								setUsernameLoading(true);
 								firebase.db
@@ -141,8 +141,7 @@ const EditProfilePersonalForm: FC<Props> = props => {
 										setUsernameLoading(false);
 										if (
 											!ans.empty &&
-											ans.docs[0].id !==
-												firebase.auth.currentUser.uid
+											ans.docs[0].id !== user.uid
 										) {
 											setUsernameTaken(true);
 										} else {
@@ -194,7 +193,7 @@ const EditProfilePersonalForm: FC<Props> = props => {
 							id='email'
 							className='form-control'
 							value={email}
-							onChange={e => setEmail(e.target.value)}
+							onChange={(e) => setEmail(e.target.value)}
 						/>
 					</div>
 				</div>

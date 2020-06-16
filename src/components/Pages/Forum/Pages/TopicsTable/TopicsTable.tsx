@@ -11,6 +11,7 @@ import { withFirebase } from '../../../../Firebase/context';
 import AddTopic from './components/AddTopic';
 import TopicRow from './components/TopicRow';
 import Firebase from './../../../../Firebase/index';
+import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 
 interface Props {
 	firebase: Firebase;
@@ -106,30 +107,30 @@ const TopicsTable: FC<Props> = (props) => {
 				if (snap.empty || snap.docs.length < 10) {
 					dispatch({ type: 'no-more-topics', payload: null });
 				}
-				snap.docs.forEach((doc, i) => {
-					firebase
-						.getUserDataFromUID(doc.data().user)
-						.then((userSnap) => {
-							dispatch({
-								type: 'add-topic',
-								payload: {
-									thread: doc,
-									user: userSnap.data(),
-									id: doc.id,
-								},
-							});
-							if (snap.docs.length - 1)
-								dispatch({
-									type: 'set-loading',
-									payload: false,
-								});
-						})
-						.catch((e: Error) => {
-							dispatch({
-								type: 'error',
-								payload: e.message,
-							});
+				snap.docs.forEach(
+					(
+						doc: firebase.firestore.QueryDocumentSnapshot,
+						i: number
+					) => {
+						dispatch({
+							type: 'add-topic',
+							payload: {
+								thread: doc,
+								id: doc.id,
+							},
 						});
+						if (i === snap.docs.length - 1)
+							dispatch({
+								type: 'set-loading',
+								payload: false,
+							});
+					}
+				);
+			})
+			.catch((e: Error) => {
+				dispatch({
+					type: 'error',
+					payload: e.message,
 				});
 			});
 	}, [currentCategory, firebase, setTitle]);
@@ -140,7 +141,7 @@ const TopicsTable: FC<Props> = (props) => {
 				type: 'set-loading',
 				payload: true,
 			});
-			return firebase.db
+			firebase.db
 				.collection('forum')
 				.where('category', '==', currentCategory)
 				.orderBy('lastPost', 'desc')
@@ -152,31 +153,26 @@ const TopicsTable: FC<Props> = (props) => {
 						dispatch({ type: 'no-more-topics', payload: null });
 					}
 					snap.docs.forEach((doc, i) => {
-						firebase
-							.getUserDataFromUID(doc.data().user)
-							.then((userSnap) => {
-								numberOfRows.current += 1;
-								dispatch({
-									type: 'add-topic',
-									payload: {
-										thread: doc,
-										user: userSnap.data(),
-										id: doc.id,
-									},
-								});
-								if (snap.docs.length - 1 === i) {
-									dispatch({
-										type: 'set-loading',
-										payload: false,
-									});
-								}
-							})
-							.catch((e: Error) => {
-								dispatch({
-									type: 'error',
-									payload: e.message,
-								});
+						numberOfRows.current += 1;
+						dispatch({
+							type: 'add-topic',
+							payload: {
+								thread: doc,
+								id: doc.id,
+							},
+						});
+						if (snap.docs.length - 1 === i) {
+							dispatch({
+								type: 'set-loading',
+								payload: false,
 							});
+						}
+					});
+				})
+				.catch((e: Error) => {
+					dispatch({
+						type: 'error',
+						payload: e.message,
 					});
 				});
 		}
@@ -239,7 +235,6 @@ const TopicsTable: FC<Props> = (props) => {
 										id={topic.id}
 										lastTopicRef={lastTopic}
 										thread={topic.thread}
-										user={topic.user}
 										currentCategory={currentCategory}
 										setCurrentTopic={setCurrentTopic}
 										setLocationArray={setLocationArray}
@@ -252,7 +247,6 @@ const TopicsTable: FC<Props> = (props) => {
 										key={topic.id}
 										id={topic.id}
 										thread={topic.thread}
-										user={topic.user}
 										currentCategory={currentCategory}
 										setCurrentTopic={setCurrentTopic}
 										setLocationArray={setLocationArray}
