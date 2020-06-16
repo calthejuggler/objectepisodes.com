@@ -70,10 +70,9 @@ const AddItem: FC<{
 				.put(photo.file)
 				.then((snapshot: firebase.storage.UploadTaskSnapshot) => {
 					setUploadState(snapshot.state);
-					snapshot.ref
-						.getDownloadURL()
-						.then((url) => setPhotoURL(url));
+					return snapshot.ref.getDownloadURL();
 				})
+				.then((url: string) => setPhotoURL(url))
 				.catch((e: Error) => setError(e.message));
 		}
 	};

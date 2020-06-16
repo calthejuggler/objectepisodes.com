@@ -14,6 +14,7 @@ interface Props {
 
 const AddComment: FC<Props> = (props) => {
 	const { currentCategory, currentTopic, firebase, user } = props;
+	const [inputMark, setInputMark] = useState<string>('paragraph');
 	const [comment, setComment] = useState<Node[]>([
 		{
 			type: 'paragraph',
@@ -42,17 +43,23 @@ const AddComment: FC<Props> = (props) => {
 						.doc(currentTopic.trim())
 						.update({
 							lastPost: new Date(),
-						})
-						.then(() => {
-							firebase.db
-								.collection('forum-categories')
-								.doc(currentCategory)
-								.update({ lastPost: new Date() })
-								.then(() => {
-									firebase.incrementForumPosts(user.uid);
-								});
 						});
 			})
+			.then(() =>
+				firebase.db
+					.collection('forum-categories')
+					.doc(currentCategory)
+					.update({ lastPost: new Date() })
+			)
+			.then(() => firebase.incrementForumPosts(user.uid))
+			.then(() =>
+				setComment([
+					{
+						type: inputMark,
+						children: [{ text: ' ' }],
+					},
+				])
+			)
 			.catch((e: { message: string }) => setError(e.message));
 	};
 	return (
@@ -63,6 +70,7 @@ const AddComment: FC<Props> = (props) => {
 					state={comment}
 					setState={setComment}
 					placeholder='Write your comment here...'
+					setInputMark={setInputMark}
 				/>
 				<button type='submit' className='btn btn-primary w-100'>
 					Submit
@@ -72,4 +80,4 @@ const AddComment: FC<Props> = (props) => {
 	);
 };
 
-export default withAuth(withFirebase(AddComment));
+export default withFirebase(withAuth(AddComment));
