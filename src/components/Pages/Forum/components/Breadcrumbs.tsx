@@ -30,30 +30,19 @@ const Breadcrumbs: FC<Props> = (props) => {
 		setCurrentTopic,
 		setCurrentCategory,
 		setTitle,
+		history,
 	} = props;
 
 	const [topicTitle, setTopicTitle] = useState<undefined | string>(undefined);
 
 	const goBack = useCallback(() => {
-		let shorterLocationArray: string[] = locationArray.slice(0, -1);
-		console.dir(locationArray);
-		setLocationArray(shorterLocationArray);
-		if (shorterLocationArray.length === 1) {
-			setCurrentCategory(null);
-			setCurrentTopic(null);
-			setTitle('Loading categories...');
-		} else if (shorterLocationArray.length === 0) {
+		let currentLocation = history.location.pathname.split('/').slice(1);
+		if (currentLocation.length === 2) {
+			history.replace('/forum');
 		} else {
-			setCurrentTopic(null);
-			setTitle('Loading topics...');
+			history.replace('/forum/' + currentCategory);
 		}
-	}, [
-		locationArray,
-		setCurrentCategory,
-		setCurrentTopic,
-		setLocationArray,
-		setTitle,
-	]);
+	}, [history, currentCategory]);
 
 	return (
 		<nav aria-label='breadcrumb'>
@@ -83,23 +72,28 @@ const Breadcrumbs: FC<Props> = (props) => {
 									? 'breadcrumb-item active'
 									: 'breadcrumb-item'
 							}
-							aria-current='page'
+							aria-current={'page'}
 							key={loc}
 						>
 							<button
 								className={
-									i === 2
+									i === locationArray.length - 1
 										? 'btn btn-link disabled'
 										: 'btn btn-link'
 								}
 								onClick={() => {
 									if (i === 0) {
+										history.replace('/forum');
 										setLocationArray(['forum']);
 										setCurrentCategory(null);
 										setCurrentTopic(null);
 										setTitle('Loading...');
 									}
 									if (i === 1 && currentCategory) {
+										history.replace(
+											'/forum/' + currentCategory
+										);
+
 										setLocationArray([
 											'forum',
 											currentCategory,

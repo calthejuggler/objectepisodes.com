@@ -1,18 +1,20 @@
 import React, { useEffect, Dispatch, SetStateAction, FC } from 'react';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props {
+interface Props extends RouteComponentProps {
 	categories: Array<any>;
 	setCurrentCategory: Dispatch<SetStateAction<string | null>>;
 	setLocationArray: Dispatch<SetStateAction<string[]>>;
 	setTitle: Dispatch<SetStateAction<string>>;
 }
 
-const CategoryTable: FC<Props> = props => {
+const CategoryTable: FC<Props> = (props) => {
 	const {
 		categories,
 		setCurrentCategory,
 		setLocationArray,
-		setTitle
+		setTitle,
+		history,
 	} = props;
 	useEffect(() => {
 		setTitle('Categories');
@@ -29,17 +31,18 @@ const CategoryTable: FC<Props> = props => {
 					</div>
 				</div>
 			</li>
-			{categories.map(category => (
+			{categories.map((category) => (
 				<li className='list-group-item' key={category.id}>
 					<div className='row align-items-center'>
 						<div className='col-6'>
 							<button
 								className='btn btn-link'
 								onClick={() => {
+									history.push('forum/'+category.id);
 									setCurrentCategory(category.id);
-									setLocationArray(prev => [
+									setLocationArray((prev) => [
 										...prev,
-										category.id
+										category.id,
 									]);
 									setTitle(category.id);
 								}}
@@ -48,10 +51,7 @@ const CategoryTable: FC<Props> = props => {
 							</button>
 						</div>
 						<div className='col-6'>
-							{category
-								.data()
-								.lastPost.toDate()
-								.toUTCString()}
+							{category.data().lastPost.toDate().toUTCString()}
 						</div>
 					</div>
 				</li>
@@ -60,4 +60,4 @@ const CategoryTable: FC<Props> = props => {
 	);
 };
 
-export default CategoryTable;
+export default withRouter(CategoryTable);

@@ -79,6 +79,12 @@ const routes = {
 			hidden: false,
 		},
 		{
+			name: 'Forum Category',
+			path: '/forum/:paramCategory',
+			component: Forum,
+			hidden: true,
+		},
+		{
 			name: 'Forum Topic',
 			path: '/forum/:paramCategory/:paramId',
 			component: Forum,

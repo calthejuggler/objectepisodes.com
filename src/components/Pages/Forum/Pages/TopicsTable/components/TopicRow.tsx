@@ -1,7 +1,8 @@
 import React, { Dispatch, SetStateAction, FC, Ref, ReducerAction } from 'react';
 import LikeButton from '../../../../../elements/LikeButton';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-interface Props {
+interface Props extends RouteComponentProps {
 	id: string;
 	thread: firebase.firestore.DocumentData;
 	user: firebase.firestore.DocumentData;
@@ -20,6 +21,7 @@ const TopicRow: FC<Props> = (props) => {
 		setLocationArray,
 		lastTopicRef,
 		dispatch,
+		history,
 	} = props;
 
 	const { title, posted, lastPost, likes } = props.thread?.data();
@@ -36,6 +38,9 @@ const TopicRow: FC<Props> = (props) => {
 					<button
 						className='btn btn-link'
 						onClick={() => {
+							history.replace(
+								currentCategory + '/' + id
+							);
 							setCurrentTopic(id);
 							setLocationArray(['forum', currentCategory, id]);
 						}}
@@ -92,4 +97,4 @@ const TopicRow: FC<Props> = (props) => {
 	);
 };
 
-export default TopicRow;
+export default withRouter(TopicRow);
