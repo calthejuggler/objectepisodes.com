@@ -46,6 +46,7 @@ const TopicsTable: FC<Props> = (props) => {
 		currentCategory,
 		setCurrentTopic,
 		setLocationArray,
+		setTitle,
 	} = props;
 
 	const topicsReducer = (
@@ -94,6 +95,7 @@ const TopicsTable: FC<Props> = (props) => {
 	const numberOfRows = useRef<number>(10);
 
 	useEffect(() => {
+		setTitle(currentCategory);
 		firebase.db
 			.collection('forum')
 			.where('category', '==', currentCategory)
@@ -130,7 +132,7 @@ const TopicsTable: FC<Props> = (props) => {
 						});
 				});
 			});
-	}, [currentCategory, firebase]);
+	}, [currentCategory, firebase, setTitle]);
 
 	const loadMoreTopics = useCallback(() => {
 		if (hasMore) {
