@@ -7,9 +7,10 @@ import EditItemField from './EditItemField';
 const EditItemCard: FC<{
 	firebase: Firebase;
 	item: firebase.firestore.DocumentData;
+	itemID: string;
 	sectionTemplate: firebase.firestore.DocumentData;
 	adminSection: { title: string };
-}> = ({ item, sectionTemplate, adminSection, firebase }) => {
+}> = ({ item, sectionTemplate, adminSection, firebase, itemID }) => {
 	const [toastActive, setToastActive] = useState<false | string>(false);
 	const [itemDataArray, setItemDataArray] = useState<string[][]>([]);
 
@@ -46,7 +47,7 @@ const EditItemCard: FC<{
 		e.preventDefault();
 		firebase.db
 			.collection(adminSection.title + '-database')
-			.doc(item.id)
+			.doc(itemID)
 			.delete();
 		setToastActive(false);
 	};

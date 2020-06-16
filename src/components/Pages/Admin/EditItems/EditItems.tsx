@@ -117,14 +117,19 @@ const EditItems: FC<Props> = ({ adminSection, firebase, setError }) => {
 					{displayedData &&
 						displayedData.length !== 0 &&
 						sectionTemplate &&
-						displayedData.map((item) => (
-							<EditItemCard
-								item={item}
-								sectionTemplate={sectionTemplate}
-								adminSection={adminSection}
-								key={item[sectionTemplate[0]]}
-							/>
-						))}
+						displayedData.map((item, i) =>
+							queryData ? (
+								queryData[i] ? (
+									<EditItemCard
+										item={item}
+										itemID={queryData[i].id}
+										sectionTemplate={sectionTemplate}
+										adminSection={adminSection}
+										key={item[sectionTemplate[0]]}
+									/>
+								) : null
+							) : null
+						)}
 				</div>
 			</div>
 		</>
