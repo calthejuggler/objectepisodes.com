@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, FC, Ref, ReducerAction } from 'react';
+import React, { Dispatch, SetStateAction, FC, Ref } from 'react';
 import LikeButton from '../../../../../elements/LikeButton';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
@@ -38,9 +38,7 @@ const TopicRow: FC<Props> = (props) => {
 					<button
 						className='btn btn-link'
 						onClick={() => {
-							history.replace(
-								currentCategory + '/' + id
-							);
+							history.replace(currentCategory + '/' + id);
 							setCurrentTopic(id);
 							setLocationArray(['forum', currentCategory, id]);
 						}}
