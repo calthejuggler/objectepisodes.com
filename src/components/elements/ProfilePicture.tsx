@@ -24,20 +24,31 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 }) => {
 	const [userData, setUserData] = useState<IUser | null>(null);
 
+	console.dir(userData);
 	useEffect(() => {
 		if (userID)
 			firebase
 				.getUserDataFromUID(userID)
 				.then((res) => setUserData(res.data()));
 	}, [firebase, userID]);
-	return userID || photoURL ? (
+	return userData ? (
 		<img
-			src={userData ? userData.photoURL : photoURL}
-			alt={
-				userData
-					? 'profile pic for ' + userData.username
-					: 'profile pic'
+			src={userData.photoURL}
+			alt={'profile pic for ' + userData.username}
+			style={{
+				width: size ? size[0] : 'auto',
+				height: size ? size[1] : 'auto',
+				objectFit: 'cover',
+			}}
+			className={
+				'img-fluid rounded-circle ' +
+				(centered ? 'd-block mx-auto' : '')
 			}
+		/>
+	) : photoURL ? (
+		<img
+			src={photoURL}
+			alt={'profile pic'}
 			style={{
 				width: size ? size[0] : 'auto',
 				height: size ? size[1] : 'auto',
@@ -49,21 +60,19 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 			}
 		/>
 	) : (
-		userData && (
-			<img
-				src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/20625/avatar-bg.png'
-				alt={'profile pic ' + userData.username}
-				style={{
-					width: size ? size[0] : 'auto',
-					height: size ? size[1] : 'auto',
-					objectFit: 'cover',
-				}}
-				className={
-					'img-fluid rounded-circle ' +
-					(centered ? 'd-block mx-auto' : '')
-				}
-			/>
-		)
+		<img
+			src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/20625/avatar-bg.png'
+			alt={'profile pic'}
+			style={{
+				width: size ? size[0] : 'auto',
+				height: size ? size[1] : 'auto',
+				objectFit: 'cover',
+			}}
+			className={
+				'img-fluid rounded-circle ' +
+				(centered ? 'd-block mx-auto' : '')
+			}
+		/>
 	);
 };
 

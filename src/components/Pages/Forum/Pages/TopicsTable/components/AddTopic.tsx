@@ -41,7 +41,7 @@ const AddTopic: SFC<Props> = (props) => {
 						user: {
 							id: user.uid,
 							name: user.displayName,
-							photoURL: user.photoURL,
+							photoURL: user.photoURL ? user.photoURL : undefined,
 						},
 					})
 					.then(() => {

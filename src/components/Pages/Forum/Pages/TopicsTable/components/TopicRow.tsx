@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction, FC, Ref } from 'react';
 import LikeButton from '../../../../../elements/LikeButton';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import ProfilePicture from '../../../../../elements/ProfilePicture';
 
 interface Props extends RouteComponentProps {
 	id: string;
@@ -50,17 +51,17 @@ const TopicRow: FC<Props> = (props) => {
 						href={'#/user/' + props.thread?.data().user.id}
 						className='row align-items-center justify-content-left'
 					>
-						<img
-							className='rounded-circle d-block mr-lg-3'
-							style={{
-								objectFit: 'cover',
-								width: '40px',
-								height: '40px',
-								margin: '0.15rem',
-							}}
-							src={photoURL}
-							alt='Topic poster profile'
-						/>
+						<span className='mr-2'>
+							<ProfilePicture
+								userID={
+									!photoURL
+										? props.thread?.data().user.id
+										: undefined
+								}
+								photoURL={photoURL ? photoURL : undefined}
+								size={['2rem', '2rem']}
+							/>
+						</span>
 						{name}
 					</a>
 				</div>
