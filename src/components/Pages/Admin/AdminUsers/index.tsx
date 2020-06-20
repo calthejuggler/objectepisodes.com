@@ -14,6 +14,9 @@ const AdminUsers = () => {
 					</div>
 				</div>
 			</div>
+			<div className="col-12 col-md-3">
+				
+			</div>
 			<div className='col-12 mt-3'>
 				<div className='card'>
 					<div className='card-body'>

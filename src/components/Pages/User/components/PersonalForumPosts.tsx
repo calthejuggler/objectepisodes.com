@@ -3,13 +3,13 @@ import { withFirebase } from '../../../Firebase/context';
 import PersonalForumPostsRow from './PersonalForumPostsRow';
 import Firebase from './../../../Firebase/index';
 
-const PersonalForumPosts: FC<{ firebase: Firebase; userData: any }> = props => {
+const PersonalForumPosts: FC<{ firebase: Firebase; userData: firebase.firestore.DocumentSnapshot }> = props => {
 	const { firebase, userData } = props;
 	const [topics, setTopics] = useState<Array<any>>([]);
 	const [topicsLoading, setTopicsLoading] = useState<boolean>(true);
 
 	useEffect(() => {
-		if (userData.id) {
+		if (userData?.id) {
 			firebase.db
 				.collection('forum')
 				.where('user', '==', userData.id)
@@ -27,7 +27,7 @@ const PersonalForumPosts: FC<{ firebase: Firebase; userData: any }> = props => {
 			setTopicsLoading(true);
 			setTopics([]);
 		};
-	}, [firebase.db, userData.id]);
+	}, [firebase.db, userData]);
 	return (
 		<div className='card mt-3 mt-md-0'>
 			<div className='card-body'>

@@ -30,16 +30,18 @@ const AdminNav: FC<Props> = (props) => {
 				>
 					{section.title.slice(0, 1).toUpperCase() +
 						section.title.slice(1)}
-					<span
-						className={
-							editTemplate
-								? 'btn badge badge-danger badge-pill float-right'
-								: 'btn badge badge-secondary badge-pill float-right'
-						}
-						onClick={() => setEditTemplate((prev) => !prev)}
-					>
-						Edit Template
-					</span>
+					{section.title !== 'users' && (
+						<span
+							className={
+								editTemplate
+									? 'btn badge badge-danger badge-pill float-right'
+									: 'btn badge badge-secondary badge-pill float-right'
+							}
+							onClick={() => setEditTemplate((prev) => !prev)}
+						>
+							Edit Template
+						</span>
+					)}
 				</li>
 			))}
 		</ul>

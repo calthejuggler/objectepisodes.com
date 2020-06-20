@@ -1,25 +1,26 @@
 import React, { FC } from 'react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
+import Spinner from '../../../elements/Spinner';
 
 interface Props extends RouteComponentProps {
-	userData: any;
-	ownProfile: any;
+	userData: firebase.firestore.DocumentSnapshot | null;
+	ownProfile: boolean;
 }
 
-const UserDetails: FC<Props> = props => {
+const UserDetails: FC<Props> = (props) => {
 	const { userData, ownProfile, history } = props;
 	return (
 		<div className='card'>
 			<div className='card-body'>
-				{userData !== 'Loading' ? (
+				{userData ? (
 					<img
-						src={userData.data().photoURL}
+						src={userData.data()?.photoURL}
 						alt="User's profile"
 						className='rounded-circle d-block m-auto'
 						style={{
 							width: '150px',
 							height: '150px',
-							objectFit: 'cover'
+							objectFit: 'cover',
 						}}
 					/>
 				) : (
@@ -39,38 +40,51 @@ const UserDetails: FC<Props> = props => {
 				)}
 				<hr />
 				<h2 className='card-title text-center'>User Details</h2>
-				{userData === 'Loading' ? (
-					<div className='d-flex justify-content-center'>
-						<div className='spinner-border mx-auto' role='status'>
-							<span className='sr-only'>Loading...</span>
-						</div>
-					</div>
+				{userData === null ? (
+					<Spinner />
 				) : (
-					<ul className='list-unstyled'>
-						<li>
-							Name:{' '}
-							<b>
-								{userData.data().firstname +
-									' ' +
-									userData.data().lastname}
-							</b>
-						</li>
-						<li>
-							Username: <b>{userData.data().username}</b>
-						</li>
-						<li>
-							Account Created:{' '}
-							<b>
-								{userData
-									.data()
-									.created.toDate()
-									.toDateString()}
-							</b>
-						</li>
-						<li>
-							Forum Posts: <b>{userData.data().forumPosts}</b>
-						</li>
-					</ul>
+					<>
+						<ul className='list-unstyled'>
+							<li>
+								Name:{' '}
+								<b>
+									{userData.data()?.firstname +
+										' ' +
+										userData.data()?.lastname}
+								</b>
+							</li>
+							<li>
+								Username: <b>{userData.data()?.username}</b>
+							</li>
+							<li>
+								Account Created:{' '}
+								<b>
+									{userData
+										.data()
+										?.created.toDate()
+										.toDateString()}
+								</b>
+							</li>
+							<li>
+								Forum Posts:{' '}
+								<b>{userData.data()?.forumPosts}</b>
+							</li>
+						</ul>
+						<hr />
+						<div className='text-center'>
+							You have{' '}
+							<b>{userData.data()?.goldenClubs.length}</b> Golden
+							Juggling Clubs
+							<button
+								className='btn btn-danger'
+								onClick={() => {
+									history.replace('/goldenclubs');
+								}}
+							>
+								Pass Golden Clubs
+							</button>
+						</div>
+					</>
 				)}
 			</div>
 		</div>

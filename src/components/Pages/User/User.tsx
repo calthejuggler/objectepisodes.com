@@ -13,8 +13,11 @@ const User: FC<{
 	const { firebase, user } = props;
 	const { paramUser } = useParams();
 
-	const [userData, setUserData] = useState<any>('Loading');
-	const [ownProfile, setOwnProfile] = useState(false);
+	const [
+		userData,
+		setUserData,
+	] = useState<firebase.firestore.DocumentSnapshot | null>(null);
+	const [ownProfile, setOwnProfile] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (typeof paramUser === 'string')
