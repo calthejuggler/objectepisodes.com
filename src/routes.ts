@@ -10,6 +10,7 @@ import About from './components/Pages/About';
 import { FC } from 'react';
 import Home from './components/Pages/Home/Home';
 import Database from './components/Pages/Database/Database';
+import GoldenClubs from './components/Pages/GoldenClubs/index';
 
 interface Route {
 	name: string;
@@ -68,6 +69,12 @@ const routes = {
 			name: 'Edit Profile',
 			path: '/editprofile',
 			component: EditProfile,
+			hidden: true,
+		},
+		{
+			name: 'Golden Juggling Clubs',
+			path: '/goldenclubs',
+			component: GoldenClubs,
 			hidden: true,
 		},
 	],
