@@ -63,6 +63,27 @@ class Firebase extends Component {
 	doSendForgotPasswordEmail = async (email: string) => {
 		await this.auth.sendPasswordResetEmail(email);
 	};
+	doCreateGoldenClubAndGiveToUser = async (userID: string) => {
+		await this.db
+			.collection('golden-clubs')
+			.add({
+				created: this.dbFunc.FieldValue.serverTimestamp(),
+				owner: userID,
+				sentTo: null,
+			})
+			.then((doc: firebase.firestore.DocumentReference) => {
+				this.db
+					.collection('users')
+					.doc(userID)
+					.update({
+						goldenClubs: this.dbFunc.FieldValue.arrayUnion(doc.id),
+						goldenClubCount: this.dbFunc.FieldValue.increment(1),
+					});
+			});
+	};
+	doPassGoldenClubToEmail = async (to: string, fromUID: string) => {
+		
+	};
 
 	// Firestore functions
 	getForumRepliesFromTopic = async (currentTopic: string) => {
