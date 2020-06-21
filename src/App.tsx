@@ -38,7 +38,7 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 			<div className='App h-100 w-100'>
 				{user ? (
 					<>
-						<Header user={user} firebase={firebase} />
+						<Header user={user} />
 						<div id='main'>
 							<div className='container h-100'>
 								<div className='row h-100'>

@@ -1,35 +1,17 @@
-import React, { useEffect, useState, FC } from 'react';
+import React, { FC } from 'react';
 
 import logo from '../../images/objectepisodes_logo.jpg';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import AdminHeader from './components/AdminHeader';
 import UserHeader from './components/UserHeader';
-import Firebase from './../Firebase/config';
-import { withFirebase } from '../Firebase/context';
 import { UserContextInterface } from '../Session/context';
 
 interface Props extends RouteComponentProps {
-	firebase: Firebase;
 	user: UserContextInterface | null;
 }
 
 const Header: FC<Props> = (props) => {
-	const { user, firebase, history } = props;
-	const [userData, setUserData] = useState<null | { admin: boolean }>(null);
-	const [error, setError] = useState<null | string>(null);
-	useEffect(() => {
-		if (user) {
-			firebase.db
-				.collection('users')
-				.doc(user.auth.uid)
-				.get()
-				.then((userSnap: any) => {
-					setUserData(userSnap.data());
-				})
-				.catch((e: { message: string }) => setError(e.message));
-		}
-		return () => {};
-	}, [firebase.db, user]);
+	const { user, history } = props;
 	return (
 		<>
 			<nav className='navbar navbar-light d-block mt-2'>
@@ -48,20 +30,15 @@ const Header: FC<Props> = (props) => {
 						</a>
 					</div>
 					<div className='col-12 col-md-4 order-2 order-md-1 mb-md-0'>
-						<UserHeader user={user} userData={userData} />
+						<UserHeader user={user?.auth} userData={user?.data} />
 					</div>
 				</div>
 			</nav>
-			{userData &&
-				userData.admin &&
+			{user?.data &&
+				user?.data.admin &&
 				history.location.pathname !== '/admin' && <AdminHeader />}
-			{error && (
-				<div className='container-fluid'>
-					<div className='alert alert-danger mb-2'>{error}</div>
-				</div>
-			)}
 		</>
 	);
 };
 
-export default withRouter(withFirebase(Header));
+export default withRouter(Header);
