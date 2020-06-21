@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
 const RegisterPage = () => {
-    return (
-        <div>
-            YO
-        </div>
-    )
-}
+	return <div className='row'>YO</div>;
+};
 
-export default RegisterPage
+export default RegisterPage;

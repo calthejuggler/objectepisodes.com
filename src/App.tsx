@@ -41,39 +41,29 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 						<Header user={user} />
 						<div id='main'>
 							<div className='container h-100'>
-								<div className='row h-100'>
-									<div className='col-12 h-100'>
-										<Switch>
-											{routes.map((route) => {
-												if (
-													route.name === 'Dashboard'
-												) {
-													return (
-														<Route
-															exact
-															key={route.name}
-															path={route.path}
-															component={
-																route.component
-															}
-														/>
-													);
-												} else {
-													return (
-														<Route
-															exact
-															key={route.name}
-															path={route.path}
-															component={
-																route.component
-															}
-														/>
-													);
-												}
-											})}
-										</Switch>
-									</div>
-								</div>
+								<Switch>
+									{routes.map((route) => {
+										if (route.name === 'Dashboard') {
+											return (
+												<Route
+													exact
+													key={route.name}
+													path={route.path}
+													component={route.component}
+												/>
+											);
+										} else {
+											return (
+												<Route
+													exact
+													key={route.name}
+													path={route.path}
+													component={route.component}
+												/>
+											);
+										}
+									})}
+								</Switch>
 							</div>
 						</div>
 						<Footer />

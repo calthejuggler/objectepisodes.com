@@ -37,58 +37,34 @@ const LandingPage: FC<{ firebase: Firebase }> = (props) => {
 						firebase.db
 							.collection('mailing-list')
 							.where('email', '==', email)
-							.get()
-							.then(
-								(
-									waitingListSnap: firebase.firestore.QuerySnapshot
-								) => {
-									if (waitingListSnap.docs[0]) {
-										setError(
-											'You are already subscribed to the mailing list!'
-										);
-									} else {
-										firebase.db
-											.collection('mailing-list')
-											.add({
-												email: email,
-												timestamp: firebase.dbFunc.FieldValue.serverTimestamp(),
-											})
-											.then(
-												(
-													doc: firebase.firestore.DocumentReference
-												) => {
-													setMessage(
-														'You have successfully subscribed! Sending confirmation email...'
-													);
-													emailjs
-														.send(
-															'default_service',
-															'oe_mailing_list',
-															{
-																user_email: email,
-																doc_id: doc.id,
-															}
-														)
-														.then(() => {
-															setMessage(
-																'You have successfully subscribed! A confirmation email has been sent to the address that you provided.'
-															);
-														})
-														.catch((e: Error) =>
-															setError(e.message)
-														);
-												}
-											)
-											.catch((e: { message: string }) =>
-												setError(e.message)
-											);
-									}
-								}
-							)
-							.catch((e: { message: string }) =>
-								setError(e.message)
-							);
+							.get();
 					}
+				})
+				.then((waitingListSnap: firebase.firestore.QuerySnapshot) => {
+					if (!waitingListSnap.empty) {
+						setError(
+							'You are already subscribed to the mailing list!'
+						);
+					} else {
+						firebase.db.collection('mailing-list').add({
+							email: email,
+							timestamp: firebase.dbFunc.FieldValue.serverTimestamp(),
+						});
+					}
+				})
+				.then((doc: firebase.firestore.DocumentReference) => {
+					setMessage(
+						'You have successfully subscribed! Sending confirmation email...'
+					);
+					emailjs.send('default_service', 'oe_mailing_list', {
+						user_email: email,
+						doc_id: doc.id,
+					});
+				})
+				.then(() => {
+					setMessage(
+						'You have successfully subscribed! A confirmation email has been sent to the address that you provided.'
+					);
 				})
 				.catch((e: { message: string }) => setError(e.message));
 		} else {
