@@ -39,7 +39,9 @@ const GoldenClubs: FC<{
 							user.auth.displayName,
 							goldenClubs[0],
 							setError,
-							setSuccess
+							setSuccess,
+							firebase,
+							user
 					  );
 			});
 	};

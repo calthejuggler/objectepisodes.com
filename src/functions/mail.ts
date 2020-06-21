@@ -1,11 +1,15 @@
 import axios from 'axios';
 import { Dispatch, SetStateAction } from 'react';
+import Firebase from './../components/Firebase/index';
+import { UserContextInterface } from '../components/Session/context';
 export const sendGoldenClubEmail = (
 	toEmail: string,
 	fromName: string,
 	clubID: string,
 	setError: Dispatch<SetStateAction<string | null>>,
-	setSuccess: Dispatch<SetStateAction<boolean>>
+	setSuccess: Dispatch<SetStateAction<boolean>>,
+	firebase: Firebase,
+	userContext: UserContextInterface | null
 ) => {
 	let parcel = {
 		toEmail: toEmail,
@@ -28,7 +32,24 @@ export const sendGoldenClubEmail = (
 				'Weird issues going on! Send an email to cal@objectepisodes.com and let him know about this message. Then, please try again.'
 			);
 		} else {
-			setSuccess(true);
+			firebase.db
+				.collection('golden-clubs')
+				.doc(clubID)
+				.update({ sentTo: toEmail })
+				.then(() => {
+					firebase.db
+						.collection('users')
+						.doc(userContext?.auth.uid)
+						.update({
+							goldenClubs: firebase.dbFunc.FieldValue.ArrayRemove(
+								clubID
+							),
+						});
+				})
+				.then(() => {
+					setSuccess(true);
+				})
+				.catch((e: Error) => setError(e.message));
 		}
 	});
 };
