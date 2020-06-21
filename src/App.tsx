@@ -15,13 +15,24 @@ import './custom.scss';
 
 const App: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
-	const [user, setUser] = useState<any>(null);
+	const [user, setUser] = useState<null | {
+		auth: firebase.User;
+		data?: firebase.firestore.DocumentData;
+	}>(null);
 	const routes = createAllRouteArray();
 	useEffect(() => {
-		return firebase.auth.onAuthStateChanged((authedUser: any) => {
-			authedUser ? setUser(authedUser) : setUser(null);
+		return firebase.auth.onAuthStateChanged((authedUser: firebase.User) => {
+			if (authedUser) {
+				return firebase.db
+					.collection('users')
+					.doc(authedUser.uid)
+					.onSnapshot((res: firebase.firestore.DocumentSnapshot) => {
+						res.exists &&
+							setUser({ auth: authedUser, data: res.data() });
+					});
+			}
 		});
-	}, [firebase.auth]);
+	}, [firebase]);
 	return (
 		<AuthUserContext.Provider value={user}>
 			<div className='App h-100 w-100'>

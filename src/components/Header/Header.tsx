@@ -6,10 +6,11 @@ import AdminHeader from './components/AdminHeader';
 import UserHeader from './components/UserHeader';
 import Firebase from './../Firebase/config';
 import { withFirebase } from '../Firebase/context';
+import { UserContextInterface } from '../Session/context';
 
 interface Props extends RouteComponentProps {
-	user: any;
 	firebase: Firebase;
+	user: UserContextInterface | null;
 }
 
 const Header: FC<Props> = (props) => {
@@ -20,7 +21,7 @@ const Header: FC<Props> = (props) => {
 		if (user) {
 			firebase.db
 				.collection('users')
-				.doc(user.uid)
+				.doc(user.auth.uid)
 				.get()
 				.then((userSnap: any) => {
 					setUserData(userSnap.data());
