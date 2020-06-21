@@ -136,7 +136,7 @@ const EditUsers: FC<{ firebase: Firebase }> = ({ firebase }) => {
 										data={
 											!selectedUser.data.goldenClubs
 												? 'None'
-												: selectedUser.data.goldenClubs.count
+												: selectedUser.data.goldenClubs.length
 										}
 									/>
 								</ul>
