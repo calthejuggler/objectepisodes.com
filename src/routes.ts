@@ -1,5 +1,4 @@
 import { Login } from './components/Pages/Login/Login';
-import { Register } from './components/Pages/Register/Register';
 import Forgot from './components/Pages/Forgot/Forgot';
 import Forum from './components/Pages/Forum/Forum';
 // import Dashboard from './components/Pages/Dashboard/Dashboard';
@@ -11,6 +10,7 @@ import { FC } from 'react';
 import Home from './components/Pages/Home/Home';
 import Database from './components/Pages/Database/Database';
 import GoldenClubs from './components/Pages/GoldenClubs/index';
+import RegisterPage from './components/Pages/GoldenClubs/RegisterPage/index';
 
 interface Route {
 	name: string;
@@ -54,12 +54,6 @@ const routes = {
 			hidden: true,
 		},
 		{
-			name: 'Register',
-			path: '/register',
-			component: Register,
-			hidden: true,
-		},
-		{
 			name: 'Forgot',
 			path: '/forgot',
 			component: Forgot,
@@ -75,6 +69,12 @@ const routes = {
 			name: 'Golden Juggling Clubs',
 			path: '/goldenclubs',
 			component: GoldenClubs,
+			hidden: true,
+		},
+		{
+			name: 'Golden Club Register Page',
+			path: '/goldenclubs/:clubID',
+			component: RegisterPage,
 			hidden: true,
 		},
 	],
