@@ -41,15 +41,19 @@ export const sendGoldenClubEmail = (
 						.collection('users')
 						.doc(userContext?.auth.uid)
 						.update({
-							goldenClubs: firebase.dbFunc.FieldValue.ArrayRemove(
+							goldenClubs: firebase.dbFunc.FieldValue.arrayRemove(
 								clubID
 							),
+							goldenClubCount: firebase.dbFunc.FieldValue.increment(-1)
 						});
 				})
 				.then(() => {
 					setSuccess(true);
 				})
-				.catch((e: Error) => setError(e.message));
+				.catch((e: Error) => {
+					console.error(e);
+					setError('There was a strange error! Please try again');
+				});
 		}
 	});
 };

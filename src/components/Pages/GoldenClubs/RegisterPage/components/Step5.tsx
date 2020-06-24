@@ -15,10 +15,10 @@ const Step5: FC<Props> = ({ history, firebase, state, clubID }) => {
 	const { goldenClubData } = state;
 
 	useEffect(() => {
-		firebase.doDeleteGoldenClub(clubID, goldenClubData.owner).then(() => {
+		firebase.doDeleteGoldenClub(clubID).then(() => {
 			setLoading(false);
 			setTimeout(() => {
-				history.push('/');
+				history.push('/#/');
 			}, 3000);
 		});
 	}, [history, clubID, firebase, goldenClubData.owner]);

@@ -106,20 +106,8 @@ class Firebase extends Component {
 			});
 	};
 
-	doDeleteGoldenClub = async (clubID: string, userID: string) => {
-		await this.db
-			.collection('golden-clubs')
-			.doc(clubID)
-			.delete()
-			.then(() => {
-				this.db
-					.collection('users')
-					.doc(userID)
-					.update({
-						goldenClubs: this.dbFunc.FieldValue.arrayRemove(clubID),
-						goldenClubCount: this.dbFunc.FieldValue.increment(-1),
-					});
-			});
+	doDeleteGoldenClub = async (clubID: string) => {
+		await this.db.collection('golden-clubs').doc(clubID).delete();
 	};
 
 	doPassGoldenClubToEmail = async (to: string, fromUID: string) => {};
