@@ -14,7 +14,7 @@ export const sendGoldenClubEmail = (
 	let parcel = {
 		toEmail: toEmail,
 		fromName: fromName,
-		clubID: clubID,
+		goldenClubID: clubID,
 	};
 	setSuccess(false);
 	setError(null);
