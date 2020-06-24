@@ -69,7 +69,7 @@ const LandingPage: FC<{ firebase: Firebase }> = (props) => {
 						);
 					}
 				})
-				.catch((e: { message: string }) => console.dir(e.message));
+				.catch((e: { message: string }) => console.dir(e));
 		} else {
 			firebase
 				.doLoginWithEmailAndPassword(email, password)

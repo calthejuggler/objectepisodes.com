@@ -45,10 +45,10 @@ const editUsersReducer: Reducer<State, Action> = (state, action) => {
 };
 
 const EditUsers: FC<{ firebase: Firebase }> = ({ firebase }) => {
-	const [
-		{ numberOfRows, users, loading, selectedUser },
-		dispatch,
-	] = useReducer(editUsersReducer, initialState);
+	const [{ users, loading, selectedUser }, dispatch] = useReducer(
+		editUsersReducer,
+		initialState
+	);
 
 	const SelectedUserListItem: FC<{ objKey: string; data: ReactFragment }> = ({
 		objKey,
@@ -136,13 +136,14 @@ const EditUsers: FC<{ firebase: Firebase }> = ({ firebase }) => {
 										data={
 											!selectedUser.data.goldenClubs
 												? 'None'
-												: selectedUser.data.goldenClubs.length
+												: selectedUser.data.goldenClubs
+														.length
 										}
 									/>
 								</ul>
 							</>
 						</div>
-						<div className="col-12 col-md-4">
+						<div className='col-12 col-md-4'>
 							<UserTools />
 						</div>
 					</div>

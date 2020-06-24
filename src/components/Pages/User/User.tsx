@@ -39,7 +39,7 @@ const User: FC<{
 					});
 				}
 			});
-	}, [paramUser, firebase, user.auth?.uid]);
+	}, [paramUser, firebase, user.auth]);
 	useEffect(() => {
 		if (user.auth?.uid) {
 			if (userData !== null && userData.id === user.auth?.uid) {
@@ -49,7 +49,7 @@ const User: FC<{
 		return () => {
 			setOwnProfile(false);
 		};
-	}, [user.auth?.uid, userData]);
+	}, [user.auth, userData]);
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>

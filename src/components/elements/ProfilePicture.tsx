@@ -23,8 +23,6 @@ const ProfilePicture: FunctionComponent<ProfilePictureInterface> = ({
 	photoURL,
 }) => {
 	const [userData, setUserData] = useState<IUser | null>(null);
-
-	console.dir(userData);
 	useEffect(() => {
 		if (userID)
 			firebase
