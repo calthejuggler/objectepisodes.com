@@ -4,26 +4,29 @@ import Firebase from './../../Firebase/index';
 import { FC } from 'react';
 import ProfilePicture from './../../elements/ProfilePicture';
 import { withFirebase } from './../../Firebase/context';
+import { UserContextInterface } from '../../Session/context';
 interface Props extends RouteComponentProps<any> {
-	user: any;
-	userData: { username: string };
+	user: UserContextInterface;
 	firebase: Firebase;
 }
 
-const UserHeader: FC<Props> = props => {
-	const { user, userData } = props;
-
-	return user && userData ? (
+const UserHeader: FC<Props> = ({ user, firebase, history }) => {
+	return user ? (
 		<div className='text-center'>
-			<ProfilePicture userID={user.uid} size={['5rem', '5rem']} />
+			<ProfilePicture
+				photoURL={user.auth?.photoURL}
+				size={['5rem', '5rem']}
+			/>
 			<p>
 				Logged in as{' '}
-				<a href={'#/users/' + userData.username}>{userData.username}</a>
+				<a href={'#/users/' + user.data?.username}>
+					{user.data?.username}
+				</a>
 				<br />
 				<button
 					className='btn btn-link btn-sm'
 					onClick={() => {
-						props.firebase.doSignOut();
+						firebase.doSignOut();
 					}}
 				>
 					Sign Out?
@@ -34,13 +37,13 @@ const UserHeader: FC<Props> = props => {
 		<div className='d-flex justify-content-center'>
 			<div
 				className='btn btn-primary mr-3'
-				onClick={() => props.history.push('/login')}
+				onClick={() => history.push('/login')}
 			>
 				Login
 			</div>
 			<div
 				className='btn btn-secondary ml-3'
-				onClick={() => props.history.push('/register')}
+				onClick={() => history.push('/register')}
 			>
 				Register
 			</div>

@@ -5,10 +5,11 @@ import { withFirebase } from '../../Firebase/context';
 import PersonalForumPosts from './components/PersonalForumPosts';
 import Firebase from './../../Firebase/index';
 import { withAuth } from './../../Session/withAuth';
+import { UserContextInterface } from '../../Session/context';
 
 const User: FC<{
 	firebase: Firebase;
-	user: any;
+	user: UserContextInterface;
 }> = (props) => {
 	const { firebase, user } = props;
 	const { paramUser } = useParams();
@@ -38,17 +39,17 @@ const User: FC<{
 					});
 				}
 			});
-	}, [paramUser, firebase, user.uid]);
+	}, [paramUser, firebase, user.auth?.uid]);
 	useEffect(() => {
-		if (user.uid) {
-			if (userData !== null && userData.id === user.uid) {
+		if (user.auth?.uid) {
+			if (userData !== null && userData.id === user.auth?.uid) {
 				setOwnProfile(true);
 			}
 		}
 		return () => {
 			setOwnProfile(false);
 		};
-	}, [user.uid, userData]);
+	}, [user.auth?.uid, userData]);
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>

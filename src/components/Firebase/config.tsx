@@ -4,6 +4,8 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
 
+import exampleProfilePic from '../../images/profile_blank.png';
+
 // import './admin.ts';
 
 const config = {
@@ -32,25 +34,47 @@ class Firebase extends Component {
 	}
 
 	// Auth functions
-	doRegisterWithEmailAndPassword = async (
+	doRegisterWithEmailPasswordAndPhoto = async (
 		email: string,
 		password: string,
 		firstname: string,
 		lastname: string,
-		username: string
+		username: string,
+		photo: File | null
 	) => {
-		await this.auth
-			.createUserWithEmailAndPassword(email, password)
-			.then((res: app.User) => {
-				res.updateProfile({ displayName: username });
-				this.db.collection('users').doc(res.uid).set({
+		let tempPhotoURL = '';
+		let tempUID = '';
+		await this.storage
+			.ref()
+			.child('profile-pictures/' + username)
+			.put(photo ? photo : exampleProfilePic)
+			.then((uploadSnap: firebase.storage.UploadTaskSnapshot) => {
+				return uploadSnap.ref.getDownloadURL();
+			})
+			.then((url: string) => {
+				tempPhotoURL = url;
+				return this.auth.createUserWithEmailAndPassword(
+					email,
+					password
+				);
+			})
+			.then((userCred: firebase.auth.UserCredential) => {
+				userCred.user?.uid && (tempUID = userCred.user.uid);
+				return userCred.user?.updateProfile({
+					displayName: firstname + ' ' + lastname,
+					photoURL: tempPhotoURL,
+				});
+			})
+			.then(() => {
+				return this.db.collection('users').doc(tempUID).set({
 					firstname: firstname,
 					lastname: lastname,
 					username: username,
 					email: email,
 					admin: false,
 					forumPosts: 0,
-					created: new Date(),
+					created: this.dbFunc.FieldValue.serverTimestamp(),
+					photoURL: tempPhotoURL,
 				});
 			});
 	};
@@ -81,9 +105,24 @@ class Firebase extends Component {
 					});
 			});
 	};
-	doPassGoldenClubToEmail = async (to: string, fromUID: string) => {
-		
+
+	doDeleteGoldenClub = async (clubID: string, userID: string) => {
+		await this.db
+			.collection('golden-clubs')
+			.doc(clubID)
+			.delete()
+			.then(() => {
+				this.db
+					.collection('users')
+					.doc(userID)
+					.update({
+						goldenClubs: this.dbFunc.FieldValue.arrayRemove(clubID),
+						goldenClubCount: this.dbFunc.FieldValue.increment(-1),
+					});
+			});
 	};
+
+	doPassGoldenClubToEmail = async (to: string, fromUID: string) => {};
 
 	// Firestore functions
 	getForumRepliesFromTopic = async (currentTopic: string) => {

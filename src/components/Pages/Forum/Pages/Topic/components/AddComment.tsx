@@ -4,12 +4,13 @@ import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
 import { Node } from 'slate';
 import { withAuth } from './../../../../../Session/withAuth';
+import { UserContextInterface } from '../../../../../Session/context';
 
 interface Props {
 	currentCategory: string | undefined;
 	currentTopic: string | undefined;
 	firebase: Firebase;
-	user: any;
+	user: UserContextInterface;
 }
 
 const AddComment: FC<Props> = (props) => {
@@ -29,9 +30,9 @@ const AddComment: FC<Props> = (props) => {
 			.add({
 				comment: comment,
 				user: {
-					id: user.uid,
-					name: user.displayName,
-					photoURL: user.photoURL,
+					id: user.auth?.uid,
+					name: user.auth?.displayName,
+					photoURL: user.auth?.photoURL,
 				},
 				topicID: currentTopic,
 				timestamp: new Date(),
@@ -51,7 +52,7 @@ const AddComment: FC<Props> = (props) => {
 					.doc(currentCategory)
 					.update({ lastPost: new Date() })
 			)
-			.then(() => firebase.incrementForumPosts(user.uid))
+			.then(() => firebase.incrementForumPosts(user.auth?.uid))
 			.then(() =>
 				setComment([
 					{

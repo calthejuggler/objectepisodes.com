@@ -6,11 +6,12 @@ import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
 import { Node } from 'slate';
 import { withAuth } from './../../../../../Session';
+import { UserContextInterface } from '../../../../../Session/context';
 
 interface Props {
 	firebase: Firebase;
 	currentCategory: string | undefined;
-	user: any;
+	user: UserContextInterface;
 }
 
 const AddTopic: SFC<Props> = (props) => {
@@ -39,13 +40,15 @@ const AddTopic: SFC<Props> = (props) => {
 						posted: new Date(),
 						lastPost: new Date(),
 						user: {
-							id: user.uid,
-							name: user.displayName,
-							photoURL: user.photoURL ? user.photoURL : undefined,
+							id: user.auth?.uid,
+							name: user.auth?.displayName,
+							photoURL: user.auth?.photoURL
+								? user.auth?.photoURL
+								: undefined,
 						},
 					})
 					.then(() => {
-						firebase.incrementForumPosts(user.uid);
+						firebase.incrementForumPosts(user.auth?.uid);
 						setTitle('');
 						$('#addTopicModal').modal('hide');
 					})
@@ -92,7 +95,7 @@ const AddTopic: SFC<Props> = (props) => {
 									{error}
 								</div>
 							)}
-							{user.uid ? (
+							{user.auth?.uid ? (
 								<form>
 									<div className='form-group'>
 										<input

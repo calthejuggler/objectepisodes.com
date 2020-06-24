@@ -3,11 +3,12 @@ import { withFirebase } from './../../../../../Firebase/context';
 import Firebase from './../../../../../Firebase/index';
 import { withAuth } from '../../../../../Session/withAuth';
 import Spinner from '../../../../../elements/Spinner';
+import { UserContextInterface } from '../../../../../Session/context';
 
-const GoldenClubsButton: FC<{ firebase: Firebase; user: any }> = ({
-	firebase,
-	user,
-}) => {
+const GoldenClubsButton: FC<{
+	firebase: Firebase;
+	user: UserContextInterface;
+}> = ({ firebase, user }) => {
 	const [numberOfClubs, setNumberOfClubs] = useState<number>(0);
 
 	const [loading, setLoading] = useState(false);
@@ -21,14 +22,16 @@ const GoldenClubsButton: FC<{ firebase: Firebase; user: any }> = ({
 		setSuccess(false);
 		setLoading(true);
 		for (let i = 0; i < numberOfClubs; i++) {
-			firebase.doCreateGoldenClubAndGiveToUser(user.uid).catch((e) => {
-				setError(e.message);
-			});
+			firebase
+				.doCreateGoldenClubAndGiveToUser(user.auth.uid)
+				.catch((e) => {
+					setError(e.message);
+				});
 		}
+		setLoading(false);
 		if (error === null) {
 			setSuccess(true);
 		}
-		setLoading(false);
 	};
 
 	return (

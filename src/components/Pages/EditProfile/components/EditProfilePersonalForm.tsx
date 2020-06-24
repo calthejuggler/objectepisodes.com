@@ -9,6 +9,7 @@ import { withFirebase } from '../../../Firebase/context';
 import UploadProfilePicture from './UploadProfilePicture';
 import { withAuth } from '../../../Session/withAuth';
 import Firebase from './../../../Firebase/index';
+import { UserContextInterface } from '../../../Session/context';
 
 interface Props {
 	firstname: string;
@@ -20,7 +21,7 @@ interface Props {
 	setEmail: Dispatch<SetStateAction<string>>;
 	setUsername: Dispatch<SetStateAction<string>>;
 	firebase: Firebase;
-	user: any;
+	user: UserContextInterface;
 }
 
 const EditProfilePersonalForm: FC<Props> = (props) => {
@@ -46,7 +47,7 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 
 	const handleFileUpload = (e: ChangeEvent<{ files: File[] }>): void => {
 		setImageLoading(true);
-		let uid = user.uid;
+		let uid = user.auth?.uid;
 		let file = e.target.files[0];
 
 		if (file.size > 2000000) {
@@ -64,10 +65,10 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 					.getDownloadURL()
 					.then((url: any) => {
 						setStorageRef(url);
-						user.updateProfile({ photoURL: url }).then(() => {
+						user.auth?.updateProfile({ photoURL: url }).then(() => {
 							firebase.db
 								.collection('users')
-								.doc(user.uid)
+								.doc(user.auth?.uid)
 								.update({ photoURL: url })
 								.then(() => {
 									setImageLoading(false);
@@ -141,7 +142,7 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 										setUsernameLoading(false);
 										if (
 											!ans.empty &&
-											ans.docs[0].id !== user.uid
+											ans.docs[0].id !== user.auth?.uid
 										) {
 											setUsernameTaken(true);
 										} else {

@@ -12,6 +12,7 @@ import Unsubscribe from './components/Pages/Unsubscribe/Unsubscribe';
 import { Login } from './components/Pages/Login/Login';
 
 import './custom.scss';
+import RegisterPage from './components/Pages/GoldenClubs/RegisterPage';
 
 const App: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
@@ -22,15 +23,17 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 	const routes = createAllRouteArray();
 	useEffect(() => {
 		return firebase.auth.onAuthStateChanged((authedUser: firebase.User) => {
-			if (authedUser) {
-				return firebase.db
+			if (authedUser)
+				firebase.db
 					.collection('users')
 					.doc(authedUser.uid)
-					.onSnapshot((res: firebase.firestore.DocumentSnapshot) => {
+					.get()
+					.then((res: firebase.firestore.DocumentSnapshot) => {
 						res.exists &&
 							setUser({ auth: authedUser, data: res.data() });
-					});
-			}
+					})
+					.catch((e: Error) => console.dir(e));
+			else setUser(null);
 		});
 	}, [firebase]);
 	return (
@@ -83,6 +86,11 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 								component={Unsubscribe}
 							/>
 							<Route exact path='/login/' component={Login} />
+							<Route
+								exact
+								path='/goldenClubs/:clubID'
+								component={RegisterPage}
+							/>
 						</Switch>
 					</div>
 				)}

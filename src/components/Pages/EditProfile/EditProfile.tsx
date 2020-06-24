@@ -6,8 +6,11 @@ import EditProfileNav from './components/EditProfileNav';
 import { withAuth } from '../../Session/withAuth';
 import EditProfileForm from './components/EditProfileForm';
 import Firebase from './../../Firebase/index';
+import { UserContextInterface } from '../../Session/context';
 
-const EditProfile: FC<{ firebase: Firebase; user: any }> = props => {
+const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
+	props
+) => {
 	const { firebase, user } = props;
 	const [currentSetting, setCurrentSetting] = useState<string>(
 		'Personal Information'
@@ -23,20 +26,17 @@ const EditProfile: FC<{ firebase: Firebase; user: any }> = props => {
 	const saveChanges = (e: FormEvent) => {
 		e.preventDefault();
 		if (validateForm()) {
-			firebase.db
-				.collection('users')
-				.doc(user.uid)
-				.update({
-					firstname: firstname,
-					lastname: lastname,
-					email: email,
-					username: username
-				});
+			firebase.db.collection('users').doc(user.auth?.uid).update({
+				firstname: firstname,
+				lastname: lastname,
+				email: email,
+				username: username,
+			});
 		}
 	};
 
-	const validateForm:CallableFunction = () => {
-		let currentUID = user.uid;
+	const validateForm: CallableFunction = () => {
+		let currentUID = user.auth?.uid;
 		let newUsernameUID = '';
 		let usernameTaken = false;
 		firebase.db
@@ -76,14 +76,12 @@ const EditProfile: FC<{ firebase: Firebase; user: any }> = props => {
 		(e?: FormEvent) => {
 			if (e) e.preventDefault();
 			if (user) {
-				firebase
-					.getUserDataFromUID(user.uid)
-					.then(userSnap => {
-						setEmail(userSnap.data().email);
-						setFirstname(userSnap.data().firstname);
-						setLastname(userSnap.data().lastname);
-						setUsername(userSnap.data().username);
-					});
+				firebase.getUserDataFromUID(user.auth?.uid).then((userSnap) => {
+					setEmail(userSnap.data().email);
+					setFirstname(userSnap.data().firstname);
+					setLastname(userSnap.data().lastname);
+					setUsername(userSnap.data().username);
+				});
 			}
 		},
 		[firebase, user]
@@ -104,9 +102,7 @@ const EditProfile: FC<{ firebase: Firebase; user: any }> = props => {
 			)}
 			<div className='row'>
 				<div className='col-12 col-md-4'>
-					<EditProfileNav
-						setCurrentSetting={setCurrentSetting}
-					/>
+					<EditProfileNav setCurrentSetting={setCurrentSetting} />
 				</div>
 				<div className='col-12 mt-2 mt-md-0 col-md-8'>
 					<EditProfileForm

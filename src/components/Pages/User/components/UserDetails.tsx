@@ -73,16 +73,23 @@ const UserDetails: FC<Props> = (props) => {
 						<hr />
 						<div className='text-center'>
 							You have{' '}
-							<b>{userData.data()?.goldenClubs.length}</b> Golden
-							Juggling Clubs
-							<button
-								className='btn btn-danger'
-								onClick={() => {
-									history.replace('/goldenclubs');
-								}}
-							>
-								Pass Golden Clubs
-							</button>
+							<b>
+								{userData.data()?.goldenClubs
+									? userData.data()?.goldenClubs.length
+									: 0}
+							</b>{' '}
+							Golden Juggling Clubs
+							{userData.data()?.goldenClubs &&
+								userData.data()?.goldenClubs.length !== 0 && (
+									<button
+										className='btn btn-danger'
+										onClick={() => {
+											history.replace('/goldenclubs');
+										}}
+									>
+										Pass Golden Clubs
+									</button>
+								)}
 						</div>
 					</>
 				)}

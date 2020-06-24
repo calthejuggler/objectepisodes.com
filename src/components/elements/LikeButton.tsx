@@ -4,6 +4,7 @@ import { useState, FunctionComponent } from 'react';
 import { useEffect } from 'react';
 import Firebase from '../Firebase';
 import { withAuth } from './../Session/withAuth';
+import { UserContextInterface } from '../Session/context';
 
 interface LikeButtonInterface {
 	firebase: Firebase;
@@ -11,7 +12,7 @@ interface LikeButtonInterface {
 	likes: Array<string>;
 	collection: string;
 	size: number;
-	user: any;
+	user: UserContextInterface;
 	noReload?: boolean;
 }
 
@@ -33,7 +34,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.collection(collection)
 			.doc(postID)
 			.update({
-				likes: firebase.dbFunc.FieldValue.arrayUnion(user.uid),
+				likes: firebase.dbFunc.FieldValue.arrayUnion(user.auth?.uid),
 				likeCount: firebase.dbFunc.FieldValue.increment(1),
 			})
 			.then(() => {
@@ -46,19 +47,19 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.catch((e: Error) => console.dir(e));
 		firebase.db
 			.collection('users')
-			.doc(user.uid)
+			.doc(user.auth?.uid)
 			.update({
 				likes: firebase.dbFunc.FieldValue.arrayUnion(postID),
 			})
 			.catch((e: Error) => console.dir(e));
-	}, [firebase, postID, collection, noReload, user.uid]);
+	}, [firebase, postID, collection, noReload, user.auth]);
 
 	const dislikeSomething = useCallback(() => {
 		firebase.db
 			.collection(collection)
 			.doc(postID)
 			.update({
-				likes: firebase.dbFunc.FieldValue.arrayRemove(user.uid),
+				likes: firebase.dbFunc.FieldValue.arrayRemove(user.auth?.uid),
 				likeCount: firebase.dbFunc.FieldValue.increment(-1),
 			})
 			.then(() => {
@@ -71,12 +72,12 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.catch((e: Error) => console.dir(e));
 		firebase.db
 			.collection('users')
-			.doc(user.uid)
+			.doc(user.auth?.uid)
 			.update({
 				likes: firebase.dbFunc.FieldValue.arrayRemove(postID),
 			})
 			.catch((e: Error) => console.dir(e));
-	}, [firebase, postID, collection, noReload, user.uid]);
+	}, [firebase, postID, collection, noReload, user.auth]);
 
 	const handleLikeClick = useCallback(
 		(e: MouseEvent) => {
@@ -89,7 +90,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 	useEffect(() => {
 		if (likes) {
 			setNumberOfLikes(likes.length);
-			if (likes.includes(user.uid)) {
+			if (likes.includes(user.auth?.uid)) {
 				setColour('#0275d8');
 				setUserHasLiked(true);
 			} else {
@@ -97,7 +98,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 				setUserHasLiked(false);
 			}
 		}
-	}, [likes, user.uid]);
+	}, [likes, user.auth]);
 
 	return (
 		<div
