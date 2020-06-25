@@ -39,17 +39,17 @@ const User: FC<{
 					});
 				}
 			});
-	}, [paramUser, firebase, user.auth]);
+	}, [paramUser, firebase, user]);
 	useEffect(() => {
-		if (user.auth?.uid) {
-			if (userData !== null && userData.id === user.auth?.uid) {
+		if (user?.uid) {
+			if (userData !== null && userData.id === user?.uid) {
 				setOwnProfile(true);
 			}
 		}
 		return () => {
 			setOwnProfile(false);
 		};
-	}, [user.auth, userData]);
+	}, [user, userData]);
 	return (
 		<div className='row'>
 			<div className='col-12 col-md-4'>

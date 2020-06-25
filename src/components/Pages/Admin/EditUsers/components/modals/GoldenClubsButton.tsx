@@ -21,12 +21,14 @@ const GoldenClubsButton: FC<{
 		setError(null);
 		setSuccess(false);
 		setLoading(true);
-		for (let i = 0; i < numberOfClubs; i++) {
-			firebase
-				.doCreateGoldenClubAndGiveToUser(user.auth.uid)
-				.catch((e) => {
-					setError(e.message);
-				});
+		if (user) {
+			for (let i = 0; i < numberOfClubs; i++) {
+				firebase
+					.doCreateGoldenClubAndGiveToUser(user.uid)
+					.catch((e) => {
+						setError(e.message);
+					});
+			}
 		}
 		setLoading(false);
 		if (error === null) {

@@ -39,7 +39,7 @@ export const sendGoldenClubEmail = (
 				.then(() => {
 					firebase.db
 						.collection('users')
-						.doc(userContext?.auth.uid)
+						.doc(userContext?.uid)
 						.update({
 							goldenClubs: firebase.dbFunc.FieldValue.arrayRemove(
 								clubID

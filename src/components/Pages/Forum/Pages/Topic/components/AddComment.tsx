@@ -30,9 +30,9 @@ const AddComment: FC<Props> = (props) => {
 			.add({
 				comment: comment,
 				user: {
-					id: user.auth?.uid,
-					name: user.auth?.displayName,
-					photoURL: user.auth?.photoURL,
+					id: user?.uid,
+					name: user?.displayName,
+					photoURL: user?.photoURL,
 				},
 				topicID: currentTopic,
 				timestamp: new Date(),
@@ -52,7 +52,7 @@ const AddComment: FC<Props> = (props) => {
 					.doc(currentCategory)
 					.update({ lastPost: new Date() })
 			)
-			.then(() => firebase.incrementForumPosts(user.auth?.uid))
+			.then(() => user && firebase.incrementForumPosts(user?.uid))
 			.then(() =>
 				setComment([
 					{

@@ -40,17 +40,19 @@ const AddTopic: SFC<Props> = (props) => {
 						posted: new Date(),
 						lastPost: new Date(),
 						user: {
-							id: user.auth?.uid,
-							name: user.auth?.displayName,
-							photoURL: user.auth?.photoURL
-								? user.auth?.photoURL
+							id: user?.uid,
+							name: user?.displayName,
+							photoURL: user?.photoURL
+								? user?.photoURL
 								: undefined,
 						},
 					})
 					.then(() => {
-						firebase.incrementForumPosts(user.auth?.uid);
-						setTitle('');
-						$('#addTopicModal').modal('hide');
+						if (user) {
+							firebase.incrementForumPosts(user?.uid);
+							setTitle('');
+							$('#addTopicModal').modal('hide');
+						}
 					})
 					.catch((e: { message: string }) => setError(e.message));
 	};
@@ -95,7 +97,7 @@ const AddTopic: SFC<Props> = (props) => {
 									{error}
 								</div>
 							)}
-							{user.auth?.uid ? (
+							{user?.uid ? (
 								<form>
 									<div className='form-group'>
 										<input

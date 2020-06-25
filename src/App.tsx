@@ -16,23 +16,11 @@ import RegisterPage from './components/Pages/GoldenClubs/RegisterPage';
 
 const App: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
-	const [user, setUser] = useState<null | {
-		auth: firebase.User;
-		data?: firebase.firestore.DocumentData;
-	}>(null);
+	const [user, setUser] = useState<null | firebase.User>(null);
 	const routes = createAllRouteArray();
 	useEffect(() => {
 		return firebase.auth.onAuthStateChanged((authedUser: firebase.User) => {
-			if (authedUser)
-				firebase.db
-					.collection('users')
-					.doc(authedUser.uid)
-					.get()
-					.then((res: firebase.firestore.DocumentSnapshot) => {
-						res.exists &&
-							setUser({ auth: authedUser, data: res.data() });
-					})
-					.catch((e: Error) => console.dir(e));
+			if (authedUser) setUser(authedUser);
 			else setUser(null);
 		});
 	}, [firebase]);

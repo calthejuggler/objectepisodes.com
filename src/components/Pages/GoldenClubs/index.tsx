@@ -18,8 +18,17 @@ const GoldenClubs: FC<{
 	const [success, setSuccess] = useState<boolean>(false);
 
 	useEffect(() => {
-		user && setGoldenClubs(user.data?.goldenClubs);
-	}, [user]);
+		user &&
+			firebase.db
+				.collection('users')
+				.doc(user.uid)
+				.onSnapshot(
+					(snap: firebase.firestore.DocumentSnapshot) => {
+						snap.exists && setGoldenClubs(snap.data()?.goldenClubs);
+					},
+					(e: Error) => setError(e.message)
+				);
+	}, [user, firebase.db]);
 
 	const handleGoldenClubPass = (e: FormEvent) => {
 		e.preventDefault();
@@ -30,13 +39,13 @@ const GoldenClubs: FC<{
 			.then((res: firebase.firestore.QuerySnapshot) => {
 				!res.empty
 					? setError('This user already has an account!')
-					: !user?.auth.displayName
+					: !user?.displayName
 					? setError('You must set your display name first!')
 					: !goldenClubs
 					? setError('You have no golden clubs to pass out!')
 					: sendGoldenClubEmail(
 							email,
-							user.auth.displayName,
+							user.displayName,
 							goldenClubs[0],
 							setError,
 							setSuccess,

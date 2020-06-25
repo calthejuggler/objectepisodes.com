@@ -34,7 +34,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.collection(collection)
 			.doc(postID)
 			.update({
-				likes: firebase.dbFunc.FieldValue.arrayUnion(user.auth?.uid),
+				likes: firebase.dbFunc.FieldValue.arrayUnion(user?.uid),
 				likeCount: firebase.dbFunc.FieldValue.increment(1),
 			})
 			.then(() => {
@@ -47,19 +47,19 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.catch((e: Error) => console.dir(e));
 		firebase.db
 			.collection('users')
-			.doc(user.auth?.uid)
+			.doc(user?.uid)
 			.update({
 				likes: firebase.dbFunc.FieldValue.arrayUnion(postID),
 			})
 			.catch((e: Error) => console.dir(e));
-	}, [firebase, postID, collection, noReload, user.auth]);
+	}, [firebase, postID, collection, noReload, user]);
 
 	const dislikeSomething = useCallback(() => {
 		firebase.db
 			.collection(collection)
 			.doc(postID)
 			.update({
-				likes: firebase.dbFunc.FieldValue.arrayRemove(user.auth?.uid),
+				likes: firebase.dbFunc.FieldValue.arrayRemove(user?.uid),
 				likeCount: firebase.dbFunc.FieldValue.increment(-1),
 			})
 			.then(() => {
@@ -72,12 +72,12 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.catch((e: Error) => console.dir(e));
 		firebase.db
 			.collection('users')
-			.doc(user.auth?.uid)
+			.doc(user?.uid)
 			.update({
 				likes: firebase.dbFunc.FieldValue.arrayRemove(postID),
 			})
 			.catch((e: Error) => console.dir(e));
-	}, [firebase, postID, collection, noReload, user.auth]);
+	}, [firebase, postID, collection, noReload, user]);
 
 	const handleLikeClick = useCallback(
 		(e: MouseEvent) => {
@@ -90,15 +90,16 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 	useEffect(() => {
 		if (likes) {
 			setNumberOfLikes(likes.length);
-			if (likes.includes(user.auth?.uid)) {
-				setColour('#0275d8');
-				setUserHasLiked(true);
-			} else {
-				setColour('#000');
-				setUserHasLiked(false);
-			}
+			if (user)
+				if (likes.includes(user.uid)) {
+					setColour('#0275d8');
+					setUserHasLiked(true);
+				} else {
+					setColour('#000');
+					setUserHasLiked(false);
+				}
 		}
-	}, [likes, user.auth]);
+	}, [likes, user]);
 
 	return (
 		<div

@@ -47,7 +47,7 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 
 	const handleFileUpload = (e: ChangeEvent<{ files: File[] }>): void => {
 		setImageLoading(true);
-		let uid = user.auth?.uid;
+		let uid = user?.uid;
 		let file = e.target.files[0];
 
 		if (file.size > 2000000) {
@@ -58,17 +58,17 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 			setError(null);
 			setImg(file);
 			const firebaseQuery = firebase.storage.ref(
-				'profile-pictures/' + uid.trim()
+				'profile-pictures/' + user?.uid.trim()
 			);
 			firebaseQuery.put(file).then((snap: any) => {
 				snap.ref
 					.getDownloadURL()
 					.then((url: any) => {
 						setStorageRef(url);
-						user.auth?.updateProfile({ photoURL: url }).then(() => {
+						user?.updateProfile({ photoURL: url }).then(() => {
 							firebase.db
 								.collection('users')
-								.doc(user.auth?.uid)
+								.doc(user?.uid)
 								.update({ photoURL: url })
 								.then(() => {
 									setImageLoading(false);
@@ -142,7 +142,7 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 										setUsernameLoading(false);
 										if (
 											!ans.empty &&
-											ans.docs[0].id !== user.auth?.uid
+											ans.docs[0].id !== user?.uid
 										) {
 											setUsernameTaken(true);
 										} else {

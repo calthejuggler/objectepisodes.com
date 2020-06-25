@@ -7,20 +7,21 @@ import { withFirebase } from './../../Firebase/context';
 import { UserContextInterface } from '../../Session/context';
 interface Props extends RouteComponentProps<any> {
 	user: UserContextInterface;
+	userData: firebase.firestore.DocumentData;
 	firebase: Firebase;
 }
 
-const UserHeader: FC<Props> = ({ user, firebase, history }) => {
-	return user ? (
+const UserHeader: FC<Props> = ({ userData, firebase, history }) => {
+	return userData ? (
 		<div className='text-center'>
 			<ProfilePicture
-				photoURL={user.auth?.photoURL}
+				photoURL={userData.photoURL}
 				size={['5rem', '5rem']}
 			/>
 			<p>
 				Logged in as{' '}
-				<a href={'#/users/' + user.data?.username}>
-					{user.data?.username}
+				<a href={'#/users/' + userData.username}>
+					{userData.username}
 				</a>
 				<br />
 				<button

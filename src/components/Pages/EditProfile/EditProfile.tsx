@@ -26,7 +26,7 @@ const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
 	const saveChanges = (e: FormEvent) => {
 		e.preventDefault();
 		if (validateForm()) {
-			firebase.db.collection('users').doc(user.auth?.uid).update({
+			firebase.db.collection('users').doc(user?.uid).update({
 				firstname: firstname,
 				lastname: lastname,
 				email: email,
@@ -36,7 +36,7 @@ const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
 	};
 
 	const validateForm: CallableFunction = () => {
-		let currentUID = user.auth?.uid;
+		let currentUID = user?.uid;
 		let newUsernameUID = '';
 		let usernameTaken = false;
 		firebase.db
@@ -76,7 +76,7 @@ const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
 		(e?: FormEvent) => {
 			if (e) e.preventDefault();
 			if (user) {
-				firebase.getUserDataFromUID(user.auth?.uid).then((userSnap) => {
+				firebase.getUserDataFromUID(user?.uid).then((userSnap) => {
 					setEmail(userSnap.data().email);
 					setFirstname(userSnap.data().firstname);
 					setLastname(userSnap.data().lastname);
