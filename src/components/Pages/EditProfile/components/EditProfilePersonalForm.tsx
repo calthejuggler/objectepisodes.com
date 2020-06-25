@@ -15,11 +15,9 @@ interface Props {
 	firstname: string;
 	lastname: string;
 	email: string;
-	username: string;
 	setFirstname: Dispatch<SetStateAction<string>>;
 	setLastname: Dispatch<SetStateAction<string>>;
 	setEmail: Dispatch<SetStateAction<string>>;
-	setUsername: Dispatch<SetStateAction<string>>;
 	firebase: Firebase;
 	user: UserContextInterface;
 }
@@ -29,11 +27,9 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 		firstname,
 		lastname,
 		email,
-		username,
 		setFirstname,
 		setLastname,
 		setEmail,
-		setUsername,
 		firebase,
 		user,
 	} = props;
@@ -47,7 +43,6 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 
 	const handleFileUpload = (e: ChangeEvent<{ files: File[] }>): void => {
 		setImageLoading(true);
-		let uid = user?.uid;
 		let file = e.target.files[0];
 
 		if (file.size > 2000000) {
@@ -79,9 +74,6 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 			});
 		}
 	};
-
-	const [usernameTaken, setUsernameTaken] = useState(false);
-	const [usernameLoading, setUsernameLoading] = useState(false);
 
 	return (
 		<>
@@ -120,67 +112,6 @@ const EditProfilePersonalForm: FC<Props> = (props) => {
 							onChange={(e) => setLastname(e.target.value)}
 							className='form-control'
 						/>
-					</div>
-				</div>
-			</div>
-			<div className='row'>
-				<div className='col-12'>
-					<div className='form-group'>
-						<label htmlFor='username'>Username:</label>
-						<input
-							type='text'
-							className='form-control'
-							value={username}
-							onChange={(e) => {
-								setUsername(e.target.value);
-								setUsernameLoading(true);
-								firebase.db
-									.collection('users')
-									.where('username', '==', e.target.value)
-									.get()
-									.then((ans: any) => {
-										setUsernameLoading(false);
-										if (
-											!ans.empty &&
-											ans.docs[0].id !== user?.uid
-										) {
-											setUsernameTaken(true);
-										} else {
-											setUsernameTaken(false);
-										}
-									});
-							}}
-						/>
-
-						{usernameTaken ? (
-							<div className='alert alert-danger'>
-								This username is taken.
-								{usernameLoading && (
-									<div
-										className='spinner-border'
-										role='status'
-									>
-										<span className='sr-only'>
-											Loading...
-										</span>
-									</div>
-								)}
-							</div>
-						) : (
-							<div className='alert alert-success'>
-								This username is available.
-								{usernameLoading && (
-									<div
-										className='spinner-border'
-										role='status'
-									>
-										<span className='sr-only'>
-											Loading...
-										</span>
-									</div>
-								)}
-							</div>
-						)}
 					</div>
 				</div>
 			</div>

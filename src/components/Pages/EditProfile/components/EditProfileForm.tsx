@@ -7,8 +7,6 @@ interface Props {
 	firstname: string;
 	lastname: string;
 	email: string;
-	username: string;
-	setUsername: Dispatch<SetStateAction<string>>;
 	setFirstname: Dispatch<SetStateAction<string>>;
 	setLastname: Dispatch<SetStateAction<string>>;
 	setEmail: Dispatch<SetStateAction<string>>;
@@ -22,8 +20,6 @@ const EditProfileForm: FC<Props> = props => {
 		firstname,
 		lastname,
 		email,
-		username,
-		setUsername,
 		setFirstname,
 		setLastname,
 		setEmail,
@@ -43,8 +39,6 @@ const EditProfileForm: FC<Props> = props => {
 						setFirstname={setFirstname}
 						setLastname={setLastname}
 						setEmail={setEmail}
-						username={username}
-						setUsername={setUsername}
 					/>
 				)}
 				{currentSetting === 'Password & Security' && (

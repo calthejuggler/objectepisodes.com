@@ -19,7 +19,6 @@ const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
 	const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
 	const [email, setEmail] = useState('');
-	const [username, setUsername] = useState('');
 
 	const [error, setError] = useState<null | string>(null);
 
@@ -30,46 +29,23 @@ const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
 				firstname: firstname,
 				lastname: lastname,
 				email: email,
-				username: username,
 			});
 		}
 	};
 
 	const validateForm: CallableFunction = () => {
-		let currentUID = user?.uid;
-		let newUsernameUID = '';
-		let usernameTaken = false;
-		firebase.db
-			.collection('users')
-			.where('username', '==', username)
-			.get()
-			.then((docsRef: any) => {
-				newUsernameUID = docsRef.docs[0].id;
-				if (docsRef.empty) {
-					usernameTaken = false;
-				} else if (newUsernameUID === currentUID) {
-					usernameTaken = false;
-				} else {
-					usernameTaken = true;
-				}
-				if (firstname === '' || lastname === '') {
-					setError('You must have both a firstname and a lastname.');
-					return false;
-				} else if (
-					/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(
-						email
-					) === false
-				) {
-					setError('The email address you provided is invalid.');
-					return false;
-				} else if (usernameTaken === true) {
-					setError('Please choose a different username.');
-					return false;
-				} else {
-					setError(null);
-					return true;
-				}
-			});
+		if (firstname === '' || lastname === '') {
+			setError('You must have both a firstname and a lastname.');
+			return false;
+		} else if (
+			/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(email) === false
+		) {
+			setError('The email address you provided is invalid.');
+			return false;
+		} else {
+			setError(null);
+			return true;
+		}
 	};
 
 	const loadUserInfo = useCallback(
@@ -80,7 +56,6 @@ const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
 					setEmail(userSnap.data().email);
 					setFirstname(userSnap.data().firstname);
 					setLastname(userSnap.data().lastname);
-					setUsername(userSnap.data().username);
 				});
 			}
 		},
@@ -109,11 +84,9 @@ const EditProfile: FC<{ firebase: Firebase; user: UserContextInterface }> = (
 						firstname={firstname}
 						lastname={lastname}
 						email={email}
-						username={username}
 						setFirstname={setFirstname}
 						setLastname={setLastname}
 						setEmail={setEmail}
-						setUsername={setUsername}
 						saveChanges={saveChanges}
 						loadUserInfo={loadUserInfo}
 						currentSetting={currentSetting}
