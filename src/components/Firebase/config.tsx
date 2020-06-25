@@ -40,14 +40,14 @@ class Firebase extends Component {
 		firstname: string,
 		lastname: string,
 		username: string,
-		photo: File | null
+		photo: File 
 	) => {
 		let tempPhotoURL = '';
 		let tempUID = '';
 		await this.storage
 			.ref()
 			.child('profile-pictures/' + username)
-			.put(photo ? photo : exampleProfilePic)
+			.put(photo)
 			.then((uploadSnap: firebase.storage.UploadTaskSnapshot) => {
 				return uploadSnap.ref.getDownloadURL();
 			})

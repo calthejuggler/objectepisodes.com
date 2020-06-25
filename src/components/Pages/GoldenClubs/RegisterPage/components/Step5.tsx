@@ -17,9 +17,6 @@ const Step5: FC<Props> = ({ history, firebase, state, clubID }) => {
 	useEffect(() => {
 		firebase.doDeleteGoldenClub(clubID).then(() => {
 			setLoading(false);
-			setTimeout(() => {
-				history.push('/#/');
-			}, 3000);
 		});
 	}, [history, clubID, firebase, goldenClubData.owner]);
 
@@ -28,7 +25,11 @@ const Step5: FC<Props> = ({ history, firebase, state, clubID }) => {
 	) : (
 		<div className='alert alert-success'>
 			You have successfully created your account and logged in!
-			Redirecting you to the homepage...
+			Redirecting you to{' '}
+			<a href='#/' title='Click here to go the homepage'>
+				the homepage
+			</a>
+			...
 		</div>
 	);
 };

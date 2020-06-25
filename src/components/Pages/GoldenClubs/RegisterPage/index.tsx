@@ -1,7 +1,9 @@
 import React, { useReducer, MouseEvent, useEffect, FC } from 'react';
-import { useParams } from 'react-router-dom';
-import { withFirebase } from '../../../Firebase/context';
 import Firebase from './../../../Firebase/config';
+
+import { useParams, withRouter, RouteComponentProps } from 'react-router-dom';
+import { withFirebase } from '../../../Firebase/context';
+import { withAuth } from '../../../Session';
 
 import Step0 from './components/Step0';
 import Step1 from './components/Step1';
@@ -11,8 +13,14 @@ import Step4 from './components/Step4';
 import Step5 from './components/Step5';
 
 import registerReducer, { initialState } from './registerReducer';
+import { UserContextInterface } from './../../../Session/context';
 
-const RegisterPage: FC<{ firebase: Firebase }> = ({ firebase }) => {
+interface Props extends RouteComponentProps {
+	firebase: Firebase;
+	user: UserContextInterface;
+}
+
+const RegisterPage: FC<Props> = ({ firebase, user, history }) => {
 	const [state, dispatch] = useReducer(registerReducer, initialState);
 
 	const {
@@ -30,6 +38,10 @@ const RegisterPage: FC<{ firebase: Firebase }> = ({ firebase }) => {
 	} = state;
 
 	const { clubID } = useParams();
+
+	useEffect(() => {
+		user && history.replace('/');
+	}, [user, history]);
 
 	useEffect(() => {
 		if (clubID) {
@@ -144,7 +156,7 @@ const RegisterPage: FC<{ firebase: Firebase }> = ({ firebase }) => {
 				return;
 			case 4:
 				dispatch({ type: 'set-loading', payload: true });
-				firebase
+				return firebase
 					.doRegisterWithEmailPasswordAndPhoto(
 						email,
 						password,
@@ -156,13 +168,21 @@ const RegisterPage: FC<{ firebase: Firebase }> = ({ firebase }) => {
 					.then(() => {
 						dispatch({ type: 'complete-register' });
 					})
+					.then(() => {
+						return firebase.doLoginWithEmailAndPassword(
+							email,
+							password
+						);
+					})
+					.then(() => {
+						history.replace('/');
+					})
 					.catch((e: Error) =>
 						dispatch({
 							type: 'set-error',
 							payload: e.message,
 						})
 					);
-				return;
 		}
 	};
 
@@ -210,4 +230,4 @@ const RegisterPage: FC<{ firebase: Firebase }> = ({ firebase }) => {
 	);
 };
 
-export default withFirebase(RegisterPage);
+export default withRouter(withAuth(withFirebase(RegisterPage)));

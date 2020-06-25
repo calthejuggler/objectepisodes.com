@@ -1,5 +1,7 @@
 import { Reducer } from 'react';
 
+import examplePhoto from '../../../../images/profile_blank.png';
+
 interface S {
 	step: number;
 	loading: boolean;
@@ -7,7 +9,7 @@ interface S {
 	success: boolean;
 	emailIsVerified: boolean;
 	goldenClubData: firebase.firestore.DocumentData | null;
-	photo: File | null;
+	photo: File;
 	email: string;
 	firstname: string;
 	lastname: string;
@@ -28,7 +30,7 @@ export const initialState = {
 	success: false,
 	emailIsVerified: false,
 	goldenClubData: null,
-	photo: null,
+	photo: new File([examplePhoto], 'example_photo.png', { type: 'image/png' }),
 	email: '',
 	firstname: '',
 	lastname: '',
