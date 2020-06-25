@@ -1,4 +1,4 @@
-import React, { useState, SFC, FormEvent } from 'react';
+import React, { useState, SFC, FormEvent, useEffect } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 
 import $ from 'jquery';
@@ -17,6 +17,8 @@ interface Props {
 const AddTopic: SFC<Props> = (props) => {
 	const { firebase, currentCategory, user } = props;
 
+	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
+
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState<Array<Node>>([
 		{
@@ -26,6 +28,17 @@ const AddTopic: SFC<Props> = (props) => {
 	]);
 
 	const [error, setError] = useState<string | null>(null);
+
+	useEffect(() => {
+		user &&
+			firebase.db
+				.collection('users')
+				.doc(user.uid)
+				.get()
+				.then((res: firebase.firestore.DocumentSnapshot) => {
+					res.exists && setUserData(res.data());
+				});
+	}, [user, firebase.db]);
 
 	const handleAddTopicSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -42,6 +55,7 @@ const AddTopic: SFC<Props> = (props) => {
 						user: {
 							id: user?.uid,
 							name: user?.displayName,
+							username: userData?.username,
 							photoURL: user?.photoURL
 								? user?.photoURL
 								: undefined,

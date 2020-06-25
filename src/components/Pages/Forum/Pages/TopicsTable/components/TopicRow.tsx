@@ -48,7 +48,7 @@ const TopicRow: FC<Props> = (props) => {
 				</div>
 				<div className='col-4 col-sm-2'>
 					<a
-						href={'#/user/' + props.thread?.data().user.id}
+						href={'#/users/' + props.thread?.data().user.username}
 						className='row align-items-center justify-content-left'
 					>
 						<span className='mr-2'>

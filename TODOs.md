@@ -3,7 +3,7 @@
 Things to be completed in the code of objectepisodes.com
 
 ## General
-- [ ] Remove userData.get() from context
+- [x] Remove userData.get() from context
     - [ ] Fix all the issues that that causes.
 - [ ] Add google recaptcha.
 - [ ] Rewrite firebase rules. They could be cleverer.
@@ -14,8 +14,8 @@ Things to be completed in the code of objectepisodes.com
 Things related to the forum
 
 ### Reading the forum
-- [ ] TopicRow name links to wrong place
 - [ ] post/comment hasVideo()
+- [x] TopicRow name links to wrong place
 - [x] Work out routing with different links
 - [x] Format whole system
 - [x] Add better breadcrumbs and navigation (Back buttons etc.)

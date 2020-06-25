@@ -55,7 +55,7 @@ const PostView: FC<{
 							<div className='col-9 col-sm-7 col-lg-10 text-left'>
 								<div className='row'>
 									<div className='col-12'>
-										<a href={'#/user/' + post.user.id}>
+										<a href={'#/user/' + post.user.username}>
 											{post.user.name}
 										</a>
 									</div>
