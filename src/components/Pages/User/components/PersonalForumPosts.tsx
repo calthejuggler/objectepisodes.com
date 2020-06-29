@@ -12,7 +12,7 @@ const PersonalForumPosts: FC<{ firebase: Firebase; userData: firebase.firestore.
 		if (userData?.id) {
 			firebase.db
 				.collection('forum')
-				.where('user', '==', userData.id)
+				.where('user.id', '==', userData.id)
 				.orderBy('posted', 'desc')
 				.limit(12)
 				.get()

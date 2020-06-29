@@ -22,7 +22,7 @@ import BlockButton from './components/BlockButton';
 
 interface TextAreaInterface {
 	state: Node[];
-	setState: (value: Node[]) => void;
+	setState: Dispatch<SetStateAction<Node[]>>;
 	placeholder: string;
 	setInputMark?: Dispatch<SetStateAction<string>>;
 }

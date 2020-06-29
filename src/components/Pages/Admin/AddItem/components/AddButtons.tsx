@@ -111,7 +111,14 @@ const AddButtons: FC<Props> = ({
 	};
 	return (
 		<div className='row'>
-			<div className='col-6 text-center'>
+			<div className='col-12'>
+				<button
+					type='submit'
+					className='btn btn-primary mr-2'
+					onClick={handleSubmit}
+				>
+					Submit Prop
+				</button>
 				<button
 					className='btn btn-secondary'
 					onClick={(e) => {
@@ -120,15 +127,6 @@ const AddButtons: FC<Props> = ({
 					}}
 				>
 					+ Add Field
-				</button>
-			</div>
-			<div className='col-6 text-center'>
-				<button
-					type='submit'
-					className='btn btn-primary'
-					onClick={handleSubmit}
-				>
-					Submit Prop
 				</button>
 			</div>
 		</div>

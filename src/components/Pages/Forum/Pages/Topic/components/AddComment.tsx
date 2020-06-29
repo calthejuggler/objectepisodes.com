@@ -1,4 +1,4 @@
-import React, { useState, FC, FormEvent } from 'react';
+import React, { useState, FC, FormEvent, useEffect } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
@@ -16,6 +16,7 @@ interface Props {
 const AddComment: FC<Props> = (props) => {
 	const { currentCategory, currentTopic, firebase, user } = props;
 	const [inputMark, setInputMark] = useState<string>('paragraph');
+	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
 	const [comment, setComment] = useState<Node[]>([
 		{
 			type: 'paragraph',
@@ -23,45 +24,60 @@ const AddComment: FC<Props> = (props) => {
 		},
 	]);
 	const [error, setError] = useState<null | string>(null);
+
+	useEffect(() => {
+		firebase.db
+			.collection('users')
+			.doc(user?.uid)
+			.get()
+			.then((res: firebase.firestore.DocumentSnapshot) => {
+				setUserData(res.data());
+			})
+			.catch((e: Error) => setError(e.message));
+	}, [firebase.db, user]);
+
 	const handleCommentSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		firebase.db
-			.collection('forum-replies')
-			.add({
-				comment: comment,
-				user: {
-					id: user?.uid,
-					name: user?.displayName,
-					photoURL: user?.photoURL,
-				},
-				topicID: currentTopic,
-				timestamp: new Date(),
-			})
-			.then(() => {
-				if (currentTopic !== undefined)
-					firebase.db
-						.collection('forum')
-						.doc(currentTopic.trim())
-						.update({
-							lastPost: new Date(),
-						});
-			})
-			.then(() =>
-				firebase.db
-					.collection('forum-categories')
-					.doc(currentCategory)
-					.update({ lastPost: new Date() })
-			)
-			.then(() => user && firebase.incrementForumPosts(user?.uid))
-			.then(() =>
-				setComment([
-					{
-						type: inputMark,
-						children: [{ text: ' ' }],
-					},
-				])
-			)
-			.catch((e: { message: string }) => setError(e.message));
+		!userData
+			? setError('We have not yet loaded your user data from the server')
+			: firebase.db
+					.collection('forum-replies')
+					.add({
+						comment: comment,
+						user: {
+							id: user?.uid,
+							name: user?.displayName,
+							photoURL: user?.photoURL,
+							username: userData?.username,
+						},
+						topicID: currentTopic,
+						timestamp: new Date(),
+					})
+					.then(() => {
+						if (currentTopic !== undefined)
+							firebase.db
+								.collection('forum')
+								.doc(currentTopic.trim())
+								.update({
+									lastPost: new Date(),
+								});
+					})
+					.then(() =>
+						firebase.db
+							.collection('forum-categories')
+							.doc(currentCategory)
+							.update({ lastPost: new Date() })
+					)
+					.then(() => user && firebase.incrementForumPosts(user?.uid))
+					.then(() =>
+						setComment([
+							{
+								type: inputMark,
+								children: [{ text: ' ' }],
+							},
+						])
+					)
+					.catch((e: { message: string }) => setError(e.message));
 	};
 	return (
 		<>

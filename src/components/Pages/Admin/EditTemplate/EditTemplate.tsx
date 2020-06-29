@@ -66,9 +66,20 @@ const EditTemplate: FC<Props> = ({
 			</div>
 			<div className='col-12 col-md-9 offset-md-3 mb-3'>
 				<div className='row justify-content-around'>
-					<div className='col text-center'>
+					<div className='col'>
 						<button
-							className='btn btn-secondary text-center'
+							className='btn btn-primary mr-2'
+							onClick={(e) => {
+								e.preventDefault();
+								setSuccess(false);
+								setError(null);
+								createDataObjectAndUpload();
+							}}
+						>
+							Save Template
+						</button>
+						<button
+							className='btn btn-secondary'
 							onClick={(e) => {
 								e.preventDefault();
 								setSuccess(false);
@@ -80,19 +91,6 @@ const EditTemplate: FC<Props> = ({
 							}}
 						>
 							+ Add Field
-						</button>
-					</div>
-					<div className='col text-center'>
-						<button
-							className='btn btn-primary text-center'
-							onClick={(e) => {
-								e.preventDefault();
-								setSuccess(false);
-								setError(null);
-								createDataObjectAndUpload();
-							}}
-						>
-							Save Template
 						</button>
 					</div>
 				</div>
