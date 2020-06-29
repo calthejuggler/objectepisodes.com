@@ -12,6 +12,7 @@
 /build
 
 /public/var
+/firestore.rules
 
 # misc
 .DS_Store
