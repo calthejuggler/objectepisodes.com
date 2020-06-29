@@ -34,25 +34,14 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 							<div className='container h-100'>
 								<Switch>
 									{routes.map((route) => {
-										if (route.name === 'Dashboard') {
-											return (
-												<Route
-													exact
-													key={route.name}
-													path={route.path}
-													component={route.component}
-												/>
-											);
-										} else {
-											return (
-												<Route
-													exact
-													key={route.name}
-													path={route.path}
-													component={route.component}
-												/>
-											);
-										}
+										return (
+											<Route
+												exact
+												key={route.name}
+												path={route.path}
+												component={route.component}
+											/>
+										);
 									})}
 								</Switch>
 							</div>
