@@ -78,7 +78,7 @@ const Topic: FC<Props> = (props) => {
 	return (
 		<>
 			<div className='row justify-content-center'>
-				<PostView post={post} collection='forum' />
+				<PostView post={post} collection='forum' index={0} />
 				<div className='col-12 col-lg-8'>
 					<h2 className='text-center'>Comments</h2>
 				</div>
@@ -108,11 +108,12 @@ const Topic: FC<Props> = (props) => {
 					</div>
 				) : (
 					comments !== null &&
-					comments.map((comment) => (
+					comments.map((comment, i) => (
 						<PostView
 							post={comment}
 							key={comment.id}
 							collection='forum-replies'
+							index={i + 1}
 						/>
 					))
 				)}
