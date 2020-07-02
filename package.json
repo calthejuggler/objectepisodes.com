@@ -22,6 +22,7 @@
     "firebase-admin": "^8.12.1",
     "firebase-functions": "^3.7.0",
     "http2": "^3.3.7",
+    "intersection-observer-polyfill": "^0.1.0",
     "jquery": "^3.5.1",
     "popper.js": "^1.16.1",
     "react": "^16.13.1",

@@ -12,6 +12,8 @@ import AddTopic from './components/AddTopic';
 import TopicRow from './components/TopicRow';
 import Firebase from './../../../../Firebase/index';
 
+import IntersectionObserver from 'intersection-observer-polyfill';
+
 interface Props {
 	firebase: Firebase;
 	currentCategory: string | null;
@@ -135,19 +137,21 @@ const TopicsTable: FC<Props> = (props) => {
 				);
 			});
 	}, [currentCategory, firebase, setTitle, numberOfRows]);
-	
+
 	const observer = useRef<IntersectionObserver>();
 
 	const lastTopic = useCallback(
 		(node) => {
 			if (topicsLoading) return null;
 			if (observer.current) observer.current.disconnect();
-			observer.current = new IntersectionObserver((entries) => {
-				if (entries[0].isIntersecting && hasMore) {
-					dispatch({ type: 'load-more-topics', payload: null });
+			observer.current = new IntersectionObserver(
+				(entries: { isIntersecting: boolean }[]) => {
+					if (entries[0].isIntersecting && hasMore) {
+						dispatch({ type: 'load-more-topics', payload: null });
+					}
 				}
-			});
-			if (node) observer.current.observe(node);
+			);
+			if (node) observer.current?.observe(node);
 		},
 		[topicsLoading, hasMore]
 	);
