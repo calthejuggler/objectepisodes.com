@@ -1,4 +1,4 @@
-import React, { useState, SFC, FormEvent, useEffect } from 'react';
+import React, { useState, FormEvent, useEffect, FC } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 
 import $ from 'jquery';
@@ -14,7 +14,7 @@ interface Props {
 	user: UserContextInterface;
 }
 
-const AddTopic: SFC<Props> = (props) => {
+const AddTopic: FC<Props> = (props) => {
 	const { firebase, currentCategory, user } = props;
 
 	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();

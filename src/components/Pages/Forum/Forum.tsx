@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState, SFC } from 'react';
+import React, { useLayoutEffect, useState, FC } from 'react';
 import { withFirebase } from '../../Firebase/context';
 
 import CategoryTable from './Pages/CategoryTable';
@@ -13,7 +13,7 @@ interface Props {
 	firebase: Firebase;
 }
 
-const Forum: SFC<Props> = (props) => {
+const Forum: FC<Props> = (props) => {
 	const { firebase } = props;
 
 	let { paramCategory, paramId } = useParams();
