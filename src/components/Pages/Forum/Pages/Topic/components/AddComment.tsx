@@ -1,10 +1,11 @@
-import React, { useState, FC, FormEvent, useEffect } from 'react';
+import React, { useState, FC, FormEvent, useEffect, useMemo } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
-import { Node } from 'slate';
+import { Node, createEditor } from 'slate';
 import { withAuth } from './../../../../../Session/withAuth';
 import { UserContextInterface } from '../../../../../Session/context';
+import { ReactEditor, withReact } from 'slate-react';
 
 interface Props {
 	currentCategory: string | undefined;
@@ -13,17 +14,21 @@ interface Props {
 	user: UserContextInterface;
 }
 
+const initialNode = [
+	{
+		type: 'paragraph',
+		children: [{ text: '' }],
+	},
+] as Node[];
+
 const AddComment: FC<Props> = (props) => {
 	const { currentCategory, currentTopic, firebase, user } = props;
 	const [inputMark, setInputMark] = useState<string>('paragraph');
 	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
-	const [comment, setComment] = useState<Node[]>([
-		{
-			type: 'paragraph',
-			children: [{ text: '' }],
-		},
-	]);
+	const [comment, setComment] = useState<Node[]>(initialNode);
 	const [error, setError] = useState<null | string>(null);
+
+	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
 
 	useEffect(() => {
 		firebase.db
@@ -69,14 +74,10 @@ const AddComment: FC<Props> = (props) => {
 							.update({ lastPost: new Date() })
 					)
 					.then(() => user && firebase.incrementForumPosts(user?.uid))
-					.then(() =>
-						setComment([
-							{
-								type: inputMark,
-								children: [{ text: ' ' }],
-							},
-						])
-					)
+					.then(() => {
+						editor.selection = null;
+						setComment(initialNode);
+					})
 					.catch((e: { message: string }) => setError(e.message));
 	};
 	return (
@@ -88,6 +89,7 @@ const AddComment: FC<Props> = (props) => {
 					setState={setComment}
 					placeholder='Write your comment here...'
 					setInputMark={setInputMark}
+					editor={editor}
 				/>
 				<button type='submit' className='btn btn-primary w-100'>
 					Submit

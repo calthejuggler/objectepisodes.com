@@ -1,12 +1,13 @@
-import React, { useState, FormEvent, useEffect, FC } from 'react';
+import React, { useState, FormEvent, useEffect, FC, useMemo } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 
 import $ from 'jquery';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
-import { Node } from 'slate';
+import { Node, createEditor } from 'slate';
 import { withAuth } from './../../../../../Session';
 import { UserContextInterface } from '../../../../../Session/context';
+import { ReactEditor, withReact } from 'slate-react';
 
 interface Props {
 	firebase: Firebase;
@@ -14,22 +15,26 @@ interface Props {
 	user: UserContextInterface;
 }
 
+const initialNode = [
+	{
+		type: 'paragraph',
+		children: [{ text: '' }],
+	},
+] as Node[];
+
 const AddTopic: FC<Props> = (props) => {
 	const { firebase, currentCategory, user } = props;
 
 	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
 
 	const [title, setTitle] = useState('');
-	const [content, setContent] = useState<Node[]>([
-		{
-			type: 'paragraph',
-			children: [{ text: '' }],
-		},
-	]);
+	const [content, setContent] = useState<Node[]>(initialNode);
 
 	const [error, setError] = useState<string | null>(null);
 
-	useEffect(() => {
+	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
+
+	const loadUserData = () => {
 		user &&
 			firebase.db
 				.collection('users')
@@ -38,7 +43,7 @@ const AddTopic: FC<Props> = (props) => {
 				.then((res: firebase.firestore.DocumentSnapshot) => {
 					res.exists && setUserData(res.data());
 				});
-	}, [user, firebase.db]);
+	};
 
 	const handleAddTopicSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -66,12 +71,8 @@ const AddTopic: FC<Props> = (props) => {
 							firebase.incrementForumPosts(user?.uid);
 							setError(null);
 							setTitle('');
-							setContent([
-								{
-									type: 'paragraph',
-									children: [{ text: '' }],
-								},
-							]);
+							editor.selection = null;
+							setContent(initialNode);
 							$('#addTopicModal').modal('hide');
 						}
 					})
@@ -85,6 +86,7 @@ const AddTopic: FC<Props> = (props) => {
 				className='btn btn-primary mb-3'
 				data-toggle='modal'
 				data-target='#addTopicModal'
+				onClick={loadUserData}
 			>
 				+ Topic
 			</button>
@@ -137,6 +139,7 @@ const AddTopic: FC<Props> = (props) => {
 											placeholder='Write your post content here...'
 											setState={setContent}
 											state={content}
+											editor={editor}
 										/>
 									</div>
 								</form>

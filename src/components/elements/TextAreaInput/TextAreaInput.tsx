@@ -1,17 +1,15 @@
 import React, {
-	useMemo,
 	FC,
 	useCallback,
 	Dispatch,
 	SetStateAction,
 } from 'react';
-import { createEditor, Node, Editor } from 'slate';
+import {  Node, Editor } from 'slate';
 import { isHotkey } from 'is-hotkey';
 
 import {
 	Slate,
 	Editable,
-	withReact,
 	ReactEditor,
 	RenderElementProps,
 	RenderLeafProps,
@@ -24,6 +22,7 @@ interface TextAreaInterface {
 	state: Node[];
 	setState: Dispatch<SetStateAction<Node[]>>;
 	placeholder: string;
+	editor: ReactEditor;
 	setInputMark?: Dispatch<SetStateAction<string>>;
 }
 
@@ -82,10 +81,9 @@ const TextAreaInput: FC<TextAreaInterface> = ({
 	state,
 	setState,
 	placeholder,
+	editor,
 	setInputMark,
 }) => {
-	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
-
 	const HOTKEYS: object = {
 		'mod+b': 'bold',
 		'mod+i': 'italic',
@@ -105,7 +103,7 @@ const TextAreaInput: FC<TextAreaInterface> = ({
 
 	const isMarkActive = (editor: ReactEditor, format: string) => {
 		const marks = Editor.marks(editor);
-		return marks ? marks[format] === true : false;
+		return marks && format ? marks[format] === true : false;
 	};
 
 	const renderElement = useCallback(
@@ -130,12 +128,10 @@ const TextAreaInput: FC<TextAreaInterface> = ({
 						const markValues: Array<string> = Object.values(
 							HOTKEYS
 						);
-
 						let mark: string = 'regular';
 						for (let i = 0; i <= markKeys.length; i++) {
 							if (markKeys[i] === hotkey) mark = markValues[i];
 						}
-
 						toggleMark(editor, mark);
 					}
 				}

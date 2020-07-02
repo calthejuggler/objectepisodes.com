@@ -1,11 +1,19 @@
-import React, { FC, useState, useEffect, FormEvent, useCallback } from 'react';
+import React, {
+	FC,
+	useState,
+	useEffect,
+	FormEvent,
+	useCallback,
+	useMemo,
+} from 'react';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
-import { Node } from 'slate';
+import { Node, createEditor } from 'slate';
 import Firebase from './../../../../../Firebase/index';
 import { withFirebase } from '../../../../../Firebase/context';
 import $ from 'jquery';
 import { withAuth } from '../../../../../Session';
 import { UserContextInterface } from '../../../../../Session/context';
+import { ReactEditor, withReact } from 'slate-react';
 
 interface Props {
 	type: string;
@@ -24,6 +32,8 @@ const EditPost: FC<Props> = ({ type, data, id, firebase, index, user }) => {
 			children: [{ text: '' }],
 		},
 	]);
+
+	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
 
 	const [error, setError] = useState<string | null>(null);
 
@@ -146,6 +156,7 @@ const EditPost: FC<Props> = ({ type, data, id, firebase, index, user }) => {
 										setState={setContent}
 										state={content}
 										placeholder='Input your post content.'
+										editor={editor}
 									/>
 								</div>
 							</div>
