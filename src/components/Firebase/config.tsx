@@ -38,7 +38,7 @@ class Firebase extends Component {
 		firstname: string,
 		lastname: string,
 		username: string,
-		photo: File 
+		photo: File
 	) => {
 		let tempPhotoURL = '';
 		let tempUID = '';
@@ -74,6 +74,20 @@ class Firebase extends Component {
 					created: this.dbFunc.FieldValue.serverTimestamp(),
 					photoURL: tempPhotoURL,
 				});
+			})
+			.then(() => {
+				return this.db
+					.collection('golden-clubs')
+					.where('sentTo', '==', email)
+					.get();
+			})
+			.then((snap: firebase.firestore.QuerySnapshot) => {
+				snap.docs.forEach(
+					(doc: firebase.firestore.QueryDocumentSnapshot) => {
+						console.dir('deleting')
+						doc.ref.delete();
+					}
+				);
 			});
 	};
 	doSignOut = () => {

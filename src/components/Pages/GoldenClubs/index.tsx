@@ -52,7 +52,7 @@ const GoldenClubs: FC<{
 							firebase,
 							user
 					  );
-			});
+			})
 	};
 
 	return (
