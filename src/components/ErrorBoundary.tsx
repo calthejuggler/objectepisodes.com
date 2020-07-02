@@ -1,5 +1,7 @@
 import React, { Component, ErrorInfo } from 'react';
 
+import logo from '../images/objectepisodes_logo.jpg';
+
 export default class ErrorBoundary extends Component {
 	public state: {
 		error: Error | null;
@@ -24,10 +26,25 @@ export default class ErrorBoundary extends Component {
 
 	render() {
 		if (this.state.hasError) {
-			// Error pathF
 			return (
-				<div>
-					<h2>Something went wrong.</h2>
+				<div
+					className='text-center'
+					style={{ maxWidth: '650px', margin: '5rem auto' }}
+				>
+					<img
+						src={logo}
+						alt='The Object Episodes Logo'
+						className='img-fluid'
+					/>
+					<h2>Oops...</h2>
+					<p>
+						Something went wrong! We're doing our best to fix it,
+						but if the problem persists - please send the following
+						details to{' '}
+						<a href='mailto:cal@objectepisodes.com'>
+							cal@objectepisodes.com
+						</a>
+					</p>
 					<details style={{ whiteSpace: 'pre-wrap' }}>
 						{this.state.error && this.state?.error.toString()}
 						<br />
@@ -37,7 +54,6 @@ export default class ErrorBoundary extends Component {
 				</div>
 			);
 		}
-		// Normally, just render children
 		return this.props.children;
 	}
 }
