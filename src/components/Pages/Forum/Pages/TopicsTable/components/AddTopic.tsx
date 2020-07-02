@@ -20,7 +20,7 @@ const AddTopic: SFC<Props> = (props) => {
 	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
 
 	const [title, setTitle] = useState('');
-	const [content, setContent] = useState<Array<Node>>([
+	const [content, setContent] = useState<Node[]>([
 		{
 			type: 'paragraph',
 			children: [{ text: '' }],
@@ -64,7 +64,14 @@ const AddTopic: SFC<Props> = (props) => {
 					.then(() => {
 						if (user) {
 							firebase.incrementForumPosts(user?.uid);
+							setError(null);
 							setTitle('');
+							setContent([
+								{
+									type: 'paragraph',
+									children: [{ text: '' }],
+								},
+							]);
 							$('#addTopicModal').modal('hide');
 						}
 					})
