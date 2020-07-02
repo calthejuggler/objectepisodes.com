@@ -13,6 +13,7 @@ import { Login } from './components/Pages/Login/Login';
 
 import './custom.scss';
 import RegisterPage from './components/Pages/GoldenClubs/RegisterPage';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
@@ -26,52 +27,54 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 	}, [firebase]);
 	return (
 		<AuthUserContext.Provider value={user}>
-			<div className='App h-100 w-100'>
-				{user ? (
-					<>
-						<Header user={user} />
-						<div id='main'>
-							<div className='container h-100'>
-								<Switch>
-									{routes.map((route) => {
-										return (
-											<Route
-												exact
-												key={route.name}
-												path={route.path}
-												component={route.component}
-											/>
-										);
-									})}
-								</Switch>
+			<ErrorBoundary>
+				<div className='App h-100 w-100'>
+					{user ? (
+						<>
+							<Header user={user} />
+							<div id='main'>
+								<div className='container h-100'>
+									<Switch>
+										{routes.map((route) => {
+											return (
+												<Route
+													exact
+													key={route.name}
+													path={route.path}
+													component={route.component}
+												/>
+											);
+										})}
+									</Switch>
+								</div>
 							</div>
+							<Footer />
+						</>
+					) : (
+						<div className='container h-100 w-100'>
+							<Switch>
+								<Route exact path='/' component={LandingPage} />
+								<Route
+									exact
+									path='/unsubscribe'
+									component={Unsubscribe}
+								/>
+								<Route
+									exact
+									path='/unsubscribe/:docID'
+									component={Unsubscribe}
+								/>
+								<Route exact path='/login/' component={Login} />
+								<Route
+									exact
+									path='/goldenClubs/:clubID'
+									component={RegisterPage}
+								/>
+							</Switch>
 						</div>
-						<Footer />
-					</>
-				) : (
-					<div className='container h-100 w-100'>
-						<Switch>
-							<Route exact path='/' component={LandingPage} />
-							<Route
-								exact
-								path='/unsubscribe'
-								component={Unsubscribe}
-							/>
-							<Route
-								exact
-								path='/unsubscribe/:docID'
-								component={Unsubscribe}
-							/>
-							<Route exact path='/login/' component={Login} />
-							<Route
-								exact
-								path='/goldenClubs/:clubID'
-								component={RegisterPage}
-							/>
-						</Switch>
-					</div>
-				)}
-			</div>
+					)}
+				</div>
+			</ErrorBoundary>
 		</AuthUserContext.Provider>
 	);
 };
