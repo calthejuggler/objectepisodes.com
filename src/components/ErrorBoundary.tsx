@@ -1,6 +1,7 @@
 import React, { Component, ErrorInfo } from 'react';
 
 import logo from '../images/objectepisodes_logo.jpg';
+import { Link } from 'react-router-dom';
 
 export default class ErrorBoundary extends Component {
 	public state: {
@@ -34,17 +35,27 @@ export default class ErrorBoundary extends Component {
 					<img
 						src={logo}
 						alt='The Object Episodes Logo'
-						className='img-fluid'
+						className='img-fluid mb-3'
 					/>
-					<h2>Oops...</h2>
+					<h2>Whoops... We dropped!</h2>
 					<p>
-						Something went wrong! We're doing our best to fix it,
-						but if the problem persists - please send the following
-						details to{' '}
+						Something went wrong here... We're doing our best to fix
+						it, but if the problem persists - please send the
+						following details to{' '}
 						<a href='mailto:cal@objectepisodes.com'>
 							cal@objectepisodes.com
 						</a>
+						.
 					</p>
+					<p>
+						The most common error is caused by using an outdated
+						version of your web browser (Chrome, Firefox, Safari).
+					</p>
+					<Link to='/'>
+						<button className='btn btn-sm btn-primary mb-3'>
+							Return to homepage
+						</button>
+					</Link>
 					<details style={{ whiteSpace: 'pre-wrap' }}>
 						{this.state.error && this.state?.error.toString()}
 						<br />
