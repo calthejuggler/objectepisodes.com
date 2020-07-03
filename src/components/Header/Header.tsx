@@ -39,7 +39,7 @@ const Header: FC<Props> = (props) => {
 								id='header-logo'
 							/>
 							<p className='text-center lead'>
-								The #1 homepage for jugglers.
+								Critical Thinking about Juggling
 							</p>
 						</a>
 					</div>
