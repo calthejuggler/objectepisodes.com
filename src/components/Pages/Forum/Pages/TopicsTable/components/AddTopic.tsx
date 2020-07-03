@@ -1,4 +1,4 @@
-import React, { useState, FormEvent, useEffect, FC, useMemo } from 'react';
+import React, { useState, FormEvent, FC, useMemo } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 
 import $ from 'jquery';

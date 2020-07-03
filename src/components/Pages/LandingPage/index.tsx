@@ -7,7 +7,6 @@ import { useState, useEffect } from 'react';
 import { withFirebase } from '../../Firebase/context';
 import Firebase from './../../Firebase/index';
 import {
-	useGoogleReCaptcha,
 	GoogleReCaptcha,
 } from 'react-google-recaptcha-v3';
 

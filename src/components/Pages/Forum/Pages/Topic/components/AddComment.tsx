@@ -23,7 +23,6 @@ const initialNode = [
 
 const AddComment: FC<Props> = (props) => {
 	const { currentCategory, currentTopic, firebase, user } = props;
-	const [inputMark, setInputMark] = useState<string>('paragraph');
 	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
 	const [comment, setComment] = useState<Node[]>(initialNode);
 	const [error, setError] = useState<null | string>(null);
@@ -88,7 +87,6 @@ const AddComment: FC<Props> = (props) => {
 					state={comment}
 					setState={setComment}
 					placeholder='Write your comment here...'
-					setInputMark={setInputMark}
 					editor={editor}
 				/>
 				<button type='submit' className='btn btn-primary w-100'>
