@@ -6,8 +6,14 @@ import logo from '../../../images/objectepisodes_logo.jpg';
 import { useState, useEffect } from 'react';
 import { withFirebase } from '../../Firebase/context';
 import Firebase from './../../Firebase/index';
+import {
+	useGoogleReCaptcha,
+	GoogleReCaptcha,
+} from 'react-google-recaptcha-v3';
 
-const LandingPage: FC<{ firebase: Firebase }> = (props) => {
+const LandingPage: FC<{
+	firebase: Firebase;
+}> = (props) => {
 	const { firebase } = props;
 
 	const [email, setEmail] = useState('');
@@ -16,16 +22,22 @@ const LandingPage: FC<{ firebase: Firebase }> = (props) => {
 	const [betaTester, setBetaTester] = useState<boolean>(false);
 	const [error, setError] = useState<null | string>(null);
 	const [message, setMessage] = useState<null | string>(null);
+	const [token, setToken] = useState<null | string>(null);
 
 	useEffect(() => {
 		emailjs.init('user_QdG9REKFW3zQjwPZCQrBF');
 	}, []);
 
-	const handleSubmit = (e: FormEvent) => {
+	const handleSubmit = async (e: FormEvent) => {
 		e.preventDefault();
 		setError(null);
 		setMessage(null);
-		if (!betaTester) {
+		if (!token) {
+			setError(
+				'Google seems to think you are a robot! Please refresh the page and try again...'
+			);
+			return;
+		} else if (!betaTester) {
 			firebase.db
 				.collection('users')
 				.where('email', '==', email)
@@ -128,6 +140,7 @@ const LandingPage: FC<{ firebase: Firebase }> = (props) => {
 					</form>
 				</div>
 			</div>
+			<GoogleReCaptcha onVerify={(newToken) => setToken(newToken)} />
 		</>
 	);
 };
