@@ -7,10 +7,10 @@ import { UserContextInterface } from '../../../Session/context';
 const EditProfilePasswordForm: FC<{
 	firebase: Firebase;
 	user: UserContextInterface;
-}> = props => {
+}> = (props) => {
 	const { firebase, user } = props;
 	const [emailSent, setEmailSent] = useState(false);
-	const [error, setError] = useState<null|string>(null);
+	const [error, setError] = useState<null | string>(null);
 	return (
 		<>
 			<hr />
