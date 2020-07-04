@@ -5,24 +5,20 @@ import { FC } from 'react';
 import ProfilePicture from './../../elements/ProfilePicture';
 import { withFirebase } from './../../Firebase/context';
 import { UserContextInterface } from '../../Session/context';
+import { withAuth } from '../../Session';
 interface Props extends RouteComponentProps<any> {
 	user: UserContextInterface;
 	userData: firebase.firestore.DocumentData;
 	firebase: Firebase;
 }
 
-const UserHeader: FC<Props> = ({ userData, firebase, history }) => {
-	return userData ? (
+const UserHeader: FC<Props> = ({ user, userData, firebase, history }) => {
+	return user ? (
 		<div className='text-center'>
-			<ProfilePicture
-				photoURL={userData.photoURL}
-				size={['5rem', '5rem']}
-			/>
+			<ProfilePicture photoURL={user.photoURL} size={['5rem', '5rem']} />
 			<p>
 				Logged in as{' '}
-				<a href={'#/users/' + userData.username}>
-					{userData.username}
-				</a>
+				<a href={'#/users/' + userData?.username}>{user.displayName}</a>
 				<br />
 				<button
 					className='btn btn-link btn-sm'
@@ -52,4 +48,4 @@ const UserHeader: FC<Props> = ({ userData, firebase, history }) => {
 	);
 };
 
-export default withRouter(withFirebase(UserHeader));
+export default withRouter(withAuth(withFirebase(UserHeader)));
