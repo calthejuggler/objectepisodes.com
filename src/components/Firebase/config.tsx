@@ -3,6 +3,7 @@ import app from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/storage';
+import { UserContextInterface } from '../Session/context';
 
 // import './admin.ts';
 
@@ -84,7 +85,7 @@ class Firebase extends Component {
 			.then((snap: firebase.firestore.QuerySnapshot) => {
 				snap.docs.forEach(
 					(doc: firebase.firestore.QueryDocumentSnapshot) => {
-						console.dir('deleting')
+						console.dir('deleting');
 						doc.ref.delete();
 					}
 				);
@@ -122,7 +123,30 @@ class Firebase extends Component {
 		await this.db.collection('golden-clubs').doc(clubID).delete();
 	};
 
-	doPassGoldenClubToEmail = async (to: string, fromUID: string) => {};
+	// Update personal info
+	doChangeProfilePicture = async (
+		photo: File,
+		user: UserContextInterface
+	) => {
+		if (!user) return;
+		const firebaseQuery = this.storage.ref('profile-pictures/' + user?.uid);
+		let url: null | string = null;
+		firebaseQuery
+			.put(photo)
+			.then((snap: firebase.storage.UploadTaskSnapshot) => {
+				return snap.ref.getDownloadURL();
+			})
+			.then((getURL: string) => {
+				url = getURL;
+				user?.updateProfile({ photoURL: url });
+			})
+			.then(() => {
+				this.db
+					.collection('users')
+					.doc(user?.uid)
+					.update({ photoURL: url });
+			});
+	};
 
 	// Firestore functions
 	getForumRepliesFromTopic = async (currentTopic: string) => {
