@@ -5,7 +5,7 @@ import { adminSections } from './admin-sections';
 import EditUsers from './EditUsers/EditUsers';
 
 const Admin = () => {
-	const [navChoice, setNavChoice] = useState<string>('users');
+	const [navChoice, setNavChoice] = useState<string>('photos');
 	const [editTemplate, setEditTemplate] = useState<boolean>(false);
 	return (
 		<>
