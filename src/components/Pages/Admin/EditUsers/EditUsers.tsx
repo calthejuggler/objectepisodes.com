@@ -135,7 +135,6 @@ const EditUsers: FC<{ firebase: Firebase }> = ({ firebase }) => {
 							<div className='col'>Posts</div>
 							<div className='col'>Likes</div>
 							<div className='col'>Created</div>
-							<div className='col'>Admin</div>
 						</div>
 					</li>
 
@@ -163,9 +162,6 @@ const EditUsers: FC<{ firebase: Firebase }> = ({ firebase }) => {
 								</div>
 								<div className='col overflow-hidden'>
 									{data.created.toDate().toUTCString()}
-								</div>
-								<div className='col overflow-hidden'>
-									{data.admin ? 'Yes' : 'No'}
 								</div>
 							</div>
 						</li>
