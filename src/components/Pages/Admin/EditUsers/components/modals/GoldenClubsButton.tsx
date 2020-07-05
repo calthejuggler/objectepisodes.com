@@ -1,14 +1,12 @@
 import React, { useState, MouseEvent, FC } from 'react';
 import { withFirebase } from './../../../../../Firebase/context';
 import Firebase from './../../../../../Firebase/index';
-import { withAuth } from '../../../../../Session/withAuth';
 import Spinner from '../../../../../elements/Spinner';
-import { UserContextInterface } from '../../../../../Session/context';
 
 const GoldenClubsButton: FC<{
 	firebase: Firebase;
-	user: UserContextInterface;
-}> = ({ firebase, user }) => {
+	selectedUser: { id: string; data: firebase.firestore.DocumentData } | null;
+}> = ({ firebase, selectedUser }) => {
 	const [numberOfClubs, setNumberOfClubs] = useState<number>(0);
 
 	const [loading, setLoading] = useState(false);
@@ -21,10 +19,10 @@ const GoldenClubsButton: FC<{
 		setError(null);
 		setSuccess(false);
 		setLoading(true);
-		if (user) {
+		if (selectedUser) {
 			for (let i = 0; i < numberOfClubs; i++) {
 				firebase
-					.doCreateGoldenClubAndGiveToUser(user.uid)
+					.doCreateGoldenClubAndGiveToUser(selectedUser.id)
 					.catch((e) => {
 						setError(e.message);
 					});
@@ -42,7 +40,7 @@ const GoldenClubsButton: FC<{
 				type='button'
 				data-toggle='modal'
 				data-target='#createGoldenClubsModal'
-				className='btn btn-danger'
+				className='btn btn-danger btn-sm'
 			>
 				Create Golden Clubs
 			</button>
@@ -131,4 +129,4 @@ const GoldenClubsButton: FC<{
 	);
 };
 
-export default withAuth(withFirebase(GoldenClubsButton));
+export default withFirebase(GoldenClubsButton);
