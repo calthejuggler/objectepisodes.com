@@ -1,17 +1,31 @@
-import React, { FC } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 
 import logo from '../../images/objectepisodes_logo.jpg';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 import AdminHeader from './components/AdminHeader';
 import UserHeader from './components/UserHeader';
 import { UserContextInterface } from '../Session/context';
+import Firebase from './../Firebase/config';
+import { withFirebase } from '../Firebase/context';
 
 interface Props extends RouteComponentProps {
 	user: UserContextInterface;
+	firebase: Firebase;
 }
 
 const Header: FC<Props> = (props) => {
-	const { user, history } = props;
+	const { user, history, firebase } = props;
+	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
+	useEffect(() => {
+		user &&
+			firebase.db
+				.collection('users')
+				.doc(user.uid)
+				.get()
+				.then((res: firebase.firestore.DocumentSnapshot) => {
+					res.exists && setUserData(res.data());
+				});
+	}, [user, firebase.db]);
 	return (
 		<>
 			<nav className='navbar navbar-light d-block mt-2'>
@@ -30,15 +44,15 @@ const Header: FC<Props> = (props) => {
 						</a>
 					</div>
 					<div className='col-12 col-md-4 order-2 order-md-1 mb-md-0'>
-						<UserHeader />
+						<UserHeader userData={userData} />
 					</div>
 				</div>
 			</nav>
-			{user.admin?.admin && history.location.pathname !== '/admin' && (
-				<AdminHeader />
-			)}
+			{userData &&
+				userData.admin &&
+				history.location.pathname !== '/admin' && <AdminHeader />}
 		</>
 	);
 };
 
-export default withRouter(Header);
+export default withRouter(withFirebase(Header));

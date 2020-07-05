@@ -2,14 +2,7 @@ import { createContext } from 'react';
 
 import firebase from 'firebase';
 
-export type UserContextInterface = {
-	auth: firebase.User | null;
-	data?: firebase.firestore.DocumentData | null;
-	admin?: firebase.firestore.DocumentData | null;
-};
+export type UserContextInterface = firebase.User | null;
 
-const AuthUserContext = createContext<UserContextInterface>({
-	auth: null,
-	data: null,
-});
+const AuthUserContext = createContext<firebase.User | null>(null);
 export default AuthUserContext;

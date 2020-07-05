@@ -25,7 +25,7 @@ const EditProfilePasswordForm: FC<{
 						className='btn btn-primary d-block m-auto'
 						onClick={() =>
 							firebase.auth
-								.sendPasswordResetEmail(user.auth?.email)
+								.sendPasswordResetEmail(user?.email)
 								.then(() => setEmailSent(true))
 								.catch((e: { message: string }) =>
 									setError(e.message)
@@ -38,8 +38,7 @@ const EditProfilePasswordForm: FC<{
 			</div>
 			{emailSent && (
 				<div className='alert alert-success mt-2'>
-					You have been sent a password reset email to{' '}
-					{user.auth?.email}
+					You have been sent a password reset email to {user?.email}
 				</div>
 			)}
 			{error && (

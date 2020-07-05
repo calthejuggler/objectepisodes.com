@@ -129,9 +129,7 @@ class Firebase extends Component {
 		user: UserContextInterface
 	) => {
 		if (!user) return;
-		const firebaseQuery = this.storage.ref(
-			'profile-pictures/' + user.auth?.uid
-		);
+		const firebaseQuery = this.storage.ref('profile-pictures/' + user?.uid);
 		let url: null | string = null;
 		firebaseQuery
 			.put(photo)
@@ -140,12 +138,12 @@ class Firebase extends Component {
 			})
 			.then((getURL: string) => {
 				url = getURL;
-				user.auth?.updateProfile({ photoURL: url });
+				user?.updateProfile({ photoURL: url });
 			})
 			.then(() => {
 				this.db
 					.collection('users')
-					.doc(user.auth?.uid)
+					.doc(user?.uid)
 					.update({ photoURL: url });
 			});
 	};

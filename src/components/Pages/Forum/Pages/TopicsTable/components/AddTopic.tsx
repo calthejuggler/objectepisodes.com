@@ -25,12 +25,25 @@ const initialNode = [
 const AddTopic: FC<Props> = (props) => {
 	const { firebase, currentCategory, user } = props;
 
+	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
+
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState<Node[]>(initialNode);
 
 	const [error, setError] = useState<string | null>(null);
 
 	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
+
+	const loadUserData = () => {
+		user &&
+			firebase.db
+				.collection('users')
+				.doc(user.uid)
+				.get()
+				.then((res: firebase.firestore.DocumentSnapshot) => {
+					res.exists && setUserData(res.data());
+				});
+	};
 
 	const handleAddTopicSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -45,17 +58,17 @@ const AddTopic: FC<Props> = (props) => {
 						posted: new Date(),
 						lastPost: new Date(),
 						user: {
-							id: user.auth?.uid,
-							name: user.auth?.displayName,
-							username: user.data?.username,
-							photoURL: user.auth?.photoURL
-								? user.auth?.photoURL
+							id: user?.uid,
+							name: user?.displayName,
+							username: userData?.username,
+							photoURL: user?.photoURL
+								? user?.photoURL
 								: undefined,
 						},
 					})
 					.then(() => {
-						if (user.auth) {
-							firebase.incrementForumPosts(user.auth?.uid);
+						if (user) {
+							firebase.incrementForumPosts(user?.uid);
 							setError(null);
 							setTitle('');
 							editor.selection = null;
@@ -73,6 +86,7 @@ const AddTopic: FC<Props> = (props) => {
 				className='btn btn-primary mb-3'
 				data-toggle='modal'
 				data-target='#addTopicModal'
+				onClick={loadUserData}
 			>
 				+ Topic
 			</button>
@@ -106,7 +120,7 @@ const AddTopic: FC<Props> = (props) => {
 									{error}
 								</div>
 							)}
-							{user.auth?.uid ? (
+							{user?.uid ? (
 								<form>
 									<div className='form-group'>
 										<input

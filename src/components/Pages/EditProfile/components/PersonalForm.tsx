@@ -43,13 +43,13 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 			? dispatch({
 					type: 'change-field',
 					payload: {
-						firstname: user.auth?.displayName?.split(' ')[0],
-						lastname: user.auth?.displayName
+						firstname: user.displayName?.split(' ')[0],
+						lastname: user.displayName
 							?.split(' ')
 							.slice(1)
 							.join(' '),
-						email: user.auth?.email,
-						imgURL: user.auth?.photoURL,
+						email: user.email,
+						imgURL: user.photoURL,
 						loading: false,
 						changed: false,
 					},
@@ -80,12 +80,12 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 			firebase
 				.doChangeProfilePicture(uploadedImg, user)
 				.then(() =>
-					user.auth?.updateProfile({
+					user?.updateProfile({
 						displayName: `${firstname} ${lastname}`,
 					})
 				)
 				.then(() =>
-					firebase.db.collection('users').doc(user.auth?.uid).update({
+					firebase.db.collection('users').doc(user?.uid).update({
 						firstname: firstname,
 						lastname: lastname,
 					})
@@ -100,14 +100,13 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 					})
 				);
 		else
-			user.auth
-				?.updateProfile({
-					displayName: `${firstname} ${lastname}`,
-				})
+			user?.updateProfile({
+				displayName: `${firstname} ${lastname}`,
+			})
 				.then(() =>
 					firebase.db
 						.collection('users')
-						.doc(user.auth?.uid)
+						.doc(user?.uid)
 						.update({ firstname: firstname, lastname: lastname })
 				)
 				.then(() => dispatch({ type: 'success' }))
@@ -204,15 +203,15 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 								dispatch({
 									type: 'change-field',
 									payload: {
-										firstname: user.auth?.displayName?.split(
+										firstname: user?.displayName?.split(
 											' '
 										)[0],
-										lastname: user.auth?.displayName
+										lastname: user?.displayName
 											?.split(' ')
 											.slice(1)
 											.join(' '),
-										email: user.auth?.email,
-										imgURL: user.auth?.photoURL,
+										email: user?.email,
+										imgURL: user?.photoURL,
 										loading: false,
 										changed: false,
 										uploadedImg: null,

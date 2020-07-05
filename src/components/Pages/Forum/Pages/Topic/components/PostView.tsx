@@ -84,7 +84,7 @@ const PostView: FC<{
 														.toUTCString()}
 										</small>
 									</div>
-									{user.auth?.uid === post.user.id &&
+									{user?.uid === post.user.id &&
 										!post.data.deleted && (
 											<div className='col-12'>
 												<EditPost
