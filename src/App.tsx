@@ -24,37 +24,6 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 	});
 	const routes = createAllRouteArray();
 	useEffect(() => {
-		return firebase.db
-			.collection('users')
-			.doc(user?.auth?.uid)
-			.onSnapshot((userDataSnap: firebase.firestore.DocumentSnapshot) => {
-				if (userDataSnap && userDataSnap.exists)
-					setUser(
-						(prev): UserContextInterface => {
-							return { ...prev, data: userDataSnap.data() };
-						}
-					);
-			});
-	}, [firebase, user]);
-	useEffect(() => {
-		return firebase.db
-			.collection('users-admin-config')
-			.doc(user?.auth?.uid)
-			.onSnapshot(
-				(userAdminDataSnap: firebase.firestore.DocumentSnapshot) => {
-					if (userAdminDataSnap && userAdminDataSnap.exists)
-						setUser(
-							(prev): UserContextInterface => {
-								return {
-									...prev,
-									admin: userAdminDataSnap.data(),
-								};
-							}
-						);
-				}
-			);
-	}, [firebase, user]);
-	useEffect(() => {
 		return firebase.auth.onAuthStateChanged((authedUser: firebase.User) => {
 			if (authedUser)
 				setUser(
@@ -65,6 +34,46 @@ const App: FC<{ firebase: Firebase }> = (props) => {
 			else setUser({ auth: null, data: null });
 		});
 	}, [firebase]);
+	useEffect(() => {
+		if (user.auth)
+			return firebase.db
+				.collection('users')
+				.doc(user?.auth?.uid)
+				.onSnapshot(
+					(userDataSnap: firebase.firestore.DocumentSnapshot) => {
+						if (userDataSnap && userDataSnap.exists)
+							setUser(
+								(prev): UserContextInterface => {
+									return {
+										...prev,
+										data: userDataSnap.data(),
+									};
+								}
+							);
+					}
+				);
+	}, [firebase, user]);
+	useEffect(() => {
+		if (user.auth)
+			return firebase.db
+				.collection('users-admin-config')
+				.doc(user?.auth?.uid)
+				.onSnapshot(
+					(
+						userAdminDataSnap: firebase.firestore.DocumentSnapshot
+					) => {
+						if (userAdminDataSnap && userAdminDataSnap.exists)
+							setUser(
+								(prev): UserContextInterface => {
+									return {
+										...prev,
+										admin: userAdminDataSnap.data(),
+									};
+								}
+							);
+					}
+				);
+	}, [firebase, user]);
 	return (
 		<AuthUserContext.Provider value={user}>
 			<ErrorBoundary>
