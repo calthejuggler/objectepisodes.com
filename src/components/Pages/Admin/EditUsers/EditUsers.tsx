@@ -1,7 +1,6 @@
 import React, {
 	FC,
 	useReducer,
-	Reducer,
 	useEffect,
 	ReactFragment,
 } from 'react';
@@ -10,18 +9,7 @@ import Firebase from './../../../Firebase/config';
 import Spinner from './../../../elements/Spinner';
 import ProfilePicture from '../../../elements/ProfilePicture';
 import UserTools from './components/UserTools';
-
-interface State {
-	loading: boolean;
-	users: { id: string; data: firebase.firestore.DocumentData }[];
-	numberOfRows: number;
-	thereAreMore: boolean;
-	selectedUser: { id: string; data: firebase.firestore.DocumentData } | null;
-}
-interface Action {
-	type: string;
-	payload?: any;
-}
+import { editUsersReducer } from './editUsersReducer';
 
 const initialState = {
 	loading: true,
@@ -29,19 +17,6 @@ const initialState = {
 	numberOfRows: 0,
 	thereAreMore: true,
 	selectedUser: null,
-};
-
-const editUsersReducer: Reducer<State, Action> = (state, action) => {
-	switch (action.type) {
-		case 'load-user':
-			return { ...state, users: [...state.users, action.payload] };
-		case 'finish-load':
-			return { ...state, loading: false };
-		case 'select-user':
-			return { ...state, selectedUser: action.payload };
-		default:
-			return state;
-	}
 };
 
 const EditUsers: FC<{ firebase: Firebase }> = ({ firebase }) => {
@@ -144,7 +119,7 @@ const EditUsers: FC<{ firebase: Firebase }> = ({ firebase }) => {
 							</>
 						</div>
 						<div className='col-12 col-md-4'>
-							<UserTools />
+							<UserTools selectedUser={selectedUser} />
 						</div>
 					</div>
 				)}
