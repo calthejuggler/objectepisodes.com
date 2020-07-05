@@ -14,15 +14,55 @@ import { Login } from './components/Pages/Login/Login';
 import './custom.scss';
 import RegisterPage from './components/Pages/GoldenClubs/RegisterPage';
 import ErrorBoundary from './components/ErrorBoundary';
+import { UserContextInterface } from './components/Session/context';
 
 const App: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
-	const [user, setUser] = useState<null | firebase.User>(null);
+	const [user, setUser] = useState<UserContextInterface>({
+		auth: null,
+		data: null,
+	});
 	const routes = createAllRouteArray();
 	useEffect(() => {
+		return firebase.db
+			.collection('users')
+			.doc(user?.auth?.uid)
+			.onSnapshot((userDataSnap: firebase.firestore.DocumentSnapshot) => {
+				if (userDataSnap && userDataSnap.exists)
+					setUser(
+						(prev): UserContextInterface => {
+							return { ...prev, data: userDataSnap.data() };
+						}
+					);
+			});
+	}, [firebase, user]);
+	useEffect(() => {
+		return firebase.db
+			.collection('users-admin-config')
+			.doc(user?.auth?.uid)
+			.onSnapshot(
+				(userAdminDataSnap: firebase.firestore.DocumentSnapshot) => {
+					if (userAdminDataSnap && userAdminDataSnap.exists)
+						setUser(
+							(prev): UserContextInterface => {
+								return {
+									...prev,
+									admin: userAdminDataSnap.data(),
+								};
+							}
+						);
+				}
+			);
+	}, [firebase, user]);
+	useEffect(() => {
 		return firebase.auth.onAuthStateChanged((authedUser: firebase.User) => {
-			if (authedUser) setUser(authedUser);
-			else setUser(null);
+			if (authedUser)
+				setUser(
+					(prev): UserContextInterface => {
+						return { ...prev, auth: authedUser };
+					}
+				);
+			else setUser({ auth: null, data: null });
 		});
 	}, [firebase]);
 	return (

@@ -41,8 +41,8 @@ const User: FC<{
 			});
 	}, [paramUser, firebase, user]);
 	useEffect(() => {
-		if (user?.uid) {
-			if (userData !== null && userData.id === user?.uid) {
+		if (user.auth?.uid) {
+			if (userData !== null && userData.id === user.auth?.uid) {
 				setOwnProfile(true);
 			}
 		}

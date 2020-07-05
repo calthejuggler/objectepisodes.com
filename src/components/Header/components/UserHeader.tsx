@@ -6,6 +6,7 @@ import ProfilePicture from './../../elements/ProfilePicture';
 import { withFirebase } from './../../Firebase/context';
 import { UserContextInterface } from '../../Session/context';
 import { withAuth } from '../../Session';
+
 interface Props extends RouteComponentProps<any> {
 	user: UserContextInterface;
 	userData: firebase.firestore.DocumentData;
@@ -15,10 +16,15 @@ interface Props extends RouteComponentProps<any> {
 const UserHeader: FC<Props> = ({ user, userData, firebase, history }) => {
 	return user ? (
 		<div className='text-center'>
-			<ProfilePicture photoURL={user.photoURL} size={['5rem', '5rem']} />
+			<ProfilePicture
+				photoURL={user.auth?.photoURL}
+				size={['5rem', '5rem']}
+			/>
 			<p>
 				Logged in as{' '}
-				<a href={'#/users/' + userData?.username}>{user.displayName}</a>
+				<a href={'#/users/' + user.data?.username}>
+					{user.auth?.displayName}
+				</a>
 				<br />
 				<button
 					className='btn btn-link btn-sm'

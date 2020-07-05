@@ -34,7 +34,8 @@ const DeletePostButton: FC<Props> = ({
 	const handleDeleteButtonClick = (e: MouseEvent) => {
 		e.preventDefault();
 		if (!user) setError("You aren't logged in.");
-		else if (user.uid !== postUser.id) setError("This isn't your post!");
+		else if (user.auth?.uid !== postUser.id)
+			setError("This isn't your post!");
 		else {
 			let deletedInfo = {};
 			if (type === 'topic')

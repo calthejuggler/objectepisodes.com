@@ -34,7 +34,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.collection(collection)
 			.doc(postID)
 			.update({
-				likes: firebase.dbFunc.FieldValue.arrayUnion(user?.uid),
+				likes: firebase.dbFunc.FieldValue.arrayUnion(user.auth?.uid),
 				likeCount: firebase.dbFunc.FieldValue.increment(1),
 			})
 			.then(() => {
@@ -47,7 +47,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.catch((e: Error) => console.dir(e));
 		firebase.db
 			.collection('users')
-			.doc(user?.uid)
+			.doc(user.auth?.uid)
 			.update({
 				likes: firebase.dbFunc.FieldValue.arrayUnion(postID),
 			})
@@ -59,7 +59,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.collection(collection)
 			.doc(postID)
 			.update({
-				likes: firebase.dbFunc.FieldValue.arrayRemove(user?.uid),
+				likes: firebase.dbFunc.FieldValue.arrayRemove(user.auth?.uid),
 				likeCount: firebase.dbFunc.FieldValue.increment(-1),
 			})
 			.then(() => {
@@ -72,7 +72,7 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 			.catch((e: Error) => console.dir(e));
 		firebase.db
 			.collection('users')
-			.doc(user?.uid)
+			.doc(user.auth?.uid)
 			.update({
 				likes: firebase.dbFunc.FieldValue.arrayRemove(postID),
 			})
@@ -90,8 +90,8 @@ const LikeButton: FunctionComponent<LikeButtonInterface> = ({
 	useEffect(() => {
 		if (likes) {
 			setNumberOfLikes(likes.length);
-			if (user)
-				if (likes.includes(user.uid)) {
+			if (user.auth)
+				if (likes.includes(user.auth.uid)) {
 					setColour('#0275d8');
 					setUserHasLiked(true);
 				} else {
