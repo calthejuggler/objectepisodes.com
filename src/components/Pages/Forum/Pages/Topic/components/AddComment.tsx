@@ -1,4 +1,4 @@
-import React, { useState, FC, FormEvent, useEffect, useMemo } from 'react';
+import React, { useState, FC, FormEvent, useMemo } from 'react';
 import { withFirebase } from '../../../../../Firebase/context';
 import TextAreaInput from '../../../../../elements/TextAreaInput/TextAreaInput';
 import Firebase from './../../../../../Firebase/index';
