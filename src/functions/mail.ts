@@ -39,12 +39,14 @@ export const sendGoldenClubEmail = (
 				.then(() => {
 					firebase.db
 						.collection('users')
-						.doc(userContext?.uid)
+						.doc(userContext?.auth?.uid)
 						.update({
 							goldenClubs: firebase.dbFunc.FieldValue.arrayRemove(
 								clubID
 							),
-							goldenClubCount: firebase.dbFunc.FieldValue.increment(-1)
+							goldenClubCount: firebase.dbFunc.FieldValue.increment(
+								-1
+							),
 						});
 				})
 				.then(() => {

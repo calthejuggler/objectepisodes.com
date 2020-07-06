@@ -15,10 +15,15 @@ interface Props extends RouteComponentProps<any> {
 const UserHeader: FC<Props> = ({ user, userData, firebase, history }) => {
 	return user ? (
 		<div className='text-center'>
-			<ProfilePicture photoURL={user.photoURL} size={['5rem', '5rem']} />
+			<ProfilePicture
+				photoURL={user.auth?.photoURL}
+				size={['5rem', '5rem']}
+			/>
 			<p>
 				Logged in as{' '}
-				<a href={'#/users/' + userData?.username}>{user.displayName}</a>
+				<a href={'#/users/' + userData?.username}>
+					{user.auth?.displayName}
+				</a>
 				<br />
 				<button
 					className='btn btn-link btn-sm'

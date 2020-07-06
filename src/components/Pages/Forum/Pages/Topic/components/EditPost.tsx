@@ -76,7 +76,7 @@ const EditPost: FC<Props> = ({ type, data, id, firebase, index, user }) => {
 			content[0].children.length === 1 &&
 			content[0].children[0].text === '')
 			? setError('All fields are required.')
-			: data.user.id !== user?.uid
+			: data.user.id !== user?.auth?.uid
 			? setError(
 					"Something strange has happened... This doesn't seem to be your post! How did you even get here? Please email cal@objectepisodes.com and tell him the problem!"
 			  )

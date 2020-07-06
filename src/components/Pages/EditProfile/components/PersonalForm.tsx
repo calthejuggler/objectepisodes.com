@@ -43,13 +43,13 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 			? dispatch({
 					type: 'change-field',
 					payload: {
-						firstname: user.displayName?.split(' ')[0],
-						lastname: user.displayName
+						firstname: user.auth?.displayName?.split(' ')[0],
+						lastname: user.auth?.displayName
 							?.split(' ')
 							.slice(1)
 							.join(' '),
-						email: user.email,
-						imgURL: user.photoURL,
+						email: user.auth?.email,
+						imgURL: user.auth?.photoURL,
 						loading: false,
 						changed: false,
 					},
@@ -80,15 +80,18 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 			firebase
 				.doChangeProfilePicture(uploadedImg, user)
 				.then(() =>
-					user?.updateProfile({
+					user?.auth?.updateProfile({
 						displayName: `${firstname} ${lastname}`,
 					})
 				)
 				.then(() =>
-					firebase.db.collection('users').doc(user?.uid).update({
-						firstname: firstname,
-						lastname: lastname,
-					})
+					firebase.db
+						.collection('users')
+						.doc(user?.auth?.uid)
+						.update({
+							firstname: firstname,
+							lastname: lastname,
+						})
 				)
 				.then(() => {
 					dispatch({ type: 'success' });
@@ -100,13 +103,14 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 					})
 				);
 		else
-			user?.updateProfile({
-				displayName: `${firstname} ${lastname}`,
-			})
+			user?.auth
+				?.updateProfile({
+					displayName: `${firstname} ${lastname}`,
+				})
 				.then(() =>
 					firebase.db
 						.collection('users')
-						.doc(user?.uid)
+						.doc(user.auth?.uid)
 						.update({ firstname: firstname, lastname: lastname })
 				)
 				.then(() => dispatch({ type: 'success' }))
@@ -203,15 +207,15 @@ const EditProfilePersonalForm: FC<Props> = ({ firebase, user }) => {
 								dispatch({
 									type: 'change-field',
 									payload: {
-										firstname: user?.displayName?.split(
+										firstname: user?.auth?.displayName?.split(
 											' '
 										)[0],
-										lastname: user?.displayName
+										lastname: user?.auth?.displayName
 											?.split(' ')
 											.slice(1)
 											.join(' '),
-										email: user?.email,
-										imgURL: user?.photoURL,
+										email: user?.auth?.email,
+										imgURL: user?.auth?.photoURL,
 										loading: false,
 										changed: false,
 										uploadedImg: null,

@@ -32,7 +32,7 @@ const AddComment: FC<Props> = (props) => {
 	useEffect(() => {
 		firebase.db
 			.collection('users')
-			.doc(user?.uid)
+			.doc(user?.auth?.uid)
 			.get()
 			.then((res: firebase.firestore.DocumentSnapshot) => {
 				setUserData(res.data());
@@ -49,9 +49,9 @@ const AddComment: FC<Props> = (props) => {
 					.add({
 						comment: comment,
 						user: {
-							id: user?.uid,
-							name: user?.displayName,
-							photoURL: user?.photoURL,
+							id: user?.auth?.uid,
+							name: user?.auth?.displayName,
+							photoURL: user?.auth?.photoURL,
 							username: userData?.username,
 						},
 						topicID: currentTopic,
@@ -72,7 +72,11 @@ const AddComment: FC<Props> = (props) => {
 							.doc(currentCategory)
 							.update({ lastPost: new Date() })
 					)
-					.then(() => user && firebase.incrementForumPosts(user?.uid))
+					.then(
+						() =>
+							user?.auth &&
+							firebase.incrementForumPosts(user.auth.uid)
+					)
 					.then(() => {
 						editor.selection = null;
 						setComment(initialNode);

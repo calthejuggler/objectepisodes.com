@@ -17,21 +17,66 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 const App: FC<{ firebase: Firebase }> = (props) => {
 	const { firebase } = props;
-	const [user, setUser] = useState<null | firebase.User>(null);
+	const [userAuth, setUserAuth] = useState<firebase.User | null>(null);
+	const [userData, setUserData] = useState<
+		firebase.firestore.DocumentData | undefined
+	>();
+	const [userAdmin, setUserAdmin] = useState<
+		firebase.firestore.DocumentData | undefined
+	>();
 	const routes = createAllRouteArray();
+
 	useEffect(() => {
 		return firebase.auth.onAuthStateChanged((authedUser: firebase.User) => {
-			if (authedUser) setUser(authedUser);
-			else setUser(null);
+			if (authedUser) setUserAuth(authedUser);
+			else setUserAuth(null);
 		});
-	}, [firebase]);
+	}, [firebase.auth]);
+
+	useEffect(() => {
+		if (userAuth) {
+			return firebase.db
+				.collection('users')
+				.doc(userAuth.uid)
+				.onSnapshot(
+					(userDataSnap: firebase.firestore.DocumentSnapshot) => {
+						if (userDataSnap.exists)
+							setUserData(userDataSnap.data());
+						else setUserData(undefined);
+					},
+					(e: Error) => {
+						console.error({ e });
+					}
+				);
+		}
+	}, [userAuth, firebase.db]);
+
+	useEffect(() => {
+		if (userAuth)
+			firebase.db
+				.collection('users-admin-config')
+				.doc(userAuth.uid)
+				.get()
+				.then((adminSnap: firebase.firestore.DocumentSnapshot) => {
+					if (adminSnap.exists) setUserAdmin(adminSnap.data());
+					else setUserAdmin(undefined);
+				})
+				.catch((e: Error) => console.error(e));
+	}, [userAuth, firebase.db]);
+
 	return (
-		<AuthUserContext.Provider value={user}>
+		<AuthUserContext.Provider
+			value={
+				userAuth
+					? { auth: userAuth, data: userData, admin: userAdmin }
+					: null
+			}
+		>
 			<ErrorBoundary>
 				<div className='App h-100 w-100'>
-					{user ? (
+					{userAuth ? (
 						<>
-							<Header user={user} />
+							<Header />
 							<div id='main'>
 								<div className='container h-100'>
 									<Switch>

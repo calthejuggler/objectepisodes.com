@@ -25,7 +25,7 @@ const AdminNav: FC<Props> = (props) => {
 			{adminSections.map((section) => {
 				if (
 					section.title === 'users' &&
-					user?.email !== 'calthejuggler@gmail.com'
+					user?.auth?.email !== 'calthejuggler@gmail.com'
 				) {
 					return (
 						<li
@@ -34,7 +34,9 @@ const AdminNav: FC<Props> = (props) => {
 						>
 							{section.title.slice(0, 1).toUpperCase() +
 								section.title.slice(1)}{' '}
-							<small className='float-right'>Webmaster Only</small>
+							<small className='float-right'>
+								Webmaster Only
+							</small>
 						</li>
 					);
 				}

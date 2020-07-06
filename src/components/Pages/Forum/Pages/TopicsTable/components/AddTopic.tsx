@@ -35,10 +35,10 @@ const AddTopic: FC<Props> = (props) => {
 	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
 
 	const loadUserData = () => {
-		user &&
+		user?.auth &&
 			firebase.db
 				.collection('users')
-				.doc(user.uid)
+				.doc(user.auth.uid)
 				.get()
 				.then((res: firebase.firestore.DocumentSnapshot) => {
 					res.exists && setUserData(res.data());
@@ -58,17 +58,17 @@ const AddTopic: FC<Props> = (props) => {
 						posted: new Date(),
 						lastPost: new Date(),
 						user: {
-							id: user?.uid,
-							name: user?.displayName,
+							id: user?.auth?.uid,
+							name: user?.auth?.displayName,
 							username: userData?.username,
-							photoURL: user?.photoURL
-								? user?.photoURL
+							photoURL: user?.auth?.photoURL
+								? user?.auth?.photoURL
 								: undefined,
 						},
 					})
 					.then(() => {
-						if (user) {
-							firebase.incrementForumPosts(user?.uid);
+						if (user?.auth) {
+							firebase.incrementForumPosts(user.auth.uid);
 							setError(null);
 							setTitle('');
 							editor.selection = null;
@@ -120,7 +120,7 @@ const AddTopic: FC<Props> = (props) => {
 									{error}
 								</div>
 							)}
-							{user?.uid ? (
+							{user?.auth?.uid ? (
 								<form>
 									<div className='form-group'>
 										<input

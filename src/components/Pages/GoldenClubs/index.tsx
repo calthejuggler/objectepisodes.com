@@ -21,7 +21,7 @@ const GoldenClubs: FC<{
 		user &&
 			firebase.db
 				.collection('users')
-				.doc(user.uid)
+				.doc(user.auth?.uid)
 				.onSnapshot(
 					(snap: firebase.firestore.DocumentSnapshot) => {
 						snap.exists && setGoldenClubs(snap.data()?.goldenClubs);
@@ -39,20 +39,20 @@ const GoldenClubs: FC<{
 			.then((res: firebase.firestore.QuerySnapshot) => {
 				!res.empty
 					? setError('This user already has an account!')
-					: !user?.displayName
+					: !user?.auth?.displayName
 					? setError('You must set your display name first!')
 					: !goldenClubs
 					? setError('You have no golden clubs to pass out!')
 					: sendGoldenClubEmail(
 							email,
-							user.displayName,
+							user.auth.displayName,
 							goldenClubs[0],
 							setError,
 							setSuccess,
 							firebase,
 							user
 					  );
-			})
+			});
 	};
 
 	return (
