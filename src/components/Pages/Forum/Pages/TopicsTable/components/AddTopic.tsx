@@ -22,28 +22,13 @@ const initialNode = [
 	},
 ] as Node[];
 
-const AddTopic: FC<Props> = (props) => {
-	const { firebase, currentCategory, user } = props;
-
-	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
-
+const AddTopic: FC<Props> = ({ firebase, currentCategory, user }) => {
 	const [title, setTitle] = useState('');
 	const [content, setContent] = useState<Node[]>(initialNode);
 
 	const [error, setError] = useState<string | null>(null);
 
 	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
-
-	const loadUserData = () => {
-		user?.auth &&
-			firebase.db
-				.collection('users')
-				.doc(user.auth.uid)
-				.get()
-				.then((res: firebase.firestore.DocumentSnapshot) => {
-					res.exists && setUserData(res.data());
-				});
-	};
 
 	const handleAddTopicSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -60,7 +45,7 @@ const AddTopic: FC<Props> = (props) => {
 						user: {
 							id: user?.auth?.uid,
 							name: user?.auth?.displayName,
-							username: userData?.username,
+							username: user?.data?.username,
 							photoURL: user?.auth?.photoURL
 								? user?.auth?.photoURL
 								: undefined,
@@ -86,7 +71,6 @@ const AddTopic: FC<Props> = (props) => {
 				className='btn btn-primary mb-3'
 				data-toggle='modal'
 				data-target='#addTopicModal'
-				onClick={loadUserData}
 			>
 				+ Topic
 			</button>

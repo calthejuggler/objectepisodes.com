@@ -23,26 +23,14 @@ const initialNode = [
 
 const AddComment: FC<Props> = (props) => {
 	const { currentCategory, currentTopic, firebase, user } = props;
-	const [userData, setUserData] = useState<firebase.firestore.DocumentData>();
 	const [comment, setComment] = useState<Node[]>(initialNode);
 	const [error, setError] = useState<null | string>(null);
 
 	const editor: ReactEditor = useMemo(() => withReact(createEditor()), []);
 
-	useEffect(() => {
-		firebase.db
-			.collection('users')
-			.doc(user?.auth?.uid)
-			.get()
-			.then((res: firebase.firestore.DocumentSnapshot) => {
-				setUserData(res.data());
-			})
-			.catch((e: Error) => setError(e.message));
-	}, [firebase.db, user]);
-
 	const handleCommentSubmit = (e: FormEvent) => {
 		e.preventDefault();
-		!userData
+		!user
 			? setError('We have not yet loaded your user data from the server')
 			: firebase.db
 					.collection('forum-replies')
@@ -52,7 +40,7 @@ const AddComment: FC<Props> = (props) => {
 							id: user?.auth?.uid,
 							name: user?.auth?.displayName,
 							photoURL: user?.auth?.photoURL,
-							username: userData?.username,
+							username: user?.data?.username,
 						},
 						topicID: currentTopic,
 						timestamp: new Date(),

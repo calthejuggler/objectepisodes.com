@@ -18,16 +18,7 @@ const GoldenClubs: FC<{
 	const [success, setSuccess] = useState<boolean>(false);
 
 	useEffect(() => {
-		user &&
-			firebase.db
-				.collection('users')
-				.doc(user.auth?.uid)
-				.onSnapshot(
-					(snap: firebase.firestore.DocumentSnapshot) => {
-						snap.exists && setGoldenClubs(snap.data()?.goldenClubs);
-					},
-					(e: Error) => setError(e.message)
-				);
+		user && user.data && setGoldenClubs(user.data.goldenClubs);
 	}, [user, firebase.db]);
 
 	const handleGoldenClubPass = (e: FormEvent) => {
