@@ -16,7 +16,7 @@
     "@types/react-recaptcha-v3": "^1.1.1",
     "@types/react-router-dom": "^5.1.5",
     "@types/slate": "^0.47.7",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.5.0",
     "emailjs-com": "^2.4.1",
     "firebase": "^7.15.1",
